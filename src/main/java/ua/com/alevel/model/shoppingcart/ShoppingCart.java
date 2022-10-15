@@ -1,38 +1,27 @@
-package ua.com.alevel.model.check;
+package ua.com.alevel.model.shoppingcart;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import ua.com.alevel.model.phone.Phone;
-import ua.com.alevel.model.user.RegisteredUser;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class ClientCheck {
+public class ShoppingCart {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "registered_user_id")
-    private RegisteredUser registeredUser;
-
-    @NotNull
-    private Date created;
-
-    @NotNull
-    private double totalPrice;
-
-    @OneToMany(mappedBy = "clientCheck", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Phone> phones;
 
-    private boolean isClosed;
+    @NotNull
+    private double price;
 }

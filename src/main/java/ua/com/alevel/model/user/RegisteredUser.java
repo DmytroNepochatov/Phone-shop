@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import ua.com.alevel.model.check.ClientCheck;
 import ua.com.alevel.model.comment.Comment;
+import ua.com.alevel.model.shoppingcart.ShoppingCart;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -43,8 +44,15 @@ public class RegisteredUser {
     private String password;
 
     @OneToMany(mappedBy = "registeredUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    Set<Comment> comments;
+    private Set<Comment> comments;
 
     @OneToMany(mappedBy = "registeredUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    Set<ClientCheck> checks;
+    private Set<ClientCheck> checks;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shopping_cart_id")
+    private ShoppingCart shoppingCart;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }
