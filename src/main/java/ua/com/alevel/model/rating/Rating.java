@@ -7,7 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import ua.com.alevel.model.phone.Phone;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,5 +26,5 @@ public class Rating {
     private int numberOfPoints;
 
     @OneToMany(mappedBy = "rating", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Phone> phones;
+    private List<Phone> phones;
 }

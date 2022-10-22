@@ -8,8 +8,8 @@ import ua.com.alevel.model.phone.Phone;
 import ua.com.alevel.model.user.RegisteredUser;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.util.Set;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,13 +26,13 @@ public class ClientCheck {
     private RegisteredUser registeredUser;
 
     @NotNull
-    private LocalDate created;
+    private Date created;
 
     @NotNull
-    private int totalPrice;
+    private double totalPrice;
 
-    @OneToMany(mappedBy = "clientCheck", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Phone> phones;
+    @OneToMany(mappedBy = "clientCheck", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Phone> phones;
 
     private boolean isClosed;
 }

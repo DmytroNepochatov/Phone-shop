@@ -1,0 +1,104 @@
+<!DOCTYPE HTML SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="en">
+
+<head th:fragment="header-css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous">
+    <title>Phone store</title>
+    <style>
+        .navbar-custom {
+            background-color: dimgray;
+        }
+
+        .navbar-custom .navbar-brand {
+            color: white;
+            height: 50px;
+            width: 1150px;
+        }
+
+        .text {
+            font-size: 26px;
+        }
+
+        .admin-color {
+            color: red;
+        }
+
+        .user-color {
+            color: white;
+        }
+
+        .pic-size {
+            width: 42px;
+            height: 42px;
+        }
+    </style>
+    <link rel="shortcut icon" th:href="@{/images/brand.ico}" href="../static/images/brand.ico" type="image/x-icon">
+</head>
+
+<body>
+<div th:fragment="menu">
+    <nav class="navbar navbar-expand-md navbar-fixed-top navbar-dark navbar-custom main-nav">
+        <a class="navbar-brand text " href="/">
+            <img th:src="@{/images/brand.ico}" src="../static/images/brand.ico" alt=""
+                 class="d-inline-block align-text-top rounded pic-size">
+            Phone store
+        </a>
+        <div class="container d-flex justify-content-between">
+            <ul class="nav navbar-nav">
+                <li class="nav-item">
+                    <form class="d-flex" th:action="@{/search}" method="get">
+                        <input class="form-control me-2" type="search" placeholder="Let's search"
+                               aria-label="Search" name="searchKeyword" th:value="${searchKeyword}">
+                        <button class="btn btn-outline-light" type="submit">
+                            Search
+                        </button>
+                    </form>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/about}" th:text="${'About'}">About</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="navbar-text" sec:authorize="isAuthenticated()">You logged as:</li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link admin-color" sec:authorize="hasAuthority('ADMIN')" th:href="@{/admin/profile}" style="color: red;"
+                       th:text="${#authentication.getPrincipal().getUsername()}"></a>
+
+                    <a class="nav-link user-color" sec:authorize="hasAuthority('USER')" th:href="@{/users/profile}"
+                       th:text="${#authentication.getPrincipal().getUsername()}"></a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/auth/logout}">Log out</a>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" th:href="@{/auth/login}">Login</a>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" th:href="@{/users/new}">Registration</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/shopping-cart}">
+                        <img id="shopping-cart" width="50" height="50" th:src="@{/images/shopping-cart.ico}">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous">
+</script>
+</body>
+
+</html>

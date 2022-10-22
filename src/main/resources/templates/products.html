@@ -1,0 +1,516 @@
+<!DOCTYPE HTML SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="en">
+
+<head th:replace="menu :: header-css">
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous">
+    <link rel="shortcut icon" th:href="@{/images/brand.ico}" href="../static/images/brand.ico" type="image/x-icon">
+</head>
+<body>
+<div th:replace="menu :: menu"></div>
+
+<div class="container-fluid">
+    <br>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-7">
+            <nav>
+                <ul class="pagination" th:if="${!phones.empty}">
+                    <li class="page-item"><a class="page-link">Pages:</a></li>
+                    <li class="page-item" th:each="page: ${pages}"
+                        th:if="${searchKeyword == null and pageForFilter == null}"><a class="page-link"
+                                                                                      th:href="${pageForWhat}+${page}"
+                                                                                      th:text="${page}"></a></li>
+                    <li class="page-item" th:each="page: ${pages}"
+                        th:if="${searchKeyword != null and pageForFilter == null}"><a class="page-link"
+                                                                                      th:href="${pageForWhat}+${page}+'&searchKeyword='+${searchKeyword}"
+                                                                                      th:text="${page}"></a></li>
+                    <li class="page-item" th:each="page: ${pages}"
+                        th:if="${searchKeyword == null and pageForFilter != null}"><a class="page-link"
+                                                                                      th:href="${pageForWhat}+${page}+${pageForFilter}+${filterSettings}"
+                                                                                      th:text="${page}"></a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col">
+            <select class="form-select" aria-label="Default select example" onchange="location = this.value">
+                <option th:each="type, state: ${listSortsLinks}"
+                        th:value="${type}"
+                        th:text="${listSorts[__${state.index}__]}"></option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <form th:action="@{/filtration}" th:object="${filterSettings}" th:method="post">
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Brands</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check" th:each="brandElem, state: *{brandForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${brandElem.id}"
+                                           th:field="*{brandForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${brandElem.enabled}"/>
+                                    <span class="form-check-label" th:for="${brandElem.id}"
+                                          th:text="${brandElem.name}"></span>
+
+                                    <input th:field="*{brandForMainViewList[__${state.index}__].id}" class="d-none"
+                                           type="text" th:value="${brandElem.id}"/>
+                                    <input th:field="*{brandForMainViewList[__${state.index}__].name}" class="d-none"
+                                           type="text" th:value="${brandElem.name}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Charge types</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check" th:each="chargeTypeElem, state: *{chargeTypeForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${chargeTypeElem.id}"
+                                           th:field="*{chargeTypeForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${chargeTypeElem.enabled}"/>
+                                    <span class="form-check-label" th:for="${chargeTypeElem.id}"
+                                          th:text="${chargeTypeElem.name}"></span>
+
+                                    <input th:field="*{chargeTypeForMainViewList[__${state.index}__].id}"
+                                           type="text" class="d-none" th:value="${chargeTypeElem.id}"/>
+
+                                    <input th:field="*{chargeTypeForMainViewList[__${state.index}__].name}"
+                                           type="text" class="d-none" th:value="${chargeTypeElem.name}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Communication standards</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check"
+                                       th:each="communicationStandardElem, state: *{communicationStandardForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${communicationStandardElem.id}"
+                                           th:field="*{communicationStandardForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${communicationStandardElem.enabled}"/>
+                                    <span class="form-check-label" th:for="${communicationStandardElem.id}"
+                                          th:text="${communicationStandardElem.name}"></span>
+
+                                    <input th:field="*{communicationStandardForMainViewList[__${state.index}__].id}"
+                                           type="text" class="d-none" th:value="${communicationStandardElem.id}"/>
+
+                                    <input th:field="*{communicationStandardForMainViewList[__${state.index}__].name}"
+                                           type="text" class="d-none" th:value="${communicationStandardElem.name}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Operation systems</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check"
+                                       th:each="operationSystemElem, state: *{operationSystemForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${operationSystemElem.id}"
+                                           th:field="*{operationSystemForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${operationSystemElem.enabled}"/>
+                                    <span class="form-check-label" th:for="${operationSystemElem.id}"
+                                          th:text="${operationSystemElem.name}"></span>
+
+                                    <input th:field="*{operationSystemForMainViewList[__${state.index}__].id}"
+                                           type="text" class="d-none" th:value="${operationSystemElem.id}"/>
+
+                                    <input th:field="*{operationSystemForMainViewList[__${state.index}__].name}"
+                                           type="text" class="d-none" th:value="${operationSystemElem.name}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Processors</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check" th:each="processorElem, state: *{processorForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${processorElem.id}"
+                                           th:field="*{processorForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${processorElem.enabled}"/>
+                                    <span class="form-check-label" th:for="${processorElem.id}"
+                                          th:text="${processorElem.name}"></span>
+
+                                    <input th:field="*{processorForMainViewList[__${state.index}__].id}"
+                                           type="text" class="d-none" th:value="${processorElem.id}"/>
+
+                                    <input th:field="*{processorForMainViewList[__${state.index}__].name}"
+                                           type="text" class="d-none" th:value="${processorElem.name}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Type screens</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check" th:each="typeScreenElem, state: *{typeScreenForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${typeScreenElem.id}"
+                                           th:field="*{typeScreenForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${typeScreenElem.enabled}"/>
+                                    <span class="form-check-label" th:for="${typeScreenElem.id}"
+                                          th:text="${typeScreenElem.name}"></span>
+
+                                    <input th:field="*{typeScreenForMainViewList[__${state.index}__].id}"
+                                           type="text" class="d-none" th:value="${typeScreenElem.id}"/>
+
+                                    <input th:field="*{typeScreenForMainViewList[__${state.index}__].name}"
+                                           type="text" class="d-none" th:value="${typeScreenElem.name}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Diagonals</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check" th:each="diagonalElem, state: *{diagonalForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${diagonalElem.diagonal}"
+                                           th:field="*{diagonalForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${diagonalElem.enabled}"/>
+                                    <span class="form-check-label" th:for="${diagonalElem.diagonal}"
+                                          th:text="${diagonalElem.diagonal+' &quot;'}"></span>
+
+                                    <input th:field="*{diagonalForMainViewList[__${state.index}__].diagonal}"
+                                           type="text" class="d-none" th:value="${diagonalElem.diagonal}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Display resolutions</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check"
+                                       th:each="displayResolutionElem, state: *{displayResolutionForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${displayResolutionElem.displayResolution}"
+                                           th:field="*{displayResolutionForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${displayResolutionElem.enabled}"/>
+                                    <span class="form-check-label" th:for="${displayResolutionElem.displayResolution}"
+                                          th:text="${displayResolutionElem.displayResolution}"></span>
+
+
+                                    <input th:field="*{displayResolutionForMainViewList[__${state.index}__].displayResolution}"
+                                           type="text" class="d-none"
+                                           th:value="${displayResolutionElem.displayResolution}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Screen refresh rates</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check"
+                                       th:each="screenRefreshRateElem, state: *{screenRefreshRateForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${screenRefreshRateElem.refreshRate}"
+                                           th:field="*{screenRefreshRateForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${screenRefreshRateElem.enabled}"/>
+                                    <span class="form-check-label" th:for="${screenRefreshRateElem.refreshRate}"
+                                          th:text="${screenRefreshRateElem.refreshRate+' Hz'}"></span>
+
+
+                                    <input th:field="*{screenRefreshRateForMainViewList[__${state.index}__].refreshRate}"
+                                           type="text" class="d-none" th:value="${screenRefreshRateElem.refreshRate}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Number of sim cards</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check"
+                                       th:each="numberOfSimCardElem, state: *{numberOfSimCardForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${numberOfSimCardElem.numberOfSimCards}"
+                                           th:field="*{numberOfSimCardForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${numberOfSimCardElem.enabled}"/>
+                                    <span class="form-check-label" th:for="${numberOfSimCardElem.numberOfSimCards}"
+                                          th:text="${numberOfSimCardElem.numberOfSimCards}"></span>
+
+                                    <input th:field="*{numberOfSimCardForMainViewList[__${state.index}__].numberOfSimCards}"
+                                           type="text" class="d-none"
+                                           th:value="${numberOfSimCardElem.numberOfSimCards}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Amount of built in memory</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check"
+                                       th:each="amountOfBuiltInMemoryElem, state: *{amountOfBuiltInMemoryForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${amountOfBuiltInMemoryElem.amountOfBuiltInMemory}"
+                                           th:field="*{amountOfBuiltInMemoryForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${amountOfBuiltInMemoryElem.enabled}"/>
+                                    <span class="form-check-label"
+                                          th:for="${amountOfBuiltInMemoryElem.amountOfBuiltInMemory}"
+                                          th:text="${amountOfBuiltInMemoryElem.amountOfBuiltInMemory+ 'Gb'}"></span>
+
+                                    <input th:field="*{amountOfBuiltInMemoryForMainViewList[__${state.index}__].amountOfBuiltInMemory}"
+                                           type="text" class="d-none"
+                                           th:value="${amountOfBuiltInMemoryElem.amountOfBuiltInMemory}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Amount of RAM</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check"
+                                       th:each="amountOfRamElem, state: *{amountOfRamForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${amountOfRamElem.amountOfRam}"
+                                           th:field="*{amountOfRamForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${amountOfRamElem.enabled}"/>
+                                    <span class="form-check-label"
+                                          th:for="${amountOfRamElem.amountOfRam}"
+                                          th:text="${amountOfRamElem.amountOfRam+ 'Gb'}"></span>
+
+                                    <input th:field="*{amountOfRamForMainViewList[__${state.index}__].amountOfRam}"
+                                           type="text" class="d-none" th:value="${amountOfRamElem.amountOfRam}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Number of front cameras</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check"
+                                       th:each="numberOfFrontCameraElem, state: *{numberOfFrontCameraForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${numberOfFrontCameraElem.numberOfFrontCameras}"
+                                           th:field="*{numberOfFrontCameraForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${numberOfFrontCameraElem.enabled}"/>
+                                    <span class="form-check-label"
+                                          th:for="${numberOfFrontCameraElem.numberOfFrontCameras}"
+                                          th:text="${numberOfFrontCameraElem.numberOfFrontCameras}"></span>
+
+                                    <input th:field="*{numberOfFrontCameraForMainViewList[__${state.index}__].numberOfFrontCameras}"
+                                           type="text" class="d-none"
+                                           th:value="${numberOfFrontCameraElem.numberOfFrontCameras}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Number of main cameras</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check"
+                                       th:each="numberOfMainCameraElem, state: *{numberOfMainCameraForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${numberOfMainCameraElem.numberOfMainCameras}"
+                                           th:field="*{numberOfMainCameraForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${numberOfMainCameraElem.enabled}"/>
+                                    <span class="form-check-label"
+                                          th:for="${numberOfMainCameraElem.numberOfMainCameras}"
+                                          th:text="${numberOfMainCameraElem.numberOfMainCameras}"></span>
+
+                                    <input th:field="*{numberOfMainCameraForMainViewList[__${state.index}__].numberOfMainCameras}"
+                                           type="text" class="d-none"
+                                           th:value="${numberOfMainCameraElem.numberOfMainCameras}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Degrees of moisture protection</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check"
+                                       th:each="degreeOfMoistureProtectionElem, state: *{degreeOfMoistureProtectionForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${degreeOfMoistureProtectionElem.degreeOfMoistureProtection}"
+                                           th:field="*{degreeOfMoistureProtectionForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${degreeOfMoistureProtectionElem.enabled}"/>
+                                    <span class="form-check-label"
+                                          th:for="${degreeOfMoistureProtectionElem.degreeOfMoistureProtection}"
+                                          th:text="${degreeOfMoistureProtectionElem.degreeOfMoistureProtection}"></span>
+
+                                    <input th:field="*{degreeOfMoistureProtectionForMainViewList[__${state.index}__].degreeOfMoistureProtection}"
+                                           type="text" class="d-none"
+                                           th:value="${degreeOfMoistureProtectionElem.degreeOfMoistureProtection}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="card">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Has NFC?</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <label class="form-check"
+                                       th:each="nfcElem, state: *{nfcForMainViewList}">
+                                    <input class="form-check-input" type="checkbox"
+                                           th:id="${nfcElem.isHaveNfc}"
+                                           th:field="*{nfcForMainViewList[__${state.index}__].enabled}"
+                                           th:value="${nfcElem.enabled}"/>
+                                    <span class="form-check-label"
+                                          th:for="${nfcElem.isHaveNfc}"
+                                          th:text="${nfcElem.isHaveNfc}"></span>
+
+                                    <input th:field="*{nfcForMainViewList[__${state.index}__].isHaveNfc}"
+                                           type="text" class="d-none" th:value="${nfcElem.isHaveNfc}"/>
+                                </label>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="row my-2">
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-primary" style="width: 200px;">Apply</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row my-2">
+                <div class="col text-center">
+                    <a th:href="@{/?page=1}" class="btn btn-primary" role="button" style="width: 200px;">Reset</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-10">
+            <div class="card-group">
+                <div class="col col-sm-2" align="center" style="width: 240px; height: 545px;"
+                     th:each="phoneElem : ${phones}">
+                    <div class="card " style="width: 13rem;">
+                        <img th:src="${phoneElem.phoneFrontAndBack}" class="card-img-top"
+                             alt="..." style="height: 270px; width: 206px;">
+                        <div class="card-body">
+                            <div style="height: 155px; width: 177px;">
+                                <h5 class="card-title" align="left" th:text="${phoneElem.brand +' '+ phoneElem.series +' '+
+                                phoneElem.name + ' '+ phoneElem.amountOfRam +'/'+phoneElem.amountOfBuiltInMemory+' Gb'}"></h5>
+                                <p class="card-text" align="left" th:text="${'rating: '+phoneElem.rating}"></p>
+                                <p class="card-text" align="left"
+                                   th:text="${phoneElem.price +' '+phoneElem.currency}"></p>
+                            </div>
+                            <div style="height: 50px; width: 177px;">
+                                <div style="position: absolute; bottom: 15px; left: 0px; right: 0px;">
+                                    <a th:href="${'/fullinfo?page=1&brand='+phoneElem.brand+'&name='+phoneElem.name+'&series='
+                                    +phoneElem.series+'&amountOfBuiltInMemory='+phoneElem.amountOfBuiltInMemory
+                                    +'&amountOfRam='+phoneElem.amountOfRam+'&successAddToCart='+' '}" class="btn btn-primary">More info</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${phones.empty}">
+                <h1>Phones not found</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous">
+</script>
+</body>
+</html>

@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import ua.com.alevel.model.accessory.*;
 import ua.com.alevel.model.check.ClientCheck;
 import ua.com.alevel.model.rating.Rating;
+import ua.com.alevel.model.shoppingcart.ShoppingCart;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -45,7 +46,7 @@ public class Phone {
     @JoinColumn(name = "type_screen_id")
     private TypeScreen typeScreen;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "check_id")
     private ClientCheck clientCheck;
 
@@ -81,12 +82,14 @@ public class Phone {
     private int numberOfFrontCameras;
 
     @NotBlank
+    @Column(length=5000)
     private String infoAboutFrontCameras;
 
     @NotNull
     private int numberOfMainCameras;
 
     @NotBlank
+    @Column(length=5000)
     private String infoAboutMainCameras;
 
     @NotNull
@@ -112,21 +115,35 @@ public class Phone {
     @NotBlank
     private String countryProducerOfTheProduct;
 
-    @NotNull
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] phoneFrontAndBack;
+    @NotBlank
+    private String phoneFrontAndBack;
 
-    @NotNull
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] leftSideAndRightSide;
+    @NotBlank
+    private String leftSideAndRightSide;
 
-    @NotNull
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] upSideAndDownSide;
+    @NotBlank
+    private String upSideAndDownSide;
 
     @NotBlank
     private String imei;
+
+    @NotNull
+    private double price;
+
+    @NotBlank
+    private String currency;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shopping_cart_id")
+    private ShoppingCart shoppingCart;
+
+    @Override
+    public String toString() {
+        return "Phone{" +
+                "brand=" + brand.getName() +
+                ", name='" + name + '\'' +
+                ", series='" + series + '\'' +
+                ", imei='" + imei + '\'' +
+                '}';
+    }
 }

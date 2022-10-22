@@ -1,0 +1,389 @@
+<!DOCTYPE HTML SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="en">
+
+<head th:replace="menu :: header-css">
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous">
+    <link rel="shortcut icon" th:href="@{/images/brand.ico}" href="../static/images/brand.ico" type="image/x-icon">
+
+</head>
+<body>
+<div th:replace="menu :: menu"></div>
+
+<div class="container-fluid">
+    <br>
+    <div class="row">
+        <div class="col-3">
+            <div class="col text-center" style="padding-right: 90px;">
+                <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
+                    to profile</a>
+            </div>
+        </div>
+        <div class="col" align="center">
+            <h5 th:text="${errorMsg}"></h5>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    <br>
+    <form autocomplete="off" th:action="@{/admin/create}" th:object="${phone}" method="post">
+        <div class="row">
+            <div class="col" align="center">Phone name</div>
+            <div class="col" align="center">Phone screen</div>
+            <div class="col" align="center">Memory</div>
+            <div class="col" align="center">Physical characteristics</div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="brand" class="form-label">Brand:</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="brand"
+                           required="true" autofocus="true"
+                           th:field="*{brand}" th:value="${brand}">
+                </div>
+            </div>
+            <div class="col">
+                <label for="typeScreen" class="form-label">Type screen:</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="typeScreen"
+                           required="true"
+                           th:field="*{typeScreen}" th:value="${typeScreen}">
+                </div>
+            </div>
+            <div class="col">
+                <label for="amountOfBuiltInMemory" class="form-label">Amount of built in memory (Gb):</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control"
+                           id="amountOfBuiltInMemory"
+                           required="true"
+                           th:field="*{amountOfBuiltInMemory}" th:value="${amountOfBuiltInMemory}">
+                </div>
+            </div>
+            <div class="col">
+                <label for="weight" class="form-label">Weight (g):</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="weight"
+                           required="true"
+                           th:field="*{weight}" th:value="${weight}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="series" class="form-label">Series:</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="series"
+                           required="true"
+                           th:field="*{series}" th:value="${series}">
+                </div>
+            </div>
+            <div class="col">
+                <label for="diagonal" class="form-label">Diagonal:</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="diagonal"
+                           required="true"
+                           th:field="*{diagonal}" th:value="${diagonal}">
+                </div>
+            </div>
+            <div class="col">
+                <label for="amountOfRam" class="form-label">Amount of ram (Gb):</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="amountOfRam"
+                           required="true"
+                           th:field="*{amountOfRam}" th:value="${amountOfRam}">
+                </div>
+            </div>
+            <div class="col">
+                <label for="height" class="form-label">Height (mm):</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="height"
+                           required="true"
+                           th:field="*{height}" th:value="${height}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="name" class="form-label">Name:</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="name"
+                           required="true"
+                           th:field="*{name}" th:value="${name}">
+                </div>
+            </div>
+            <div class="col">
+                <label for="displayResolution" class="form-label">Display resolution:</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="displayResolution"
+                           required="true"
+                           th:field="*{displayResolution}" th:value="${displayResolution}">
+                </div>
+            </div>
+            <div class="col"></div>
+            <div class="col">
+                <label for="width" class="form-label">Width (mm):</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="width"
+                           required="true"
+                           th:field="*{width}" th:value="${width}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <label for="screenRefreshRate" class="form-label">Screen refresh rate (Hz):</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="screenRefreshRate"
+                           required="true"
+                           th:field="*{screenRefreshRate}" th:value="${screenRefreshRate}">
+                </div>
+            </div>
+            <div class="col"></div>
+            <div class="col">
+                <label for="degreeOfMoistureProtection" class="form-label">Degree of moisture protection:</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control"
+                           id="degreeOfMoistureProtection"
+                           required="true"
+                           th:field="*{degreeOfMoistureProtection}" th:value="${degreeOfMoistureProtection}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col">
+                <label for="color" class="form-label">Color:</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="color"
+                           required="true"
+                           th:field="*{color}" th:value="${color}">
+                </div>
+            </div>
+        </div>
+        <div style="border: 1px solid black; background-color: black;"></div>
+        <div class="row">
+            <div class="col" align="center">Communication standard</div>
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="communicationStandard" class="form-label">Communication standard:</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control"
+                           id="communicationStandard"
+                           required="true"
+                           th:field="*{communicationStandard}" th:value="${communicationStandard}">
+                </div>
+            </div>
+            <div class="col">
+            </div>
+            <div class="col">
+                <label for="operationSystem" class="form-label">Operation system:</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="operationSystem"
+                           required="true"
+                           th:field="*{operationSystem}" th:value="${operationSystem}">
+                </div>
+            </div>
+            <div class="col">
+                <label for="processor" class="form-label">Processor:</label>
+                <div style="height: 30px; width: 300px;">
+                    <input style="height: 30px; width: 300px;" type="text" class="form-control" id="processor"
+                           required="true"
+                           th:field="*{processor}" th:value="${processor}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="numberOfSimCards" class="form-label">Number of sim cards:</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="numberOfSimCards"
+                           required="true"
+                           th:field="*{numberOfSimCards}" th:value="${numberOfSimCards}">
+                </div>
+            </div>
+            <div class="col"></div>
+            <div class="col">
+                <label for="chargeType" class="form-label">Charge type:</label>
+                <div style="height: 30px; width: 200px;">
+                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="chargeType"
+                           required="true"
+                           th:field="*{chargeType}" th:value="${chargeType}">
+                </div>
+            </div>
+            <div class="col">
+                <label for="nfc" class="form-label">Is have NFC?</label>
+                <div style="height: 30px; width: 200px;" align="center">
+                    <input style="height: 30px; width: 30px;" class="form-check-input" type="checkbox" id="nfc"
+                           th:field="*{nfc}" th:value="${nfc}">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div style="border: 1px solid black; background-color: black;"></div>
+        <div class="row">
+            <div class="col" align="center">Front cameras</div>
+            <div class="col" align="center">Main cameras</div>
+        </div>
+        <div class="row">
+            <div class="col" align="center">
+                <label for="numberOfFrontCameras" class="form-label">Number of front cameras:</label>
+                <div style="height: 30px; width: 40px;">
+                    <input style="height: 30px; width: 40px;" type="text" class="form-control" id="numberOfFrontCameras"
+                           required="true"
+                           th:field="*{numberOfFrontCameras}" th:value="${numberOfFrontCameras}">
+                </div>
+                <br>
+                <label for="infoAboutFrontCameras" class="form-label">Information about front cameras:</label>
+                <div style="height: 213px; width: 700px;">
+                    <textarea style="height: 213px; width: 700px;" class="form-control" id="infoAboutFrontCameras"
+                              required="true"
+                              th:field="*{infoAboutFrontCameras}" th:value="${infoAboutFrontCameras}"></textarea>
+                </div>
+            </div>
+            <div class="col" align="center">
+                <label for="numberOfMainCameras" class="form-label">Number of main cameras:</label>
+                <div style="height: 30px; width: 40px;">
+                    <input style="height: 30px; width: 40px;" type="text" class="form-control" id="numberOfMainCameras"
+                           required="true"
+                           th:field="*{numberOfMainCameras}" th:value="${numberOfMainCameras}">
+                </div>
+                <br>
+                <label for="infoAboutMainCameras" class="form-label">Information about main cameras:</label>
+                <div style="height: 213px; width: 700px;">
+                    <textarea style="height: 213px; width: 700px;" class="form-control" id="infoAboutMainCameras"
+                              required="true"
+                              th:field="*{infoAboutMainCameras}" th:value="${infoAboutMainCameras}"></textarea>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div style="border: 1px solid black; background-color: black;"></div>
+        <div class="row">
+            <div class="col" align="center">Phone photos (example: /images/products/phone_name.png)
+            </div>
+            <div class="col" align="center">Phone business Information
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="phoneFrontAndBack" class="form-label">Picture 1:</label>
+                <div style="height: 30px; width: 500px;">
+                    <input style="height: 30px; width: 500px;" type="text" class="form-control" id="phoneFrontAndBack"
+                           required="true"
+                           th:field="*{phoneFrontAndBack}" th:value="${phoneFrontAndBack}">
+                </div>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <label for="guaranteeTimeMonths" class="form-label">Guarantee time in months:</label>
+                        <div style="height: 30px; width: 200px;">
+                            <input style="height: 30px; width: 200px;" type="text" class="form-control"
+                                   id="guaranteeTimeMonths"
+                                   required="true"
+                                   th:field="*{guaranteeTimeMonths}" th:value="${guaranteeTimeMonths}">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="countryProducerOfTheProduct" class="form-label">Country producer of the
+                            product:</label>
+                        <div style="height: 30px; width: 200px;">
+                            <input style="height: 30px; width: 200px;" type="text" class="form-control"
+                                   id="countryProducerOfTheProduct"
+                                   required="true"
+                                   th:field="*{countryProducerOfTheProduct}" th:value="${countryProducerOfTheProduct}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="leftSideAndRightSide" class="form-label">Picture 2:</label>
+                <div style="height: 30px; width: 500px;">
+                    <input style="height: 30px; width: 500px;" type="text" class="form-control"
+                           id="leftSideAndRightSide"
+                           required="true"
+                           th:field="*{leftSideAndRightSide}" th:value="${leftSideAndRightSide}">
+                </div>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <label for="imei" class="form-label">IMEI:</label>
+                        <div style="height: 30px; width: 300px;">
+                            <input style="height: 30px; width: 300px;" type="text" class="form-control" id="imei"
+                                   required="true"
+                                   th:field="*{imei}" th:value="${imei}">
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="upSideAndDownSide" class="form-label">Picture 3:</label>
+                <div style="height: 30px; width: 500px;">
+                    <input style="height: 30px; width: 500px;" type="text" class="form-control" id="upSideAndDownSide"
+                           required="true"
+                           th:field="*{upSideAndDownSide}" th:value="${upSideAndDownSide}">
+                </div>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <label for="price" class="form-label">Price:</label>
+                        <div style="height: 30px; width: 200px;">
+                            <input style="height: 30px; width: 200px;" type="text" class="form-control" id="price"
+                                   required="true"
+                                   th:field="*{price}" th:value="${price}">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="currency" class="form-label">Currency:</label>
+                        <div style="height: 30px; width: 200px;">
+                            <input style="height: 30px; width: 200px;" type="text" class="form-control" id="currency"
+                                   required="true"
+                                   th:field="*{currency}" th:value="${currency}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div style="border: 1px solid black; background-color: black;"></div>
+        <div class="row">
+            <div class="col" align="center">
+                <div style="height: 50px; width: 150px;">
+                    <button class="w-100 btn btn-primary btn-lg"
+                            style="height: 50px; width: 150px; display: flex; align-items: center; justify-content: center;"
+                            type="submit">
+                        Save phone
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br>
+    <br>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous">
+</script>
+</body>
+</html>
