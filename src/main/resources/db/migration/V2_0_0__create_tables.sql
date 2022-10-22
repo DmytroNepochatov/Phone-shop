@@ -4,48 +4,29 @@ CREATE TABLE IF NOT EXISTS public.brand
     brand_registration_country character varying(255) COLLATE pg_catalog."default",
     name character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT brand_pkey PRIMARY KEY (id)
-)
+);
 
-    TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.brand
-    OWNER to postgres;
 
 CREATE TABLE IF NOT EXISTS public.charge_type
 (
     id character varying(255) COLLATE pg_catalog."default" NOT NULL,
     name character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT charge_type_pkey PRIMARY KEY (id)
-)
-
-    TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.charge_type
-    OWNER to postgres;
+);
 
 CREATE TABLE IF NOT EXISTS public.communication_standard
 (
     id character varying(255) COLLATE pg_catalog."default" NOT NULL,
     name character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT communication_standard_pkey PRIMARY KEY (id)
-)
-
-    TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.communication_standard
-    OWNER to postgres;
+);
 
 CREATE TABLE IF NOT EXISTS public.operation_system
 (
     id character varying(255) COLLATE pg_catalog."default" NOT NULL,
     name character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT operation_system_pkey PRIMARY KEY (id)
-)
-
-    TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.operation_system
-    OWNER to postgres;
+);
 
 
 CREATE TABLE IF NOT EXISTS public.processor
@@ -55,24 +36,14 @@ CREATE TABLE IF NOT EXISTS public.processor
     name character varying(255) COLLATE pg_catalog."default",
     number_of_cores integer NOT NULL,
     CONSTRAINT processor_pkey PRIMARY KEY (id)
-)
-
-    TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.processor
-    OWNER to postgres;
+);
 
 CREATE TABLE IF NOT EXISTS public.type_screen
 (
     id character varying(255) COLLATE pg_catalog."default" NOT NULL,
     name character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT type_screen_pkey PRIMARY KEY (id)
-)
-
-    TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.type_screen
-    OWNER to postgres;
+);
 
 CREATE TABLE IF NOT EXISTS public.rating
 (
@@ -80,24 +51,14 @@ CREATE TABLE IF NOT EXISTS public.rating
     number_of_points integer NOT NULL,
     total_points integer NOT NULL,
     CONSTRAINT rating_pkey PRIMARY KEY (id)
-)
-
-    TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.rating
-    OWNER to postgres;
+);
 
 CREATE TABLE IF NOT EXISTS public.shopping_cart
 (
     id character varying(255) COLLATE pg_catalog."default" NOT NULL,
     price double precision NOT NULL,
     CONSTRAINT shopping_cart_pkey PRIMARY KEY (id)
-)
-
-    TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.shopping_cart
-    OWNER to postgres;
+);
 
 CREATE TABLE IF NOT EXISTS public.registered_user
 (
@@ -116,12 +77,7 @@ CREATE TABLE IF NOT EXISTS public.registered_user
         REFERENCES public.shopping_cart (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
-)
-
-    TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.registered_user
-    OWNER to postgres;
+);
 
 CREATE TABLE IF NOT EXISTS public.client_check
 (
@@ -135,12 +91,7 @@ CREATE TABLE IF NOT EXISTS public.client_check
         REFERENCES public.registered_user (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
-)
-
-    TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.client_check
-    OWNER to postgres;
+);
 
 
 
@@ -219,12 +170,7 @@ CREATE TABLE IF NOT EXISTS public.phone
         REFERENCES public.client_check (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
-)
-
-    TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.phone
-    OWNER to postgres;
+);
 
 CREATE TABLE IF NOT EXISTS public.comment
 (
@@ -241,12 +187,7 @@ CREATE TABLE IF NOT EXISTS public.comment
         REFERENCES public.phone (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
-)
-
-    TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.comment
-    OWNER to postgres;
+);
 
 
 
