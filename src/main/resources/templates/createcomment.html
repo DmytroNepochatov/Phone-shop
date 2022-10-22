@@ -1,0 +1,81 @@
+<!DOCTYPE HTML SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="en">
+
+<head th:replace="menu :: header-css">
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous">
+    <link rel="shortcut icon" th:href="@{/images/brand.ico}" href="../static/images/brand.ico" type="image/x-icon">
+</head>
+<body>
+<div th:replace="menu :: menu"></div>
+
+<div class="container-fluid">
+    <br>
+    <div class="row">
+        <div class="col-3">
+            <div class="col text-center" style="padding-right: 90px;">
+                <a th:href="@{/users/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
+                    to profile</a>
+            </div>
+        </div>
+        <div class="col" style="height: 90px; border: 1px solid black;">
+            <div class="row align-items-center" style="height: 90px;">
+                <div class="col">
+                    <img th:src="${phone.phoneFrontAndBack}" class="card-img-top"
+                         style="height: 70px; width: 70px;">
+                </div>
+                <div class="col-10" th:text="${phone.brand.name+' '+ phone.series + ' '+ phone.name
+        +' '+phone.amountOfRam+'/'+phone.amountOfBuiltInMemory+' Gb '+phone.color+ ' '+phone.price+ ' '+phone.currency}"></div>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col" style="height: 470px;" align="center">
+            <form autocomplete="off" th:action="@{/comments/add-comment}" th:object="${commentForSave}" method="post">
+                <label for="com" class="form-label"><h6>Comment:</h6></label>
+                <div style="height: 213px; width: 750px;">
+                    <textarea style="height: 213px; width: 750px;" class="form-control" id="com" required="true"
+                              autofocus="true"
+                              th:field="*{description}" th:value="${description}"></textarea>
+                </div>
+                <br>
+                <label for="rating" class="form-label"><h6>Rating (1 to 5)</h6></label>
+                <div style="height: 35px; width: 40px;">
+                    <input style="height: 35px; width: 40px;" type="text" class="form-control" id="rating"
+                           required="true"
+                           th:field="*{rating}" th:value="${rating}">
+                </div>
+
+                <input th:field="*{phoneId}" type="text" class="d-none" th:value="${phoneId}"/>
+
+                <br>
+                <div style="height: 40px; width: 150px;">
+                    <button class="w-100 btn btn-primary btn-lg"
+                            style="height: 40px; width: 150px; display: flex; align-items: center; justify-content: center;"
+                            type="submit">
+                        Comment
+                    </button>
+                </div>
+            </form>
+            <br>
+            <div>
+                <h6 th:text="${infoText}"></h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous">
+</script>
+</body>
+</html>

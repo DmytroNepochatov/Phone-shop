@@ -3,9 +3,11 @@ package ua.com.alevel.mapper;
 import org.springframework.data.domain.Pageable;
 import ua.com.alevel.model.dto.PhoneColors;
 import ua.com.alevel.model.dto.PhoneForMainView;
+import ua.com.alevel.model.dto.PhoneForShoppingCart;
 import ua.com.alevel.model.phone.Phone;
 import ua.com.alevel.repository.phone.PhoneRepository;
 import ua.com.alevel.repository.phone.PhoneRepositoryCriteria;
+
 import java.util.List;
 
 public final class PhoneMapper {
@@ -48,8 +50,17 @@ public final class PhoneMapper {
         phoneRepository.findAllColorsForPhone(phoneForMainView.getBrand(), phoneForMainView.getName(),
                 phoneForMainView.getSeries(), phoneForMainView.getAmountOfBuiltInMemory(), phoneForMainView.getAmountOfRam()).forEach(phone ->
                 phoneColors.add(new PhoneColors(phone.getColor(), phone.getPhoneFrontAndBack(),
-                        phone.getLeftSideAndRightSide(), phone.getUpSideAndDownSide())));
+                        phone.getLeftSideAndRightSide(), phone.getUpSideAndDownSide(), false)));
 
         return phoneColors;
+    }
+
+    public static List<PhoneForShoppingCart> mapPhoneToPhoneForShoppingCart(PhoneRepository phoneRepository, String shoppingCartId, List<PhoneForShoppingCart> result) {
+        phoneRepository.findAllPhonesForShoppingCartId(shoppingCartId).forEach(phone ->
+                result.add(new PhoneForShoppingCart(phone.getId(), phone.getBrand().getName(), phone.getName(), phone.getSeries(),
+                        phone.getAmountOfBuiltInMemory(), phone.getAmountOfRam(), phone.getColor(), phone.getPhoneFrontAndBack(), phone.getPrice(),
+                        phone.getCurrency())));
+
+        return result;
     }
 }

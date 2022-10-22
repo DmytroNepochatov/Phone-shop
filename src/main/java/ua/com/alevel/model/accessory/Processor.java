@@ -8,7 +8,7 @@ import ua.com.alevel.model.phone.Phone;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,5 +30,5 @@ public class Processor {
     private float coreFrequency;
 
     @OneToMany(mappedBy = "processor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Phone> phones;
+    private List<Phone> phones;
 }

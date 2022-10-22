@@ -6,11 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.model.accessory.Brand;
-import ua.com.alevel.model.dto.*;
+import ua.com.alevel.model.dto.PhoneColors;
+import ua.com.alevel.model.dto.PhoneForAddToCart;
+import ua.com.alevel.model.dto.PhoneForMainView;
+import ua.com.alevel.model.dto.filterparams.*;
+import ua.com.alevel.model.phone.Phone;
 import ua.com.alevel.service.brand.BrandService;
 import ua.com.alevel.service.comment.CommentService;
 import ua.com.alevel.service.phone.PhoneService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -22,7 +25,6 @@ public class ProductsController {
     private final PhoneService phoneService;
     private final CommentService commentService;
     private final BrandService brandService;
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProductsController.class);
 
     public ProductsController(PhoneService phoneService, CommentService commentService, BrandService brandService) {
         this.phoneService = phoneService;
@@ -69,7 +71,7 @@ public class ProductsController {
             return "products";
         }
         catch (Exception e) {
-            LOGGER.warn("Page {} not found", page);
+            
             return "error";
         }
     }
@@ -145,7 +147,7 @@ public class ProductsController {
             }
         }
         catch (Exception e) {
-            LOGGER.warn("Page {} not found", page);
+            
             return "error";
         }
     }
@@ -189,7 +191,7 @@ public class ProductsController {
             return "products";
         }
         catch (Exception e) {
-            LOGGER.warn("Page {} not found", page);
+            
             return "error";
         }
     }
@@ -233,13 +235,13 @@ public class ProductsController {
             return "products";
         }
         catch (Exception e) {
-            LOGGER.warn("Page {} not found", page);
+            
             return "error";
         }
     }
 
-    @GetMapping("/filter")
-    public String getFilter(Model model, @RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "filterSettings") FilterSettings filterSettings) {
+    @PostMapping("/filtration")
+    public String getFilter(Model model, @RequestParam(value = "page", defaultValue = "0") int page, @ModelAttribute(value = "filterSettings") FilterSettings filterSettings) {
         if (page == 0) {
             AtomicInteger check = new AtomicInteger(0);
 
@@ -268,12 +270,10 @@ public class ProductsController {
                 pages.add(i + 1);
             }
 
-            String pageForWhat = "/filter?page=";
+            String pageForWhat = "/filtration?page=";
             String pageForFilter = "&filterSettings=";
-            List<String> listSorts = List.of("No sort", "Sort by price ascending", "Sort by price descending",
-                    "Sort by rating ascending", "Sort by rating descending");
-            List<String> listSortsLinks = List.of("/", "/sort-by-price-ascending", "/sort-by-price-descending",
-                    "/sort-by-rating-ascending", "/sort-by-rating-descending");
+            List<String> listSorts = List.of("No sort", "Sort by price ascending", "Sort by price descending");
+            List<String> listSortsLinks = List.of("/", "/sort-by-price-ascending", "/sort-by-price-descending");
 
             model.addAttribute("phones", phones);
             model.addAttribute("pages", pages);
@@ -285,7 +285,7 @@ public class ProductsController {
             return "products";
         }
         catch (Exception e) {
-            LOGGER.warn("Page {} not found", page);
+            
             return "error";
         }
     }
@@ -490,6 +490,63 @@ public class ProductsController {
         return check;
     }
 
+    @GetMapping("/fullinfo")
+    public String getFullInfo(Model model, @RequestParam(value = "page") int page,
+                              @RequestParam(value = "brand") String brand,
+                              @RequestParam(value = "name") String name,
+                              @RequestParam(value = "series") String series,
+                              @RequestParam(value = "amountOfBuiltInMemory") int amountOfBuiltInMemory,
+                              @RequestParam(value = "amountOfRam") int amountOfRam,
+                              @RequestParam(value = "successAddToCart") String successAddToCart) {
+
+        try {
+            PhoneForMainView phoneForMainView = new PhoneForMainView();
+            phoneForMainView.setBrand(brandService.findBrandByName(brand).get().getId());
+            phoneForMainView.setName(name);
+            phoneForMainView.setSeries(series);
+            phoneForMainView.setAmountOfBuiltInMemory(amountOfBuiltInMemory);
+            phoneForMainView.setAmountOfRam(amountOfRam);
+
+            Object[] fullInfo = phoneService.getFullInfoAboutPhone(phoneForMainView);
+            PhoneForAddToCart phoneForAddToCart = new PhoneForAddToCart(brand, name, series, amountOfBuiltInMemory,
+                    amountOfRam, (List<PhoneColors>) fullInfo[1]);
+            Object[] comments = commentService.findCommentsForPhone(phoneForMainView, page);
+
+            List<Integer> pages = new ArrayList<>((int) comments[1]);
+
+            for (int i = 0; i < (int) comments[1]; i++) {
+                pages.add(i + 1);
+            }
+
+            String pageForWhat = "/fullinfo?page=";
+            String pageForWhatPhone = "&brand=" + brand + "&name=" + name + "&series="
+                    + series + "&amountOfBuiltInMemory=" + amountOfBuiltInMemory + "&amountOfRam=" + amountOfRam;
+
+            float rating = (float) Math.ceil(((float) ((Phone) fullInfo[0]).getRating().getTotalPoints() / ((Phone) fullInfo[0]).getRating().getNumberOfPoints()) * Math.pow(10, 1)) / (float) Math.pow(10, 1);
+            List<String> photos = new ArrayList<>();
+            phoneForAddToCart.getPhoneColors().forEach(phone -> {
+                photos.add(phone.getPhoneFrontAndBack());
+                photos.add(phone.getLeftSideAndRightSide());
+                photos.add(phone.getUpSideAndDownSide());
+            });
+
+            model.addAttribute("photos", photos);
+            model.addAttribute("rating", rating);
+            model.addAttribute("fullInfo", fullInfo[0]);
+            model.addAttribute("phoneForAddToCart", phoneForAddToCart);
+            model.addAttribute("pages", pages);
+            model.addAttribute("pageForWhat", pageForWhat);
+            model.addAttribute("pageForWhatPhone", pageForWhatPhone);
+            model.addAttribute("comments", comments[0]);
+            model.addAttribute("successAddToCart", successAddToCart);
+            return "fullinfo";
+        }
+        catch (Exception e) {
+            
+            return "error";
+        }
+    }
+
     private FilterSettings createFilterSettings() {
         List<BrandForMainView> brandForMainViewList = phoneService.findAllAvailableBrand();
         List<ChargeTypeForMainView> chargeTypeForMainViewList = phoneService.findAllAvailableChargeTypes();
@@ -513,5 +570,10 @@ public class ProductsController {
                 displayResolutionForMainViewList, screenRefreshRateForMainViewList, numberOfSimCardForMainViewList,
                 amountOfBuiltInMemoryForMainViewList, amountOfRamForMainViewList, numberOfFrontCameraForMainViewList,
                 numberOfMainCameraForMainViewList, degreeOfMoistureProtectionForMainViewList, nfcForMainViewList);
+    }
+
+    @GetMapping("/about")
+    public String about(){
+        return "about";
     }
 }

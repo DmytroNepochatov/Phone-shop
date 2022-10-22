@@ -1,0 +1,121 @@
+<!DOCTYPE HTML SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="en">
+
+<head th:replace="menu :: header-css">
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous">
+    <link rel="shortcut icon" th:href="@{/images/brand.ico}" href="../static/images/brand.ico" type="image/x-icon">
+
+</head>
+<body>
+<div th:replace="menu :: menu"></div>
+
+<div class="container-fluid">
+    <br>
+    <div class="row">
+        <div class="col">
+            <div class="row my-2">
+                <div class="col text-center" style="padding-right: 90px;">
+                    <a th:href="@{/?page=1}" class="btn btn-primary" role="button" style="width: 200px;">Go back</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-6" align="center">
+            <br>
+            <h4 th:text="${'Welcome '+ user.firstName + ' in your profile'}"></h4>
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+    <br>
+    <div class="row">
+        <div class="col-5">
+            <h5 align="center">Your information</h5>
+            <h6 th:text="${'Your first name: '+user.firstName}"></h6>
+            <h6 th:text="${'Your middle name: '+user.middleName}"></h6>
+            <h6 th:text="${'Your last name: '+user.lastName}"></h6>
+            <h6 th:text="${'Your age: '+user.age}"></h6>
+            <h5 align="center">Ways to contact you</h5>
+            <h6 th:text="${'Your phone number: '+user.phoneNumber}"></h6>
+            <h6 th:text="${'Your email address: '+user.emailAddress}"></h6>
+        </div>
+        <div class="col-7">
+            <div class="row">
+                <div class="col">
+                    <h5 th:if="${tempChecks.empty}" th:text="${'You currently have no orders'}" align="center"></h5>
+                    <h5 th:if="${!tempChecks.empty}" th:text="${'Your current orders:'}" align="center"></h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" style="height: 350px;">
+                    <div class="card-group" th:if="${!tempChecks.empty}">
+                        <div class="col col-sm-2" align="center" style="width: 425px; height: 115px;"
+                             th:each="tempCheck : ${tempChecks}">
+                            <div class="card">
+                                <h6>Your order number:</h6>
+                                <h6 th:text="${tempCheck.id}"></h6>
+                                <div style="height: 50px; width: 420px;">
+                                    <div style="height: 10px;"></div>
+                                    <div>
+                                        <a style="width: 200px;" th:href="${'/client-check?id='+tempCheck.id}" class="btn btn-primary">More info about
+                                            order</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="height: 12px;"></div>
+    <div class="row" th:if="${historyChecks.empty}">
+        <div class="col" align="center">
+            <h5 th:text="${'You haven&prime;t had a single closed check yet'}"></h5>
+        </div>
+    </div>
+    <div class="row" th:if="${!historyChecks.empty}">
+        <div class="col-7" align="center">
+            <h5>Your history:</h5>
+        </div>
+        <div class="col-5" align="center">
+            <div>
+                <a style="width: 450px;" th:href="${'/comments?successMessage= '}" class="btn btn-primary">View the list of phones to which you can
+                    write a comment</a>
+            </div>
+        </div>
+    </div>
+    <div class="row" th:if="${!historyChecks.empty}">
+        <div class="col-7">
+            <div class="card-group">
+                <div class="col col-sm-2" align="center" style="width: 425px; height: 115px;"
+                     th:each="historyCheck : ${historyChecks}">
+                    <div class="card">
+                        <h6>Your order number:</h6>
+                        <h6 th:text="${historyCheck.id}"></h6>
+                        <div style="height: 50px; width: 420px;">
+                            <div style="height: 10px;"></div>
+                            <div>
+                                <a style="width: 200px;" th:href="${'/client-check?id='+historyCheck.id}" class="btn btn-primary">More info about
+                                    order</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous">
+</script>
+</body>
+</html>

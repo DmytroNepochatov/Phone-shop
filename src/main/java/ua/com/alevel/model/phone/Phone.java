@@ -82,12 +82,14 @@ public class Phone {
     private int numberOfFrontCameras;
 
     @NotBlank
+    @Column(length=5000)
     private String infoAboutFrontCameras;
 
     @NotNull
     private int numberOfMainCameras;
 
     @NotBlank
+    @Column(length=5000)
     private String infoAboutMainCameras;
 
     @NotNull
@@ -138,7 +140,7 @@ public class Phone {
     @Override
     public String toString() {
         return "Phone{" +
-                "brand=" + brand +
+                "brand=" + brand.getName() +
                 ", name='" + name + '\'' +
                 ", series='" + series + '\'' +
                 ", imei='" + imei + '\'' +

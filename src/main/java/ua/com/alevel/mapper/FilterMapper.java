@@ -1,7 +1,7 @@
 package ua.com.alevel.mapper;
 
 import ua.com.alevel.model.accessory.*;
-import ua.com.alevel.model.dto.*;
+import ua.com.alevel.model.dto.filterparams.*;
 
 import java.util.ArrayList;
 import java.util.List;

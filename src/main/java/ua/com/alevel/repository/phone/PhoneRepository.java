@@ -1,12 +1,15 @@
 package ua.com.alevel.repository.phone;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import ua.com.alevel.model.accessory.*;
+import ua.com.alevel.model.check.ClientCheck;
 import ua.com.alevel.model.phone.Phone;
+import ua.com.alevel.model.shoppingcart.ShoppingCart;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +19,7 @@ public interface PhoneRepository extends CrudRepository<Phone, String>, PagingAn
 
     Optional<Phone> findFirstByBrandAndNameAndSeriesAndAmountOfBuiltInMemoryAndAmountOfRamAndRatingNotNull(Brand brand, String name, String series, int amountOfBuiltInMemory, int amountOfRam);
 
-    List<Phone> findAllByClientCheckNull();
+    List<Phone> findAllByClientCheckNullAndShoppingCartNull();
 
     @Query(value = "select * from public.phone where phone.id in (\n" +
             "     select SPLIT_PART(STRING_AGG(phone.id, ','), ',', 1)\n" +
@@ -106,4 +109,31 @@ public interface PhoneRepository extends CrudRepository<Phone, String>, PagingAn
             "     phone.amount_of_built_in_memory, phone.amount_of_ram\n" +
             ")", nativeQuery = true)
     Optional<Integer> getPagesCount();
+
+    @Query("select phone.id from Phone phone where phone.brand.name = ?1 and phone.name = ?2 and phone.series =?3 " +
+            "and phone.amountOfBuiltInMemory = ?4 and phone.amountOfRam =?5 and phone.color =?6 and phone.clientCheck is null " +
+            "and phone.shoppingCart is null")
+    List<String> findFirstIdPhoneForShoppingCart(String brand, String name, String series, int amountOfBuiltInMemory,
+                                                 int amountOfRam, String color);
+
+    @Modifying
+    @Query("update Phone phone set phone.shoppingCart = ?1 where phone.id = ?2")
+    void setShoppingCartForPhone(ShoppingCart shoppingCart, String phoneId);
+
+    @Modifying
+    @Query("update Phone phone set phone.shoppingCart = null where phone.id = ?1")
+    void delShoppingCartForPhone(String phoneId);
+
+    @Query("select phone.price from Phone phone where phone.id = ?1")
+    double findPriceForPhoneId(String id);
+
+    @Query("select phone from Phone phone where phone.shoppingCart.id = ?1")
+    List<Phone> findAllPhonesForShoppingCartId(String shoppingCartId);
+
+    @Modifying
+    @Query("update Phone phone set phone.clientCheck =?1 where phone.id = ?2")
+    void addPhoneToClientCheck(ClientCheck clientCheck, String phoneId);
+
+    @Query("select sum(phone.price) from Phone phone where phone.shoppingCart.id = ?1")
+    double totalPriceForShoppingCartId(String shoppingCartId);
 }

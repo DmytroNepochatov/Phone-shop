@@ -11,14 +11,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.alevel.mapper.FilterMapper;
 import ua.com.alevel.mapper.PhoneMapper;
+import ua.com.alevel.model.check.ClientCheck;
 import ua.com.alevel.model.dto.*;
+import ua.com.alevel.model.dto.filterparams.*;
 import ua.com.alevel.model.phone.Phone;
 import ua.com.alevel.model.rating.Rating;
+import ua.com.alevel.model.shoppingcart.ShoppingCart;
 import ua.com.alevel.repository.phone.PhoneRepository;
 import ua.com.alevel.repository.phone.PhoneRepositoryCriteria;
 import ua.com.alevel.repository.rating.RatingRepository;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class PhoneService {
@@ -37,10 +39,10 @@ public class PhoneService {
     }
 
     @Transactional
-    public Phone save(Phone phone) {
+    public boolean save(Phone phone) {
         if (phoneRepository.findFirstByImei(phone.getImei()).isPresent()) {
             LOGGER.warn("Phone {} has an imei that is in the database", phone);
-            return new Phone();
+            return false;
         }
         else {
             Optional<Phone> findablePhone = phoneRepository.findFirstByBrandAndNameAndSeriesAndAmountOfBuiltInMemoryAndAmountOfRamAndRatingNotNull(
@@ -54,42 +56,30 @@ public class PhoneService {
                     value -> phone.setRating(value.getRating()),
                     () -> {
                         Rating rating = new Rating();
-                        rating.setNumberOfPoints(0);
+                        rating.setNumberOfPoints(1);
                         rating.setTotalPoints(0);
-                        phone.setRating(rating);
+                        rating.setPhones(List.of(phone));
                         ratingRepository.save(rating);
+
+                        phone.setRating(rating);
                         LOGGER.info("Rating for {} was successfully created", phone);
                     }
             );
 
             phoneRepository.save(phone);
             LOGGER.info("Phone {} was successfully saved", phone);
-            return phone;
+            return true;
         }
     }
 
     @Transactional
-    public Phone update(Phone phone) {
-        if (phoneRepository.findFirstByImei(phone.getImei()).isPresent()) {
-            LOGGER.warn("Phone {} has an imei that is in the database", phone);
-            return new Phone();
-        }
-        else {
-            phoneRepository.save(phone);
-            LOGGER.info("Phone {} was successfully updated", phone);
-            return phone;
-        }
-    }
-
-    @Transactional
-    public Phone delete(Phone phone) {
-        phoneRepository.deleteById(phone.getId());
-        LOGGER.info("Phone {} was successfully deleted", phone);
-        return phone;
+    public void delete(String id) {
+        phoneRepository.deleteById(id);
+        LOGGER.info("Phone with id {} was successfully deleted", id);
     }
 
     public List<Phone> findAllForAdmin() {
-        return phoneRepository.findAllByClientCheckNull();
+        return phoneRepository.findAllByClientCheckNullAndShoppingCartNull();
     }
 
     public Object[] findAllForMainView(int page) {
@@ -219,7 +209,52 @@ public class PhoneService {
         return list;
     }
 
-    private int getPagesCount(){
+    public List<String> findFirstIdPhoneForShoppingCart(String brand, String name, String series, int amountOfBuiltInMemory,
+                                                        int amountOfRam, String color) {
+        return phoneRepository.findFirstIdPhoneForShoppingCart(brand, name, series, amountOfBuiltInMemory, amountOfRam, color);
+    }
+
+    @Transactional
+    public void setShoppingCartForPhone(ShoppingCart shoppingCart, String phoneId) {
+        phoneRepository.setShoppingCartForPhone(shoppingCart, phoneId);
+        LOGGER.info("Phone {} in shopping cart {}", phoneId, shoppingCart.getId());
+    }
+
+    @Transactional
+    public void delShoppingCartForPhone(String phoneId) {
+        phoneRepository.delShoppingCartForPhone(phoneId);
+        LOGGER.info("Phone {} is no longer in the shopping cart", phoneId);
+    }
+
+    public double findPriceForPhoneId(String id) {
+        return phoneRepository.findPriceForPhoneId(id);
+    }
+
+    public List<PhoneForShoppingCart> findAllPhoneForShoppingCartId(String shoppingCartId) {
+        List<PhoneForShoppingCart> result = new ArrayList<>();
+
+        return PhoneMapper.mapPhoneToPhoneForShoppingCart(phoneRepository, shoppingCartId, result);
+    }
+
+    @Transactional
+    public void addPhoneToClientCheck(ClientCheck clientCheck, String phoneId) {
+        phoneRepository.addPhoneToClientCheck(clientCheck, phoneId);
+        LOGGER.info("Phone {} added to client check {}", phoneId, clientCheck.getId());
+    }
+
+    public double totalPriceForShoppingCartId(String shoppingCartId) {
+        return phoneRepository.totalPriceForShoppingCartId(shoppingCartId);
+    }
+
+    public List<Phone> findAllPhonesForShoppingCartId(String shoppingCartId) {
+        return phoneRepository.findAllPhonesForShoppingCartId(shoppingCartId);
+    }
+
+    public Phone findById(String id) {
+        return phoneRepository.findById(id).get();
+    }
+
+    private int getPagesCount() {
         int phonesAvailable = phoneRepository.getPagesCount().get();
 
         return (phonesAvailable % NEED_PHONES == 0) ? phonesAvailable / NEED_PHONES : (phonesAvailable / NEED_PHONES) + 1;

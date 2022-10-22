@@ -1,0 +1,240 @@
+<!DOCTYPE HTML SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="en">
+
+<head th:replace="menu :: header-css">
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous">
+    <link rel="shortcut icon" th:href="@{/images/brand.ico}" href="../static/images/brand.ico" type="image/x-icon">
+</head>
+<body>
+<div th:replace="menu :: menu"></div>
+
+<div class="container-fluid">
+    <br>
+    <div class="row">
+        <div class="col">
+            <div class="row my-2">
+                <div class="col text-center" style="padding-right: 90px;">
+                    <a th:href="@{/?page=1}" class="btn btn-primary" role="button" style="width: 200px;">Go back</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4"></div>
+        <div class="col-5">
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link">Pages:</a></li>
+                    <li class="page-item" th:each="page: ${pages}"><a class="page-link"
+                                                                      th:href="${pageForWhat}+${page}+${pageForWhatPhone}+${'&successAddToCart= '}"
+                                                                      th:text="${page}"></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-5"><h4 th:text="${fullInfo.brand.name+' '+ fullInfo.series + ' '+ fullInfo.name
+        +' '+fullInfo.amountOfRam+'/'+fullInfo.amountOfBuiltInMemory}"></h4></div>
+        <div class="col"><h4 th:text="${'Rating: '+rating+' Price: '+fullInfo.price+''+
+        fullInfo.currency}"></h4></div>
+    </div>
+    <div class="row">
+        <div class="col-7">
+            <div style="padding-left: 150px;">
+                <div id="carouselExampleControls" class="carousel slide " data-bs-ride="carousel"
+                     style="width:456px; height:580px;">
+                    <div class="carousel-inner">
+                        <div class="carousel-item" th:each="photo, state: ${photos}"
+                             th:classappend="${state.index==0} ? active : ''">
+                            <img class="d-block w-100" th:src="${photo}"
+                                 width="456" height="580" alt="">
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev carousel-dark" style="color: grey" href="#carouselExampleControls"
+                       role="button"
+                       data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only"></span>
+                    </a>
+                    <a class="carousel-control-next carousel-dark" style="color: grey" href="#carouselExampleControls"
+                       role="button"
+                       data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only"></span>
+                    </a>
+                </div>
+            </div>
+            <br>
+
+            <form th:action="@{/shopping-cart/add-to-cart}" th:object="${phoneForAddToCart}" th:method="put">
+                <div class="col" align="center">
+                    <div class="card" style="width: 200px;">
+                        <article class="card-group-item">
+                            <header class="card-header">
+                                <h6 class="title" align="center">Available colors:</h6>
+                            </header>
+                            <div class="filter-content" align="center">
+                                <div class="card-body">
+                                    <label class="form-check"
+                                           th:each="phoneColor, state: *{phoneColors}">
+                                        <input class="form-check-input" type="checkbox"
+                                               th:id="${phoneColor.color}"
+                                               th:field="*{phoneColors[__${state.index}__].enabled}"
+                                               th:value="${phoneColor.enabled}"/>
+                                        <span class="form-check-label"
+                                              th:for="${phoneColor.color}"
+                                              th:text="${phoneColor.color}"></span>
+
+                                        <input th:field="*{phoneColors[__${state.index}__].color}"
+                                               type="text" class="d-none" th:value="${phoneColor.color}"/>
+                                    </label>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <input th:field="*{brand}"
+                       type="text" class="d-none" th:value="${brand}"/>
+                <input th:field="*{name}"
+                       type="text" class="d-none" th:value="${name}"/>
+                <input th:field="*{series}"
+                       type="text" class="d-none" th:value="${series}"/>
+                <input th:field="*{amountOfBuiltInMemory}"
+                       type="text" class="d-none" th:value="${amountOfBuiltInMemory}"/>
+                <input th:field="*{amountOfRam}"
+                       type="text" class="d-none" th:value="${amountOfRam}"/>
+
+                <div class="row my-2">
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-primary" style="width: 200px;">Add to cart</button>
+                    </div>
+                </div>
+            </form>
+
+            <div align="center">
+                <h6 th:text="${successAddToCart}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">Processor</h5>
+                <h6 th:text="${'Name: '+fullInfo.processor.name}"></h6>
+                <h6 th:text="${'Number of cores: '+fullInfo.processor.numberOfCores}"></h6>
+                <h6 th:text="${'Core frequency: '+fullInfo.processor.coreFrequency+ ' GHz'}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">Screen</h5>
+                <h6 th:text="${'Type screen: '+fullInfo.typeScreen.name}"></h6>
+                <h6 th:text="${'Diagonal: '+fullInfo.diagonal+'&quot;'}"></h6>
+                <h6 th:text="${'Display resoulution: '+fullInfo.displayResolution+' px'}"></h6>
+                <h6 th:text="${'Screen refresh rate: '+fullInfo.screenRefreshRate+' Hz'}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">Charge type</h5>
+                <h6 th:text="${'Charge type: '+fullInfo.chargeType.name}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">Communication standard</h5>
+                <h6 th:text="${'Communication standard: '+fullInfo.communicationStandard.name+' and lower'}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">Number of SIM cards</h5>
+                <h6 th:text="${'Number of SIM cards: '+fullInfo.numberOfSimCards}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">Operation system</h5>
+                <h6 th:text="${'Operation system: '+fullInfo.operationSystem.name}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">Series</h5>
+                <h6 th:text="${'Series: '+fullInfo.series}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">Memory</h5>
+                <h6 th:text="${'Amount of built in memory: '+fullInfo.amountOfBuiltInMemory+' Gb'}"></h6>
+                <h6 th:text="${'Amount of RAM: '+fullInfo.amountOfRam+' Gb'}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">NFC</h5>
+                <h6 th:text="${'Have NFC?: '+fullInfo.isHaveNfc}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">Front cameras</h5>
+                <h6 th:text="${'Number of front cameras: '+fullInfo.numberOfFrontCameras}"></h6>
+                <h6 th:text="${'Info about front cameras: '+fullInfo.infoAboutFrontCameras}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">Main cameras</h5>
+                <h6 th:text="${'Number of main cameras: '+fullInfo.numberOfMainCameras}"></h6>
+                <h6 th:text="${'Info about main cameras: '+fullInfo.infoAboutMainCameras}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">Physical characteristics</h5>
+                <h6 th:text="${'Weight: '+fullInfo.weight+' g'}"></h6>
+                <h6 th:text="${'Height: '+fullInfo.height+' mm'}"></h6>
+                <h6 th:text="${'Width: '+fullInfo.width+' mm'}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">Degree of moisture protection</h5>
+                <h6 th:text="${'Degree of moisture protection: '+fullInfo.degreeOfMoistureProtection}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">Brand</h5>
+                <h6 th:text="${'Brand: '+fullInfo.brand.name}"></h6>
+                <h6 th:text="${'Brand registration country: '+fullInfo.brand.brandRegistrationCountry}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">Country producer of the product</h5>
+                <h6 th:text="${'Country producer of the product: '+fullInfo.countryProducerOfTheProduct}"></h6>
+            </div>
+            <br>
+            <div>
+                <h5 style="font-weight: bold;">Guarantee</h5>
+                <h6 th:text="${'Time: '+fullInfo.guaranteeTimeMonths+' month'}"></h6>
+            </div>
+        </div>
+        <div class="col" style="width: 300px;">
+            <div class="card-body " th:each="comment : ${comments}">
+                <div class="" style="height: 30px; width: 570px; border: 1px solid black;">
+                    <h6 class="card-title" align="left" th:text="${comment.lastName+' '+comment.firstName}"></h6>
+                </div>
+                <div style="width: 570px;" class="">
+                    <p class="card-text" style="text-align: justify; border: 1px solid black;"
+                       th:text="${comment.text}"></p>
+                </div>
+            </div>
+
+            <div th:if="${comments.empty}">
+                <br>
+                <h5>No one has commented on this product</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous">
+</script>
+</body>
+</html>

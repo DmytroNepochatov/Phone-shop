@@ -7,7 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import ua.com.alevel.model.phone.Phone;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,8 +19,8 @@ public class ShoppingCart {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Phone> phones;
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Phone> phones;
 
     @NotNull
     private double price;
