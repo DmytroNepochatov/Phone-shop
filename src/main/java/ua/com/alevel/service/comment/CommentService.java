@@ -11,6 +11,7 @@ import ua.com.alevel.mapper.CommentMapper;
 import ua.com.alevel.model.check.ClientCheck;
 import ua.com.alevel.model.comment.Comment;
 import ua.com.alevel.model.dto.CommentForPhone;
+import ua.com.alevel.model.dto.CommentForPhoneList;
 import ua.com.alevel.model.dto.PhoneForMainView;
 import ua.com.alevel.model.phone.Phone;
 import ua.com.alevel.repository.comment.CommentRepository;
@@ -34,14 +35,14 @@ public class CommentService {
         LOGGER.info("Comment for phone {} saved", comment.getPhone().getId());
     }
 
-    public Object[] findCommentsForPhone(PhoneForMainView phoneForMainView, int page) {
+    public CommentForPhoneList findCommentsForPhone(PhoneForMainView phoneForMainView, int page) {
         List<CommentForPhone> commentForPhoneList = new ArrayList<>();
         Pageable pageable = PageRequest.of(page - 1, NEED_COMMENTS);
 
         CommentMapper.mapCommentToCommentForPhone(commentRepository, commentForPhoneList, phoneForMainView, pageable);
         int commentsCount = getPagesCountForList(phoneForMainView);
 
-        return new Object[]{commentForPhoneList, commentsCount};
+        return new CommentForPhoneList(commentForPhoneList, commentsCount);
     }
 
     private int getPagesCountForList(PhoneForMainView phoneForMainView) {

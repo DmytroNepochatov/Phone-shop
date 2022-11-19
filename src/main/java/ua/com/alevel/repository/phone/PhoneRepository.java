@@ -133,7 +133,4 @@ public interface PhoneRepository extends CrudRepository<Phone, String>, PagingAn
     @Modifying
     @Query("update Phone phone set phone.clientCheck =?1 where phone.id = ?2")
     void addPhoneToClientCheck(ClientCheck clientCheck, String phoneId);
-
-    @Query("select sum(phone.price) from Phone phone where phone.shoppingCart.id = ?1")
-    double totalPriceForShoppingCartId(String shoppingCartId);
 }

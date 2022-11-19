@@ -3,6 +3,7 @@ package ua.com.alevel.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ua.com.alevel.mapper.PhoneMapper;
 import ua.com.alevel.model.accessory.*;
 import ua.com.alevel.model.dto.CreatePhone;
 import ua.com.alevel.model.dto.UserOrdersForAdmin;
@@ -157,39 +158,8 @@ public class AdminController {
             return errorMsg(model, phone, "Currency field is empty");
         }
 
-        Phone phoneForDb = new Phone();
-        phoneForDb.setBrand(brand);
-        phoneForDb.setChargeType(chargeType);
-        phoneForDb.setCommunicationStandard(communicationStandard);
-        phoneForDb.setOperationSystem(operationSystem);
-        phoneForDb.setProcessor(processor);
-        phoneForDb.setTypeScreen(typeScreen);
-        phoneForDb.setName(phone.getName());
-        phoneForDb.setSeries(phone.getSeries());
-        phoneForDb.setDiagonal(phone.getDiagonal());
-        phoneForDb.setDisplayResolution(phone.getDisplayResolution());
-        phoneForDb.setScreenRefreshRate(phone.getScreenRefreshRate());
-        phoneForDb.setNumberOfSimCards(phone.getNumberOfSimCards());
-        phoneForDb.setAmountOfBuiltInMemory(phone.getAmountOfBuiltInMemory());
-        phoneForDb.setAmountOfRam(phone.getAmountOfRam());
-        phoneForDb.setNumberOfFrontCameras(phone.getNumberOfFrontCameras());
-        phoneForDb.setInfoAboutFrontCameras(phone.getInfoAboutFrontCameras());
-        phoneForDb.setNumberOfMainCameras(phone.getNumberOfMainCameras());
-        phoneForDb.setInfoAboutMainCameras(phone.getInfoAboutMainCameras());
-        phoneForDb.setWeight(phone.getWeight());
-        phoneForDb.setHeight(phone.getHeight());
-        phoneForDb.setWidth(phone.getWidth());
-        phoneForDb.setDegreeOfMoistureProtection(phone.getDegreeOfMoistureProtection());
-        phoneForDb.setHaveNfc(phone.isNfc());
-        phoneForDb.setColor(phone.getColor());
-        phoneForDb.setGuaranteeTimeMonths(phone.getGuaranteeTimeMonths());
-        phoneForDb.setCountryProducerOfTheProduct(phone.getCountryProducerOfTheProduct());
-        phoneForDb.setPhoneFrontAndBack(phone.getPhoneFrontAndBack());
-        phoneForDb.setLeftSideAndRightSide(phone.getLeftSideAndRightSide());
-        phoneForDb.setUpSideAndDownSide(phone.getUpSideAndDownSide());
-        phoneForDb.setImei(phone.getImei());
-        phoneForDb.setPrice(phone.getPrice());
-        phoneForDb.setCurrency(phone.getCurrency());
+        Phone phoneForDb = PhoneMapper.mapCreatePhoneToPhone(phone, brand, chargeType,
+                communicationStandard, operationSystem, processor, typeScreen);
 
         if (!phoneService.save(phoneForDb)) {
             return errorMsg(model, phone, "This IMEI already exists");

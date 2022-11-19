@@ -25,12 +25,13 @@ import java.util.List;
 @Service("userDetailsServiceImpl")
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
     @Autowired
     public UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @Transactional
@@ -63,18 +64,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     checkList.add(check);
                 }
             });
-            usersOrdersForAdmin.add(UserMapper.mapRegisteredUsersToUsersOrdersForAdmin(registeredUser, checkList));
+
+            if (!checkList.isEmpty()) {
+                usersOrdersForAdmin.add(UserMapper.mapRegisteredUsersToUsersOrdersForAdmin(registeredUser, checkList));
+            }
         }
 
-        List<UserOrdersForAdmin> result = new ArrayList<>();
-
-        usersOrdersForAdmin.forEach(order -> {
-            if (!order.getChecks().isEmpty()) {
-                result.add(order);
-            }
-        });
-
-        return result;
+        return usersOrdersForAdmin;
     }
 
     @Override

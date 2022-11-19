@@ -2,7 +2,7 @@ package ua.com.alevel.mapper;
 
 import ua.com.alevel.model.accessory.*;
 import ua.com.alevel.model.dto.filterparams.*;
-
+import ua.com.alevel.service.phone.PhoneService;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,5 +113,30 @@ public final class FilterMapper {
         list.forEach(degreeOfMoistureProtection -> degreeOfMoistureProtectionForMainViewList.add(new DegreeOfMoistureProtectionForMainView(degreeOfMoistureProtection, false)));
 
         return degreeOfMoistureProtectionForMainViewList;
+    }
+
+    public static FilterSettings mapParamsToFilterSettings(PhoneService phoneService) {
+        List<BrandForMainView> brandForMainViewList = phoneService.findAllAvailableBrand();
+        List<ChargeTypeForMainView> chargeTypeForMainViewList = phoneService.findAllAvailableChargeTypes();
+        List<CommunicationStandardForMainView> communicationStandardForMainViewList = phoneService.findAllAvailableCommunicationStandards();
+        List<OperationSystemForMainView> operationSystemForMainViewList = phoneService.findAllAvailableOperationSystems();
+        List<ProcessorForMainView> processorForMainViewList = phoneService.findAllAvailableProcessors();
+        List<TypeScreenForMainView> typeScreenForMainViewList = phoneService.findAllAvailableTypeScreens();
+        List<DiagonalForMainView> diagonalForMainViewList = phoneService.findAllAvailableDiagonals();
+        List<DisplayResolutionForMainView> displayResolutionForMainViewList = phoneService.findAllAvailableDisplayResolutions();
+        List<ScreenRefreshRateForMainView> screenRefreshRateForMainViewList = phoneService.findAllAvailableScreenRefreshRates();
+        List<NumberOfSimCardForMainView> numberOfSimCardForMainViewList = phoneService.findAllAvailableNumberOfSimCards();
+        List<AmountOfBuiltInMemoryForMainView> amountOfBuiltInMemoryForMainViewList = phoneService.findAllAvailableAmountOfBuiltInMemory();
+        List<AmountOfRamForMainView> amountOfRamForMainViewList = phoneService.findAllAvailableAmountOfRam();
+        List<NumberOfFrontCameraForMainView> numberOfFrontCameraForMainViewList = phoneService.findAllAvailableNumberOfFrontCameras();
+        List<NumberOfMainCameraForMainView> numberOfMainCameraForMainViewList = phoneService.findAllAvailableNumberOfMainCameras();
+        List<DegreeOfMoistureProtectionForMainView> degreeOfMoistureProtectionForMainViewList = phoneService.findAllAvailableDegreeOfMoistureProtection();
+        List<NfcForMainView> nfcForMainViewList = phoneService.getNfcTypes();
+
+        return new FilterSettings(brandForMainViewList, chargeTypeForMainViewList, communicationStandardForMainViewList,
+                operationSystemForMainViewList, processorForMainViewList, typeScreenForMainViewList, diagonalForMainViewList,
+                displayResolutionForMainViewList, screenRefreshRateForMainViewList, numberOfSimCardForMainViewList,
+                amountOfBuiltInMemoryForMainViewList, amountOfRamForMainViewList, numberOfFrontCameraForMainViewList,
+                numberOfMainCameraForMainViewList, degreeOfMoistureProtectionForMainViewList, nfcForMainViewList);
     }
 }

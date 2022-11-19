@@ -20,6 +20,7 @@ import ua.com.alevel.model.shoppingcart.ShoppingCart;
 import ua.com.alevel.repository.phone.PhoneRepository;
 import ua.com.alevel.repository.phone.PhoneRepositoryCriteria;
 import ua.com.alevel.repository.rating.RatingRepository;
+
 import java.util.*;
 
 @Service
@@ -82,63 +83,60 @@ public class PhoneService {
         return phoneRepository.findAllByClientCheckNullAndShoppingCartNull();
     }
 
-    public Object[] findAllForMainView(int page) {
+    public PhonesForMainViewList findAllForMainView(int page) {
         List<PhoneForMainView> phonesForMainView = new ArrayList<>();
         Pageable pageable = PageRequest.of(page - 1, NEED_PHONES);
 
         PhoneMapper.mapPhoneToPhoneForMainView(phoneRepository, phonesForMainView, pageable);
         int pages = getPagesCount();
 
-        return new Object[]{phonesForMainView, pages};
+        return new PhonesForMainViewList(phonesForMainView, pages);
     }
 
-    public Object[] sortByPriceAsc(int page) {
+    public PhonesForMainViewList sortByPriceAsc(int page) {
         List<PhoneForMainView> phonesForMainView = new ArrayList<>();
         Pageable pageable = PageRequest.of(page - 1, NEED_PHONES, Sort.by("price"));
 
         PhoneMapper.mapPhoneToPhoneForMainView(phoneRepository, phonesForMainView, pageable);
         int pages = getPagesCount();
 
-        return new Object[]{phonesForMainView, pages};
+        return new PhonesForMainViewList(phonesForMainView, pages);
     }
 
-    public Object[] sortByPriceDesc(int page) {
+    public PhonesForMainViewList sortByPriceDesc(int page) {
         List<PhoneForMainView> phonesForMainView = new ArrayList<>();
         Pageable pageable = PageRequest.of(page - 1, NEED_PHONES, Sort.by("price").descending());
 
         PhoneMapper.mapPhoneToPhoneForMainView(phoneRepository, phonesForMainView, pageable);
         int pages = getPagesCount();
 
-        return new Object[]{phonesForMainView, pages};
+        return new PhonesForMainViewList(phonesForMainView, pages);
     }
 
-    public Object[] findBySearch(int page, String[] searchParam) {
+    public PhonesForMainViewList findBySearch(int page, String[] searchParam) {
         List<PhoneForMainView> phonesForMainView = new ArrayList<>();
         Pageable pageable = PageRequest.of(page - 1, NEED_PHONES);
 
         PhoneMapper.mapPhoneToPhoneForMainViewToFindBySearch(phoneRepository, phonesForMainView, pageable, searchParam);
         int pages = getPagesCountForList(phonesForMainView);
 
-        return new Object[]{phonesForMainView, pages};
+        return new PhonesForMainViewList(phonesForMainView, pages);
     }
 
-    public Object[] filterPhones(int page, String[] searchParam) {
+    public PhonesForMainViewList filterPhones(int page, String[] searchParam) {
         List<PhoneForMainView> phonesForMainView = new ArrayList<>();
 
         PhoneMapper.mapPhoneToPhoneForMainViewFilter(phoneRepositoryCriteria, phonesForMainView, page - 1, searchParam, NEED_PHONES);
         int pages = getPagesCountForList(phonesForMainView);
 
-        return new Object[]{phonesForMainView, pages};
+        return new PhonesForMainViewList(phonesForMainView, pages);
     }
 
-    public Object[] getFullInfoAboutPhone(PhoneForMainView phoneForMainView) {
-        Object[] allInfo = new Object[2];
+    public FullInfoAboutPhone getFullInfoAboutPhone(PhoneForMainView phoneForMainView) {
         List<PhoneColors> phoneColors = new ArrayList<>();
 
-        allInfo[0] = PhoneMapper.mapPhoneForMainViewToPhone(phoneRepository, phoneForMainView);
-        allInfo[1] = PhoneMapper.getColorsForPhone(phoneRepository, phoneForMainView, phoneColors);
-
-        return allInfo;
+        return new FullInfoAboutPhone(PhoneMapper.mapPhoneForMainViewToPhone(phoneRepository, phoneForMainView),
+                PhoneMapper.getColorsForPhone(phoneRepository, phoneForMainView, phoneColors));
     }
 
     public List<BrandForMainView> findAllAvailableBrand() {
@@ -240,10 +238,6 @@ public class PhoneService {
     public void addPhoneToClientCheck(ClientCheck clientCheck, String phoneId) {
         phoneRepository.addPhoneToClientCheck(clientCheck, phoneId);
         LOGGER.info("Phone {} added to client check {}", phoneId, clientCheck.getId());
-    }
-
-    public double totalPriceForShoppingCartId(String shoppingCartId) {
-        return phoneRepository.totalPriceForShoppingCartId(shoppingCartId);
     }
 
     public List<Phone> findAllPhonesForShoppingCartId(String shoppingCartId) {

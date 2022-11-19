@@ -85,7 +85,8 @@ public class ShoppingCartController {
 
     @PutMapping("/delete-from-cart")
     public String deleteFromShoppingCart(@RequestParam(value = "phoneId") String phoneId) {
-        delete(phoneId);
+        ShoppingCart shoppingCart = userDetailsServiceImpl.findShoppingCartForUserEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        delete(phoneId, shoppingCart);
         return "redirect:/shopping-cart";
     }
 
@@ -99,21 +100,20 @@ public class ShoppingCartController {
         ClientCheck clientCheck = new ClientCheck();
         clientCheck.setRegisteredUser(registeredUser);
         clientCheck.setCreated(date);
-        clientCheck.setTotalPrice(phoneService.totalPriceForShoppingCartId(shoppingCart.getId()));
+        clientCheck.setTotalPrice(shoppingCart.getPrice());
         clientCheck.setPhones(phones);
         clientCheck.setClosed(false);
         clientCheckService.save(clientCheck);
         ClientCheck clientCheckFromDB = clientCheckService.findClientCheckForUserIdForNewOrder(registeredUser.getId(), date).get();
 
         phones.forEach(phone -> phoneService.addPhoneToClientCheck(clientCheckFromDB, phone.getId()));
-        phones.forEach(phone -> delete(phone.getId()));
+        phones.forEach(phone -> delete(phone.getId(), shoppingCart));
 
         model.addAttribute("clientCheck", clientCheckFromDB.getId());
         return "order";
     }
 
-    private void delete(String phoneId) {
-        ShoppingCart shoppingCart = userDetailsServiceImpl.findShoppingCartForUserEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+    private void delete(String phoneId, ShoppingCart shoppingCart) {
         double priceForPhone = phoneService.findPriceForPhoneId(phoneId);
         double oldPriceShoppingCart = shoppingCartService.findPriceForShoppingCartId(shoppingCart.getId());
         shoppingCartService.save(shoppingCart.getId(), oldPriceShoppingCart - priceForPhone);
