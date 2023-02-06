@@ -29,7 +29,7 @@ public class PhoneService {
     private final RatingRepository ratingRepository;
     private final PhoneRepositoryCriteria phoneRepositoryCriteria;
     private static final Logger LOGGER = LoggerFactory.getLogger(PhoneService.class);
-    private static final int NEED_PHONES = 10;
+    private static final int NEED_PHONES = 40;
 
     @Autowired
     public PhoneService(PhoneRepository phoneRepository, RatingRepository ratingRepository,

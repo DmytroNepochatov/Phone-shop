@@ -22,7 +22,7 @@ import java.util.List;
 public class CommentService {
     private final CommentRepository commentRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(CommentService.class);
-    private static final int NEED_COMMENTS = 5;
+    private static final int NEED_COMMENTS = 20;
 
     @Autowired
     public CommentService(CommentRepository commentRepository) {

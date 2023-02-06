@@ -1,0 +1,122 @@
+<!DOCTYPE HTML SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="en">
+
+<head th:replace="menu :: header-css">
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous">
+    <link rel="shortcut icon" th:href="@{/images/brand.ico}" href="../static/images/brand.ico" type="image/x-icon">
+
+</head>
+<body>
+<div th:replace="menu :: menu"></div>
+
+<div class="container-fluid">
+    <br>
+    <div class="row">
+        <div class="col">
+            <div class="row my-2">
+                <div class="col text-center" style="padding-right: 90px;">
+                    <a th:href="@{/admin/characteristics}" class="btn btn-primary" role="button" style="width: 150px;">Go
+                        back
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-6"></div>
+        <div class="col-3"></div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6" align="center">
+            <h6 th:if="${!operationSystems.empty}" th:text="${success}"></h6>
+            <h6 th:if="${operationSystems.empty}" th:text="${'No operation systems in database'}"></h6>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col" align="center" style="border: 1px solid black;"><h5 th:if="${!operationSystems.empty}">
+            Name</h5>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+    </div>
+    <div class="row">
+        <div class="col-7">
+            <div class="row" th:each="operationSystem: ${operationSystems}"
+                 th:if="${!operationSystems.empty}">
+                <div class="col" style="height: 50px;">
+                    <div class="row align-items-center" style="height: 50px;">
+                        <div class="col-7">
+                            <div class="row">
+                                <div class="col" style="border: 1px solid black;"
+                                     th:text="${operationSystem.name}"></div>
+                            </div>
+                        </div>
+                        <div class="col-1" align="center">
+                            <div class="col text-center">
+                                <form th:action="${'/admin/characteristics/operationsystems?id='+operationSystem.id}"
+                                      th:method="post">
+                                    <div class="col text-center">
+                                        <button type="submit" class="btn btn-primary" style="width: 80px;">Delete
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="col" align="center"><h5>Create a new operation system</h5></div>
+            </div>
+            <br>
+            <form autocomplete="off" th:action="@{/admin/characteristics/operationsystems/create}"
+                  th:object="${newOperationSystem}"
+                  method="post">
+                <div class="row">
+                    <div class="col" align="center">
+                        <label for="name" class="form-label">Name:</label>
+                        <div style="height: 30px; width: 200px;">
+                            <input style="height: 30px; width: 200px;" type="text" class="form-control"
+                                   id="name"
+                                   th:field="*{name}" th:value="${name}">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col" align="center">
+                        <div style="height: 40px; width: 250px;">
+                            <button class="w-100 btn btn-primary btn-lg"
+                                    style="height: 40px; width: 250px; display: flex; align-items: center; justify-content: center;"
+                                    type="submit">
+                                Save operation system
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+    <br>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous">
+</script>
+</body>
+</html>

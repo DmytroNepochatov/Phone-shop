@@ -12,6 +12,15 @@
           crossorigin="anonymous">
     <link rel="shortcut icon" th:href="@{/images/brand.ico}" href="../static/images/brand.ico" type="image/x-icon">
 
+    <style>
+        .select-box {
+            overflow-y: auto;
+        }
+
+        option {
+            overflow-y: scroll;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="menu :: menu"></div>
@@ -40,19 +49,21 @@
         </div>
         <div class="row">
             <div class="col">
-                <label for="brand" class="form-label">Brand:</label>
+                <label class="form-label">Brand:</label>
                 <div style="height: 30px; width: 200px;">
-                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="brand"
-                           required="true" autofocus="true"
-                           th:field="*{brand}" th:value="${brand}">
+                    <select class="select-box" autofocus="true" style="height: 30px; width: 200px;" th:field="*{brand}">
+                        <option selected="selected"  th:value="${'Select brand'}">Select brand</option>
+                        <option th:each="brandOpt : ${brands}" th:text="${brandOpt}" th:value="${brandOpt}"></option>
+                    </select>
                 </div>
             </div>
             <div class="col">
-                <label for="typeScreen" class="form-label">Type screen:</label>
+                <label class="form-label">Type screen:</label>
                 <div style="height: 30px; width: 200px;">
-                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="typeScreen"
-                           required="true"
-                           th:field="*{typeScreen}" th:value="${typeScreen}">
+                    <select class="select-box" style="height: 30px; width: 200px;" th:field="*{typeScreen}">
+                        <option selected="selected"  th:value="${'Select type screen'}">Select type screen</option>
+                        <option th:each="typeScreenOpt : ${typeScreens}" th:text="${typeScreenOpt}" th:value="${typeScreenOpt}"></option>
+                    </select>
                 </div>
             </div>
             <div class="col">
@@ -146,7 +157,7 @@
             </div>
             <div class="col"></div>
             <div class="col">
-                <label for="degreeOfMoistureProtection" class="form-label">Degree of moisture protection:</label>
+                <label for="degreeOfMoistureProtection" class="form-label">Degree of moisture protection (IPxx):</label>
                 <div style="height: 30px; width: 200px;">
                     <input style="height: 30px; width: 200px;" type="text" class="form-control"
                            id="degreeOfMoistureProtection"
@@ -170,37 +181,39 @@
         </div>
         <div style="border: 1px solid black; background-color: black;"></div>
         <div class="row">
-            <div class="col" align="center">Communication standard</div>
+            <div class="col" align="center">Communications</div>
             <div class="col"></div>
             <div class="col"></div>
             <div class="col"></div>
         </div>
         <div class="row">
             <div class="col">
-                <label for="communicationStandard" class="form-label">Communication standard:</label>
-                <div style="height: 30px; width: 200px;">
-                    <input style="height: 30px; width: 200px;" type="text" class="form-control"
-                           id="communicationStandard"
-                           required="true"
-                           th:field="*{communicationStandard}" th:value="${communicationStandard}">
+                <label class="form-label">Communication standard:</label>
+                <div style="height: 30px; width: 260px;">
+                    <select class="select-box" style="height: 30px; width: 260px;" th:field="*{communicationStandard}">
+                        <option selected="selected"  th:value="${'Select communication standard'}">Select communication standard</option>
+                        <option th:each="communicationStandardOpt : ${communicationStandards}" th:text="${communicationStandardOpt}" th:value="${communicationStandardOpt}"></option>
+                    </select>
                 </div>
             </div>
             <div class="col">
             </div>
             <div class="col">
-                <label for="operationSystem" class="form-label">Operation system:</label>
+                <label class="form-label">Operation system:</label>
                 <div style="height: 30px; width: 200px;">
-                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="operationSystem"
-                           required="true"
-                           th:field="*{operationSystem}" th:value="${operationSystem}">
+                    <select class="select-box" style="height: 30px; width: 200px;" th:field="*{operationSystem}">
+                        <option selected="selected"  th:value="${'Select operation system'}">Select operation system</option>
+                        <option th:each="operationSystemOpt : ${operationSystems}" th:text="${operationSystemOpt}" th:value="${operationSystemOpt}"></option>
+                    </select>
                 </div>
             </div>
             <div class="col">
-                <label for="processor" class="form-label">Processor:</label>
-                <div style="height: 30px; width: 300px;">
-                    <input style="height: 30px; width: 300px;" type="text" class="form-control" id="processor"
-                           required="true"
-                           th:field="*{processor}" th:value="${processor}">
+                <label class="form-label">Processor:</label>
+                <div style="height: 30px; width: 200px;">
+                    <select class="select-box" style="height: 30px; width: 300px;" th:field="*{processor}">
+                        <option selected="selected"  th:value="${'Select processor'}">Select processor</option>
+                        <option th:each="processorOpt : ${processors}" th:text="${processorOpt}" th:value="${processorOpt}"></option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -215,11 +228,12 @@
             </div>
             <div class="col"></div>
             <div class="col">
-                <label for="chargeType" class="form-label">Charge type:</label>
+                <label class="form-label">Charge type:</label>
                 <div style="height: 30px; width: 200px;">
-                    <input style="height: 30px; width: 200px;" type="text" class="form-control" id="chargeType"
-                           required="true"
-                           th:field="*{chargeType}" th:value="${chargeType}">
+                    <select class="select-box" style="height: 30px; width: 200px;" th:field="*{chargeType}">
+                        <option selected="selected"  th:value="${'Select charge type'}">Select charge type</option>
+                        <option th:each="chargeTypeOpt : ${chargeTypes}" th:text="${chargeTypeOpt}" th:value="${chargeTypeOpt}"></option>
+                    </select>
                 </div>
             </div>
             <div class="col">
@@ -271,10 +285,15 @@
         <br>
         <div style="border: 1px solid black; background-color: black;"></div>
         <div class="row">
-            <div class="col" align="center">Phone photos (example: /images/products/phone_name.png)
+            <div class="col" align="center">Phone photos (example: /images/products/phone_name.png,
             </div>
             <div class="col" align="center">Phone business Information
             </div>
+        </div>
+        <div class="row">
+            <div class="col" align="center">also you can use Google Drive photos, just paste link)
+            </div>
+            <div class="col" align="center"></div>
         </div>
         <div class="row">
             <div class="col">
@@ -322,7 +341,8 @@
             <div class="col">
                 <div class="row">
                     <div class="col">
-                        <label for="imei" class="form-label">IMEI:</label>
+                        <label for="imei" class="form-label">IMEI (If there are several such models, write their IMEI
+                            separated by commas):</label>
                         <div style="height: 30px; width: 300px;">
                             <input style="height: 30px; width: 300px;" type="text" class="form-control" id="imei"
                                    required="true"

@@ -133,4 +133,16 @@ public interface PhoneRepository extends CrudRepository<Phone, String>, PagingAn
     @Modifying
     @Query("update Phone phone set phone.clientCheck =?1 where phone.id = ?2")
     void addPhoneToClientCheck(ClientCheck clientCheck, String phoneId);
+
+    Optional<Phone> findFirstByBrand(Brand brand);
+
+    Optional<Phone> findFirstByChargeType(ChargeType chargeType);
+
+    Optional<Phone> findFirstByCommunicationStandard(CommunicationStandard communicationStandard);
+
+    Optional<Phone> findFirstByOperationSystem(OperationSystem operationSystem);
+
+    Optional<Phone> findFirstByTypeScreen(TypeScreen typeScreen);
+
+    Optional<Phone> findFirstByProcessor(Processor processor);
 }
