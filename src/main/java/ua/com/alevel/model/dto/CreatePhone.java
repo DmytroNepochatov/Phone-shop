@@ -35,7 +35,7 @@ public class CreatePhone {
     private boolean nfc;
     private String color;
     private int guaranteeTimeMonths;
-    private String countryProducerOfTheProduct;
+    private String country;
     private String phoneFrontAndBack;
     private String leftSideAndRightSide;
     private String upSideAndDownSide;

@@ -20,6 +20,7 @@ public class OperationSystem {
     private String id;
 
     @NotBlank
+    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "operationSystem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

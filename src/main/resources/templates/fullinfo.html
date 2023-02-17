@@ -200,12 +200,12 @@
             <div>
                 <h5 style="font-weight: bold;">Brand</h5>
                 <h6 th:text="${'Brand: '+fullInfo.brand.name}"></h6>
-                <h6 th:text="${'Brand registration country: '+fullInfo.brand.brandRegistrationCountry}"></h6>
+                <h6 th:text="${'Brand registration country: '+fullInfo.brand.country.name}"></h6>
             </div>
             <br>
             <div>
                 <h5 style="font-weight: bold;">Country producer of the product</h5>
-                <h6 th:text="${'Country producer of the product: '+fullInfo.countryProducerOfTheProduct}"></h6>
+                <h6 th:text="${'Country producer of the product: '+fullInfo.country.name}"></h6>
             </div>
             <br>
             <div>

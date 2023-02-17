@@ -21,6 +21,7 @@ public class Processor {
     private String id;
 
     @NotBlank
+    @Column(unique = true)
     private String name;
 
     @NotNull

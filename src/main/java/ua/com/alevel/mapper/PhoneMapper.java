@@ -2,6 +2,7 @@ package ua.com.alevel.mapper;
 
 import org.springframework.data.domain.Pageable;
 import ua.com.alevel.model.accessory.*;
+import ua.com.alevel.model.country.Country;
 import ua.com.alevel.model.dto.CreatePhone;
 import ua.com.alevel.model.dto.PhoneColors;
 import ua.com.alevel.model.dto.PhoneForMainView;
@@ -67,7 +68,7 @@ public final class PhoneMapper {
 
     public static Phone mapCreatePhoneToPhone(CreatePhone phone, Brand brand, ChargeType chargeType,
                                               CommunicationStandard communicationStandard, OperationSystem operationSystem,
-                                              Processor processor, TypeScreen typeScreen) {
+                                              Processor processor, TypeScreen typeScreen, Country country) {
         Phone phoneForDb = new Phone();
         phoneForDb.setBrand(brand);
         phoneForDb.setChargeType(chargeType);
@@ -75,6 +76,7 @@ public final class PhoneMapper {
         phoneForDb.setOperationSystem(operationSystem);
         phoneForDb.setProcessor(processor);
         phoneForDb.setTypeScreen(typeScreen);
+        phoneForDb.setCountry(country);
         phoneForDb.setName(phone.getName());
         phoneForDb.setSeries(phone.getSeries());
         phoneForDb.setDiagonal(phone.getDiagonal());
@@ -94,7 +96,6 @@ public final class PhoneMapper {
         phoneForDb.setHaveNfc(phone.isNfc());
         phoneForDb.setColor(phone.getColor());
         phoneForDb.setGuaranteeTimeMonths(phone.getGuaranteeTimeMonths());
-        phoneForDb.setCountryProducerOfTheProduct(phone.getCountryProducerOfTheProduct());
         phoneForDb.setPhoneFrontAndBack(phone.getPhoneFrontAndBack());
         phoneForDb.setLeftSideAndRightSide(phone.getLeftSideAndRightSide());
         phoneForDb.setUpSideAndDownSide(phone.getUpSideAndDownSide());

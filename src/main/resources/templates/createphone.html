@@ -316,13 +316,13 @@
                         </div>
                     </div>
                     <div class="col">
-                        <label for="countryProducerOfTheProduct" class="form-label">Country producer of the
+                        <label class="form-label">Country producer of the
                             product:</label>
-                        <div style="height: 30px; width: 200px;">
-                            <input style="height: 30px; width: 200px;" type="text" class="form-control"
-                                   id="countryProducerOfTheProduct"
-                                   required="true"
-                                   th:field="*{countryProducerOfTheProduct}" th:value="${countryProducerOfTheProduct}">
+                        <div style="height: 30px; width: 240px;">
+                            <select class="select-box" style="height: 30px; width: 240px;" th:field="*{country}">
+                                <option selected="selected"  th:value="${'Select country producer'}">Select country producer</option>
+                                <option th:each="countryOpt : ${countries}" th:text="${countryOpt}" th:value="${countryOpt}"></option>
+                            </select>
                         </div>
                     </div>
                 </div>

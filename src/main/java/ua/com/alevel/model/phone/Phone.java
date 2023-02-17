@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import ua.com.alevel.model.accessory.*;
 import ua.com.alevel.model.check.ClientCheck;
+import ua.com.alevel.model.country.Country;
 import ua.com.alevel.model.rating.Rating;
 import ua.com.alevel.model.shoppingcart.ShoppingCart;
 import javax.persistence.*;
@@ -112,8 +113,9 @@ public class Phone {
     @NotNull
     private int guaranteeTimeMonths;
 
-    @NotBlank
-    private String countryProducerOfTheProduct;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "country_id")
+    private Country country;
 
     @NotBlank
     private String phoneFrontAndBack;

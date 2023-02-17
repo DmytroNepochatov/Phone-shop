@@ -20,6 +20,7 @@ public class CommunicationStandard {
     private String id;
 
     @NotBlank
+    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "communicationStandard", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

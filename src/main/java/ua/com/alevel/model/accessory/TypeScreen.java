@@ -20,6 +20,7 @@ public class TypeScreen {
     private String id;
 
     @NotBlank
+    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "typeScreen", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

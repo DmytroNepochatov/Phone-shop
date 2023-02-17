@@ -5,13 +5,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.mapper.PhoneMapper;
 import ua.com.alevel.model.accessory.*;
+import ua.com.alevel.model.country.Country;
 import ua.com.alevel.model.dto.CreatePhone;
+import ua.com.alevel.model.dto.NewBrand;
 import ua.com.alevel.model.dto.UserOrdersForAdmin;
 import ua.com.alevel.model.phone.Phone;
 import ua.com.alevel.service.brand.BrandService;
 import ua.com.alevel.service.chargetype.ChargeTypeService;
 import ua.com.alevel.service.clientcheck.ClientCheckService;
 import ua.com.alevel.service.communicationstandard.CommunicationStandardService;
+import ua.com.alevel.service.country.CountryService;
 import ua.com.alevel.service.operationsystem.OperationSystemService;
 import ua.com.alevel.service.phone.PhoneService;
 import ua.com.alevel.service.processor.ProcessorService;
@@ -32,6 +35,7 @@ public class AdminController {
     private final ProcessorService processorService;
     private final TypeScreenService typeScreenService;
     private final ClientCheckService clientCheckService;
+    private final CountryService countryService;
     private static final String REGEX = "https://drive.google.com";
     private static final String LEFT_REGEX = "id=";
     private static final String RIGHT_REGEX = "&usp=drive_copy";
@@ -39,7 +43,8 @@ public class AdminController {
     public AdminController(UserDetailsServiceImpl userDetailsServiceImpl, PhoneService phoneService, BrandService brandService,
                            ChargeTypeService chargeTypeService, CommunicationStandardService communicationStandardService,
                            OperationSystemService operationSystemService, ProcessorService processorService,
-                           TypeScreenService typeScreenService, ClientCheckService clientCheckService) {
+                           TypeScreenService typeScreenService, ClientCheckService clientCheckService,
+                           CountryService countryService) {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.phoneService = phoneService;
         this.brandService = brandService;
@@ -49,6 +54,7 @@ public class AdminController {
         this.operationSystemService = operationSystemService;
         this.processorService = processorService;
         this.typeScreenService = typeScreenService;
+        this.countryService = countryService;
     }
 
     @GetMapping("/profile")
@@ -82,6 +88,9 @@ public class AdminController {
         }
         if (phone.getTypeScreen().equals("Select type screen")) {
             return errorMsg(model, "You must choose a type screen");
+        }
+        if (phone.getCountry().equals("Select country producer")) {
+            return errorMsg(model, "You must choose a country producer");
         }
         if (phone.getName().isBlank()) {
             return errorMsg(model, "Name field is empty");
@@ -137,9 +146,6 @@ public class AdminController {
         if (phone.getGuaranteeTimeMonths() <= 0.0) {
             return errorMsg(model, "Incorrect guarantee time in months");
         }
-        if (phone.getCountryProducerOfTheProduct().isBlank()) {
-            return errorMsg(model, "Country producer of the product field is empty");
-        }
         if (phone.getPhoneFrontAndBack().isBlank() || phone.getLeftSideAndRightSide().isBlank()
                 || phone.getUpSideAndDownSide().isBlank()) {
             return errorMsg(model, "Address for phone picture field is empty");
@@ -160,6 +166,7 @@ public class AdminController {
         OperationSystem operationSystem = operationSystemService.findFirstByName(phone.getOperationSystem()).get();
         Processor processor = processorService.findFirstByName(phone.getProcessor()).get();
         TypeScreen typeScreen = typeScreenService.findFirstByName(phone.getTypeScreen()).get();
+        Country country = countryService.findCountryByName(phone.getCountry()).get();
 
         if (phone.getPhoneFrontAndBack().contains(REGEX)) {
             String[] linkParts = phone.getPhoneFrontAndBack().split(LEFT_REGEX);
@@ -186,7 +193,7 @@ public class AdminController {
                 phone.setImei(imeis[i].trim());
 
                 Phone phoneForDb = PhoneMapper.mapCreatePhoneToPhone(phone, brand, chargeType,
-                        communicationStandard, operationSystem, processor, typeScreen);
+                        communicationStandard, operationSystem, processor, typeScreen, country);
 
                 if (!phoneService.save(phoneForDb)) {
                     check = i;
@@ -224,6 +231,7 @@ public class AdminController {
         model.addAttribute("operationSystems", operationSystemService.findAllOperationSystemsNames());
         model.addAttribute("processors", processorService.findAllProcessorsNames());
         model.addAttribute("typeScreens", typeScreenService.findAllTypeScreensNames());
+        model.addAttribute("countries", countryService.findAllCountriesNames());
     }
 
     @GetMapping("/delete")
@@ -266,10 +274,11 @@ public class AdminController {
     @GetMapping("/characteristics/brands")
     public String customizeBrands(Model model, @RequestParam(value = "success") String success) {
         List<Brand> brands = brandService.findAllBrandsForAdmin();
-        Brand newBrand = new Brand();
+        NewBrand newBrand = new NewBrand();
 
         model.addAttribute("brands", brands);
         model.addAttribute("newBrand", newBrand);
+        model.addAttribute("countries", countryService.findAllCountriesNames());
         model.addAttribute("success", success);
         return "сustomizebrands";
     }
@@ -285,16 +294,19 @@ public class AdminController {
     }
 
     @PostMapping("/characteristics/brands/create")
-    public String createBrands(Model model, Brand newBrand) {
+    public String createBrands(Model model, NewBrand newBrand) {
         if (newBrand.getName().isBlank()) {
             return "redirect:/admin/characteristics/brands?success=Name field is empty";
         }
-        if (newBrand.getBrandRegistrationCountry().isBlank()) {
-            return "redirect:/admin/characteristics/brands?success=Brand registration country field is empty";
+        if (newBrand.getCountry().equals("Select country")) {
+            return "redirect:/admin/characteristics/brands?success=You must select country";
         }
 
-        newBrand.setPhones(new ArrayList<>());
-        if (!brandService.save(newBrand)) {
+        Brand brand = new Brand();
+        brand.setName(newBrand.getName());
+        brand.setCountry(countryService.findCountryByName(newBrand.getCountry()).get());
+        brand.setPhones(new ArrayList<>());
+        if (!brandService.save(brand)) {
             return "redirect:/admin/characteristics/brands?success=This brand already exists";
         }
         else {

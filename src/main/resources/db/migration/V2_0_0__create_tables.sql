@@ -1,9 +1,22 @@
+CREATE TABLE IF NOT EXISTS public.country
+(
+    id character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT country_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_llidyp77h6xkeokpbmoy710d4 UNIQUE (name)
+);
+
 CREATE TABLE IF NOT EXISTS public.brand
 (
     id character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    brand_registration_country character varying(255) COLLATE pg_catalog."default",
     name character varying(255) COLLATE pg_catalog."default",
-    CONSTRAINT brand_pkey PRIMARY KEY (id)
+    country_id character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT brand_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_rdxh7tq2xs66r485cc8dkxt77 UNIQUE (name),
+    CONSTRAINT fk8iehti3u9vucvh3qnd6s143pf FOREIGN KEY (country_id)
+        REFERENCES public.country (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 );
 
 
@@ -101,7 +114,6 @@ CREATE TABLE IF NOT EXISTS public.phone
     amount_of_built_in_memory integer NOT NULL,
     amount_of_ram integer NOT NULL,
     color character varying(255) COLLATE pg_catalog."default",
-    country_producer_of_the_product character varying(255) COLLATE pg_catalog."default",
     currency character varying(255) COLLATE pg_catalog."default",
     degree_of_moisture_protection character varying(255) COLLATE pg_catalog."default",
     diagonal real NOT NULL,
@@ -128,12 +140,17 @@ CREATE TABLE IF NOT EXISTS public.phone
     charge_type_id character varying(255) COLLATE pg_catalog."default",
     check_id character varying(255) COLLATE pg_catalog."default",
     communication_standard_id character varying(255) COLLATE pg_catalog."default",
+    country_id character varying(255) COLLATE pg_catalog."default",
     operation_system_id character varying(255) COLLATE pg_catalog."default",
     processor_id character varying(255) COLLATE pg_catalog."default",
     rating_id character varying(255) COLLATE pg_catalog."default",
     shopping_cart_id character varying(255) COLLATE pg_catalog."default",
     type_screen_id character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT phone_pkey PRIMARY KEY (id),
+    CONSTRAINT fk1lsao6buypghr60y1qr4hqccg FOREIGN KEY (country_id)
+        REFERENCES public.country (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
     CONSTRAINT fk4am1tce6224cgaejtvqcdkte4 FOREIGN KEY (operation_system_id)
         REFERENCES public.operation_system (id) MATCH SIMPLE
         ON UPDATE NO ACTION

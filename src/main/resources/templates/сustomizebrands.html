@@ -57,7 +57,7 @@
                             <div class="row">
                                 <div class="col" style="border: 1px solid black;" th:text="${brand.name}"></div>
                                 <div class="col" style="border: 1px solid black;"
-                                     th:text="${brand.brandRegistrationCountry}"></div>
+                                     th:text="${brand.country.name}"></div>
                             </div>
                         </div>
                         <div class="col-1" align="center">
@@ -94,11 +94,12 @@
                 </div>
                 <div class="row">
                     <div class="col" align="center">
-                        <label for="brandRegistrationCountry" class="form-label">Brand registration country:</label>
-                        <div style="height: 30px; width: 200px;">
-                            <input style="height: 30px; width: 200px;" type="text" class="form-control"
-                                   id="brandRegistrationCountry"
-                                   th:field="*{brandRegistrationCountry}" th:value="${brandRegistrationCountry}">
+                        <label  class="form-label">Brand registration country:</label>
+                        <div style="height: 30px; width: 240px;">
+                            <select class="select-box" style="height: 30px; width: 240px;" th:field="*{country}">
+                                <option selected="selected"  th:value="${'Select country'}">Select country</option>
+                                <option th:each="countryOpt : ${countries}" th:text="${countryOpt}" th:value="${countryOpt}"></option>
+                            </select>
                         </div>
                     </div>
                 </div>

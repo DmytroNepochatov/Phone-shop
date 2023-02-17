@@ -1,9 +1,10 @@
-package ua.com.alevel.model.accessory;
+package ua.com.alevel.model.country;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import ua.com.alevel.model.accessory.Brand;
 import ua.com.alevel.model.phone.Phone;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -13,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ChargeType {
+public class Country {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -23,6 +24,9 @@ public class ChargeType {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "chargeType", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Phone> phones;
+
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Brand> brands;
 }
