@@ -11,7 +11,13 @@ import ua.com.alevel.model.dto.UserRegistration;
 import ua.com.alevel.model.user.RegisteredUser;
 import ua.com.alevel.service.clientcheck.ClientCheckService;
 import ua.com.alevel.service.user.UserDetailsServiceImpl;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 @Controller
@@ -20,6 +26,7 @@ public class UserController {
     private static final int REQUIRED_AGE = 16;
     private static final String REGEX_FOR_PHONE_NUMBER = "[a-zA-Z]";
     private static final int PHONE_NUMBER_SIZE = 13;
+    private static final String DATE_PATTERN = "dd.M.yyyy";
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final ClientCheckService clientCheckService;
 
@@ -35,7 +42,7 @@ public class UserController {
     }
 
     @PostMapping("/new")
-    public String saveUser(Model model, UserRegistration userRegistration) {
+    public String saveUser(Model model, UserRegistration userRegistration) throws Exception {
         if (userRegistration.getFirstName().isBlank()) {
             return errorModel(model, new UserRegistration(), "First name field is empty");
         }
@@ -45,10 +52,10 @@ public class UserController {
         if (userRegistration.getLastName().isBlank()) {
             return errorModel(model, new UserRegistration(), "Last name field is empty");
         }
-        if (userRegistration.getAge() <= 0) {
-            return errorModel(model, new UserRegistration(), "Incorrect value in age field");
+        if (!isValidDate(userRegistration.getDateOfBirth())) {
+            return errorModel(model, new UserRegistration(), "Incorrect date of birth");
         }
-        if (userRegistration.getAge() < REQUIRED_AGE) {
+        if (!isRequiredAge(userRegistration.getDateOfBirth())) {
             return errorModel(model, new UserRegistration(), "You're too young");
         }
         if (userRegistration.getPhoneNumber().charAt(0) != '+' || Pattern.compile(REGEX_FOR_PHONE_NUMBER).matcher(userRegistration.getPhoneNumber()).find()
@@ -62,12 +69,37 @@ public class UserController {
             return errorModel(model, new UserRegistration(), "Passwords are different");
         }
 
-        if (!userDetailsServiceImpl.save(userRegistration)) {
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_PATTERN, Locale.ENGLISH);
+
+        if (!userDetailsServiceImpl.save(userRegistration, formatter.parse(userRegistration.getDateOfBirth()))) {
             return errorModel(model, new UserRegistration(), "This email address is already exist");
         }
         else {
             return "login";
         }
+    }
+
+    private boolean isValidDate(String dateStr) {
+        DateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
+        sdf.setLenient(false);
+        try {
+            sdf.parse(dateStr);
+        }
+        catch (ParseException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isRequiredAge(String dateStr) {
+        String[] strBirth = dateStr.split("\\.");
+
+        LocalDate dateBirth = LocalDate.of(Integer.parseInt(strBirth[2]),
+                Integer.parseInt(strBirth[1]), Integer.parseInt(strBirth[0]));
+        LocalDate currentDate = LocalDate.now();
+        Period period = Period.between(dateBirth, currentDate);
+
+        return period.getYears() >= REQUIRED_AGE;
     }
 
     private String errorModel(Model model, UserRegistration userRegistration, String text) {
@@ -83,6 +115,18 @@ public class UserController {
         List<ClientCheck> tempChecks = clientCheckService.findAllNoClosedChecksForUserId(user.getId());
         List<ClientCheck> historyChecks = clientCheckService.findAllClosedChecksForUserId(user.getId());
 
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_PATTERN, Locale.ENGLISH);
+        String dateOfBirth = formatter.format(user.getDateOfBirth());
+
+        String[] strBirth = dateOfBirth.split("\\.");
+        LocalDate dateBirth = LocalDate.of(Integer.parseInt(strBirth[2]),
+                Integer.parseInt(strBirth[1]), Integer.parseInt(strBirth[0]));
+        LocalDate currentDate = LocalDate.now();
+        Period period = Period.between(dateBirth, currentDate);
+        int age = period.getYears();
+
+        model.addAttribute("dateOfBirth", dateOfBirth);
+        model.addAttribute("age", age);
         model.addAttribute("user", user);
         model.addAttribute("tempChecks", tempChecks);
         model.addAttribute("historyChecks", historyChecks);

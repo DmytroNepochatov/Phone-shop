@@ -11,7 +11,7 @@ public class UserRegistration {
     private String lastName;
     private String firstName;
     private String middleName;
-    private int age;
+    private String dateOfBirth;
     private String phoneNumber;
     private String emailAddress;
     private String password;

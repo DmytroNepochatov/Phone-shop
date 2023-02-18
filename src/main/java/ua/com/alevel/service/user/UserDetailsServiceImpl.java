@@ -20,6 +20,7 @@ import ua.com.alevel.model.shoppingcart.ShoppingCart;
 import ua.com.alevel.model.user.RegisteredUser;
 import ua.com.alevel.repository.user.UserRepository;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("userDetailsServiceImpl")
@@ -35,12 +36,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Transactional
-    public boolean save(UserRegistration userRegistration) {
+    public boolean save(UserRegistration userRegistration, Date dateOfBirth) {
         if (userRepository.findFirstByEmailAddress(userRegistration.getEmailAddress()).isPresent()) {
             return false;
         }
 
-        userRepository.save(UserMapper.mapUserRegistrationToRegisteredUserCreate(userRegistration, passwordEncoder));
+        userRepository.save(UserMapper.mapUserRegistrationToRegisteredUserCreate(userRegistration, passwordEncoder, dateOfBirth));
         LOGGER.info("User {} {} {} {} successfully saved", userRegistration.getLastName(), userRegistration.getFirstName(),
                 userRegistration.getMiddleName(), userRegistration.getPhoneNumber());
         return true;

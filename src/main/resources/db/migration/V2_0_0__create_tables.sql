@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS public.shopping_cart
 CREATE TABLE IF NOT EXISTS public.registered_user
 (
     id character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    age integer NOT NULL,
+    date_of_birth timestamp without time zone NOT NULL,
     email_address character varying(255) COLLATE pg_catalog."default",
     first_name character varying(255) COLLATE pg_catalog."default",
     last_name character varying(255) COLLATE pg_catalog."default",
@@ -86,6 +86,7 @@ CREATE TABLE IF NOT EXISTS public.registered_user
     role character varying(255) COLLATE pg_catalog."default",
     shopping_cart_id character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT registered_user_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_f6onv3wuwewrd39x86xydfglw UNIQUE (email_address),
     CONSTRAINT fkc011k7y10339e8on9wn39nd48 FOREIGN KEY (shopping_cart_id)
         REFERENCES public.shopping_cart (id) MATCH SIMPLE
         ON UPDATE NO ACTION

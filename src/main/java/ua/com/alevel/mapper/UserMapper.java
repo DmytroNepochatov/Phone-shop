@@ -8,18 +8,19 @@ import ua.com.alevel.model.shoppingcart.ShoppingCart;
 import ua.com.alevel.model.user.RegisteredUser;
 import ua.com.alevel.model.user.Role;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public final class UserMapper {
     private UserMapper() {
     }
 
-    public static RegisteredUser mapUserRegistrationToRegisteredUserCreate(UserRegistration userRegistration, PasswordEncoder passwordEncoder) {
+    public static RegisteredUser mapUserRegistrationToRegisteredUserCreate(UserRegistration userRegistration, PasswordEncoder passwordEncoder, Date dateOfBirth) {
         RegisteredUser registeredUser = new RegisteredUser();
         registeredUser.setLastName(userRegistration.getLastName());
         registeredUser.setFirstName(userRegistration.getFirstName());
         registeredUser.setMiddleName(userRegistration.getMiddleName());
-        registeredUser.setAge(userRegistration.getAge());
+        registeredUser.setDateOfBirth(dateOfBirth);
         registeredUser.setPhoneNumber(userRegistration.getPhoneNumber());
         registeredUser.setEmailAddress(userRegistration.getEmailAddress());
         registeredUser.setPassword(passwordEncoder.encode(userRegistration.getPassword()));

@@ -11,6 +11,7 @@ import ua.com.alevel.model.shoppingcart.ShoppingCart;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -34,12 +35,13 @@ public class RegisteredUser {
     private String middleName;
 
     @NotNull
-    private int age;
+    private Date dateOfBirth;
 
     @NotBlank
     private String phoneNumber;
 
     @NotBlank
+    @Column(unique = true)
     private String emailAddress;
 
     @NotBlank
