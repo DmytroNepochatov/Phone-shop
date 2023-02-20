@@ -18,6 +18,7 @@ import ua.com.alevel.model.dto.UserOrdersForAdmin;
 import ua.com.alevel.model.dto.UserRegistration;
 import ua.com.alevel.model.shoppingcart.ShoppingCart;
 import ua.com.alevel.model.user.RegisteredUser;
+import ua.com.alevel.repository.shoppingcart.ShoppingCartRepository;
 import ua.com.alevel.repository.user.UserRepository;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,11 +28,13 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ShoppingCartRepository shoppingCartRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
     @Autowired
-    public UserDetailsServiceImpl(UserRepository userRepository) {
+    public UserDetailsServiceImpl(UserRepository userRepository, ShoppingCartRepository shoppingCartRepository) {
         this.userRepository = userRepository;
+        this.shoppingCartRepository = shoppingCartRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -42,6 +45,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         userRepository.save(UserMapper.mapUserRegistrationToRegisteredUserCreate(userRegistration, passwordEncoder, dateOfBirth));
+
+        RegisteredUser user = userRepository.findFirstByEmailAddress(userRegistration.getEmailAddress()).get();
+        ShoppingCart cart = new ShoppingCart();
+        cart.setPhones(new ArrayList<>());
+        cart.setRegisteredUser(user);
+        cart.setPrice(0);
+        shoppingCartRepository.save(cart);
+
         LOGGER.info("User {} {} {} {} successfully saved", userRegistration.getLastName(), userRegistration.getFirstName(),
                 userRegistration.getMiddleName(), userRegistration.getPhoneNumber());
         return true;
@@ -52,7 +63,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public ShoppingCart findShoppingCartForUserEmail(String emailAddress) {
-        return userRepository.findShoppingCartForUserEmail(emailAddress).get();
+        return shoppingCartRepository.findShoppingCartForUserEmail(emailAddress).get();
     }
 
     public List<UserOrdersForAdmin> getUsersOrdersForAdmin() {

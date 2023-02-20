@@ -66,13 +66,6 @@ CREATE TABLE IF NOT EXISTS public.rating
     CONSTRAINT rating_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public.shopping_cart
-(
-    id character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    price double precision NOT NULL,
-    CONSTRAINT shopping_cart_pkey PRIMARY KEY (id)
-);
-
 CREATE TABLE IF NOT EXISTS public.registered_user
 (
     id character varying(255) COLLATE pg_catalog."default" NOT NULL,
@@ -84,11 +77,18 @@ CREATE TABLE IF NOT EXISTS public.registered_user
     password character varying(255) COLLATE pg_catalog."default",
     phone_number character varying(255) COLLATE pg_catalog."default",
     role character varying(255) COLLATE pg_catalog."default",
-    shopping_cart_id character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT registered_user_pkey PRIMARY KEY (id),
-    CONSTRAINT uk_f6onv3wuwewrd39x86xydfglw UNIQUE (email_address),
-    CONSTRAINT fkc011k7y10339e8on9wn39nd48 FOREIGN KEY (shopping_cart_id)
-        REFERENCES public.shopping_cart (id) MATCH SIMPLE
+    CONSTRAINT uk_f6onv3wuwewrd39x86xydfglw UNIQUE (email_address)
+);
+
+CREATE TABLE IF NOT EXISTS public.shopping_cart
+(
+    id character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    price double precision NOT NULL,
+    registered_user_id character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT shopping_cart_pkey PRIMARY KEY (id),
+    CONSTRAINT fk3su8t8ko5anokydt1sgmnqcem FOREIGN KEY (registered_user_id)
+        REFERENCES public.registered_user (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );

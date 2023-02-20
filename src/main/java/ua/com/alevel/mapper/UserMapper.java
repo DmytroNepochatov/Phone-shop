@@ -4,7 +4,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import ua.com.alevel.model.check.ClientCheck;
 import ua.com.alevel.model.dto.UserOrdersForAdmin;
 import ua.com.alevel.model.dto.UserRegistration;
-import ua.com.alevel.model.shoppingcart.ShoppingCart;
 import ua.com.alevel.model.user.RegisteredUser;
 import ua.com.alevel.model.user.Role;
 import java.util.ArrayList;
@@ -26,7 +25,6 @@ public final class UserMapper {
         registeredUser.setPassword(passwordEncoder.encode(userRegistration.getPassword()));
         registeredUser.setComments(new ArrayList<>());
         registeredUser.setChecks(new ArrayList<>());
-        registeredUser.setShoppingCart(new ShoppingCart());
         registeredUser.setRole(Role.USER);
 
         return registeredUser;

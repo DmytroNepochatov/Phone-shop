@@ -64,9 +64,14 @@ public class ShoppingCartController {
 
         String color = findColor(phoneForAddToCart);
 
-        String phoneId = phoneService.findFirstIdPhoneForShoppingCart(phoneForAddToCart.getBrand(), phoneForAddToCart.getName(),
+        List<String> ids = phoneService.findFirstIdPhoneForShoppingCart(phoneForAddToCart.getBrand(), phoneForAddToCart.getName(),
                 phoneForAddToCart.getSeries(), phoneForAddToCart.getAmountOfBuiltInMemory(), phoneForAddToCart.getAmountOfRam(),
-                color).get(0);
+                color);
+
+        String phoneId = null;
+        if (!ids.isEmpty()) {
+            phoneId = ids.get(0);
+        }
 
         if (phoneId == null) {
             return "redirect:/fullinfo?page=1&brand=" + phoneForAddToCart.getBrand() + "&name=" + phoneForAddToCart.getName() + "&series=" + phoneForAddToCart.getSeries() + "&amountOfBuiltInMemory=" + phoneForAddToCart.getAmountOfBuiltInMemory() + "&amountOfRam=" + phoneForAddToCart.getAmountOfRam() +
