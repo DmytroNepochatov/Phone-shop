@@ -58,7 +58,7 @@
                              style="height: 70px; width: 70px;">
                     </div>
                     <div class="col-9" th:text="${phone.brand+' '+ phone.series + ' '+ phone.name
-        +' '+phone.amountOfRam+'/'+phone.amountOfBuiltInMemory+' Gb '+phone.color+ ' '+phone.price+ ' '+phone.currency}"></div>
+        +' '+phone.amountOfRam+'/'+phone.amountOfBuiltInMemory+' Gb '+phone.color+ ' Price: '+phone.price+ ' $'}"></div>
                     <div class="col-2" align="center">
                         <div class="col text-center">
                             <form th:action="${deletePhone}+${phone.id}" th:method="put">

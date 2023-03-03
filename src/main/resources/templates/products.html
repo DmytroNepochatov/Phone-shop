@@ -18,25 +18,36 @@
 <div class="container-fluid">
     <br>
     <div class="row">
-        <div class="col"></div>
+        <div class="col">
+            <div th:if="${searchPage or filtrationPage}">
+                <div class="col text-center" style="padding-right: 120px;">
+                    <a th:href="@{/?page=1}" class="btn btn-primary" role="button" style="width: 150px;">Go back</a>
+                </div>
+            </div>
+        </div>
         <div class="col-7">
-            <nav>
-                <ul class="pagination" th:if="${!phones.empty}">
-                    <li class="page-item"><a class="page-link">Pages:</a></li>
-                    <li class="page-item" th:each="page: ${pages}"
-                        th:if="${searchKeyword == null and pageForFilter == null}"><a class="page-link"
-                                                                                      th:href="${pageForWhat}+${page}"
-                                                                                      th:text="${page}"></a></li>
-                    <li class="page-item" th:each="page: ${pages}"
-                        th:if="${searchKeyword != null and pageForFilter == null}"><a class="page-link"
-                                                                                      th:href="${pageForWhat}+${page}+'&searchKeyword='+${searchKeyword}"
-                                                                                      th:text="${page}"></a></li>
-                    <li class="page-item" th:each="page: ${pages}"
-                        th:if="${searchKeyword == null and pageForFilter != null}"><a class="page-link"
-                                                                                      th:href="${pageForWhat}+${page}+${pageForFilter}+${filterSettings}"
-                                                                                      th:text="${page}"></a></li>
-                </ul>
-            </nav>
+            <div th:if="${searchPage}">
+                <h5 th:text="${'String search result &quot;'+searchKeyword+'&quot;'}"></h5>
+            </div>
+            <div th:if="${!searchPage and !filtrationPage}">
+                <nav>
+                    <ul class="pagination" th:if="${!phones.empty}">
+                        <li class="page-item"><a class="page-link">Pages:</a></li>
+                        <li class="page-item" th:each="page: ${pages}"
+                            th:if="${searchKeyword == null and pageForFilter == null}"><a class="page-link"
+                                                                                          th:href="${pageForWhat}+${page}"
+                                                                                          th:text="${page}"></a></li>
+                        <li class="page-item" th:each="page: ${pages}"
+                            th:if="${searchKeyword != null and pageForFilter == null}"><a class="page-link"
+                                                                                          th:href="${pageForWhat}+${page}+'&searchKeyword='+${searchKeyword}"
+                                                                                          th:text="${page}"></a></li>
+                        <li class="page-item" th:each="page: ${pages}"
+                            th:if="${searchKeyword == null and pageForFilter != null}"><a class="page-link"
+                                                                                          th:href="${pageForWhat}+${page}+${pageForFilter}+${filterSettings}"
+                                                                                          th:text="${page}"></a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
         <div class="col">
             <select class="form-select" aria-label="Default select example" onchange="location = this.value">
@@ -487,13 +498,14 @@
                                 phoneElem.name + ' '+ phoneElem.amountOfRam +'/'+phoneElem.amountOfBuiltInMemory+' Gb'}"></h5>
                                 <p class="card-text" align="left" th:text="${'rating: '+phoneElem.rating}"></p>
                                 <p class="card-text" align="left"
-                                   th:text="${phoneElem.price +' '+phoneElem.currency}"></p>
+                                   th:text="${phoneElem.price +' $'}"></p>
                             </div>
                             <div style="height: 50px; width: 177px;">
                                 <div style="position: absolute; bottom: 15px; left: 0px; right: 0px;">
                                     <a th:href="${'/fullinfo?page=1&brand='+phoneElem.brand+'&name='+phoneElem.name+'&series='
                                     +phoneElem.series+'&amountOfBuiltInMemory='+phoneElem.amountOfBuiltInMemory
-                                    +'&amountOfRam='+phoneElem.amountOfRam+'&successAddToCart='+' '}" class="btn btn-primary">More info</a>
+                                    +'&amountOfRam='+phoneElem.amountOfRam+'&successAddToCart='+' '}"
+                                       class="btn btn-primary">More info</a>
                                 </div>
                             </div>
                         </div>
@@ -505,6 +517,32 @@
                 <h1>Phones not found</h1>
             </div>
         </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-7">
+            <div th:if="${!searchPage and !filtrationPage}">
+                <nav>
+                    <ul class="pagination" th:if="${!phones.empty}">
+                        <li class="page-item"><a class="page-link">Pages:</a></li>
+                        <li class="page-item" th:each="page: ${pages}"
+                            th:if="${searchKeyword == null and pageForFilter == null}"><a class="page-link"
+                                                                                          th:href="${pageForWhat}+${page}"
+                                                                                          th:text="${page}"></a></li>
+                        <li class="page-item" th:each="page: ${pages}"
+                            th:if="${searchKeyword != null and pageForFilter == null}"><a class="page-link"
+                                                                                          th:href="${pageForWhat}+${page}+'&searchKeyword='+${searchKeyword}"
+                                                                                          th:text="${page}"></a></li>
+                        <li class="page-item" th:each="page: ${pages}"
+                            th:if="${searchKeyword == null and pageForFilter != null}"><a class="page-link"
+                                                                                          th:href="${pageForWhat}+${page}+${pageForFilter}+${filterSettings}"
+                                                                                          th:text="${page}"></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="col"></div>
     </div>
 </div>
 

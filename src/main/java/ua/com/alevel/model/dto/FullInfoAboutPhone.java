@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ua.com.alevel.model.phone.Phone;
+import ua.com.alevel.model.phone.PhoneInstance;
 import java.util.List;
 
 @Getter
@@ -12,6 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FullInfoAboutPhone {
-    private Phone phone;
+    private PhoneInstance phoneInstance;
     private List<PhoneColors> phoneColors;
 }

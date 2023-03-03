@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ua.com.alevel.model.check.ClientCheck;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +22,8 @@ public interface ClientCheckRepository extends CrudRepository<ClientCheck, Strin
     @Query("select check from ClientCheck check where check.isClosed = true and check.registeredUser.id = ?1")
     List<ClientCheck> findAllClosedChecksForUserId(String userId);
 
+    @Transactional
     @Modifying
-    @Query("update ClientCheck check set check.isClosed = ?1 where check.id = ?2")
-    void updateCheckClosed(boolean isClosed, String id);
+    @Query("update ClientCheck check set check.isClosed = ?1, check.closedDate = ?2 where check.id = ?3")
+    void updateCheckClosed(boolean isClosed, Date closed, String id);
 }

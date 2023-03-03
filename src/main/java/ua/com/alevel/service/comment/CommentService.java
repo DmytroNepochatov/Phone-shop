@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ua.com.alevel.mapper.CommentMapper;
 import ua.com.alevel.model.check.ClientCheck;
 import ua.com.alevel.model.comment.Comment;
@@ -14,6 +13,8 @@ import ua.com.alevel.model.dto.CommentForPhone;
 import ua.com.alevel.model.dto.CommentForPhoneList;
 import ua.com.alevel.model.dto.PhoneForMainView;
 import ua.com.alevel.model.phone.Phone;
+import ua.com.alevel.model.phone.PhoneInstance;
+import ua.com.alevel.model.user.RegisteredUser;
 import ua.com.alevel.repository.comment.CommentRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,6 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-    @Transactional
     public void save(Comment comment) {
         commentRepository.save(comment);
         LOGGER.info("Comment for phone {} saved", comment.getPhone().getId());
@@ -52,17 +52,37 @@ public class CommentService {
         return (commentsCount % NEED_COMMENTS == 0) ? commentsCount / NEED_COMMENTS : (commentsCount / NEED_COMMENTS) + 1;
     }
 
-    public List<Phone> findAllPhonesWithoutComments(List<ClientCheck> clientCheckList) {
-        List<Phone> result = new ArrayList<>();
+    public List<Phone> findAllAvailablePhonesForComment(RegisteredUser user, List<ClientCheck> clientCheckList, List<Phone> allPhonesInDb) {
+        List<Phone> resultPhones = new ArrayList<>();
+        List<PhoneInstance> allPhonesFromChecks = new ArrayList<>();
+        clientCheckList.forEach(clientCheck -> allPhonesFromChecks.addAll(clientCheck.getPhoneInstances()));
 
-        clientCheckList.forEach(clientCheck -> {
-            clientCheck.getPhones().forEach(phone -> {
-                if (commentRepository.findCommentForPhoneId(phone.getId()).isEmpty()) {
-                    result.add(phone);
+        for (int i = 0; i < allPhonesInDb.size(); i++) {
+            for (PhoneInstance allPhonesFromCheck : allPhonesFromChecks) {
+                if (allPhonesInDb.get(i).equals(allPhonesFromCheck.getPhone())) {
+                    if (commentRepository.findCommentForPhoneCharacteristicsAndRegisteredUser(
+                            allPhonesFromCheck.getPhone().getPhoneDescription().getBrand(),
+                            allPhonesFromCheck.getPhone().getPhoneDescription().getName(),
+                            allPhonesFromCheck.getPhone().getPhoneDescription().getSeries(),
+                            allPhonesFromCheck.getPhone().getAmountOfBuiltInMemory(),
+                            allPhonesFromCheck.getPhone().getAmountOfRam(),
+                            user
+                    ).isEmpty()) {
+                        boolean check = true;
+                        for (Phone resultPhone : resultPhones) {
+                            if (resultPhone.equals(allPhonesInDb.get(i))) {
+                                check = false;
+                            }
+                        }
+
+                        if (check) {
+                            resultPhones.add(allPhonesInDb.get(i));
+                        }
+                    }
                 }
-            });
-        });
+            }
+        }
 
-        return result;
+        return resultPhones;
     }
 }

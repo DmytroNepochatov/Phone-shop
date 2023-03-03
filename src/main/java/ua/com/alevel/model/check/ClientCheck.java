@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import ua.com.alevel.model.phone.Phone;
+import ua.com.alevel.model.phone.PhoneInstance;
 import ua.com.alevel.model.user.RegisteredUser;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,11 +28,10 @@ public class ClientCheck {
     @NotNull
     private Date created;
 
-    @NotNull
-    private double totalPrice;
+    private Date closedDate;
 
     @OneToMany(mappedBy = "clientCheck", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Phone> phones;
+    private List<PhoneInstance> phoneInstances;
 
     private boolean isClosed;
 }

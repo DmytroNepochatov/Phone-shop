@@ -4,19 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.model.accessory.ChargeType;
 import ua.com.alevel.repository.chargetype.ChargeTypeRepository;
-import ua.com.alevel.repository.phone.PhoneRepository;
+import ua.com.alevel.repository.phone.PhoneDescriptionRepository;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ChargeTypeService {
     private final ChargeTypeRepository chargeTypeRepository;
-    private final PhoneRepository phoneRepository;
+    private final PhoneDescriptionRepository phoneDescriptionRepository;
 
     @Autowired
-    public ChargeTypeService(ChargeTypeRepository chargeTypeRepository, PhoneRepository phoneRepository) {
+    public ChargeTypeService(ChargeTypeRepository chargeTypeRepository, PhoneDescriptionRepository phoneDescriptionRepository) {
         this.chargeTypeRepository = chargeTypeRepository;
-        this.phoneRepository = phoneRepository;
+        this.phoneDescriptionRepository = phoneDescriptionRepository;
     }
 
     public Optional<ChargeType> findFirstByName(String name) {
@@ -32,7 +32,7 @@ public class ChargeTypeService {
     }
 
     public boolean delete(String id) {
-        if (phoneRepository.findFirstByChargeType(chargeTypeRepository.findById(id).get()).isPresent()) {
+        if (phoneDescriptionRepository.findFirstByChargeType(chargeTypeRepository.findById(id).get()).isPresent()) {
             return false;
         }
         else {

@@ -1,148 +1,42 @@
 package ua.com.alevel.repository.phone;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
-import ua.com.alevel.model.accessory.*;
-import ua.com.alevel.model.check.ClientCheck;
+import ua.com.alevel.model.accessory.Brand;
 import ua.com.alevel.model.phone.Phone;
-import ua.com.alevel.model.shoppingcart.ShoppingCart;
+import ua.com.alevel.model.phone.PhoneDescription;
+import ua.com.alevel.model.phone.View;
+import ua.com.alevel.model.rating.Rating;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface PhoneRepository extends CrudRepository<Phone, String>, PagingAndSortingRepository<Phone, String> {
-    Optional<Phone> findFirstByImei(String imei);
-
-    Optional<Phone> findFirstByBrandAndNameAndSeriesAndAmountOfBuiltInMemoryAndAmountOfRamAndRatingNotNull(Brand brand, String name, String series, int amountOfBuiltInMemory, int amountOfRam);
-
-    List<Phone> findAllByClientCheckNullAndShoppingCartNull();
 
     @Query(value = "select * from public.phone where phone.id in (\n" +
             "     select SPLIT_PART(STRING_AGG(phone.id, ','), ',', 1)\n" +
-            "     from public.phone as phone where check_id is null\n" +
-            "     group by phone.brand_id, phone.name, phone.series, \n" +
+            "     from public.phone as phone, public.phone_description as phone_description where\n" +
+            "     phone.phone_description_id=phone_description.id\n" +
+            "     group by phone_description.brand_id, phone_description.name, phone_description.series, \n" +
             "     phone.amount_of_built_in_memory, phone.amount_of_ram\n" +
             ")", nativeQuery = true)
-    List<Phone> findAllForMainView(Pageable pageable);
+    List<Phone> findAllPhonesInDb();
 
-    @Query(value = "select * from public.phone where phone.id in (\n" +
-            "     select SPLIT_PART(STRING_AGG(phone.id, ','), ',', 1)\n" +
-            "     from public.phone as phone where check_id is null\n" +
-            "\tand phone.brand_id = ?1 and phone.series = ?2 and phone.name = ?3\n" +
-            "     group by phone.brand_id, phone.name, phone.series, \n" +
-            "     phone.amount_of_built_in_memory, phone.amount_of_ram\n" +
-            ")", nativeQuery = true)
-    List<Phone> findBySearch(String brand, String series, String name, Pageable pageable);
+    Optional<Phone> findFirstByView(View view);
 
-    @Query(value = "select * from public.phone where phone.id in (\n" +
-            "     select SPLIT_PART(STRING_AGG(phone.id, ','), ',', 1)\n" +
-            "     from public.phone as phone where check_id is null\n" +
-            "\tand phone.brand_id = ?1 and phone.name=?2 and phone.series = ?3 \n" +
-            "\tand phone.amount_of_built_in_memory = ?4 and phone.amount_of_ram = ?5\n" +
-            "     group by phone.brand_id, phone.name, phone.series, \n" +
-            "     phone.amount_of_built_in_memory, phone.amount_of_ram\n" +
-            ")", nativeQuery = true)
-    Optional<Phone> findAllInfoAboutPhone(String brand, String name, String series, int amountOfBuiltInMemory, int amountOfRam);
+    Optional<Phone> findFirstByPhoneDescription(PhoneDescription phoneDescription);
 
-    @Query(value = "select * from public.phone where phone.id in (\n" +
-            "     select SPLIT_PART(STRING_AGG(phone.id, ','), ',', 1)\n" +
-            "     from public.phone as phone where check_id is null\n" +
-            "\tand phone.brand_id = ?1 and phone.name=?2 and phone.series = ?3 \n" +
-            "\tand phone.amount_of_built_in_memory = ?4 and phone.amount_of_ram = ?5\n" +
-            "     group by phone.color\n" +
-            ")", nativeQuery = true)
-    List<Phone> findAllColorsForPhone(String brand, String name, String series, int amountOfBuiltInMemory, int amountOfRam);
+    Optional<Phone> findFirstByRating(Rating rating);
 
-    @Query("select brand from Brand brand where brand.id in (select distinct(phone.brand.id) from Phone phone where phone.clientCheck is null )")
-    List<Brand> findAllAvailableBrand();
+    @Query("select phone from Phone phone where phone.view = ?1 and phone.phoneDescription = ?2 and phone.amountOfBuiltInMemory =?3 and phone.amountOfRam =?4")
+    List<Phone> findFirstPhoneForSave(View view, PhoneDescription phoneDescription, int amountOfBuiltInMemory, int amountOfRam);
 
-    @Query("select chargeType from ChargeType chargeType where chargeType.id in (select distinct(phone.chargeType.id) from Phone phone where phone.clientCheck is null )")
-    List<ChargeType> findAllAvailableChargeTypes();
+    @Query("select phone from Phone phone where phone.phoneDescription = ?1 and phone.amountOfBuiltInMemory =?2 and phone.amountOfRam =?3")
+    List<Phone> findFirstPhoneForRating(PhoneDescription phoneDescription, int amountOfBuiltInMemory, int amountOfRam);
 
-    @Query("select communicationStandard from CommunicationStandard communicationStandard where communicationStandard.id in (select distinct(phone.communicationStandard.id) from Phone phone where phone.clientCheck is null )")
-    List<CommunicationStandard> findAllAvailableCommunicationStandards();
-
-    @Query("select operationSystem from OperationSystem operationSystem where operationSystem.id in (select distinct(phone.operationSystem.id) from Phone phone where phone.clientCheck is null )")
-    List<OperationSystem> findAllAvailableOperationSystems();
-
-    @Query("select processor from Processor processor where processor.id in (select distinct(phone.processor.id) from Phone phone where phone.clientCheck is null )")
-    List<Processor> findAllAvailableProcessors();
-
-    @Query("select typeScreen from TypeScreen typeScreen where typeScreen.id in (select distinct(phone.typeScreen.id) from Phone phone where phone.clientCheck is null )")
-    List<TypeScreen> findAllAvailableTypeScreens();
-
-    @Query("select distinct(phone.diagonal) from Phone phone where phone.clientCheck is null")
-    List<Float> findAllAvailableDiagonals();
-
-    @Query("select distinct(phone.displayResolution) from Phone phone where phone.clientCheck is null")
-    List<String> findAllAvailableDisplayResolutions();
-
-    @Query("select distinct(phone.screenRefreshRate) from Phone phone where phone.clientCheck is null")
-    List<Integer> findAllAvailableScreenRefreshRates();
-
-    @Query("select distinct(phone.numberOfSimCards) from Phone phone where phone.clientCheck is null")
-    List<Integer> findAllAvailableNumberOfSimCards();
-
-    @Query("select distinct(phone.amountOfBuiltInMemory) from Phone phone where phone.clientCheck is null")
-    List<Integer> findAllAvailableAmountOfBuiltInMemory();
-
-    @Query("select distinct(phone.amountOfRam) from Phone phone where phone.clientCheck is null")
-    List<Integer> findAllAvailableAmountOfRam();
-
-    @Query("select distinct(phone.numberOfFrontCameras) from Phone phone where phone.clientCheck is null")
-    List<Integer> findAllAvailableNumberOfFrontCameras();
-
-    @Query("select distinct(phone.numberOfMainCameras) from Phone phone where phone.clientCheck is null")
-    List<Integer> findAllAvailableNumberOfMainCameras();
-
-    @Query("select distinct(phone.degreeOfMoistureProtection) from Phone phone where phone.clientCheck is null")
-    List<String> findAllAvailableDegreeOfMoistureProtections();
-
-    @Query(value = "select count(*) from public.phone where phone.id in (\n" +
-            "     select SPLIT_PART(STRING_AGG(phone.id, ','), ',', 1)\n" +
-            "     from public.phone as phone where check_id is null\n" +
-            "     group by phone.brand_id, phone.name, phone.series, \n" +
-            "     phone.amount_of_built_in_memory, phone.amount_of_ram\n" +
-            ")", nativeQuery = true)
-    Optional<Integer> getPagesCount();
-
-    @Query("select phone.id from Phone phone where phone.brand.name = ?1 and phone.name = ?2 and phone.series =?3 " +
-            "and phone.amountOfBuiltInMemory = ?4 and phone.amountOfRam =?5 and phone.color =?6 and phone.clientCheck is null " +
-            "and phone.shoppingCart is null")
-    List<String> findFirstIdPhoneForShoppingCart(String brand, String name, String series, int amountOfBuiltInMemory,
-                                                 int amountOfRam, String color);
-
-    @Modifying
-    @Query("update Phone phone set phone.shoppingCart = ?1 where phone.id = ?2")
-    void setShoppingCartForPhone(ShoppingCart shoppingCart, String phoneId);
-
-    @Modifying
-    @Query("update Phone phone set phone.shoppingCart = null where phone.id = ?1")
-    void delShoppingCartForPhone(String phoneId);
-
-    @Query("select phone.price from Phone phone where phone.id = ?1")
-    double findPriceForPhoneId(String id);
-
-    @Query("select phone from Phone phone where phone.shoppingCart.id = ?1")
-    List<Phone> findAllPhonesForShoppingCartId(String shoppingCartId);
-
-    @Modifying
-    @Query("update Phone phone set phone.clientCheck =?1 where phone.id = ?2")
-    void addPhoneToClientCheck(ClientCheck clientCheck, String phoneId);
-
-    Optional<Phone> findFirstByBrand(Brand brand);
-
-    Optional<Phone> findFirstByChargeType(ChargeType chargeType);
-
-    Optional<Phone> findFirstByCommunicationStandard(CommunicationStandard communicationStandard);
-
-    Optional<Phone> findFirstByOperationSystem(OperationSystem operationSystem);
-
-    Optional<Phone> findFirstByTypeScreen(TypeScreen typeScreen);
-
-    Optional<Phone> findFirstByProcessor(Processor processor);
+    @Query("select phone from Phone phone where phone.phoneDescription.brand = ?1 and phone.phoneDescription.name = ?2 " +
+            "and phone.phoneDescription.series = ?3 and phone.amountOfBuiltInMemory = ?4 and phone.amountOfRam = ?5")
+    List<Phone> findAllPhonesForChange(Brand brand, String name, String series, int amountOfBuiltInMemory, int amountOfRam);
 }

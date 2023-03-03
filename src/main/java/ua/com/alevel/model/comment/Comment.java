@@ -20,14 +20,14 @@ public class Comment {
     private String id;
 
     @NotBlank
-    @Column(length=5000)
+    @Column(length = 5000)
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private RegisteredUser registeredUser;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "phone_id")
     private Phone phone;
 }

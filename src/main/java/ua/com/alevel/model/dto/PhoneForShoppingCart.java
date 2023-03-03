@@ -19,5 +19,4 @@ public class PhoneForShoppingCart {
     private String color;
     private String phoneFrontAndBack;
     private double price;
-    private String currency;
 }

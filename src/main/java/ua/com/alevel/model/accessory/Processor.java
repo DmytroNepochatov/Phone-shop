@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import ua.com.alevel.model.phone.Phone;
+import ua.com.alevel.model.phone.PhoneDescription;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -31,5 +31,5 @@ public class Processor {
     private float coreFrequency;
 
     @OneToMany(mappedBy = "processor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Phone> phones;
+    private List<PhoneDescription> phoneDescriptions;
 }

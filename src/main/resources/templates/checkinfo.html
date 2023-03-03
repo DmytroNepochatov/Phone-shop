@@ -44,30 +44,30 @@
     <div class="row" th:if="${clientCheck.isClosed}">
         <div class="col-2"></div>
         <div class="col-8" align="center"><h5
-                th:text="${'Created: '+clientCheck.created+'. Total price: '+clientCheck.totalPrice+'$. The order was taken from the store.'}"></h5>
+                th:text="${'Created: '+created+', Closed: '+closedDate+'. Total price: '+totalPrice+'$. The order was taken from the store.'}"></h5>
         </div>
         <div class="col-2"></div>
     </div>
     <div class="row" th:if="${!clientCheck.isClosed}">
         <div class="col-2"></div>
         <div class="col-8" align="center"><h5
-                th:text="${'Created: '+clientCheck.created+'. Total price: '+clientCheck.totalPrice+'$. The order is waiting in the store.'}"></h5>
+                th:text="${'Created: '+created+'. Total price: '+totalPrice+'$. The order is waiting in the store.'}"></h5>
         </div>
         <div class="col-2"></div>
     </div>
 
     <br>
     <div>
-        <div class="row" th:each="phone: ${clientCheck.phones}">
+        <div class="row" th:each="phoneInstance: ${clientCheck.phoneInstances}">
             <div class="col"></div>
             <div class="col-7" style="height: 90px; border: 1px solid black;">
                 <div class="row align-items-center" style="height: 90px;">
                     <div class="col-1">
-                        <img th:src="${phone.phoneFrontAndBack}" class="card-img-top"
+                        <img th:src="${phoneInstance.phone.view.phoneFrontAndBack}" class="card-img-top"
                              style="height: 70px; width: 70px;">
                     </div>
-                    <div class="col" th:text="${phone.brand.name+' '+ phone.series + ' '+ phone.name
-        +' '+phone.amountOfRam+'/'+phone.amountOfBuiltInMemory+' Gb '+phone.color+ ' '+phone.price+ ' '+phone.currency}"></div>
+                    <div class="col" th:text="${phoneInstance.phone.phoneDescription.brand.name+' '+ phoneInstance.phone.phoneDescription.series + ' '+ phoneInstance.phone.phoneDescription.name
+        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb '+phoneInstance.phone.view.color+ ' Price: '+phoneInstance.price+ ' $'}"></div>
                 </div>
             </div>
             <div class="col"></div>

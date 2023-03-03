@@ -27,11 +27,11 @@
         <div class="col" style="height: 90px; border: 1px solid black;">
             <div class="row align-items-center" style="height: 90px;">
                 <div class="col">
-                    <img th:src="${phone.phoneFrontAndBack}" class="card-img-top"
+                    <img th:src="${phone.view.phoneFrontAndBack}" class="card-img-top"
                          style="height: 70px; width: 70px;">
                 </div>
-                <div class="col-10" th:text="${phone.brand.name+' '+ phone.series + ' '+ phone.name
-        +' '+phone.amountOfRam+'/'+phone.amountOfBuiltInMemory+' Gb '+phone.color+ ' '+phone.price+ ' '+phone.currency}"></div>
+                <div class="col-10" th:text="${phone.phoneDescription.brand.name+' '+ phone.phoneDescription.series + ' '+ phone.phoneDescription.name
+        +' '+phone.amountOfRam+'/'+phone.amountOfBuiltInMemory+' Gb Price: '+price+ ' $'}"></div>
             </div>
         </div>
         <div class="col-3"></div>

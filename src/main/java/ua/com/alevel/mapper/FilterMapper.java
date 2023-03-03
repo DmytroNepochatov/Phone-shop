@@ -2,7 +2,7 @@ package ua.com.alevel.mapper;
 
 import ua.com.alevel.model.accessory.*;
 import ua.com.alevel.model.dto.filterparams.*;
-import ua.com.alevel.service.phone.PhoneService;
+import ua.com.alevel.service.phone.PhoneInstanceService;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,23 +115,23 @@ public final class FilterMapper {
         return degreeOfMoistureProtectionForMainViewList;
     }
 
-    public static FilterSettings mapParamsToFilterSettings(PhoneService phoneService) {
-        List<BrandForMainView> brandForMainViewList = phoneService.findAllAvailableBrand();
-        List<ChargeTypeForMainView> chargeTypeForMainViewList = phoneService.findAllAvailableChargeTypes();
-        List<CommunicationStandardForMainView> communicationStandardForMainViewList = phoneService.findAllAvailableCommunicationStandards();
-        List<OperationSystemForMainView> operationSystemForMainViewList = phoneService.findAllAvailableOperationSystems();
-        List<ProcessorForMainView> processorForMainViewList = phoneService.findAllAvailableProcessors();
-        List<TypeScreenForMainView> typeScreenForMainViewList = phoneService.findAllAvailableTypeScreens();
-        List<DiagonalForMainView> diagonalForMainViewList = phoneService.findAllAvailableDiagonals();
-        List<DisplayResolutionForMainView> displayResolutionForMainViewList = phoneService.findAllAvailableDisplayResolutions();
-        List<ScreenRefreshRateForMainView> screenRefreshRateForMainViewList = phoneService.findAllAvailableScreenRefreshRates();
-        List<NumberOfSimCardForMainView> numberOfSimCardForMainViewList = phoneService.findAllAvailableNumberOfSimCards();
-        List<AmountOfBuiltInMemoryForMainView> amountOfBuiltInMemoryForMainViewList = phoneService.findAllAvailableAmountOfBuiltInMemory();
-        List<AmountOfRamForMainView> amountOfRamForMainViewList = phoneService.findAllAvailableAmountOfRam();
-        List<NumberOfFrontCameraForMainView> numberOfFrontCameraForMainViewList = phoneService.findAllAvailableNumberOfFrontCameras();
-        List<NumberOfMainCameraForMainView> numberOfMainCameraForMainViewList = phoneService.findAllAvailableNumberOfMainCameras();
-        List<DegreeOfMoistureProtectionForMainView> degreeOfMoistureProtectionForMainViewList = phoneService.findAllAvailableDegreeOfMoistureProtection();
-        List<NfcForMainView> nfcForMainViewList = phoneService.getNfcTypes();
+    public static FilterSettings mapParamsToFilterSettings(PhoneInstanceService phoneInstanceService) {
+        List<BrandForMainView> brandForMainViewList = phoneInstanceService.findAllAvailableBrand();
+        List<ChargeTypeForMainView> chargeTypeForMainViewList = phoneInstanceService.findAllAvailableChargeTypes();
+        List<CommunicationStandardForMainView> communicationStandardForMainViewList = phoneInstanceService.findAllAvailableCommunicationStandards();
+        List<OperationSystemForMainView> operationSystemForMainViewList = phoneInstanceService.findAllAvailableOperationSystems();
+        List<ProcessorForMainView> processorForMainViewList = phoneInstanceService.findAllAvailableProcessors();
+        List<TypeScreenForMainView> typeScreenForMainViewList = phoneInstanceService.findAllAvailableTypeScreens();
+        List<DiagonalForMainView> diagonalForMainViewList = phoneInstanceService.findAllAvailableDiagonals();
+        List<DisplayResolutionForMainView> displayResolutionForMainViewList = phoneInstanceService.findAllAvailableDisplayResolutions();
+        List<ScreenRefreshRateForMainView> screenRefreshRateForMainViewList = phoneInstanceService.findAllAvailableScreenRefreshRates();
+        List<NumberOfSimCardForMainView> numberOfSimCardForMainViewList = phoneInstanceService.findAllAvailableNumberOfSimCards();
+        List<AmountOfBuiltInMemoryForMainView> amountOfBuiltInMemoryForMainViewList = phoneInstanceService.findAllAvailableAmountOfBuiltInMemory();
+        List<AmountOfRamForMainView> amountOfRamForMainViewList = phoneInstanceService.findAllAvailableAmountOfRam();
+        List<NumberOfFrontCameraForMainView> numberOfFrontCameraForMainViewList = phoneInstanceService.findAllAvailableNumberOfFrontCameras();
+        List<NumberOfMainCameraForMainView> numberOfMainCameraForMainViewList = phoneInstanceService.findAllAvailableNumberOfMainCameras();
+        List<DegreeOfMoistureProtectionForMainView> degreeOfMoistureProtectionForMainViewList = phoneInstanceService.findAllAvailableDegreeOfMoistureProtection();
+        List<NfcForMainView> nfcForMainViewList = phoneInstanceService.getNfcTypes();
 
         return new FilterSettings(brandForMainViewList, chargeTypeForMainViewList, communicationStandardForMainViewList,
                 operationSystemForMainViewList, processorForMainViewList, typeScreenForMainViewList, diagonalForMainViewList,

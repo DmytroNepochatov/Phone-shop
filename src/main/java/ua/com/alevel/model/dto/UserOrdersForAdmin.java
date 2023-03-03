@@ -11,10 +11,18 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserOrdersForAdmin {
+public class UserOrdersForAdmin implements Comparable<UserOrdersForAdmin> {
     private String lastName;
     private String firstName;
     private String middleName;
     private String phoneNumber;
     private List<ClientCheck> checks;
+    private List<String> dates;
+    private List<String> datesClosed;
+    private List<Double> totalPrices;
+
+    @Override
+    public int compareTo(UserOrdersForAdmin o) {
+        return this.lastName.compareTo(o.lastName);
+    }
 }

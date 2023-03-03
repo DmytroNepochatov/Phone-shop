@@ -1,0 +1,68 @@
+<!DOCTYPE HTML SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="en">
+
+<head th:replace="menu :: header-css">
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous">
+    <link rel="shortcut icon" th:href="@{/images/brand.ico}" href="../static/images/brand.ico" type="image/x-icon">
+</head>
+<body>
+<div th:replace="menu :: menu"></div>
+
+<div class="container-fluid">
+    <br>
+    <div class="row">
+        <div class="col">
+            <div class="row my-2">
+                <div class="col text-center" style="padding-right: 90px;">
+                    <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
+                        to profile
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-6"></div>
+        <div class="col-3"></div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6" align="center">
+            <h6 th:if="${phoneForStoreCompositions.empty}" th:text="${'No phones in stock'}"></h6>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    <br>
+    <div th:if="${!phoneForStoreCompositions.empty}">
+        <div class="row" th:each="phoneForStoreComposition: ${phoneForStoreCompositions}">
+            <div class="col-2"></div>
+            <div class="col" style="height: 90px; border: 1px solid black;">
+                <div class="row align-items-center" style="height: 90px;">
+                    <div class="col-1">
+                        <img th:src="${phoneForStoreComposition.phone.view.phoneFrontAndBack}" class="card-img-top"
+                             style="height: 70px; width: 70px;">
+                    </div>
+                    <div class="col-11" th:text="${phoneForStoreComposition.phone.phoneDescription.brand.name+' '+ phoneForStoreComposition.phone.phoneDescription.series + ' '+ phoneForStoreComposition.phone.phoneDescription.name
+        +' '+phoneForStoreComposition.phone.amountOfRam+'/'+phoneForStoreComposition.phone.amountOfBuiltInMemory+' Gb '+phoneForStoreComposition.phone.view.color+ ' '+phoneForStoreComposition.price+ ' $, quantity: '+phoneForStoreComposition.countInStore+' units'}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+    <br>
+    <br>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous">
+</script>
+</body>
+</html>

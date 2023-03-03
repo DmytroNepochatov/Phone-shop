@@ -32,6 +32,6 @@ public final class UserMapper {
 
     public static UserOrdersForAdmin mapRegisteredUsersToUsersOrdersForAdmin(RegisteredUser registeredUser, List<ClientCheck> checkList) {
         return new UserOrdersForAdmin(registeredUser.getLastName(), registeredUser.getFirstName(),
-                registeredUser.getMiddleName(), registeredUser.getPhoneNumber(), checkList);
+                registeredUser.getMiddleName(), registeredUser.getPhoneNumber(), checkList, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 }

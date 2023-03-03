@@ -44,16 +44,16 @@
         <div class="col-3"></div>
     </div>
     <div th:if="${!phones.empty}">
-        <div class="row" th:each="phone: ${phones}">
+        <div class="row" th:each="phone, state: ${phones}">
             <div class="col-2"></div>
             <div class="col" style="height: 90px; border: 1px solid black;">
                 <div class="row align-items-center" style="height: 90px;">
                     <div class="col-1">
-                        <img th:src="${phone.phoneFrontAndBack}" class="card-img-top"
+                        <img th:src="${phone.view.phoneFrontAndBack}" class="card-img-top"
                              style="height: 70px; width: 70px;">
                     </div>
-                    <div class="col-8" th:text="${phone.brand.name+' '+ phone.series + ' '+ phone.name
-        +' '+phone.amountOfRam+'/'+phone.amountOfBuiltInMemory+' Gb '+phone.color+ ' '+phone.price+ ' '+phone.currency}"></div>
+                    <div class="col-8" th:text="${phone.phoneDescription.brand.name+' '+ phone.phoneDescription.series + ' '+ phone.phoneDescription.name
+        +' '+phone.amountOfRam+'/'+phone.amountOfBuiltInMemory+' Gb '+prices[__${state.index}__]+ ' $'}"></div>
                     <div class="col-3" align="center">
                         <div class="col text-center">
                             <a th:href="${'/comments/add-comment?id='+phone.id}" class="btn btn-primary" role="button"

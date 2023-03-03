@@ -12,5 +12,5 @@ import lombok.Setter;
 public class CommentForSave {
     private String description;
     private String phoneId;
-    private int rating;
+    private String rating;
 }

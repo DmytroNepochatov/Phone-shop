@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ua.com.alevel.mapper.UserMapper;
 import ua.com.alevel.model.check.ClientCheck;
 import ua.com.alevel.model.dto.UserOrdersForAdmin;
@@ -38,7 +37,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    @Transactional
     public boolean save(UserRegistration userRegistration, Date dateOfBirth) {
         if (userRepository.findFirstByEmailAddress(userRegistration.getEmailAddress()).isPresent()) {
             return false;
@@ -48,9 +46,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         RegisteredUser user = userRepository.findFirstByEmailAddress(userRegistration.getEmailAddress()).get();
         ShoppingCart cart = new ShoppingCart();
-        cart.setPhones(new ArrayList<>());
+        cart.setPhoneInstances(new ArrayList<>());
         cart.setRegisteredUser(user);
-        cart.setPrice(0);
         shoppingCartRepository.save(cart);
 
         LOGGER.info("User {} {} {} {} successfully saved", userRegistration.getLastName(), userRegistration.getFirstName(),
@@ -66,13 +63,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return shoppingCartRepository.findShoppingCartForUserEmail(emailAddress).get();
     }
 
-    public List<UserOrdersForAdmin> getUsersOrdersForAdmin() {
+    public List<UserOrdersForAdmin> getUsersOrdersForAdmin(boolean flag) {
         List<UserOrdersForAdmin> usersOrdersForAdmin = new ArrayList<>();
 
         for (RegisteredUser registeredUser : userRepository.findAll()) {
             List<ClientCheck> checkList = new ArrayList<>();
             registeredUser.getChecks().forEach(check -> {
-                if (!check.isClosed()) {
+                if (!check.isClosed() && flag) {
+                    checkList.add(check);
+                }
+                if (check.isClosed() && !flag) {
                     checkList.add(check);
                 }
             });

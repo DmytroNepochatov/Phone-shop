@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PhoneForMainView {
+public class PhoneForMainView implements Comparable<PhoneForMainView> {
     private String id;
     private String brand;
     private float rating;
@@ -19,5 +19,15 @@ public class PhoneForMainView {
     private int amountOfRam;
     private String phoneFrontAndBack;
     private double price;
-    private String currency;
+
+    @Override
+    public int compareTo(PhoneForMainView o) {
+        if (price > o.price) {
+            return 1;
+        }
+        if (price < o.price) {
+            return -1;
+        }
+        return 0;
+    }
 }

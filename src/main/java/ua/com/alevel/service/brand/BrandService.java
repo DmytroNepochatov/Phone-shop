@@ -4,19 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.model.accessory.Brand;
 import ua.com.alevel.repository.brand.BrandRepository;
-import ua.com.alevel.repository.phone.PhoneRepository;
+import ua.com.alevel.repository.phone.PhoneDescriptionRepository;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class BrandService {
     private final BrandRepository brandRepository;
-    private final PhoneRepository phoneRepository;
+    private final PhoneDescriptionRepository phoneDescriptionRepository;
 
     @Autowired
-    public BrandService(BrandRepository brandRepository, PhoneRepository phoneRepository) {
+    public BrandService(BrandRepository brandRepository, PhoneDescriptionRepository phoneDescriptionRepository) {
         this.brandRepository = brandRepository;
-        this.phoneRepository = phoneRepository;
+        this.phoneDescriptionRepository = phoneDescriptionRepository;
     }
 
     public Optional<Brand> findBrandByName(String name) {
@@ -32,7 +32,7 @@ public class BrandService {
     }
 
     public boolean delete(String id) {
-        if (phoneRepository.findFirstByBrand(brandRepository.findById(id).get()).isPresent()) {
+        if (phoneDescriptionRepository.findFirstByBrand(brandRepository.findById(id).get()).isPresent()) {
             return false;
         }
         else {

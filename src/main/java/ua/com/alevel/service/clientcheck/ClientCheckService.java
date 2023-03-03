@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ua.com.alevel.model.check.ClientCheck;
 import ua.com.alevel.repository.clientcheck.ClientCheckRepository;
 import java.util.Date;
@@ -21,7 +20,6 @@ public class ClientCheckService {
         this.clientCheckRepository = clientCheckRepository;
     }
 
-    @Transactional
     public void save(ClientCheck clientCheck) {
         clientCheckRepository.save(clientCheck);
         LOGGER.info("Client check for user {} saved", clientCheck.getRegisteredUser().getId());
@@ -43,9 +41,8 @@ public class ClientCheckService {
         return clientCheckRepository.findById(id).get();
     }
 
-    @Transactional
     public void updateCheckClosed(boolean isClosed, String id) {
-        clientCheckRepository.updateCheckClosed(isClosed, id);
+        clientCheckRepository.updateCheckClosed(isClosed, new Date(), id);
         LOGGER.info("Check with id {} closed", id);
     }
 }

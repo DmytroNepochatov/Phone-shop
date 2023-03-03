@@ -4,19 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.model.accessory.OperationSystem;
 import ua.com.alevel.repository.operationsystem.OperationSystemRepository;
-import ua.com.alevel.repository.phone.PhoneRepository;
+import ua.com.alevel.repository.phone.PhoneDescriptionRepository;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class OperationSystemService {
     private final OperationSystemRepository operationSystemRepository;
-    private final PhoneRepository phoneRepository;
+    private final PhoneDescriptionRepository phoneDescriptionRepository;
 
     @Autowired
-    public OperationSystemService(OperationSystemRepository operationSystemRepository, PhoneRepository phoneRepository) {
+    public OperationSystemService(OperationSystemRepository operationSystemRepository, PhoneDescriptionRepository phoneDescriptionRepository) {
         this.operationSystemRepository = operationSystemRepository;
-        this.phoneRepository = phoneRepository;
+        this.phoneDescriptionRepository = phoneDescriptionRepository;
     }
 
     public Optional<OperationSystem> findFirstByName(String name) {
@@ -32,7 +32,7 @@ public class OperationSystemService {
     }
 
     public boolean delete(String id) {
-        if (phoneRepository.findFirstByOperationSystem(operationSystemRepository.findById(id).get()).isPresent()) {
+        if (phoneDescriptionRepository.findFirstByOperationSystem(operationSystemRepository.findById(id).get()).isPresent()) {
             return false;
         }
         else {

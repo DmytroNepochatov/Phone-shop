@@ -4,19 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.model.accessory.CommunicationStandard;
 import ua.com.alevel.repository.communicationstandard.CommunicationStandardRepository;
-import ua.com.alevel.repository.phone.PhoneRepository;
+import ua.com.alevel.repository.phone.PhoneDescriptionRepository;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CommunicationStandardService {
     private final CommunicationStandardRepository communicationStandardRepository;
-    private final PhoneRepository phoneRepository;
+    private final PhoneDescriptionRepository phoneDescriptionRepository;
 
     @Autowired
-    public CommunicationStandardService(CommunicationStandardRepository communicationStandardRepository, PhoneRepository phoneRepository) {
+    public CommunicationStandardService(CommunicationStandardRepository communicationStandardRepository, PhoneDescriptionRepository phoneDescriptionRepository) {
         this.communicationStandardRepository = communicationStandardRepository;
-        this.phoneRepository = phoneRepository;
+        this.phoneDescriptionRepository = phoneDescriptionRepository;
     }
 
     public Optional<CommunicationStandard> findFirstByName(String name) {
@@ -32,7 +32,7 @@ public class CommunicationStandardService {
     }
 
     public boolean delete(String id) {
-        if (phoneRepository.findFirstByCommunicationStandard(communicationStandardRepository.findById(id).get()).isPresent()) {
+        if (phoneDescriptionRepository.findFirstByCommunicationStandard(communicationStandardRepository.findById(id).get()).isPresent()) {
             return false;
         }
         else {

@@ -50,35 +50,38 @@
                         +order.phoneNumber}"></h6>
                     </div>
                 </div>
-                <div class="row" th:each="check: ${order.checks}">
+                <div class="row" th:each="check, state: ${order.checks}">
                     <div class="col-1"></div>
                     <div class="col">
                         <div class="row">
                             <div class="col">
-                                <h6 th:text="${'Order number: '+check.id+'. Created: '+check.created +'. Total price: '+check.totalPrice+'$.'}"></h6>
+                                <h6 th:if="${flag}" th:text="${'Order number: '+check.id+'. Created: '+order.dates[__${state.index}__] +'. Total price: '+order.totalPrices[__${state.index}__]+'$.'}"></h6>
+                                <h6 th:if="${!flag}" th:text="${'Order number: '+check.id+'. Created: '+order.dates[__${state.index}__] +'. Closed: '+order.datesClosed[__${state.index}__]+'. Total price: '+order.totalPrices[__${state.index}__]+'$.'}"></h6>
                             </div>
                         </div>
-                        <div class="row" th:each="phone: ${check.phones}">
+                        <div class="row" th:each="phoneInstance: ${check.phoneInstances}">
                             <div class="col-1"></div>
                             <div class="col" style="height: 90px; border: 1px solid black;">
                                 <div class="row align-items-center" style="height: 90px;">
                                     <div class="col-1">
-                                        <img th:src="${phone.phoneFrontAndBack}" class="card-img-top"
+                                        <img th:src="${phoneInstance.phone.view.phoneFrontAndBack}" class="card-img-top"
                                              style="height: 70px; width: 70px;">
                                     </div>
-                                    <div class="col" th:text="${phone.brand.name+' '+ phone.series + ' '+ phone.name
-        +' '+phone.amountOfRam+'/'+phone.amountOfBuiltInMemory+' Gb '+phone.color+ ' '+phone.price+ ' '+phone.currency}"></div>
+                                    <div class="col" th:text="${phoneInstance.phone.phoneDescription.brand.name+' '+ phoneInstance.phone.phoneDescription.series + ' '+ phoneInstance.phone.phoneDescription.name
+        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb '+phoneInstance.phone.view.color+ ' IMEI: '+phoneInstance.imei+' Price: '+phoneInstance.price+ ' $'}"></div>
                                 </div>
                             </div>
                             <div class="col-1"></div>
                         </div>
                     </div>
                     <div class="col-1">
+                        <div th:if="${flag}">
                         <form th:action="${'/admin/close-order?id='+check.id}" th:method="put">
                             <div class="col text-center">
                                 <button type="submit" class="btn btn-primary" style="width: 80px;">Close</button>
                             </div>
                         </form>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
