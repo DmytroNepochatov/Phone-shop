@@ -10,8 +10,8 @@ import ua.com.alevel.model.dto.filterparams.*;
 import ua.com.alevel.service.brand.BrandService;
 import ua.com.alevel.service.comment.CommentService;
 import ua.com.alevel.service.phone.PhoneInstanceService;
+import ua.com.alevel.util.Util;
 import java.util.*;
-import static org.apache.commons.lang.NumberUtils.isNumber;
 
 @Controller
 public class ProductsController {
@@ -20,8 +20,26 @@ public class ProductsController {
     private final BrandService brandService;
     private static final String REDIRECT_PAGE_ONE = "redirect:/?page=1";
     private static final String PRODUCTS_PAGE = "products";
+    private static final String NO_SORT = "No sort";
+    private static final String SORT_BY_PRICE_ASCENDING = "Sort by price ascending";
+    private static final String SORT_BY_PRICE_DESCENDING = "Sort by price descending";
+    private static final String SLASH_SORT_BY_PRICE_ASCENDING = "/sort-by-price-ascending";
+    private static final String SLASH_SORT_BY_PRICE_DESCENDING = "/sort-by-price-descending";
+    private static final String SEARCH_KEYWORD = "/search?searchKeyword=";
+    private static final String SORT_BY_PRICE_ASCENDING_SEARCH = "/sort-by-price-ascending-search?searchKeyword=";
+    private static final String SORT_BY_PRICE_DESCENDING_SEARCH = "/sort-by-price-descending-search?searchKeyword=";
+    private static final String PHONES = "phones";
+    private static final String FILTER_SETTINGS = "filterSettings";
+    private static final String LIST_SORTS = "listSorts";
+    private static final String LIST_SORTS_LINKS = "listSortsLinks";
+    private static final String SEARCH_PAGE = "searchPage";
+    private static final String FILTRATION_PAGE = "filtrationPage";
+    private static final String NO_SORT_FILTRATION = "/no-sort-filtration?params=";
+    private static final String SORT_BY_PRICE_ASCENDING_FILTRATION = "/sort-by-price-ascending-filtration?params=";
+    private static final String SORT_BY_PRICE_DESCENDING_FILTRATION = "/sort-by-price-descending-filtration?params=";
 
-    public ProductsController(PhoneInstanceService phoneInstanceService, CommentService commentService, BrandService brandService) {
+    public ProductsController(PhoneInstanceService phoneInstanceService,
+                              CommentService commentService, BrandService brandService) {
         this.phoneInstanceService = phoneInstanceService;
         this.commentService = commentService;
         this.brandService = brandService;
@@ -30,24 +48,6 @@ public class ProductsController {
     @GetMapping("/")
     public String showMainPage(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
         return showMainPageRealization(model, page);
-    }
-
-    private String showMainPageRealization(Model model, int page) {
-        PhonesForMainViewList products = phoneInstanceService.findAllForMainView(page);
-        checkList(products);
-        List<Integer> pages = new ArrayList<>(products.getPages());
-
-        for (int i = 0; i < products.getPages(); i++) {
-            pages.add(i + 1);
-        }
-
-        String pageForWhat = "/?page=";
-        FilterSettings filterSettings = FilterMapper.mapParamsToFilterSettings(phoneInstanceService);
-        List<String> listSorts = List.of("No sort", "Sort by price ascending", "Sort by price descending");
-        List<String> listSortsLinks = List.of("/", "/sort-by-price-ascending", "/sort-by-price-descending");
-
-        addToAttributes(model, products, pages, pageForWhat, filterSettings, listSorts, listSortsLinks);
-        return PRODUCTS_PAGE;
     }
 
     @GetMapping("/search")
@@ -60,24 +60,13 @@ public class ProductsController {
         }
     }
 
-    private String searchPhonesRealization(Model model, String searchKeyword) {
-        PhonesForMainViewList products = phoneInstanceService.findBySearch(searchKeyword);
-
-        List<String> listSorts = List.of("No sort", "Sort by price ascending", "Sort by price descending");
-        List<String> listSortsLinks = List.of("/search?searchKeyword=" + searchKeyword,
-                "/sort-by-price-ascending-search?searchKeyword=" + searchKeyword,
-                "/sort-by-price-descending-search?searchKeyword=" + searchKeyword);
-
-        return partForSearches(model, products, listSorts, listSortsLinks, searchKeyword);
-    }
-
     @GetMapping("/sort-by-price-ascending-search")
     public String searchPhonesAsc(Model model, @RequestParam(value = "searchKeyword") String searchKeyword) {
         PhonesForMainViewList products = phoneInstanceService.findBySearchAsc(searchKeyword);
 
-        List<String> listSorts = List.of("Sort by price ascending", "No sort", "Sort by price descending");
-        List<String> listSortsLinks = List.of("/sort-by-price-ascending-search?searchKeyword=" + searchKeyword,
-                "/search?searchKeyword=" + searchKeyword, "/sort-by-price-descending-search?searchKeyword=" + searchKeyword);
+        List<String> listSorts = List.of(SORT_BY_PRICE_ASCENDING, NO_SORT, SORT_BY_PRICE_DESCENDING);
+        List<String> listSortsLinks = List.of(SORT_BY_PRICE_ASCENDING_SEARCH + searchKeyword,
+                SEARCH_KEYWORD + searchKeyword, SORT_BY_PRICE_DESCENDING_SEARCH + searchKeyword);
 
         return partForSearches(model, products, listSorts, listSortsLinks, searchKeyword);
     }
@@ -86,36 +75,11 @@ public class ProductsController {
     public String searchPhonesDesc(Model model, @RequestParam(value = "searchKeyword") String searchKeyword) {
         PhonesForMainViewList products = phoneInstanceService.findBySearchDesc(searchKeyword);
 
-        List<String> listSorts = List.of("Sort by price descending", "No sort", "Sort by price ascending");
-        List<String> listSortsLinks = List.of("/sort-by-price-descending-search?searchKeyword=" + searchKeyword,
-                "/search?searchKeyword=" + searchKeyword, "/sort-by-price-ascending-search?searchKeyword=" + searchKeyword);
+        List<String> listSorts = List.of(SORT_BY_PRICE_DESCENDING, NO_SORT, SORT_BY_PRICE_ASCENDING);
+        List<String> listSortsLinks = List.of(SORT_BY_PRICE_DESCENDING_SEARCH + searchKeyword,
+                SEARCH_KEYWORD + searchKeyword, SORT_BY_PRICE_ASCENDING_SEARCH + searchKeyword);
 
         return partForSearches(model, products, listSorts, listSortsLinks, searchKeyword);
-    }
-
-    private String partForSearches(Model model, PhonesForMainViewList products, List<String> listSorts,
-                                   List<String> listSortsLinks, String searchKeyword) {
-        FilterSettings filterSettings = FilterMapper.mapParamsToFilterSettings(phoneInstanceService);
-        List<String> brands = new ArrayList<>();
-        products.getPhonesForMainView().forEach(phone -> brands.add(phone.getBrand()));
-        Set<String> uniqueBrands = new LinkedHashSet<>(brands);
-
-        for (String uniqueBrand : uniqueBrands) {
-            for (BrandForMainView brandForMainView : filterSettings.getBrandForMainViewList()) {
-                if (brandForMainView.getName().equals(uniqueBrand)) {
-                    brandForMainView.setEnabled(true);
-                }
-            }
-        }
-
-        model.addAttribute("phones", products.getPhonesForMainView());
-        model.addAttribute("filterSettings", filterSettings);
-        model.addAttribute("listSorts", listSorts);
-        model.addAttribute("listSortsLinks", listSortsLinks);
-        model.addAttribute("searchKeyword", searchKeyword);
-        model.addAttribute("searchPage", true);
-        model.addAttribute("filtrationPage", false);
-        return PRODUCTS_PAGE;
     }
 
     @GetMapping("/sort-by-price-ascending")
@@ -123,50 +87,14 @@ public class ProductsController {
         return sortByPriceAscendingRealization(model, page);
     }
 
-    private String sortByPriceAscendingRealization(Model model, int page) {
-        PhonesForMainViewList products = phoneInstanceService.sortByPriceAsc(page);
-        checkList(products);
-        List<Integer> pages = new ArrayList<>(products.getPages());
-
-        for (int i = 0; i < products.getPages(); i++) {
-            pages.add(i + 1);
-        }
-
-        String pageForWhat = "/sort-by-price-ascending?page=";
-        FilterSettings filterSettings = FilterMapper.mapParamsToFilterSettings(phoneInstanceService);
-        List<String> listSorts = List.of("Sort by price ascending", "No sort", "Sort by price descending");
-        List<String> listSortsLinks = List.of("/sort-by-price-ascending", "/", "/sort-by-price-descending");
-
-        addToAttributes(model, products, pages, pageForWhat, filterSettings, listSorts, listSortsLinks);
-        return PRODUCTS_PAGE;
-    }
-
     @GetMapping("/sort-by-price-descending")
     public String sortByPriceDescending(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
         return sortByPriceDescendingRealization(model, page);
     }
 
-    private String sortByPriceDescendingRealization(Model model, int page) {
-        PhonesForMainViewList products = phoneInstanceService.sortByPriceDesc(page);
-        checkList(products);
-        List<Integer> pages = new ArrayList<>(products.getPages());
-
-        for (int i = 0; i < products.getPages(); i++) {
-            pages.add(i + 1);
-        }
-
-        String pageForWhat = "/sort-by-price-descending?page=";
-        FilterSettings filterSettings = FilterMapper.mapParamsToFilterSettings(phoneInstanceService);
-        List<String> listSorts = List.of("Sort by price descending", "No sort", "Sort by price ascending");
-        List<String> listSortsLinks = List.of("/sort-by-price-descending", "/", "/sort-by-price-ascending");
-
-        addToAttributes(model, products, pages, pageForWhat, filterSettings, listSorts, listSortsLinks);
-        return PRODUCTS_PAGE;
-    }
-
     @PostMapping("/filtration")
     public String getFilter(Model model, @ModelAttribute(value = "filterSettings") FilterSettings filterSettings) {
-        List<String> params = filterParams(filterSettings, new ArrayList<>());
+        List<String> params = Util.filterParams(filterSettings, new ArrayList<>());
 
         if (params.isEmpty()) {
             return REDIRECT_PAGE_ONE;
@@ -176,26 +104,11 @@ public class ProductsController {
         }
     }
 
-    private String getFilterRealization(Model model, FilterSettings filterSettings, List<String> params) {
-        PhonesForMainViewList products = phoneInstanceService.filterPhones(params.toArray(new String[0]));
-
-        StringBuilder paramsStr = new StringBuilder();
-        params.forEach(param -> paramsStr.append(param).append(","));
-
-        List<String> listSorts = List.of("No sort", "Sort by price ascending", "Sort by price descending");
-        List<String> listSortsLinks = List.of("/no-sort-filtration?params=" + paramsStr,
-                "/sort-by-price-ascending-filtration?params=" + paramsStr,
-                "/sort-by-price-descending-filtration?params=" + paramsStr);
-
-        addToAttributesForFilters(model, products, filterSettings, listSorts, listSortsLinks);
-        return PRODUCTS_PAGE;
-    }
-
     @GetMapping("/no-sort-filtration")
     public String getFilterNoSort(Model model, String params) {
         String[] paramsArr = params.split(",");
         FilterSettings filterSettings = FilterMapper.mapParamsToFilterSettings(phoneInstanceService);
-        filterSettingsFilling(filterSettings, paramsArr);
+        Util.filterSettingsFilling(filterSettings, paramsArr);
 
         return getFilter(model, filterSettings);
     }
@@ -204,13 +117,13 @@ public class ProductsController {
     public String getFilterAsc(Model model, String params) {
         String[] paramsArr = params.split(",");
         FilterSettings filterSettings = FilterMapper.mapParamsToFilterSettings(phoneInstanceService);
-        filterSettingsFilling(filterSettings, paramsArr);
+        Util.filterSettingsFilling(filterSettings, paramsArr);
 
         PhonesForMainViewList products = phoneInstanceService.filterPhonesAsc(paramsArr);
 
-        List<String> listSorts = List.of("Sort by price ascending", "No sort", "Sort by price descending");
-        List<String> listSortsLinks = List.of("/sort-by-price-ascending-filtration?params=" + params,
-                "/no-sort-filtration?params=" + params, "/sort-by-price-descending-filtration?params=" + params);
+        List<String> listSorts = List.of(SORT_BY_PRICE_ASCENDING, NO_SORT, SORT_BY_PRICE_DESCENDING);
+        List<String> listSortsLinks = List.of(SORT_BY_PRICE_ASCENDING_FILTRATION + params,
+                NO_SORT_FILTRATION + params, SORT_BY_PRICE_DESCENDING_FILTRATION + params);
 
         addToAttributesForFilters(model, products, filterSettings, listSorts, listSortsLinks);
         return PRODUCTS_PAGE;
@@ -220,221 +133,16 @@ public class ProductsController {
     public String getFilterDesc(Model model, String params) {
         String[] paramsArr = params.split(",");
         FilterSettings filterSettings = FilterMapper.mapParamsToFilterSettings(phoneInstanceService);
-        filterSettingsFilling(filterSettings, paramsArr);
+        Util.filterSettingsFilling(filterSettings, paramsArr);
 
         PhonesForMainViewList products = phoneInstanceService.filterPhonesDesc(paramsArr);
 
-        List<String> listSorts = List.of("Sort by price descending", "No sort", "Sort by price ascending");
-        List<String> listSortsLinks = List.of("/sort-by-price-descending-filtration?params=" + params,
-                "/no-sort-filtration?params=" + params, "/sort-by-price-ascending-filtration?params=" + params);
+        List<String> listSorts = List.of(SORT_BY_PRICE_DESCENDING, NO_SORT, SORT_BY_PRICE_ASCENDING);
+        List<String> listSortsLinks = List.of(SORT_BY_PRICE_DESCENDING_FILTRATION + params,
+                NO_SORT_FILTRATION + params, SORT_BY_PRICE_ASCENDING_FILTRATION + params);
 
         addToAttributesForFilters(model, products, filterSettings, listSorts, listSortsLinks);
         return PRODUCTS_PAGE;
-    }
-
-    private void filterSettingsFilling(FilterSettings filterSettings, String[] params) {
-        for (int i = 0; i < params.length; i++) {
-            String[] fields = params[i].split("=");
-            filterSettings.getBrandForMainViewList().forEach(element -> {
-                if (element.getId().equals(fields[1])) {
-                    element.setEnabled(true);
-                }
-            });
-
-            filterSettings.getChargeTypeForMainViewList().forEach(element -> {
-                if (element.getId().equals(fields[1])) {
-                    element.setEnabled(true);
-                }
-            });
-
-            filterSettings.getCommunicationStandardForMainViewList().forEach(element -> {
-                if (element.getId().equals(fields[1])) {
-                    element.setEnabled(true);
-                }
-            });
-
-            filterSettings.getOperationSystemForMainViewList().forEach(element -> {
-                if (element.getId().equals(fields[1])) {
-                    element.setEnabled(true);
-                }
-            });
-
-            filterSettings.getProcessorForMainViewList().forEach(element -> {
-                if (element.getId().equals(fields[1])) {
-                    element.setEnabled(true);
-                }
-            });
-
-            filterSettings.getTypeScreenForMainViewList().forEach(element -> {
-                if (element.getId().equals(fields[1])) {
-                    element.setEnabled(true);
-                }
-            });
-
-            filterSettings.getDisplayResolutionForMainViewList().forEach(element -> {
-                if (element.getDisplayResolution().equals(fields[1])) {
-                    element.setEnabled(true);
-                }
-            });
-
-            filterSettings.getDegreeOfMoistureProtectionForMainViewList().forEach(element -> {
-                if (element.getDegreeOfMoistureProtection().equals(fields[1])) {
-                    element.setEnabled(true);
-                }
-            });
-
-            filterSettings.getNfcForMainViewList().forEach(element -> {
-                if (element.getIsHaveNfc().equals(fields[1])) {
-                    element.setEnabled(true);
-                }
-            });
-
-            if (isNumber(fields[1])) {
-
-                filterSettings.getDiagonalForMainViewList().forEach(element -> {
-                    if (element.getDiagonal() == Float.parseFloat(fields[1])) {
-                        element.setEnabled(true);
-                    }
-                });
-
-
-                filterSettings.getScreenRefreshRateForMainViewList().forEach(element -> {
-                    if (element.getRefreshRate() == Integer.parseInt(fields[1])) {
-                        element.setEnabled(true);
-                    }
-                });
-
-                filterSettings.getNumberOfSimCardForMainViewList().forEach(element -> {
-                    if (element.getNumberOfSimCards() == Integer.parseInt(fields[1])) {
-                        element.setEnabled(true);
-                    }
-                });
-
-                filterSettings.getAmountOfBuiltInMemoryForMainViewList().forEach(element -> {
-                    if (element.getAmountOfBuiltInMemory() == Integer.parseInt(fields[1])) {
-                        element.setEnabled(true);
-                    }
-                });
-
-                filterSettings.getAmountOfRamForMainViewList().forEach(element -> {
-                    if (element.getAmountOfRam() == Integer.parseInt(fields[1])) {
-                        element.setEnabled(true);
-                    }
-                });
-
-                filterSettings.getNumberOfFrontCameraForMainViewList().forEach(element -> {
-                    if (element.getNumberOfFrontCameras() == Integer.parseInt(fields[1])) {
-                        element.setEnabled(true);
-                    }
-                });
-
-                filterSettings.getNumberOfMainCameraForMainViewList().forEach(element -> {
-                    if (element.getNumberOfMainCameras() == Integer.parseInt(fields[1])) {
-                        element.setEnabled(true);
-                    }
-                });
-            }
-        }
-    }
-
-    private List<String> filterParams(FilterSettings filterSettings, List<String> params) {
-        filterSettings.getBrandForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone_description.brand_id=" + element.getId());
-            }
-        });
-
-        filterSettings.getChargeTypeForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone_description.charge_type_id=" + element.getId());
-            }
-        });
-
-        filterSettings.getCommunicationStandardForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone_description.communication_standard_id=" + element.getId());
-            }
-        });
-
-        filterSettings.getOperationSystemForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone_description.operation_system_id=" + element.getId());
-            }
-        });
-
-        filterSettings.getProcessorForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone_description.processor_id=" + element.getId());
-            }
-        });
-
-        filterSettings.getTypeScreenForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone_description.type_screen_id=" + element.getId());
-            }
-        });
-
-        filterSettings.getDiagonalForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone_description.diagonal=" + element.getDiagonal());
-            }
-        });
-
-        filterSettings.getDisplayResolutionForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone_description.display_resolution=" + element.getDisplayResolution());
-            }
-        });
-
-        filterSettings.getScreenRefreshRateForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone_description.screen_refresh_rate=" + element.getRefreshRate());
-            }
-        });
-
-        filterSettings.getNumberOfSimCardForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone_description.number_of_sim_cards=" + element.getNumberOfSimCards());
-            }
-        });
-
-        filterSettings.getAmountOfBuiltInMemoryForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone.amount_of_built_in_memory=" + element.getAmountOfBuiltInMemory());
-            }
-        });
-
-        filterSettings.getAmountOfRamForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone.amount_of_ram=" + element.getAmountOfRam());
-            }
-        });
-
-        filterSettings.getNumberOfFrontCameraForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone_description.number_of_front_cameras=" + element.getNumberOfFrontCameras());
-            }
-        });
-
-        filterSettings.getNumberOfMainCameraForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone_description.number_of_main_cameras=" + element.getNumberOfMainCameras());
-            }
-        });
-
-        filterSettings.getDegreeOfMoistureProtectionForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone_description.degree_of_moisture_protection=" + element.getDegreeOfMoistureProtection());
-            }
-        });
-
-        filterSettings.getNfcForMainViewList().forEach(element -> {
-            if (element.isEnabled()) {
-                params.add("phone_description.is_have_nfc=" + element.getIsHaveNfc());
-            }
-        });
-
-        return params;
     }
 
     @GetMapping("/fullinfo")
@@ -493,23 +201,128 @@ public class ProductsController {
     private void addToAttributes(Model model, PhonesForMainViewList products, List<Integer> pages,
                                  String pageForWhat, FilterSettings filterSettings, List<String> listSorts,
                                  List<String> listSortsLinks) {
-        model.addAttribute("phones", products.getPhonesForMainView());
+        model.addAttribute(PHONES, products.getPhonesForMainView());
         model.addAttribute("pages", pages);
         model.addAttribute("pageForWhat", pageForWhat);
-        model.addAttribute("filterSettings", filterSettings);
-        model.addAttribute("listSorts", listSorts);
-        model.addAttribute("listSortsLinks", listSortsLinks);
-        model.addAttribute("searchPage", false);
-        model.addAttribute("filtrationPage", false);
+        model.addAttribute(FILTER_SETTINGS, filterSettings);
+        model.addAttribute(LIST_SORTS, listSorts);
+        model.addAttribute(LIST_SORTS_LINKS, listSortsLinks);
+        model.addAttribute(SEARCH_PAGE, false);
+        model.addAttribute(FILTRATION_PAGE, false);
     }
 
     private void addToAttributesForFilters(Model model, PhonesForMainViewList products, FilterSettings filterSettings,
                                            List<String> listSorts, List<String> listSortsLinks) {
-        model.addAttribute("phones", products.getPhonesForMainView());
-        model.addAttribute("filterSettings", filterSettings);
-        model.addAttribute("listSorts", listSorts);
-        model.addAttribute("listSortsLinks", listSortsLinks);
-        model.addAttribute("searchPage", false);
-        model.addAttribute("filtrationPage", true);
+        model.addAttribute(PHONES, products.getPhonesForMainView());
+        model.addAttribute(FILTER_SETTINGS, filterSettings);
+        model.addAttribute(LIST_SORTS, listSorts);
+        model.addAttribute(LIST_SORTS_LINKS, listSortsLinks);
+        model.addAttribute(SEARCH_PAGE, false);
+        model.addAttribute(FILTRATION_PAGE, true);
+    }
+
+    private String showMainPageRealization(Model model, int page) {
+        PhonesForMainViewList products = phoneInstanceService.findAllForMainView(page);
+        checkList(products);
+        List<Integer> pages = new ArrayList<>(products.getPages());
+
+        for (int i = 0; i < products.getPages(); i++) {
+            pages.add(i + 1);
+        }
+
+        String pageForWhat = "/?page=";
+        FilterSettings filterSettings = FilterMapper.mapParamsToFilterSettings(phoneInstanceService);
+        List<String> listSorts = List.of(NO_SORT, SORT_BY_PRICE_ASCENDING, SORT_BY_PRICE_DESCENDING);
+        List<String> listSortsLinks = List.of("/", SLASH_SORT_BY_PRICE_ASCENDING, SLASH_SORT_BY_PRICE_DESCENDING);
+
+        addToAttributes(model, products, pages, pageForWhat, filterSettings, listSorts, listSortsLinks);
+        return PRODUCTS_PAGE;
+    }
+
+    private String searchPhonesRealization(Model model, String searchKeyword) {
+        PhonesForMainViewList products = phoneInstanceService.findBySearch(searchKeyword);
+
+        List<String> listSorts = List.of(NO_SORT, SORT_BY_PRICE_ASCENDING, SORT_BY_PRICE_DESCENDING);
+        List<String> listSortsLinks = List.of(SEARCH_KEYWORD + searchKeyword,
+                SORT_BY_PRICE_ASCENDING_SEARCH + searchKeyword,
+                SORT_BY_PRICE_DESCENDING_SEARCH + searchKeyword);
+
+        return partForSearches(model, products, listSorts, listSortsLinks, searchKeyword);
+    }
+
+    private String partForSearches(Model model, PhonesForMainViewList products, List<String> listSorts,
+                                   List<String> listSortsLinks, String searchKeyword) {
+        FilterSettings filterSettings = FilterMapper.mapParamsToFilterSettings(phoneInstanceService);
+        List<String> brands = new ArrayList<>();
+        products.getPhonesForMainView().forEach(phone -> brands.add(phone.getBrand()));
+        Set<String> uniqueBrands = new LinkedHashSet<>(brands);
+
+        for (String uniqueBrand : uniqueBrands) {
+            for (BrandForMainView brandForMainView : filterSettings.getBrandForMainViewList()) {
+                if (brandForMainView.getName().equals(uniqueBrand)) {
+                    brandForMainView.setEnabled(true);
+                }
+            }
+        }
+
+        model.addAttribute(PHONES, products.getPhonesForMainView());
+        model.addAttribute(FILTER_SETTINGS, filterSettings);
+        model.addAttribute(LIST_SORTS, listSorts);
+        model.addAttribute(LIST_SORTS_LINKS, listSortsLinks);
+        model.addAttribute("searchKeyword", searchKeyword);
+        model.addAttribute(SEARCH_PAGE, true);
+        model.addAttribute(FILTRATION_PAGE, false);
+        return PRODUCTS_PAGE;
+    }
+
+    private String sortByPriceAscendingRealization(Model model, int page) {
+        PhonesForMainViewList products = phoneInstanceService.sortByPriceAsc(page);
+        checkList(products);
+        List<Integer> pages = new ArrayList<>(products.getPages());
+
+        for (int i = 0; i < products.getPages(); i++) {
+            pages.add(i + 1);
+        }
+
+        String pageForWhat = "/sort-by-price-ascending?page=";
+        FilterSettings filterSettings = FilterMapper.mapParamsToFilterSettings(phoneInstanceService);
+        List<String> listSorts = List.of(SORT_BY_PRICE_ASCENDING, NO_SORT, SORT_BY_PRICE_DESCENDING);
+        List<String> listSortsLinks = List.of(SLASH_SORT_BY_PRICE_ASCENDING, "/", SLASH_SORT_BY_PRICE_DESCENDING);
+
+        addToAttributes(model, products, pages, pageForWhat, filterSettings, listSorts, listSortsLinks);
+        return PRODUCTS_PAGE;
+    }
+
+    private String sortByPriceDescendingRealization(Model model, int page) {
+        PhonesForMainViewList products = phoneInstanceService.sortByPriceDesc(page);
+        checkList(products);
+        List<Integer> pages = new ArrayList<>(products.getPages());
+
+        for (int i = 0; i < products.getPages(); i++) {
+            pages.add(i + 1);
+        }
+
+        String pageForWhat = "/sort-by-price-descending?page=";
+        FilterSettings filterSettings = FilterMapper.mapParamsToFilterSettings(phoneInstanceService);
+        List<String> listSorts = List.of(SORT_BY_PRICE_DESCENDING, NO_SORT, SORT_BY_PRICE_ASCENDING);
+        List<String> listSortsLinks = List.of(SLASH_SORT_BY_PRICE_DESCENDING, "/", SLASH_SORT_BY_PRICE_ASCENDING);
+
+        addToAttributes(model, products, pages, pageForWhat, filterSettings, listSorts, listSortsLinks);
+        return PRODUCTS_PAGE;
+    }
+
+    private String getFilterRealization(Model model, FilterSettings filterSettings, List<String> params) {
+        PhonesForMainViewList products = phoneInstanceService.filterPhones(params.toArray(new String[0]));
+
+        StringBuilder paramsStr = new StringBuilder();
+        params.forEach(param -> paramsStr.append(param).append(","));
+
+        List<String> listSorts = List.of(NO_SORT, SORT_BY_PRICE_ASCENDING, SORT_BY_PRICE_DESCENDING);
+        List<String> listSortsLinks = List.of(NO_SORT_FILTRATION + paramsStr,
+                SORT_BY_PRICE_ASCENDING_FILTRATION + paramsStr,
+                SORT_BY_PRICE_DESCENDING_FILTRATION + paramsStr);
+
+        addToAttributesForFilters(model, products, filterSettings, listSorts, listSortsLinks);
+        return PRODUCTS_PAGE;
     }
 }

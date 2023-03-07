@@ -10,7 +10,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.mapper.FilterMapper;
 import ua.com.alevel.mapper.PhoneMapper;
-import ua.com.alevel.model.accessory.Brand;
 import ua.com.alevel.model.check.ClientCheck;
 import ua.com.alevel.model.dto.*;
 import ua.com.alevel.model.dto.filterparams.*;
@@ -24,7 +23,9 @@ import ua.com.alevel.repository.phone.PhoneInstanceRepository;
 import ua.com.alevel.repository.phone.PhoneInstanceRepositoryCriteria;
 import ua.com.alevel.repository.phone.PhoneRepository;
 import ua.com.alevel.repository.rating.RatingRepository;
-
+import ua.com.alevel.util.Util;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -35,6 +36,10 @@ public class PhoneInstanceService {
     private final RatingRepository ratingRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(PhoneInstanceService.class);
     private static final int NEED_PHONES = 40;
+    private static final String DATE_PATTERN = "dd.M.yyyy HH:mm:ss";
+    private static final String START_MONTH = "01.01.";
+    private static final String START_DAY = " 00:00:00";
+    private static final String END_DAY = " 23:59:59";
 
     @Autowired
     public PhoneInstanceService(@Qualifier("phoneInstanceRepositoryCriteriaImpl") PhoneInstanceRepositoryCriteria phoneInstanceRepositoryCriteria,
@@ -207,11 +212,6 @@ public class PhoneInstanceService {
         return phones;
     }
 
-    private void setListOccurrences(List<Integer> listOccurrences, int i) {
-        int value = listOccurrences.get(i);
-        listOccurrences.set(i, value + 1);
-    }
-
     public PhonesForMainViewList filterPhones(String[] searchParam) {
         List<PhoneForMainView> phonesForMainView = new ArrayList<>();
 
@@ -351,12 +351,6 @@ public class PhoneInstanceService {
         return phoneInstanceRepository.findPriceForClientCheckId(clientCheckId);
     }
 
-    private int getPagesCount() {
-        int phonesAvailable = phoneInstanceRepository.getPagesCount().get();
-
-        return (phonesAvailable % NEED_PHONES == 0) ? phonesAvailable / NEED_PHONES : (phonesAvailable / NEED_PHONES) + 1;
-    }
-
     public List<Phone> findAllPhonesInDb() {
         List<Phone> phones = phoneRepository.findAllPhonesInDb();
         Collections.sort(phones);
@@ -366,7 +360,7 @@ public class PhoneInstanceService {
 
     public List<Phone> findAllPhonesInDbForAdmin() {
         List<Phone> phones = new ArrayList<>();
-        phoneRepository.findAll().forEach(phone -> phones.add(phone));
+        phoneRepository.findAll().forEach(phones::add);
         Collections.sort(phones);
 
         return phones;
@@ -391,6 +385,10 @@ public class PhoneInstanceService {
         return phoneInstanceRepository.countPhonesInStoreForAdmin(phone);
     }
 
+    public int countPhonesInStoreForAdminForStatistic(Phone phone) {
+        return phoneInstanceRepository.countPhonesInStoreForAdminForStatistic(phone);
+    }
+
     public double findPriceForPhoneId(String id) {
         return phoneInstanceRepository.findPriceForPhoneId(id).get(0);
     }
@@ -413,7 +411,7 @@ public class PhoneInstanceService {
     public void updatePhoneInstance(Phone phone, int amountOfBuiltInMemoryUpdate, int amountOfRamUpdate, double price) {
         List<PhoneInstance> phoneInstances = phoneInstanceRepository.findAllPhoneInstancesForUpdatePrice(phone.getPhoneDescription().getBrand(),
                 phone.getPhoneDescription().getName(), phone.getPhoneDescription().getSeries(),
-                amountOfBuiltInMemoryUpdate,  amountOfRamUpdate);
+                amountOfBuiltInMemoryUpdate, amountOfRamUpdate);
 
         phoneInstances.forEach(phoneInstance -> {
             phoneInstance.setPrice(price);
@@ -430,5 +428,187 @@ public class PhoneInstanceService {
 
     public void deleteByIdPhoneInstance(String id) {
         phoneInstanceRepository.deleteByIdPhoneInstance(id);
+    }
+
+    public List<CustomerPreferencesByAge> getCustomerPreferencesByAge() throws Exception {
+        List<CustomerPreferencesByAge> customerPreferencesByAgeList = new ArrayList<>();
+        int startAge = LocalDate.now().getYear() - 70;
+        boolean flag = false;
+
+        while (!flag) {
+            if (startAge - 1 == LocalDate.now().getYear() - 16) {
+                int year = LocalDate.now().getYear() - 16;
+                customerPreferencesByAgeList.get(customerPreferencesByAgeList.size() - 1).setEndAge(START_MONTH + year);
+                flag = true;
+            }
+            else {
+                CustomerPreferencesByAge customerPreferencesByAge = new CustomerPreferencesByAge();
+                customerPreferencesByAge.setStartAge(START_MONTH + startAge);
+                startAge = startAge + 5;
+                customerPreferencesByAge.setEndAge(START_MONTH + startAge);
+
+                customerPreferencesByAgeList.add(customerPreferencesByAge);
+            }
+        }
+
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_PATTERN, Locale.ENGLISH);
+
+        for (CustomerPreferencesByAge customerPreferencesByAge : customerPreferencesByAgeList) {
+            customerPreferencesByAge.setPhoneInstances(new ArrayList<>());
+
+            List<PhoneInstance> phoneInstances = phoneInstanceRepository.
+                    getCustomerPreferencesByAge(formatter.parse(customerPreferencesByAge.getStartAge() + START_DAY),
+                            formatter.parse(customerPreferencesByAge.getEndAge() + END_DAY));
+
+            for (int i = 0; i < phoneInstances.size(); i++) {
+                boolean check = true;
+                PhoneInstance phoneInstance = phoneInstances.get(i);
+
+                for (int j = i + 1; j < phoneInstances.size(); j++) {
+                    if (phoneInstance.equals(phoneInstances.get(j))) {
+                        check = false;
+                    }
+                }
+
+                if (check) {
+                    customerPreferencesByAge.getPhoneInstances().add(phoneInstance);
+                }
+            }
+
+            customerPreferencesByAge.setStartAge(Util.getAgeFromDate(customerPreferencesByAge.getStartAge()));
+            customerPreferencesByAge.setEndAge(Util.getAgeFromDate(customerPreferencesByAge.getEndAge()));
+        }
+
+        return customerPreferencesByAgeList;
+    }
+
+    public List<SalesSettingsForSpecificModelsParams> getSalesSettingsForSpecificModelsParams(SalesSettingsForSpecificModels salesSettingsForSpecificModels) throws Exception {
+        Phone phoneFindable = phoneRepository.findById(salesSettingsForSpecificModels.getId()).get();
+
+        List<Phone> phones = phoneRepository.findAllPhonesForChange(phoneFindable.getPhoneDescription().getBrand(), phoneFindable.getPhoneDescription().getName(),
+                phoneFindable.getPhoneDescription().getSeries(), phoneFindable.getAmountOfBuiltInMemory(), phoneFindable.getAmountOfRam());
+
+        List<SalesSettingsForSpecificModelsParams> salesSettingsForSpecificModelsParamsList = new ArrayList<>();
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_PATTERN, Locale.ENGLISH);
+
+        int monthCount = 0;
+        boolean checkTempYear = false;
+
+        for (Phone phone : phones) {
+            SalesSettingsForSpecificModelsParams settings = new SalesSettingsForSpecificModelsParams(phone, new ArrayList<>());
+
+            if (LocalDate.now().getYear() == Integer.parseInt(salesSettingsForSpecificModels.getYear())) {
+                monthCount = LocalDate.now().getMonthValue();
+                checkTempYear = true;
+            }
+            else {
+                monthCount = 12;
+            }
+
+            for (int i = 0; i < monthCount; i++) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Integer.parseInt(salesSettingsForSpecificModels.getYear()), i, 1);
+                calendar.add(Calendar.MONTH, 0);
+
+                int lastDayInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                int tempMonth = i + 1;
+
+                if (checkTempYear && LocalDate.now().getMonthValue() == i + 1) {
+                    lastDayInMonth = LocalDate.now().getDayOfMonth();
+                }
+
+                Date startDate = formatter.parse("1." + tempMonth + "." + salesSettingsForSpecificModels.getYear() + START_DAY);
+                Date endDate = formatter.parse(lastDayInMonth + "." + tempMonth + "." + salesSettingsForSpecificModels.getYear() + END_DAY);
+
+                SalesSettingsForSpecificModelsMonths salesSettingsForSpecificModelsMonths = new SalesSettingsForSpecificModelsMonths();
+                salesSettingsForSpecificModelsMonths.setMonth(Util.getMonth(tempMonth));
+                salesSettingsForSpecificModelsMonths.setSold(phoneInstanceRepository.soldSpecificModelsMonth(phone, startDate, endDate) + "");
+
+                settings.getFields().add(salesSettingsForSpecificModelsMonths);
+            }
+
+            salesSettingsForSpecificModelsParamsList.add(settings);
+        }
+
+        return salesSettingsForSpecificModelsParamsList;
+    }
+
+    public List<MostPopularPhoneModels> getMostPopularPhoneModels(String year) throws Exception {
+        List<Phone> phones = phoneRepository.findAllPhonesInDb();
+
+        List<MostPopularPhoneModels> mostPopularPhoneModelsList = new ArrayList<>();
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_PATTERN, Locale.ENGLISH);
+
+        int monthCount = 0;
+        boolean checkTempYear = false;
+
+        for (Phone phone : phones) {
+            if (LocalDate.now().getYear() == Integer.parseInt(year)) {
+                monthCount = LocalDate.now().getMonthValue();
+                checkTempYear = true;
+            }
+            else {
+                monthCount = 12;
+            }
+
+            for (int i = 0; i < monthCount; i++) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Integer.parseInt(year), i, 1);
+                calendar.add(Calendar.MONTH, 0);
+
+                int lastDayInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                int tempMonth = i + 1;
+
+                if (checkTempYear && LocalDate.now().getMonthValue() == i + 1) {
+                    lastDayInMonth = LocalDate.now().getDayOfMonth();
+                }
+
+                Date startDate = formatter.parse("1." + tempMonth + "." + year + START_DAY);
+                Date endDate = formatter.parse(lastDayInMonth + "." + tempMonth + "." + year + END_DAY);
+
+                MostPopularPhoneModels mostPopularPhoneModels = new MostPopularPhoneModels();
+                mostPopularPhoneModels.setPhone(phone);
+                mostPopularPhoneModels.setMonth(tempMonth + "");
+                mostPopularPhoneModels.setSold(phoneInstanceRepository.soldMostPopularPhoneModelsMonth(phone.getPhoneDescription().getBrand(),
+                        phone.getPhoneDescription().getName(), phone.getPhoneDescription().getSeries(), phone.getAmountOfBuiltInMemory(), phone.getAmountOfRam(), startDate, endDate) + "");
+
+                mostPopularPhoneModelsList.add(mostPopularPhoneModels);
+            }
+        }
+
+        List<MostPopularPhoneModels> result = new ArrayList<>();
+        int month = 1;
+
+        while (month != monthCount + 1) {
+            MostPopularPhoneModels max = new MostPopularPhoneModels();
+            max.setSold("-1");
+
+            for (MostPopularPhoneModels mostPopularPhoneModels : mostPopularPhoneModelsList) {
+                if (Integer.parseInt(mostPopularPhoneModels.getSold()) > Integer.parseInt(max.getSold()) &&
+                        Integer.parseInt(mostPopularPhoneModels.getMonth()) == month) {
+                    max.setSold(mostPopularPhoneModels.getSold());
+                    max.setPhone(mostPopularPhoneModels.getPhone());
+                    max.setMonth(mostPopularPhoneModels.getMonth());
+                }
+            }
+
+            max.setMonth(Util.getMonth(month));
+            result.add(max);
+
+            month++;
+        }
+
+        return result;
+    }
+
+    private void setListOccurrences(List<Integer> listOccurrences, int i) {
+        int value = listOccurrences.get(i);
+        listOccurrences.set(i, value + 1);
+    }
+
+    private int getPagesCount() {
+        int phonesAvailable = phoneInstanceRepository.getPagesCount().get();
+
+        return (phonesAvailable % NEED_PHONES == 0) ? phonesAvailable / NEED_PHONES : (phonesAvailable / NEED_PHONES) + 1;
     }
 }

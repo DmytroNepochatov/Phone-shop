@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.alevel.model.check.ClientCheck;
-import ua.com.alevel.model.dto.PhoneColors;
 import ua.com.alevel.model.dto.PhoneForAddToCart;
 import ua.com.alevel.model.dto.PhoneForShoppingCart;
 import ua.com.alevel.model.phone.PhoneInstance;
@@ -17,6 +16,7 @@ import ua.com.alevel.model.user.RegisteredUser;
 import ua.com.alevel.service.clientcheck.ClientCheckService;
 import ua.com.alevel.service.phone.PhoneInstanceService;
 import ua.com.alevel.service.user.UserDetailsServiceImpl;
+import ua.com.alevel.util.Util;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class ShoppingCartController {
 
     @PutMapping("/add-to-cart")
     public String addToCart(PhoneForAddToCart phoneForAddToCart) {
-        int checks = checkColorsCount(phoneForAddToCart);
+        int checks = Util.checkColorsCount(phoneForAddToCart);
 
         if (checks == 0) {
             return redirectUrl(phoneForAddToCart, "You must choose the color of the phone");
@@ -57,7 +57,7 @@ public class ShoppingCartController {
             return redirectUrl(phoneForAddToCart, "You can only choose one phone color");
         }
 
-        String color = findColor(phoneForAddToCart);
+        String color = Util.findColor(phoneForAddToCart);
 
         List<String> ids = phoneInstanceService.findFirstIdPhoneForShoppingCart(phoneForAddToCart.getBrand(), phoneForAddToCart.getName(),
                 phoneForAddToCart.getSeries(), phoneForAddToCart.getAmountOfBuiltInMemory(), phoneForAddToCart.getAmountOfRam(),
@@ -104,28 +104,6 @@ public class ShoppingCartController {
 
         model.addAttribute("clientCheck", clientCheckFromDB.getId());
         return "order";
-    }
-
-    private int checkColorsCount(PhoneForAddToCart phoneForAddToCart) {
-        int checks = 0;
-
-        for (PhoneColors phoneColor : phoneForAddToCart.getPhoneColors()) {
-            if (phoneColor.isEnabled()) {
-                checks++;
-            }
-        }
-
-        return checks;
-    }
-
-    private String findColor(PhoneForAddToCart phoneForAddToCart) {
-        for (PhoneColors phoneColor : phoneForAddToCart.getPhoneColors()) {
-            if (phoneColor.isEnabled()) {
-                return phoneColor.getColor();
-            }
-        }
-
-        return null;
     }
 
     private String redirectUrl(PhoneForAddToCart phoneForAddToCart, String message) {

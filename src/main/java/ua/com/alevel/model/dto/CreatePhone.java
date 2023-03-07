@@ -16,6 +16,5 @@ public class CreatePhone {
     private String amountOfRam;
     private String price;
     private String imei;
-
     private String phoneId;
 }

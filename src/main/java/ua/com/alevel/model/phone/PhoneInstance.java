@@ -3,6 +3,7 @@ package ua.com.alevel.model.phone;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 import ua.com.alevel.model.check.ClientCheck;
 import ua.com.alevel.model.shoppingcart.ShoppingCart;
@@ -46,5 +47,14 @@ public class PhoneInstance implements Comparable<PhoneInstance> {
     @Override
     public int compareTo(PhoneInstance o) {
         return this.phone.compareTo(o.phone);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        PhoneInstance phoneInstance = (PhoneInstance) o;
+        return this.phone.equals(phoneInstance.getPhone()) &&
+                this.phone.getView().getColor().equals(phoneInstance.getPhone().getView().getColor());
     }
 }

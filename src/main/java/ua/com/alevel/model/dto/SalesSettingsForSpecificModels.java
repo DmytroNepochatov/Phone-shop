@@ -9,10 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateView {
-    private String color;
-    private String phoneFrontAndBack;
-    private String leftSideAndRightSide;
-    private String upSideAndDownSide;
-    private String viewId;
+public class SalesSettingsForSpecificModels {
+    private String id;
+    private String year;
 }

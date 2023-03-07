@@ -98,4 +98,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 registeredUser.getPassword(),
                 roles);
     }
+
+    public int countAllUsers() {
+        return userRepository.countAllUsers();
+    }
+
+    public List<RegisteredUser> findAllUsersWhichDoesntHaveAnyPurchases() {
+        return userRepository.findAllUsersWhichDoesntHaveAnyPurchases();
+    }
+
+    public List<RegisteredUser> findAllUsersWhichHaveMoreThanOnePurchases() {
+        return userRepository.findAllUsersWhichHaveMoreThanOnePurchases();
+    }
 }

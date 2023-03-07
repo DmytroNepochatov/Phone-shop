@@ -12,6 +12,7 @@ import ua.com.alevel.model.check.ClientCheck;
 import ua.com.alevel.model.phone.Phone;
 import ua.com.alevel.model.phone.PhoneInstance;
 import ua.com.alevel.model.shoppingcart.ShoppingCart;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -150,6 +151,9 @@ public interface PhoneInstanceRepository extends CrudRepository<PhoneInstance, S
     @Query("select count(phoneInstance) from PhoneInstance phoneInstance where phoneInstance.phone = ?1 and phoneInstance.clientCheck is null")
     int countPhonesInStoreForAdmin(Phone phone);
 
+    @Query("select count(phoneInstance) from PhoneInstance phoneInstance where phoneInstance.phone = ?1 and phoneInstance.clientCheck is not null")
+    int countPhonesInStoreForAdminForStatistic(Phone phone);
+
     @Transactional
     @Modifying
     @Query("delete from PhoneInstance phoneInstance where phoneInstance.phone = ?1 and phoneInstance.clientCheck is null")
@@ -168,4 +172,16 @@ public interface PhoneInstanceRepository extends CrudRepository<PhoneInstance, S
     @Modifying
     @Query("delete from PhoneInstance phoneInstance where phoneInstance.id = ?1 and phoneInstance.clientCheck is null")
     void deleteByIdPhoneInstance(String id);
+
+    @Query("select phoneInstance from PhoneInstance phoneInstance where phoneInstance.clientCheck.registeredUser.dateOfBirth between ?1 and ?2")
+    List<PhoneInstance> getCustomerPreferencesByAge(Date startAge, Date endAge);
+
+    @Query("select count(phoneInstance) from PhoneInstance phoneInstance where " +
+            "phoneInstance.phone = ?1 and phoneInstance.clientCheck.closedDate between ?2 and ?3")
+    int soldSpecificModelsMonth(Phone phone, Date startDate, Date endDate);
+
+    @Query("select count(phoneInstance) from PhoneInstance phoneInstance where phoneInstance.phone.phoneDescription.brand = ?1 and phoneInstance.phone.phoneDescription.name =?2 " +
+            "and phoneInstance.phone.phoneDescription.series =?3 and phoneInstance.phone.amountOfBuiltInMemory =?4 " +
+            "and phoneInstance.phone.amountOfRam =?5 and phoneInstance.clientCheck.closedDate between ?6 and ?7")
+    int soldMostPopularPhoneModelsMonth(Brand brand, String name, String series, int amountOfBuiltInMemory, int amountOfRam, Date startDate, Date endDate);
 }

@@ -3,7 +3,6 @@ package ua.com.alevel.mapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import ua.com.alevel.model.accessory.*;
-import ua.com.alevel.model.country.Country;
 import ua.com.alevel.model.dto.CreatePhoneDescription;
 import ua.com.alevel.model.dto.PhoneColors;
 import ua.com.alevel.model.dto.PhoneForMainView;
@@ -12,6 +11,13 @@ import ua.com.alevel.model.phone.PhoneDescription;
 import ua.com.alevel.model.phone.PhoneInstance;
 import ua.com.alevel.repository.phone.PhoneInstanceRepository;
 import ua.com.alevel.repository.phone.PhoneInstanceRepositoryCriteria;
+import ua.com.alevel.service.brand.BrandService;
+import ua.com.alevel.service.chargetype.ChargeTypeService;
+import ua.com.alevel.service.communicationstandard.CommunicationStandardService;
+import ua.com.alevel.service.country.CountryService;
+import ua.com.alevel.service.operationsystem.OperationSystemService;
+import ua.com.alevel.service.processor.ProcessorService;
+import ua.com.alevel.service.typescreen.TypeScreenService;
 import java.util.List;
 
 public final class PhoneMapper {
@@ -64,16 +70,16 @@ public final class PhoneMapper {
         return result;
     }
 
-    public static PhoneDescription mapCreatePhoneDescriptionToPhoneDescription(PhoneDescription phoneDescriptionForDb,CreatePhoneDescription phoneDescription, Brand brand, ChargeType chargeType,
-                                                                 CommunicationStandard communicationStandard, OperationSystem operationSystem,
-                                                                 Processor processor, TypeScreen typeScreen, Country country) {
-        phoneDescriptionForDb.setBrand(brand);
-        phoneDescriptionForDb.setChargeType(chargeType);
-        phoneDescriptionForDb.setCommunicationStandard(communicationStandard);
-        phoneDescriptionForDb.setOperationSystem(operationSystem);
-        phoneDescriptionForDb.setProcessor(processor);
-        phoneDescriptionForDb.setTypeScreen(typeScreen);
-        phoneDescriptionForDb.setCountry(country);
+    public static PhoneDescription mapCreatePhoneDescriptionToPhoneDescription(PhoneDescription phoneDescriptionForDb, CreatePhoneDescription phoneDescription, BrandService brandService, ChargeTypeService chargeTypeService,
+                                                                               CommunicationStandardService communicationStandardService, OperationSystemService operationSystemService,
+                                                                               ProcessorService processorService, TypeScreenService typeScreenService, CountryService countryService) {
+        phoneDescriptionForDb.setBrand(brandService.findBrandByName(phoneDescription.getBrand()).get());
+        phoneDescriptionForDb.setChargeType(chargeTypeService.findFirstByName(phoneDescription.getChargeType()).get());
+        phoneDescriptionForDb.setCommunicationStandard(communicationStandardService.findFirstByName(phoneDescription.getCommunicationStandard()).get());
+        phoneDescriptionForDb.setOperationSystem(operationSystemService.findFirstByName(phoneDescription.getOperationSystem()).get());
+        phoneDescriptionForDb.setProcessor(processorService.findFirstByName(phoneDescription.getProcessor()).get());
+        phoneDescriptionForDb.setTypeScreen(typeScreenService.findFirstByName(phoneDescription.getTypeScreen()).get());
+        phoneDescriptionForDb.setCountry(countryService.findCountryByName(phoneDescription.getCountry()).get());
         phoneDescriptionForDb.setName(phoneDescription.getName());
         phoneDescriptionForDb.setSeries(phoneDescription.getSeries());
         phoneDescriptionForDb.setDiagonal(Float.parseFloat(phoneDescription.getDiagonal()));

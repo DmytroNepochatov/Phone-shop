@@ -10,8 +10,19 @@ import ua.com.alevel.model.phone.Phone;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PhoneForStoreComposition {
+public class PhoneForStoreComposition implements Comparable<PhoneForStoreComposition> {
     private Phone phone;
     private double price;
     private int countInStore;
+
+    @Override
+    public int compareTo(PhoneForStoreComposition o) {
+        if (countInStore > o.countInStore) {
+            return 1;
+        }
+        if (countInStore < o.countInStore) {
+            return -1;
+        }
+        return 0;
+    }
 }

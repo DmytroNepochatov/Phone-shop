@@ -11,8 +11,7 @@ import ua.com.alevel.model.dto.UserRegistration;
 import ua.com.alevel.model.user.RegisteredUser;
 import ua.com.alevel.service.clientcheck.ClientCheckService;
 import ua.com.alevel.service.user.UserDetailsServiceImpl;
-import java.text.DateFormat;
-import java.text.ParseException;
+import ua.com.alevel.util.Util;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -52,10 +51,10 @@ public class UserController {
         if (userRegistration.getLastName().isBlank()) {
             return errorModel(model, new UserRegistration(), "Last name field is empty");
         }
-        if (!isValidDate(userRegistration.getDateOfBirth())) {
+        if (!Util.isValidDate(userRegistration.getDateOfBirth(), DATE_PATTERN)) {
             return errorModel(model, new UserRegistration(), "Incorrect date of birth");
         }
-        if (!isRequiredAge(userRegistration.getDateOfBirth())) {
+        if (!Util.isRequiredAge(userRegistration.getDateOfBirth(), REQUIRED_AGE)) {
             return errorModel(model, new UserRegistration(), "You're too young");
         }
         if (userRegistration.getPhoneNumber().charAt(0) != '+' || Pattern.compile(REGEX_FOR_PHONE_NUMBER).matcher(userRegistration.getPhoneNumber()).find()
@@ -77,36 +76,6 @@ public class UserController {
         else {
             return "login";
         }
-    }
-
-    private boolean isValidDate(String dateStr) {
-        DateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
-        sdf.setLenient(false);
-        try {
-            sdf.parse(dateStr);
-        }
-        catch (ParseException e) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isRequiredAge(String dateStr) {
-        String[] strBirth = dateStr.split("\\.");
-
-        LocalDate dateBirth = LocalDate.of(Integer.parseInt(strBirth[2]),
-                Integer.parseInt(strBirth[1]), Integer.parseInt(strBirth[0]));
-        LocalDate currentDate = LocalDate.now();
-        Period period = Period.between(dateBirth, currentDate);
-
-        return period.getYears() >= REQUIRED_AGE;
-    }
-
-    private String errorModel(Model model, UserRegistration userRegistration, String text) {
-        model.addAttribute("errorStat", true);
-        model.addAttribute("errorString", text);
-        model.addAttribute("user", userRegistration);
-        return "register";
     }
 
     @GetMapping("/profile")
@@ -131,5 +100,12 @@ public class UserController {
         model.addAttribute("tempChecks", tempChecks);
         model.addAttribute("historyChecks", historyChecks);
         return "profile";
+    }
+
+    private String errorModel(Model model, UserRegistration userRegistration, String text) {
+        model.addAttribute("errorStat", true);
+        model.addAttribute("errorString", text);
+        model.addAttribute("user", userRegistration);
+        return "register";
     }
 }

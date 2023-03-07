@@ -4,15 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ua.com.alevel.model.phone.Phone;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateView {
-    private String color;
-    private String phoneFrontAndBack;
-    private String leftSideAndRightSide;
-    private String upSideAndDownSide;
-    private String viewId;
+public class MostPopularPhoneModels {
+    private Phone phone;
+    private String month;
+    private String sold;
 }

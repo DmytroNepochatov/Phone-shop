@@ -33,6 +33,5 @@ public class CreatePhoneDescription {
     private boolean nfc;
     private String guaranteeTimeMonths;
     private String country;
-
     private String phoneDescriptionId;
 }

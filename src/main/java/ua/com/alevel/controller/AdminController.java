@@ -5,12 +5,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.mapper.PhoneMapper;
 import ua.com.alevel.model.accessory.*;
-import ua.com.alevel.model.country.Country;
 import ua.com.alevel.model.dto.*;
 import ua.com.alevel.model.phone.Phone;
 import ua.com.alevel.model.phone.PhoneDescription;
 import ua.com.alevel.model.phone.PhoneInstance;
 import ua.com.alevel.model.phone.View;
+import ua.com.alevel.model.user.RegisteredUser;
 import ua.com.alevel.service.brand.BrandService;
 import ua.com.alevel.service.chargetype.ChargeTypeService;
 import ua.com.alevel.service.clientcheck.ClientCheckService;
@@ -23,13 +23,13 @@ import ua.com.alevel.service.processor.ProcessorService;
 import ua.com.alevel.service.typescreen.TypeScreenService;
 import ua.com.alevel.service.user.UserDetailsServiceImpl;
 import ua.com.alevel.service.view.ViewService;
-
+import ua.com.alevel.util.Util;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
 import static org.apache.commons.lang.NumberUtils.isNumber;
 
 @Controller
@@ -51,6 +51,12 @@ public class AdminController {
     private static final String GOOGLE_DRIVE_VIEW_URL = "http://drive.google.com/uc?export=view&id=";
     private static final String LEFT_REGEX = "id=";
     private static final String RIGHT_REGEX = "&usp=drive_copy";
+    private static final String ERROR_MSG = "errorMsg";
+    private static final String SUCCESS = "success";
+    private static final String PHONES = "phones";
+    private static final String YEARS = "years";
+    private static final String SELECT_PHONE_COLOR = "Select phone color";
+    private static final String SELECT_PHONE_DESCRIPTION = "Select phone description";
 
     public AdminController(UserDetailsServiceImpl userDetailsServiceImpl, PhoneInstanceService phoneInstanceService, BrandService brandService,
                            ChargeTypeService chargeTypeService, CommunicationStandardService communicationStandardService,
@@ -79,7 +85,7 @@ public class AdminController {
     @GetMapping("/create")
     public String createPhone(Model model) {
         tuneModel(model);
-        model.addAttribute("errorMsg", " ");
+        model.addAttribute(ERROR_MSG, " ");
         return "createphone";
     }
 
@@ -179,17 +185,8 @@ public class AdminController {
             return errorMsg(model, "Incorrect guarantee time in months");
         }
 
-
-        Brand brand = brandService.findBrandByName(phoneDescription.getBrand()).get();
-        ChargeType chargeType = chargeTypeService.findFirstByName(phoneDescription.getChargeType()).get();
-        CommunicationStandard communicationStandard = communicationStandardService.findFirstByName(phoneDescription.getCommunicationStandard()).get();
-        OperationSystem operationSystem = operationSystemService.findFirstByName(phoneDescription.getOperationSystem()).get();
-        Processor processor = processorService.findFirstByName(phoneDescription.getProcessor()).get();
-        TypeScreen typeScreen = typeScreenService.findFirstByName(phoneDescription.getTypeScreen()).get();
-        Country country = countryService.findCountryByName(phoneDescription.getCountry()).get();
-
-        PhoneDescription phoneDescriptionForDb = PhoneMapper.mapCreatePhoneDescriptionToPhoneDescription(new PhoneDescription(), phoneDescription, brand, chargeType,
-                communicationStandard, operationSystem, processor, typeScreen, country);
+        PhoneDescription phoneDescriptionForDb = PhoneMapper.mapCreatePhoneDescriptionToPhoneDescription(new PhoneDescription(), phoneDescription, brandService, chargeTypeService,
+                communicationStandardService, operationSystemService, processorService, typeScreenService, countryService);
 
         if (!phoneDescriptionService.save(phoneDescriptionForDb)) {
             return errorMsg(model, "Phone description for this phone already exists");
@@ -216,21 +213,12 @@ public class AdminController {
             return errorMsg(model, "Picture 3 field is empty");
         }
 
-        if (createView.getPhoneFrontAndBack().contains(REGEX)) {
-            String[] linkParts = createView.getPhoneFrontAndBack().split(LEFT_REGEX);
-            String pictureName = linkParts[1].replace(RIGHT_REGEX, "");
-            createView.setPhoneFrontAndBack(GOOGLE_DRIVE_VIEW_URL + pictureName);
-        }
-        if (createView.getLeftSideAndRightSide().contains(REGEX)) {
-            String[] linkParts = createView.getLeftSideAndRightSide().split(LEFT_REGEX);
-            String pictureName = linkParts[1].replace(RIGHT_REGEX, "");
-            createView.setLeftSideAndRightSide(GOOGLE_DRIVE_VIEW_URL + pictureName);
-        }
-        if (createView.getUpSideAndDownSide().contains(REGEX)) {
-            String[] linkParts = createView.getUpSideAndDownSide().split(LEFT_REGEX);
-            String pictureName = linkParts[1].replace(RIGHT_REGEX, "");
-            createView.setUpSideAndDownSide(GOOGLE_DRIVE_VIEW_URL + pictureName);
-        }
+        List<String> photos = setPhotosForGoogleDrive(createView.getPhoneFrontAndBack(),
+                createView.getLeftSideAndRightSide(), createView.getUpSideAndDownSide());
+
+        createView.setPhoneFrontAndBack(photos.get(0));
+        createView.setLeftSideAndRightSide(photos.get(1));
+        createView.setUpSideAndDownSide(photos.get(2));
 
         if (!viewService.save(createView)) {
             return errorMsg(model, "This view already exists");
@@ -241,10 +229,10 @@ public class AdminController {
 
     @PostMapping("/create/phone")
     public String savePhone(Model model, CreatePhone phone) {
-        if (phone.getView().equals("Select phone color")) {
+        if (phone.getView().equals(SELECT_PHONE_COLOR)) {
             return errorMsg(model, "You must choose a phone color");
         }
-        if (phone.getPhoneDescription().equals("Select phone description")) {
+        if (phone.getPhoneDescription().equals(SELECT_PHONE_DESCRIPTION)) {
             return errorMsg(model, "You must choose a phone description");
         }
         if (!isNumber(phone.getAmountOfBuiltInMemory())) {
@@ -279,16 +267,16 @@ public class AdminController {
 
         Phone phoneResult = phoneInstanceService.savePhone(newPhone);
 
-        String[] imeis = phone.getImei().split(",");
+        String[] imeiList = phone.getImei().split(",");
         int check = -1;
         int value = 0;
 
-        for (int i = 0; i < imeis.length; i++) {
-            if (!imeis[i].isBlank()) {
+        for (int i = 0; i < imeiList.length; i++) {
+            if (!imeiList[i].isBlank()) {
 
                 PhoneInstance phoneInstance = new PhoneInstance();
                 phoneInstance.setPhone(phoneResult);
-                phoneInstance.setImei(imeis[i].trim());
+                phoneInstance.setImei(imeiList[i].trim());
                 phoneInstance.setPrice(Double.parseDouble(phone.getPrice()));
 
                 if (!phoneInstanceService.save(phoneInstance)) {
@@ -301,7 +289,7 @@ public class AdminController {
         }
 
         if (check != -1) {
-            return errorMsg(model, "This IMEI: " + imeis[check].trim() + " already exists");
+            return errorMsg(model, "This IMEI: " + imeiList[check].trim() + " already exists");
         }
         else if (value == 1) {
             return errorMsg(model, "Phone saved successfully");
@@ -309,31 +297,6 @@ public class AdminController {
         else {
             return errorMsg(model, "Phones saved successfully");
         }
-    }
-
-    private String errorMsg(Model model, String errorMsg) {
-        tuneModel(model);
-        model.addAttribute("errorMsg", errorMsg);
-        return "createphone";
-    }
-
-    private void tuneModel(Model model) {
-        CreatePhoneDescription phoneDescription = new CreatePhoneDescription();
-        View createView = new View();
-        CreatePhone phone = new CreatePhone();
-
-        model.addAttribute("views", viewService.findAllViews());
-        model.addAttribute("phoneDescriptions", phoneDescriptionService.findAllPhoneDescriptions());
-        model.addAttribute("phone", phone);
-        model.addAttribute("createView", createView);
-        model.addAttribute("phoneDescription", phoneDescription);
-        model.addAttribute("brands", brandService.findAllBrandsNames());
-        model.addAttribute("chargeTypes", chargeTypeService.findAllChargeTypesNames());
-        model.addAttribute("communicationStandards", communicationStandardService.findAllCommunicationStandardsNames());
-        model.addAttribute("operationSystems", operationSystemService.findAllOperationSystemsNames());
-        model.addAttribute("processors", processorService.findAllProcessorsNames());
-        model.addAttribute("typeScreens", typeScreenService.findAllTypeScreensNames());
-        model.addAttribute("countries", countryService.findAllCountriesNames());
     }
 
     @GetMapping("/delete")
@@ -347,13 +310,13 @@ public class AdminController {
         model.addAttribute("phone", phone);
         model.addAttribute("deleteView", deleteView);
         model.addAttribute("deletePhoneDescription", deletePhoneDescription);
-        model.addAttribute("success", success);
+        model.addAttribute(SUCCESS, success);
         return "deletephones";
     }
 
     @PostMapping("/delete/phone-description")
     public String deletePhoneDescription(PhoneDescriptionForDelete deletePhoneDescription) {
-        if (deletePhoneDescription.getPhoneDescription().equals("Select phone description")) {
+        if (deletePhoneDescription.getPhoneDescription().equals(SELECT_PHONE_DESCRIPTION)) {
             return "redirect:/admin/delete?success=You must select phone description";
         }
 
@@ -367,7 +330,7 @@ public class AdminController {
 
     @PostMapping("/delete/view")
     public String deleteView(ViewForDelete deleteView) {
-        if (deleteView.getView().equals("Select phone color")) {
+        if (deleteView.getView().equals(SELECT_PHONE_COLOR)) {
             return "redirect:/admin/delete?success=You must select phone color";
         }
 
@@ -381,10 +344,10 @@ public class AdminController {
 
     @PostMapping("/delete/phone")
     public String deletePhone(CreatePhone phone) {
-        if (phone.getView().equals("Select phone color")) {
+        if (phone.getView().equals(SELECT_PHONE_COLOR)) {
             return "redirect:/admin/delete?success=You must choose a phone color";
         }
-        if (phone.getPhoneDescription().equals("Select phone description")) {
+        if (phone.getPhoneDescription().equals(SELECT_PHONE_DESCRIPTION)) {
             return "redirect:/admin/delete?success=You must choose a phone description";
         }
         if (!isNumber(phone.getAmountOfBuiltInMemory())) {
@@ -421,26 +384,18 @@ public class AdminController {
         CreateView changeView = new CreateView();
         CreatePhone changePhone = new CreatePhone();
 
-        model.addAttribute("views", viewService.findAllViews());
-        model.addAttribute("phoneDescriptions", phoneDescriptionService.findAllPhoneDescriptions());
-        model.addAttribute("phones", getPhoneForStoreCompositions(false));
+        model.addAttribute(PHONES, getPhoneForStoreCompositions(false));
         model.addAttribute("changePhone", changePhone);
         model.addAttribute("changeView", changeView);
         model.addAttribute("changePhoneDescription", changePhoneDescription);
-        model.addAttribute("brands", brandService.findAllBrandsNames());
-        model.addAttribute("chargeTypes", chargeTypeService.findAllChargeTypesNames());
-        model.addAttribute("communicationStandards", communicationStandardService.findAllCommunicationStandardsNames());
-        model.addAttribute("operationSystems", operationSystemService.findAllOperationSystemsNames());
-        model.addAttribute("processors", processorService.findAllProcessorsNames());
-        model.addAttribute("typeScreens", typeScreenService.findAllTypeScreensNames());
-        model.addAttribute("countries", countryService.findAllCountriesNames());
-        model.addAttribute("success", success);
+        model.addAttribute(SUCCESS, success);
+        tuneModelForCreateAndChange(model);
         return "changephones";
     }
 
     @PostMapping("/change/phone-description")
     public String changePhoneDescription(CreatePhoneDescription changePhoneDescription) {
-        if(changePhoneDescription.getPhoneDescriptionId().equals("Select phone description")) {
+        if (changePhoneDescription.getPhoneDescriptionId().equals(SELECT_PHONE_DESCRIPTION)) {
             return "redirect:/admin/change?success=You must select phone description";
         }
         if (changePhoneDescription.getBrand().equals("Select brand")) {
@@ -456,7 +411,7 @@ public class AdminController {
             return "redirect:/admin/change?success=You must choose an operation system";
         }
         if (changePhoneDescription.getProcessor().equals("Select processor")) {
-            return"redirect:/admin/change?success=You must choose a processor";
+            return "redirect:/admin/change?success=You must choose a processor";
         }
         if (changePhoneDescription.getTypeScreen().equals("Select type screen")) {
             return "redirect:/admin/change?success=You must choose a type screen";
@@ -538,16 +493,9 @@ public class AdminController {
         }
 
         PhoneDescription phoneDescription = phoneDescriptionService.findById(changePhoneDescription.getPhoneDescriptionId());
-        Brand brand = brandService.findBrandByName(changePhoneDescription.getBrand()).get();
-        ChargeType chargeType = chargeTypeService.findFirstByName(changePhoneDescription.getChargeType()).get();
-        CommunicationStandard communicationStandard = communicationStandardService.findFirstByName(changePhoneDescription.getCommunicationStandard()).get();
-        OperationSystem operationSystem = operationSystemService.findFirstByName(changePhoneDescription.getOperationSystem()).get();
-        Processor processor = processorService.findFirstByName(changePhoneDescription.getProcessor()).get();
-        TypeScreen typeScreen = typeScreenService.findFirstByName(changePhoneDescription.getTypeScreen()).get();
-        Country country = countryService.findCountryByName(changePhoneDescription.getCountry()).get();
 
-        PhoneDescription phoneDescriptionForDb = PhoneMapper.mapCreatePhoneDescriptionToPhoneDescription(phoneDescription, changePhoneDescription, brand, chargeType,
-                communicationStandard, operationSystem, processor, typeScreen, country);
+        PhoneDescription phoneDescriptionForDb = PhoneMapper.mapCreatePhoneDescriptionToPhoneDescription(phoneDescription, changePhoneDescription, brandService, chargeTypeService,
+                communicationStandardService, operationSystemService, processorService, typeScreenService, countryService);
 
         phoneDescriptionService.update(phoneDescriptionForDb);
         return "redirect:/admin/change?success=Phone description updated successfully";
@@ -555,7 +503,7 @@ public class AdminController {
 
     @PostMapping("/change/view")
     public String changeView(CreateView changeView) {
-        if(changeView.getViewId().equals("Select phone color")) {
+        if (changeView.getViewId().equals(SELECT_PHONE_COLOR)) {
             return "redirect:/admin/change?success=You must select phone color";
         }
         if (changeView.getColor().isBlank()) {
@@ -571,21 +519,12 @@ public class AdminController {
             return "redirect:/admin/change?success=Picture 3 field is empty";
         }
 
-        if (changeView.getPhoneFrontAndBack().contains(REGEX)) {
-            String[] linkParts = changeView.getPhoneFrontAndBack().split(LEFT_REGEX);
-            String pictureName = linkParts[1].replace(RIGHT_REGEX, "");
-            changeView.setPhoneFrontAndBack(GOOGLE_DRIVE_VIEW_URL + pictureName);
-        }
-        if (changeView.getLeftSideAndRightSide().contains(REGEX)) {
-            String[] linkParts = changeView.getLeftSideAndRightSide().split(LEFT_REGEX);
-            String pictureName = linkParts[1].replace(RIGHT_REGEX, "");
-            changeView.setLeftSideAndRightSide(GOOGLE_DRIVE_VIEW_URL + pictureName);
-        }
-        if (changeView.getUpSideAndDownSide().contains(REGEX)) {
-            String[] linkParts = changeView.getUpSideAndDownSide().split(LEFT_REGEX);
-            String pictureName = linkParts[1].replace(RIGHT_REGEX, "");
-            changeView.setUpSideAndDownSide(GOOGLE_DRIVE_VIEW_URL + pictureName);
-        }
+        List<String> photos = setPhotosForGoogleDrive(changeView.getPhoneFrontAndBack(),
+                changeView.getLeftSideAndRightSide(), changeView.getUpSideAndDownSide());
+
+        changeView.setPhoneFrontAndBack(photos.get(0));
+        changeView.setLeftSideAndRightSide(photos.get(1));
+        changeView.setUpSideAndDownSide(photos.get(2));
 
         View view = viewService.findById(changeView.getViewId());
         view.setColor(changeView.getColor());
@@ -599,7 +538,7 @@ public class AdminController {
 
     @PostMapping("/change/phone")
     public String changePhone(CreatePhone changePhone) {
-        if(changePhone.getPhoneId().equals("Select phone")) {
+        if (changePhone.getPhoneId().equals("Select phone")) {
             return "redirect:/admin/change?success=You must select phone";
         }
         if (!isNumber(changePhone.getAmountOfBuiltInMemory())) {
@@ -634,8 +573,8 @@ public class AdminController {
     public String allPhones(Model model, @RequestParam(value = "success") String success) {
         List<PhoneInstance> phones = phoneInstanceService.findAllForAdmin();
 
-        model.addAttribute("phones", phones);
-        model.addAttribute("success", success);
+        model.addAttribute(PHONES, phones);
+        model.addAttribute(SUCCESS, success);
         return "allphones";
     }
 
@@ -649,30 +588,8 @@ public class AdminController {
     @GetMapping("/store-composition")
     public String getStoreComposition(Model model) {
         model.addAttribute("phoneForStoreCompositions", getPhoneForStoreCompositions(true));
+        model.addAttribute("flag", true);
         return "storecomposition";
-    }
-
-    private List<PhoneForStoreComposition> getPhoneForStoreCompositions(boolean state) {
-        List<PhoneForStoreComposition> phoneForStoreCompositions = new ArrayList<>();
-        List<Phone> phones;
-
-        if(state) {
-            phones = phoneInstanceService.findAllPhonesInDbForAdmin();
-        }
-        else {
-            phones = phoneInstanceService.findAllPhonesInDb();
-        }
-
-        phones.forEach(phone -> {
-            PhoneForStoreComposition phoneForStoreComposition = new PhoneForStoreComposition();
-            phoneForStoreComposition.setPhone(phone);
-            phoneForStoreComposition.setPrice(phoneInstanceService.findPriceForPhoneForAdmin(phone));
-            phoneForStoreComposition.setCountInStore(phoneInstanceService.countPhonesInStoreForAdmin(phone));
-
-            phoneForStoreCompositions.add(phoneForStoreComposition);
-        });
-
-        return phoneForStoreCompositions;
     }
 
     @GetMapping("/orders")
@@ -685,23 +602,6 @@ public class AdminController {
     public String getOrdersHistory(Model model, @RequestParam(value = "success") String success) {
         setOrder(model, success, false);
         return "adminorders";
-    }
-
-    private void setOrder(Model model, String success, boolean flag) {
-        List<UserOrdersForAdmin> orders = userDetailsServiceImpl.getUsersOrdersForAdmin(flag);
-        orders.forEach(order -> order.getChecks().forEach(check -> order.getTotalPrices().add(phoneInstanceService.findPriceForClientCheckId(check.getId()))));
-        Collections.sort(orders);
-
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.M.yyyy HH:mm:ss", Locale.ENGLISH);
-        orders.forEach(order -> order.getChecks().forEach(check -> order.getDates().add(formatter.format(check.getCreated()))));
-
-        if(!flag) {
-            orders.forEach(order -> order.getChecks().forEach(check -> order.getDatesClosed().add(formatter.format(check.getClosedDate()))));
-        }
-
-        model.addAttribute("orders", orders);
-        model.addAttribute("success", success);
-        model.addAttribute("flag", flag);
     }
 
     @PutMapping("/close-order")
@@ -724,7 +624,7 @@ public class AdminController {
         model.addAttribute("brands", brands);
         model.addAttribute("newBrand", newBrand);
         model.addAttribute("countries", countryService.findAllCountriesNames());
-        model.addAttribute("success", success);
+        model.addAttribute(SUCCESS, success);
         return "сustomizebrands";
     }
 
@@ -739,7 +639,7 @@ public class AdminController {
     }
 
     @PostMapping("/characteristics/brands/create")
-    public String createBrands(Model model, NewBrand newBrand) {
+    public String createBrands(NewBrand newBrand) {
         if (newBrand.getName().isBlank()) {
             return "redirect:/admin/characteristics/brands?success=Name field is empty";
         }
@@ -766,7 +666,7 @@ public class AdminController {
 
         model.addAttribute("chargeTypes", chargeTypes);
         model.addAttribute("newChargeType", newChargeType);
-        model.addAttribute("success", success);
+        model.addAttribute(SUCCESS, success);
         return "customizechargetypes";
     }
 
@@ -781,7 +681,7 @@ public class AdminController {
     }
 
     @PostMapping("/characteristics/chargetypes/create")
-    public String createChargeTypes(Model model, ChargeType newChargeType) {
+    public String createChargeTypes(ChargeType newChargeType) {
         if (newChargeType.getName().isBlank()) {
             return "redirect:/admin/characteristics/chargetypes?success=Name field is empty";
         }
@@ -802,7 +702,7 @@ public class AdminController {
 
         model.addAttribute("communicationStandards", communicationStandards);
         model.addAttribute("newCommunicationStandard", newCommunicationStandard);
-        model.addAttribute("success", success);
+        model.addAttribute(SUCCESS, success);
         return "customizecommunicationstandards";
     }
 
@@ -817,7 +717,7 @@ public class AdminController {
     }
 
     @PostMapping("/characteristics/communicationstandards/create")
-    public String createCommunicationStandards(Model model, CommunicationStandard newCommunicationStandard) {
+    public String createCommunicationStandards(CommunicationStandard newCommunicationStandard) {
         if (newCommunicationStandard.getName().isBlank()) {
             return "redirect:/admin/characteristics/communicationstandards?success=Name field is empty";
         }
@@ -838,7 +738,7 @@ public class AdminController {
 
         model.addAttribute("operationSystems", operationSystems);
         model.addAttribute("newOperationSystem", newOperationSystem);
-        model.addAttribute("success", success);
+        model.addAttribute(SUCCESS, success);
         return "customizeoperationsystems";
     }
 
@@ -853,7 +753,7 @@ public class AdminController {
     }
 
     @PostMapping("/characteristics/operationsystems/create")
-    public String createOperationSystems(Model model, OperationSystem newOperationSystem) {
+    public String createOperationSystems(OperationSystem newOperationSystem) {
         if (newOperationSystem.getName().isBlank()) {
             return "redirect:/admin/characteristics/operationsystems?success=Name field is empty";
         }
@@ -874,7 +774,7 @@ public class AdminController {
 
         model.addAttribute("typeScreens", typeScreens);
         model.addAttribute("newTypeScreen", newTypeScreen);
-        model.addAttribute("success", success);
+        model.addAttribute(SUCCESS, success);
         return "customizetypescreens";
     }
 
@@ -889,7 +789,7 @@ public class AdminController {
     }
 
     @PostMapping("/characteristics/typescreens/create")
-    public String createTypeScreens(Model model, TypeScreen newTypeScreen) {
+    public String createTypeScreens(TypeScreen newTypeScreen) {
         if (newTypeScreen.getName().isBlank()) {
             return "redirect:/admin/characteristics/typescreens?success=Name field is empty";
         }
@@ -910,7 +810,7 @@ public class AdminController {
 
         model.addAttribute("processors", processors);
         model.addAttribute("newProcessor", newProcessor);
-        model.addAttribute("success", success);
+        model.addAttribute(SUCCESS, success);
         return "customizeprocessors";
     }
 
@@ -925,7 +825,7 @@ public class AdminController {
     }
 
     @PostMapping("/characteristics/processors/create")
-    public String createProcessors(Model model, Processor newProcessor) {
+    public String createProcessors(Processor newProcessor) {
         if (newProcessor.getName().isBlank()) {
             return "redirect:/admin/characteristics/processors?success=Name field is empty";
         }
@@ -943,5 +843,223 @@ public class AdminController {
         else {
             return "redirect:/admin/characteristics/processors?success=Processor successfully saved";
         }
+    }
+
+    @GetMapping("/statistics")
+    public String getStatistics() {
+        return "statistics";
+    }
+
+    @GetMapping("/statistic-1")
+    public String getFirstStatistic(Model model) {
+        return modelAttributesForFirstStatistic(model, "", true);
+    }
+
+    @GetMapping("/statistic-1/show")
+    public String getFirstStatisticShow(Model model, SalesSettingsForSpecificModels salesSettingsForSpecificModels) throws Exception {
+        if (salesSettingsForSpecificModels.getId().equals("Select phone")) {
+            return modelAttributesForFirstStatistic(model, "You must select phone", true);
+        }
+        if (salesSettingsForSpecificModels.getYear().equals("Select year")) {
+            return modelAttributesForFirstStatistic(model, "You must select year", true);
+        }
+
+        List<SalesSettingsForSpecificModelsParams> salesSettingsForSpecificModelsParamsList = phoneInstanceService.getSalesSettingsForSpecificModelsParams(salesSettingsForSpecificModels);
+
+        model.addAttribute("list", salesSettingsForSpecificModelsParamsList);
+        model.addAttribute("forWhatPhone", salesSettingsForSpecificModelsParamsList.get(0).getPhone());
+        model.addAttribute("forWhatYear", salesSettingsForSpecificModels.getYear());
+        return modelAttributesForFirstStatistic(model, "", false);
+    }
+
+    @GetMapping("/statistic-2")
+    public String getSecondStatistic(Model model) {
+        return modelAttributesForSecondStatistic(model, "", true);
+    }
+
+    @GetMapping("/statistic-2/show")
+    public String getSecondStatisticShow(Model model, SalesSettingsForSpecificModels salesSettingsForSpecificModels) throws Exception {
+        if (salesSettingsForSpecificModels.getYear().equals("Select year")) {
+            return modelAttributesForSecondStatistic(model, "You must select year", true);
+        }
+
+        List<MostPopularPhoneModels> mostPopularPhoneModelsList = phoneInstanceService.getMostPopularPhoneModels(salesSettingsForSpecificModels.getYear());
+
+        model.addAttribute("list", mostPopularPhoneModelsList);
+        model.addAttribute("forWhatYear", salesSettingsForSpecificModels.getYear());
+        return modelAttributesForSecondStatistic(model, "", false);
+    }
+
+    @GetMapping("/statistic-3")
+    public String getThirdStatistic(Model model) throws Exception {
+        List<CustomerPreferencesByAge> customerPreferencesByAgeList = phoneInstanceService.getCustomerPreferencesByAge();
+        Collections.reverse(customerPreferencesByAgeList);
+
+        model.addAttribute("customerPreferencesByAgeList", customerPreferencesByAgeList);
+        return "thirdstatistic";
+    }
+
+    @GetMapping("/statistic-4")
+    public String getFourthStatistic(Model model) {
+        List<PhoneForStoreComposition> phoneForStoreCompositions = new ArrayList<>();
+
+        phoneInstanceService.findAllPhonesInDbForAdmin().forEach(phone -> {
+            PhoneForStoreComposition phoneForStoreComposition = new PhoneForStoreComposition();
+            phoneForStoreComposition.setPhone(phone);
+            phoneForStoreComposition.setPrice(phoneInstanceService.findPriceForPhoneForAdmin(phone));
+            phoneForStoreComposition.setCountInStore(phoneInstanceService.countPhonesInStoreForAdminForStatistic(phone));
+
+            phoneForStoreCompositions.add(phoneForStoreComposition);
+        });
+
+        Collections.sort(phoneForStoreCompositions);
+
+        model.addAttribute("phoneForStoreCompositions", phoneForStoreCompositions);
+        model.addAttribute("flag", false);
+        return "storecomposition";
+    }
+
+    @GetMapping("/statistic-5")
+    public String getFifthStatistic(Model model) {
+        List<RegisteredUser> registeredUsers = userDetailsServiceImpl.findAllUsersWhichHaveMoreThanOnePurchases();
+
+        return setStatisticForFifthAndSixth(model, registeredUsers);
+    }
+
+    @GetMapping("/statistic-6")
+    public String getSixthStatistic(Model model) {
+        List<RegisteredUser> registeredUsers = userDetailsServiceImpl.findAllUsersWhichDoesntHaveAnyPurchases();
+
+        return setStatisticForFifthAndSixth(model, registeredUsers);
+    }
+
+    private String setStatisticForFifthAndSixth(Model model, List<RegisteredUser> registeredUsers) {
+        int countUsers = userDetailsServiceImpl.countAllUsers();
+
+        String pattern = "##0.00";
+        DecimalFormat decimalFormat = new DecimalFormat(pattern);
+
+        double percent = (double) (registeredUsers.size() * 100) / countUsers;
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.M.yyyy", Locale.ENGLISH);
+        List<String> years = new ArrayList<>();
+
+        registeredUsers.forEach(user -> years.add(formatter.format(user.getDateOfBirth())));
+
+        model.addAttribute(YEARS, years);
+        model.addAttribute("percent", decimalFormat.format(percent));
+        model.addAttribute("registeredUsers", registeredUsers);
+        return "sixthandfifthstatistic";
+    }
+
+    private String errorMsg(Model model, String errorMsg) {
+        tuneModel(model);
+        model.addAttribute(ERROR_MSG, errorMsg);
+        return "createphone";
+    }
+
+    private void tuneModel(Model model) {
+        CreatePhoneDescription phoneDescription = new CreatePhoneDescription();
+        View createView = new View();
+        CreatePhone phone = new CreatePhone();
+
+        model.addAttribute("phone", phone);
+        model.addAttribute("createView", createView);
+        model.addAttribute("phoneDescription", phoneDescription);
+        tuneModelForCreateAndChange(model);
+    }
+
+    private void tuneModelForCreateAndChange(Model model) {
+        model.addAttribute("views", viewService.findAllViews());
+        model.addAttribute("phoneDescriptions", phoneDescriptionService.findAllPhoneDescriptions());
+        model.addAttribute("brands", brandService.findAllBrandsNames());
+        model.addAttribute("chargeTypes", chargeTypeService.findAllChargeTypesNames());
+        model.addAttribute("communicationStandards", communicationStandardService.findAllCommunicationStandardsNames());
+        model.addAttribute("operationSystems", operationSystemService.findAllOperationSystemsNames());
+        model.addAttribute("processors", processorService.findAllProcessorsNames());
+        model.addAttribute("typeScreens", typeScreenService.findAllTypeScreensNames());
+        model.addAttribute("countries", countryService.findAllCountriesNames());
+    }
+
+    private List<String> setPhotosForGoogleDrive(String phoneFrontAndBack, String leftSideAndRightSide, String upSideAndDownSide) {
+        List<String> photos = new ArrayList<>();
+        photos.add(phoneFrontAndBack);
+        photos.add(leftSideAndRightSide);
+        photos.add(upSideAndDownSide);
+
+        if (phoneFrontAndBack.contains(REGEX)) {
+            String[] linkParts = phoneFrontAndBack.split(LEFT_REGEX);
+            String pictureName = linkParts[1].replace(RIGHT_REGEX, "");
+            photos.set(0, GOOGLE_DRIVE_VIEW_URL + pictureName);
+        }
+        if (leftSideAndRightSide.contains(REGEX)) {
+            String[] linkParts = leftSideAndRightSide.split(LEFT_REGEX);
+            String pictureName = linkParts[1].replace(RIGHT_REGEX, "");
+            photos.set(1, GOOGLE_DRIVE_VIEW_URL + pictureName);
+        }
+        if (upSideAndDownSide.contains(REGEX)) {
+            String[] linkParts = upSideAndDownSide.split(LEFT_REGEX);
+            String pictureName = linkParts[1].replace(RIGHT_REGEX, "");
+            photos.set(2, GOOGLE_DRIVE_VIEW_URL + pictureName);
+        }
+
+        return photos;
+    }
+
+    private List<PhoneForStoreComposition> getPhoneForStoreCompositions(boolean state) {
+        List<PhoneForStoreComposition> phoneForStoreCompositions = new ArrayList<>();
+        List<Phone> phones;
+
+        if (state) {
+            phones = phoneInstanceService.findAllPhonesInDbForAdmin();
+        }
+        else {
+            phones = phoneInstanceService.findAllPhonesInDb();
+        }
+
+        phones.forEach(phone -> {
+            PhoneForStoreComposition phoneForStoreComposition = new PhoneForStoreComposition();
+            phoneForStoreComposition.setPhone(phone);
+            phoneForStoreComposition.setPrice(phoneInstanceService.findPriceForPhoneForAdmin(phone));
+            phoneForStoreComposition.setCountInStore(phoneInstanceService.countPhonesInStoreForAdmin(phone));
+
+            phoneForStoreCompositions.add(phoneForStoreComposition);
+        });
+
+        return phoneForStoreCompositions;
+    }
+
+    private void setOrder(Model model, String success, boolean flag) {
+        List<UserOrdersForAdmin> orders = userDetailsServiceImpl.getUsersOrdersForAdmin(flag);
+        orders.forEach(order -> order.getChecks().forEach(check -> order.getTotalPrices().add(phoneInstanceService.findPriceForClientCheckId(check.getId()))));
+        Collections.sort(orders);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.M.yyyy HH:mm:ss", Locale.ENGLISH);
+        orders.forEach(order -> order.getChecks().forEach(check -> order.getDates().add(formatter.format(check.getCreated()))));
+
+        if (!flag) {
+            orders.forEach(order -> order.getChecks().forEach(check -> order.getDatesClosed().add(formatter.format(check.getClosedDate()))));
+        }
+
+        model.addAttribute("orders", orders);
+        model.addAttribute(SUCCESS, success);
+        model.addAttribute("flag", flag);
+    }
+
+    private String modelAttributesForFirstStatistic(Model model, String errorMsg, boolean flag) {
+        model.addAttribute(YEARS, Util.getListYears());
+        model.addAttribute(PHONES, phoneInstanceService.findAllPhonesInDb());
+        model.addAttribute("salesSettingsForSpecificModels", new SalesSettingsForSpecificModels());
+        model.addAttribute("flag", flag);
+        model.addAttribute(ERROR_MSG, errorMsg);
+        return "firststatistic";
+    }
+
+    private String modelAttributesForSecondStatistic(Model model, String errorMsg, boolean flag) {
+        model.addAttribute(YEARS, Util.getListYears());
+        model.addAttribute("salesSettingsForSpecificModels", new SalesSettingsForSpecificModels());
+        model.addAttribute("flag", flag);
+        model.addAttribute(ERROR_MSG, errorMsg);
+        return "secondstatistic";
     }
 }
