@@ -59,16 +59,18 @@
         <div class="col">
             <form autocomplete="off" th:action="@{/admin/change/phone-description}" th:object="${changePhoneDescription}"
                   method="post">
+                <label><input th:field="*{phoneDescriptionId}" th:value="${phoneDescriptionId}" type="hidden"></label>
                 <div class="row">
                     <div class="col" align="center">
                         <div style="height: 90px;">
                             <label class="form-label">Phone description for change:</label>
                             <div style="height: 30px; width: 300px;">
                                 <select class="select-box"  style="height: 30px; width: 300px;"
-                                        th:field="*{phoneDescriptionId}">
-                                    <option selected="selected" th:value="${'Select phone description'}">Select phone description</option>
+                                        onchange="location = this.value">
+                                    <option th:value="${'/admin/change?success= '}">Select phone description</option>
                                     <option th:each="phoneDescriptionOpt : ${phoneDescriptions}" th:text="${phoneDescriptionOpt.brand.name+' '+ phoneDescriptionOpt.series+' '+phoneDescriptionOpt.name}"
-                                            th:value="${phoneDescriptionOpt.id}"></option>
+                                            th:value="${'/admin/change/phone-description?id='+phoneDescriptionOpt.id}"
+                                            th:selected="${phoneDescriptionInput.id !=null and phoneDescriptionOpt.brand.name==phoneDescriptionInput.brand.name and phoneDescriptionOpt.series==phoneDescriptionInput.series and phoneDescriptionOpt.name==phoneDescriptionInput.name}"></option>
                                 </select>
                             </div>
                         </div>
@@ -84,21 +86,23 @@
                         <label class="form-label">Brand:</label>
                         <div style="height: 30px; width: 200px;">
                             <select class="select-box" autofocus="true" style="height: 30px; width: 200px;"
-                                    th:field="*{brand}">
-                                <option selected="selected" th:value="${'Select brand'}">Select brand</option>
+                                    th:name="brand">
+                                <option th:value="${'Select brand'}">Select brand</option>
                                 <option th:each="brandOpt : ${brands}" th:text="${brandOpt}"
-                                        th:value="${brandOpt}"></option>
+                                        th:value="${brandOpt}"
+                                th:selected="${phoneDescriptionInput.id !=null and phoneDescriptionInput.brand.name==brandOpt}"></option>
                             </select>
                         </div>
                     </div>
                     <div class="col">
                         <label class="form-label">Type screen:</label>
                         <div style="height: 30px; width: 200px;">
-                            <select class="select-box" style="height: 30px; width: 200px;" th:field="*{typeScreen}">
-                                <option selected="selected" th:value="${'Select type screen'}">Select type screen
+                            <select class="select-box" style="height: 30px; width: 200px;" th:name="typeScreen">
+                                <option th:value="${'Select type screen'}">Select type screen
                                 </option>
                                 <option th:each="typeScreenOpt : ${typeScreens}" th:text="${typeScreenOpt}"
-                                        th:value="${typeScreenOpt}"></option>
+                                        th:value="${typeScreenOpt}"
+                                        th:selected="${phoneDescriptionInput.id !=null and phoneDescriptionInput.typeScreen.name==typeScreenOpt}"></option>
                             </select>
                         </div>
                     </div>
@@ -107,7 +111,10 @@
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control" id="weight"
                                    required="true"
-                                   th:field="*{weight}" th:value="${weight}">
+                                   th:name="weight" th:value="${phoneDescriptionInput.weight}" th:if="${phoneDescriptionInput.weight!=0}">
+                            <input style="height: 30px; width: 200px;" type="text" class="form-control" id="weight"
+                                   required="true"
+                                   th:name="weight" th:value="${weight}" th:if="${phoneDescriptionInput.weight==0}">
                         </div>
                     </div>
                 </div>
@@ -117,7 +124,7 @@
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control" id="series"
                                    required="true"
-                                   th:field="*{series}" th:value="${series}">
+                                   th:name="series" th:value="${phoneDescriptionInput.series}">
                         </div>
                     </div>
                     <div class="col">
@@ -125,7 +132,10 @@
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control" id="diagonal"
                                    required="true"
-                                   th:field="*{diagonal}" th:value="${diagonal}">
+                                   th:name="diagonal" th:value="${phoneDescriptionInput.diagonal}" th:if="${phoneDescriptionInput.diagonal!=0}">
+                            <input style="height: 30px; width: 200px;" type="text" class="form-control" id="diagonal"
+                                   required="true"
+                                   th:name="diagonal" th:value="${diagonal}" th:if="${phoneDescriptionInput.diagonal==0}">
                         </div>
                     </div>
                     <div class="col">
@@ -133,7 +143,10 @@
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control" id="height"
                                    required="true"
-                                   th:field="*{height}" th:value="${height}">
+                                   th:name="height" th:value="${phoneDescriptionInput.height}" th:if="${phoneDescriptionInput.height!=0}">
+                            <input style="height: 30px; width: 200px;" type="text" class="form-control" id="height"
+                                   required="true"
+                                   th:name="height" th:value="${height}" th:if="${phoneDescriptionInput.height==0}">
                         </div>
                     </div>
                 </div>
@@ -143,7 +156,7 @@
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control" id="name"
                                    required="true"
-                                   th:field="*{name}" th:value="${name}">
+                                   th:name="name" th:value="${phoneDescriptionInput.name}">
                         </div>
                     </div>
                     <div class="col">
@@ -152,7 +165,7 @@
                             <input style="height: 30px; width: 200px;" type="text" class="form-control"
                                    id="displayResolution"
                                    required="true"
-                                   th:field="*{displayResolution}" th:value="${displayResolution}">
+                                   th:name="displayResolution" th:value="${phoneDescriptionInput.displayResolution}">
                         </div>
                     </div>
                     <div class="col">
@@ -160,7 +173,10 @@
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control" id="width"
                                    required="true"
-                                   th:field="*{width}" th:value="${width}">
+                                   th:name="width" th:value="${phoneDescriptionInput.width}" th:if="${phoneDescriptionInput.width!=0}">
+                            <input style="height: 30px; width: 200px;" type="text" class="form-control" id="width"
+                                   required="true"
+                                   th:name="width" th:value="${width}" th:if="${phoneDescriptionInput.width==0}">
                         </div>
                     </div>
                 </div>
@@ -172,7 +188,11 @@
                             <input style="height: 30px; width: 200px;" type="text" class="form-control"
                                    id="screenRefreshRate"
                                    required="true"
-                                   th:field="*{screenRefreshRate}" th:value="${screenRefreshRate}">
+                                   th:name="screenRefreshRate" th:value="${phoneDescriptionInput.screenRefreshRate}" th:if="${phoneDescriptionInput.screenRefreshRate!=0}">
+                            <input style="height: 30px; width: 200px;" type="text" class="form-control"
+                                   id="screenRefreshRate"
+                                   required="true"
+                                   th:name="screenRefreshRate" th:value="${screenRefreshRate}" th:if="${phoneDescriptionInput.screenRefreshRate==0}">
                         </div>
                     </div>
                     <div class="col">
@@ -182,7 +202,7 @@
                             <input style="height: 30px; width: 200px;" type="text" class="form-control"
                                    id="degreeOfMoistureProtection"
                                    required="true"
-                                   th:field="*{degreeOfMoistureProtection}" th:value="${degreeOfMoistureProtection}">
+                                   th:name="degreeOfMoistureProtection" th:value="${phoneDescriptionInput.degreeOfMoistureProtection}">
                         </div>
                     </div>
                 </div>
@@ -200,13 +220,14 @@
                             <label class="form-label">Communication standard:</label>
                             <div style="height: 30px; width: 260px;">
                                 <select class="select-box" style="height: 30px; width: 260px;"
-                                        th:field="*{communicationStandard}">
-                                    <option selected="selected" th:value="${'Select communication standard'}">Select
+                                        th:name="communicationStandard">
+                                    <option th:value="${'Select communication standard'}">Select
                                         communication standard
                                     </option>
                                     <option th:each="communicationStandardOpt : ${communicationStandards}"
                                             th:text="${communicationStandardOpt}"
-                                            th:value="${communicationStandardOpt}"></option>
+                                            th:value="${communicationStandardOpt}"
+                                            th:selected="${phoneDescriptionInput.id !=null and phoneDescriptionInput.communicationStandard.name == communicationStandardOpt}"></option>
                                 </select>
                             </div>
                         </div>
@@ -214,11 +235,12 @@
                     <div class="col">
                         <label class="form-label">Charge type:</label>
                         <div style="height: 30px; width: 200px;">
-                            <select class="select-box" style="height: 30px; width: 200px;" th:field="*{chargeType}">
-                                <option selected="selected" th:value="${'Select charge type'}">Select charge type
+                            <select class="select-box" style="height: 30px; width: 200px;" th:name="chargeType">
+                                <option th:value="${'Select charge type'}">Select charge type
                                 </option>
                                 <option th:each="chargeTypeOpt : ${chargeTypes}" th:text="${chargeTypeOpt}"
-                                        th:value="${chargeTypeOpt}"></option>
+                                        th:value="${chargeTypeOpt}"
+                                        th:selected="${phoneDescriptionInput.id !=null and phoneDescriptionInput.chargeType.name==chargeTypeOpt}"></option>
                             </select>
                         </div>
                     </div>
@@ -226,12 +248,13 @@
                         <label class="form-label">Operation system:</label>
                         <div style="height: 30px; width: 200px;">
                             <select class="select-box" style="height: 30px; width: 200px;"
-                                    th:field="*{operationSystem}">
-                                <option selected="selected" th:value="${'Select operation system'}">Select operation
+                                    th:name="operationSystem">
+                                <option th:value="${'Select operation system'}">Select operation
                                     system
                                 </option>
                                 <option th:each="operationSystemOpt : ${operationSystems}"
-                                        th:text="${operationSystemOpt}" th:value="${operationSystemOpt}"></option>
+                                        th:text="${operationSystemOpt}" th:value="${operationSystemOpt}"
+                                        th:selected="${phoneDescriptionInput.id !=null and phoneDescriptionInput.operationSystem.name==operationSystemOpt}"></option>
                             </select>
                         </div>
                     </div>
@@ -244,7 +267,11 @@
                                 <input style="height: 30px; width: 200px;" type="text" class="form-control"
                                        id="numberOfSimCards"
                                        required="true"
-                                       th:field="*{numberOfSimCards}" th:value="${numberOfSimCards}">
+                                       th:name="numberOfSimCards" th:value="${phoneDescriptionInput.numberOfSimCards}" th:if="${phoneDescriptionInput.numberOfSimCards!=0}">
+                                <input style="height: 30px; width: 200px;" type="text" class="form-control"
+                                       id="numberOfSimCards"
+                                       required="true"
+                                       th:name="numberOfSimCards" th:value="${numberOfSimCards}" th:if="${phoneDescriptionInput.numberOfSimCards==0}">
                             </div>
                         </div>
                     </div>
@@ -254,7 +281,7 @@
                             <div style="height: 30px; width: 200px;" align="center">
                                 <input style="height: 30px; width: 30px;" class="form-check-input" type="checkbox"
                                        id="nfc"
-                                       th:field="*{nfc}" th:value="${nfc}">
+                                       th:name="nfc" th:checked="${phoneDescriptionInput.isHaveNfc}">
                             </div>
                         </div>
                     </div>
@@ -266,11 +293,12 @@
                         <div style="width: 444px;">
                             <label class="form-label">Processor:</label>
                             <div style="height: 30px; width: 200px;">
-                                <select class="select-box" style="height: 30px; width: 300px;" th:field="*{processor}">
-                                    <option selected="selected" th:value="${'Select processor'}">Select processor
+                                <select class="select-box" style="height: 30px; width: 300px;" th:name="processor">
+                                    <option th:value="${'Select processor'}">Select processor
                                     </option>
                                     <option th:each="processorOpt : ${processors}" th:text="${processorOpt}"
-                                            th:value="${processorOpt}"></option>
+                                            th:value="${processorOpt}"
+                                            th:selected="${phoneDescriptionInput.id !=null and phoneDescriptionInput.processor.name==processorOpt}"></option>
                                 </select>
                             </div>
                         </div>
@@ -291,14 +319,18 @@
                             <input style="height: 30px; width: 40px;" type="text" class="form-control"
                                    id="numberOfFrontCameras"
                                    required="true"
-                                   th:field="*{numberOfFrontCameras}" th:value="${numberOfFrontCameras}">
+                                   th:name="numberOfFrontCameras" th:value="${phoneDescriptionInput.numberOfFrontCameras}" th:if="${phoneDescriptionInput.numberOfFrontCameras!=0}">
+                            <input style="height: 30px; width: 40px;" type="text" class="form-control"
+                                   id="numberOfFrontCameras"
+                                   required="true"
+                                   th:name="numberOfFrontCameras" th:value="${numberOfFrontCameras}" th:if="${phoneDescriptionInput.numberOfFrontCameras==0}">
                         </div>
                         <br>
                         <label for="infoAboutFrontCameras" class="form-label">Information about front cameras:</label>
                         <div style="height: 213px; width: 700px;">
                     <textarea style="height: 213px; width: 700px;" class="form-control" id="infoAboutFrontCameras"
                               required="true"
-                              th:field="*{infoAboutFrontCameras}" th:value="${infoAboutFrontCameras}"></textarea>
+                              th:name="infoAboutFrontCameras" th:text="${phoneDescriptionInput.infoAboutFrontCameras}"></textarea>
                         </div>
                     </div>
                 </div>
@@ -317,14 +349,18 @@
                             <input style="height: 30px; width: 40px;" type="text" class="form-control"
                                    id="numberOfMainCameras"
                                    required="true"
-                                   th:field="*{numberOfMainCameras}" th:value="${numberOfMainCameras}">
+                                   th:name="numberOfMainCameras" th:value="${phoneDescriptionInput.numberOfMainCameras}" th:if="${phoneDescriptionInput.numberOfMainCameras!=0}">
+                            <input style="height: 30px; width: 40px;" type="text" class="form-control"
+                                   id="numberOfMainCameras"
+                                   required="true"
+                                   th:name="numberOfMainCameras" th:value="${numberOfMainCameras}" th:if="${phoneDescriptionInput.numberOfMainCameras==0}">
                         </div>
                         <br>
                         <label for="infoAboutMainCameras" class="form-label">Information about main cameras:</label>
                         <div style="height: 213px; width: 700px;">
                     <textarea style="height: 213px; width: 700px;" class="form-control" id="infoAboutMainCameras"
                               required="true"
-                              th:field="*{infoAboutMainCameras}" th:value="${infoAboutMainCameras}"></textarea>
+                              th:name="infoAboutMainCameras" th:text="${phoneDescriptionInput.infoAboutMainCameras}"></textarea>
                         </div>
                     </div>
                 </div>
@@ -337,18 +373,23 @@
                             <input style="height: 30px; width: 200px;" type="text" class="form-control"
                                    id="guaranteeTimeMonths"
                                    required="true"
-                                   th:field="*{guaranteeTimeMonths}" th:value="${guaranteeTimeMonths}">
+                                   th:name="guaranteeTimeMonths" th:value="${phoneDescriptionInput.guaranteeTimeMonths}" th:if="${phoneDescriptionInput.guaranteeTimeMonths!=0}">
+                            <input style="height: 30px; width: 200px;" type="text" class="form-control"
+                                   id="guaranteeTimeMonths"
+                                   required="true"
+                                   th:name="guaranteeTimeMonths" th:value="${guaranteeTimeMonths}" th:if="${phoneDescriptionInput.guaranteeTimeMonths==0}">
                         </div>
                     </div>
                     <div class="col">
                         <label class="form-label">Country producer of the product:</label>
                         <div style="height: 30px; width: 240px;">
-                            <select class="select-box" style="height: 30px; width: 240px;" th:field="*{country}">
-                                <option selected="selected" th:value="${'Select country producer'}">Select country
+                            <select class="select-box" style="height: 30px; width: 240px;" th:name="country">
+                                <option th:value="${'Select country producer'}">Select country
                                     producer
                                 </option>
                                 <option th:each="countryOpt : ${countries}" th:text="${countryOpt}"
-                                        th:value="${countryOpt}"></option>
+                                        th:value="${countryOpt}"
+                                        th:selected="${phoneDescriptionInput.id !=null and phoneDescriptionInput.country.name==countryOpt}"></option>
                             </select>
                         </div>
                     </div>
@@ -377,7 +418,7 @@
                 <div class="col">
                     <form autocomplete="off" th:action="@{/admin/change/view}" th:object="${changeView}"
                           method="post">
-
+                        <label><input th:field="*{viewId}" th:value="${viewId}" type="hidden"></label>
                         <div class="row">
                             <div class="col"></div>
                             <div class="col" align="center">
@@ -385,10 +426,11 @@
                                     <label class="form-label">View for change:</label>
                                     <div style="height: 30px; width: 300px;">
                                         <select class="select-box"  style="height: 30px; width: 300px;"
-                                                th:field="*{viewId}">
-                                            <option selected="selected" th:value="${'Select phone color'}">Select phone color</option>
+                                                onchange="location = this.value">
+                                            <option th:value="${'/admin/change?success= '}">Select phone color</option>
                                             <option th:each="viewOpt : ${views}" th:text="${viewOpt.colorForWhichPhone +' '+ viewOpt.color}"
-                                                    th:value="${viewOpt.id}"></option>
+                                                    th:value="${'/admin/change/phone-view?id='+viewOpt.id}"
+                                            th:selected="${viewInput.id != null and viewOpt.colorForWhichPhone==viewInput.colorForWhichPhone and viewOpt.color==viewInput.color}"></option>
                                         </select>
                                     </div>
                                 </div>
@@ -402,7 +444,7 @@
                                     <div style="height: 30px; width: 200px;">
                                         <input style="height: 30px; width: 200px;" type="text" class="form-control" id="color"
                                                required="true"
-                                               th:field="*{color}" th:value="${color}">
+                                               th:name="color" th:value="${viewInput.color}">
                                     </div>
                                 </div>
                             </div>
@@ -436,7 +478,7 @@
                                     <div style="height: 30px; width: 500px;">
                                         <input style="height: 30px; width: 500px;" type="text" class="form-control" id="phoneFrontAndBack"
                                                required="true"
-                                               th:field="*{phoneFrontAndBack}" th:value="${phoneFrontAndBack}">
+                                               th:name="phoneFrontAndBack" th:value="${viewInput.phoneFrontAndBack}">
                                     </div>
                                 </div>
                             </div>
@@ -450,7 +492,7 @@
                                         <input style="height: 30px; width: 500px;" type="text" class="form-control"
                                                id="leftSideAndRightSide"
                                                required="true"
-                                               th:field="*{leftSideAndRightSide}" th:value="${leftSideAndRightSide}">
+                                               th:name="leftSideAndRightSide" th:value="${viewInput.leftSideAndRightSide}">
                                     </div>
                                 </div>
                             </div>
@@ -463,7 +505,7 @@
                                     <div style="height: 30px; width: 500px;">
                                         <input style="height: 30px; width: 500px;" type="text" class="form-control" id="upSideAndDownSide"
                                                required="true"
-                                               th:field="*{upSideAndDownSide}" th:value="${upSideAndDownSide}">
+                                               th:name="upSideAndDownSide" th:value="${viewInput.upSideAndDownSide}">
                                     </div>
                                 </div>
                             </div>
@@ -495,6 +537,7 @@
                 <div class="col">
                     <form autocomplete="off" th:action="@{/admin/change/phone}" th:object="${changePhone}"
                           method="post">
+                        <label><input th:field="*{phoneId}" th:value="${phoneId}" type="hidden"></label>
                         <div class="row">
                             <div class="col"></div>
                             <div class="col">
@@ -511,11 +554,13 @@
                                     <label class="form-label">Phone for change:</label>
                                     <div style="height: 30px; width: 400px;">
                                         <select class="select-box"  style="height: 30px; width: 400px;"
-                                                th:field="*{phoneId}">
-                                            <option selected="selected" th:value="${'Select phone'}">Select phone</option>
+                                                onchange="location = this.value">
+                                            <option th:value="${'/admin/change?success= '}">Select phone</option>
                                             <option th:each="phoneOpt : ${phones}" th:text="${phoneOpt.phone.phoneDescription.brand.name+' '+ phoneOpt.phone.phoneDescription.series + ' '+ phoneOpt.phone.phoneDescription.name
         +' '+phoneOpt.phone.amountOfRam+'/'+phoneOpt.phone.amountOfBuiltInMemory+' Gb. Price: '+phoneOpt.price+ ' $'}"
-                                                    th:value="${phoneOpt.phone.id}"></option>
+                                                    th:value="${'/admin/change/phone?id='+phoneOpt.phone.id}"
+                                            th:selected="${phoneInput.phone.id !=null and phoneOpt.phone.phoneDescription.brand.name==phoneInput.phone.phoneDescription.brand.name and phoneOpt.phone.phoneDescription.series==phoneInput.phone.phoneDescription.series and phoneOpt.phone.phoneDescription.name==phoneInput.phone.phoneDescription.name
+        and phoneOpt.phone.amountOfRam==phoneInput.phone.amountOfRam and phoneOpt.phone.amountOfBuiltInMemory==phoneInput.phone.amountOfBuiltInMemory}"></option>
                                         </select>
                                     </div>
                                 </div>
@@ -530,7 +575,11 @@
                                         <input style="height: 30px; width: 200px;" type="text" class="form-control"
                                                id="amountOfBuiltInMemory"
                                                required="true"
-                                               th:field="*{amountOfBuiltInMemory}" th:value="${amountOfBuiltInMemory}">
+                                               th:name="amountOfBuiltInMemory" th:value="${phoneInput.phone.amountOfBuiltInMemory}" th:if="${phoneInput.phone.amountOfBuiltInMemory!=0}">
+                                        <input style="height: 30px; width: 200px;" type="text" class="form-control"
+                                               id="amountOfBuiltInMemory"
+                                               required="true"
+                                               th:name="amountOfBuiltInMemory" th:value="${amountOfBuiltInMemory}" th:if="${phoneInput.phone.amountOfBuiltInMemory==0}">
                                     </div>
                                 </div>
                             </div>
@@ -541,7 +590,10 @@
                                     <div style="height: 30px; width: 200px;">
                                         <input style="height: 30px; width: 200px;" type="text" class="form-control" id="amountOfRam"
                                                required="true"
-                                               th:field="*{amountOfRam}" th:value="${amountOfRam}">
+                                               th:name="amountOfRam" th:value="${phoneInput.phone.amountOfRam}" th:if="${phoneInput.phone.amountOfRam!=0}">
+                                        <input style="height: 30px; width: 200px;" type="text" class="form-control" id="amountOfRam"
+                                               required="true"
+                                               th:name="amountOfRam" th:value="${amountOfRam}" th:if="${phoneInput.phone.amountOfRam==0}">
                                     </div>
                                 </div>
                             </div>
@@ -550,11 +602,14 @@
                             <div class="col"></div>
                             <div class="col">
                                 <div style="width: 304px; height: 105px;">
-                                    <label for="price" class="form-label">Price:</label>
+                                    <label for="price" class="form-label">Price $:</label>
                                     <div style="height: 30px; width: 200px;">
                                         <input style="height: 30px; width: 200px;" type="text" class="form-control" id="price"
                                                required="true"
-                                               th:field="*{price}" th:value="${price}">
+                                               th:name="price" th:value="${phoneInput.price}" th:if="${phoneInput.price!=0}">
+                                        <input style="height: 30px; width: 200px;" type="text" class="form-control" id="price"
+                                               required="true"
+                                               th:name="price" th:value="${price}" th:if="${phoneInput.price==0}">
                                     </div>
                                 </div>
                             </div>

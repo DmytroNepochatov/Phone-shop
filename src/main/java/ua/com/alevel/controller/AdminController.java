@@ -380,22 +380,43 @@ public class AdminController {
 
     @GetMapping("/change")
     public String changePhone(Model model, @RequestParam(value = "success") String success) {
-        CreatePhoneDescription changePhoneDescription = new CreatePhoneDescription();
-        CreateView changeView = new CreateView();
-        CreatePhone changePhone = new CreatePhone();
+        return createChangePhone(model, success, new CreatePhoneDescription(), new CreateView(), new CreatePhone(), new PhoneDescription(), new View(), new PhoneForStoreComposition(new Phone(), 0, 0));
+    }
 
-        model.addAttribute(PHONES, getPhoneForStoreCompositions(false));
-        model.addAttribute("changePhone", changePhone);
-        model.addAttribute("changeView", changeView);
-        model.addAttribute("changePhoneDescription", changePhoneDescription);
-        model.addAttribute(SUCCESS, success);
-        tuneModelForCreateAndChange(model);
-        return "changephones";
+    @GetMapping("/change/phone-description")
+    public String changePhoneGetInputValuesForPhoneDescription(Model model, @RequestParam(value = "id") String id) {
+        PhoneDescription phoneDescriptionInput = phoneDescriptionService.findById(id);
+        CreatePhoneDescription changePhoneDescription = new CreatePhoneDescription();
+        changePhoneDescription.setPhoneDescriptionId(phoneDescriptionInput.getId());
+
+        return createChangePhone(model, "", changePhoneDescription, new CreateView(), new CreatePhone(), phoneDescriptionInput, new View(), new PhoneForStoreComposition(new Phone(), 0, 0));
+    }
+
+    @GetMapping("/change/phone-view")
+    public String changePhoneGetInputValuesForPhoneView(Model model, @RequestParam(value = "id") String id) {
+        View viewInput = viewService.findById(id);
+        CreateView changeView = new CreateView();
+        changeView.setViewId(viewInput.getId());
+
+        return createChangePhone(model, "", new CreatePhoneDescription(), changeView, new CreatePhone(), new PhoneDescription(), viewInput, new PhoneForStoreComposition(new Phone(), 0, 0));
+    }
+
+    @GetMapping("/change/phone")
+    public String changePhoneGetInputValuesForPhone(Model model, @RequestParam(value = "id") String id) {
+        PhoneForStoreComposition phoneInput = new PhoneForStoreComposition();
+        Phone phone = phoneInstanceService.findByIdPhone(id);
+        phoneInput.setPhone(phone);
+        phoneInput.setPrice(phoneInstanceService.findPriceForPhoneForAdmin(phone));
+
+        CreatePhone changePhone = new CreatePhone();
+        changePhone.setPhoneId(phone.getId());
+
+        return createChangePhone(model, "", new CreatePhoneDescription(), new CreateView(), changePhone, new PhoneDescription(), new View(), phoneInput);
     }
 
     @PostMapping("/change/phone-description")
     public String changePhoneDescription(CreatePhoneDescription changePhoneDescription) {
-        if (changePhoneDescription.getPhoneDescriptionId().equals(SELECT_PHONE_DESCRIPTION)) {
+        if (changePhoneDescription.getPhoneDescriptionId().isBlank()) {
             return "redirect:/admin/change?success=You must select phone description";
         }
         if (changePhoneDescription.getBrand().equals("Select brand")) {
@@ -503,7 +524,7 @@ public class AdminController {
 
     @PostMapping("/change/view")
     public String changeView(CreateView changeView) {
-        if (changeView.getViewId().equals(SELECT_PHONE_COLOR)) {
+        if (changeView.getViewId().isBlank()) {
             return "redirect:/admin/change?success=You must select phone color";
         }
         if (changeView.getColor().isBlank()) {
@@ -538,7 +559,7 @@ public class AdminController {
 
     @PostMapping("/change/phone")
     public String changePhone(CreatePhone changePhone) {
-        if (changePhone.getPhoneId().equals("Select phone")) {
+        if (changePhone.getPhoneId().isBlank()) {
             return "redirect:/admin/change?success=You must select phone";
         }
         if (!isNumber(changePhone.getAmountOfBuiltInMemory())) {
@@ -1039,7 +1060,7 @@ public class AdminController {
 
         registeredUsers.forEach(user -> years.add(formatter.format(user.getDateOfBirth())));
 
-        if(flag) {
+        if (flag) {
             List<Integer> orderCount = new ArrayList<>();
             registeredUsers.forEach(user -> orderCount.add(userDetailsServiceImpl.countUserOrdersForUserId(user.getId())));
 
@@ -1191,9 +1212,9 @@ public class AdminController {
         if (order != null) {
             SimpleDateFormat formatter = new SimpleDateFormat(CHECK_DATES_PATTERN, Locale.ENGLISH);
             SimpleDateFormat formatterBirthday = new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH);
-            
+
             RegisteredUser registeredUser = userDetailsServiceImpl.findById(clientCheckService.getUserIdForCheckId(order.getId()));
-            
+
             model.addAttribute("registeredUser", registeredUser);
             model.addAttribute(YEARS, formatterBirthday.format(registeredUser.getDateOfBirth()));
             model.addAttribute("order", Util.createOrderForSelectUserForAdmin(order, formatter, phoneInstanceService));
@@ -1205,5 +1226,19 @@ public class AdminController {
         model.addAttribute(SUCCESS, success);
         model.addAttribute("findOrderByNumber", new FindOrderByNumber());
         return "findorderbynumber";
+    }
+
+    private String createChangePhone(Model model, String success, CreatePhoneDescription changePhoneDescription, CreateView changeView,
+                                     CreatePhone changePhone, PhoneDescription phoneDescriptionInput, View viewInput, PhoneForStoreComposition phoneInput) {
+        model.addAttribute("phoneDescriptionInput", phoneDescriptionInput);
+        model.addAttribute("viewInput", viewInput);
+        model.addAttribute("phoneInput", phoneInput);
+        model.addAttribute(PHONES, getPhoneForStoreCompositions(false));
+        model.addAttribute("changePhone", changePhone);
+        model.addAttribute("changeView", changeView);
+        model.addAttribute("changePhoneDescription", changePhoneDescription);
+        model.addAttribute(SUCCESS, success);
+        tuneModelForCreateAndChange(model);
+        return "changephones";
     }
 }
