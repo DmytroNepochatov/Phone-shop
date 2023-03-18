@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisteredUser {
+public class RegisteredUser implements Comparable<RegisteredUser> {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -54,4 +54,9 @@ public class RegisteredUser {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Override
+    public int compareTo(RegisteredUser user) {
+        return this.lastName.compareTo(user.lastName);
+    }
 }

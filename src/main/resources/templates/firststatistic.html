@@ -18,6 +18,12 @@
 <div class="container-fluid">
     <br>
     <div class="row">
+        <div class="col" align="center">
+            <h5>Sales statistics for specific phone models by year/month</h5>
+        </div>
+    </div>
+    <div style="height: 25px;"></div>
+    <div class="row">
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
@@ -43,7 +49,7 @@
                                     th:field="*{id}">
                                 <option selected="selected" th:value="${'Select phone'}">Select phone</option>
                                 <option th:each="phoneOpt : ${phones}" th:text="${phoneOpt.phoneDescription.brand.name+' '+ phoneOpt.phoneDescription.series + ' '+ phoneOpt.phoneDescription.name
-        +' '+phoneOpt.amountOfRam+'/'+phoneOpt.amountOfBuiltInMemory+' Gb '}"
+        +' '+phoneOpt.amountOfRam+'/'+phoneOpt.amountOfBuiltInMemory+' Gb'}"
                                         th:value="${phoneOpt.id}"></option>
                             </select>
                         </div>
@@ -95,7 +101,7 @@
             <div class="row">
                 <div class="col" align="center">
                     <h5 th:text="${listOpt.phone.phoneDescription.brand.name+' '+ listOpt.phone.phoneDescription.series + ' '+ listOpt.phone.phoneDescription.name
-        +' '+listOpt.phone.amountOfRam+'/'+listOpt.phone.amountOfBuiltInMemory+' Gb Color: '+listOpt.phone.view.color}"></h5>
+        +' '+listOpt.phone.amountOfRam+'/'+listOpt.phone.amountOfBuiltInMemory+' Gb. Color: '+listOpt.phone.view.color}"></h5>
                 </div>
             </div>
             <div style="height: 10px;"></div>

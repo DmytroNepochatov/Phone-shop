@@ -601,6 +601,10 @@ public class PhoneInstanceService {
         return result;
     }
 
+    public Optional<PhoneInstance> findPhoneByImei(String imei) {
+        return phoneInstanceRepository.findFirstByImei(imei);
+    }
+
     private void setListOccurrences(List<Integer> listOccurrences, int i) {
         int value = listOccurrences.get(i);
         listOccurrences.set(i, value + 1);

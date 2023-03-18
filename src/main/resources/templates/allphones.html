@@ -42,15 +42,20 @@
     <br>
     <div th:if="${!phones.empty}">
         <div class="row" th:each="phoneOpt: ${phones}">
-            <div class="col-1"></div>
+            <div class="col-2"></div>
             <div class="col" style="height: 90px; border: 1px solid black;">
                 <div class="row align-items-center" style="height: 90px;">
                     <div class="col-1">
                         <img th:src="${phoneOpt.phone.view.phoneFrontAndBack}" class="card-img-top"
                              style="height: 70px; width: 70px;">
                     </div>
-                    <div class="col-10" th:text="${phoneOpt.phone.phoneDescription.brand.name+' '+ phoneOpt.phone.phoneDescription.series + ' '+ phoneOpt.phone.phoneDescription.name
-        +' '+phoneOpt.phone.amountOfRam+'/'+phoneOpt.phone.amountOfBuiltInMemory+' Gb '+phoneOpt.phone.view.color+ ' IMEI: '+phoneOpt.imei+' Price: '+phoneOpt.price+' $'}"></div>
+                    <div style="width: 20px;"></div>
+                    <div class="col-7">
+                        <div class="row" th:text="${phoneOpt.phone.phoneDescription.brand.name+' '+ phoneOpt.phone.phoneDescription.series + ' '+ phoneOpt.phone.phoneDescription.name
+        +' '+phoneOpt.phone.amountOfRam+'/'+phoneOpt.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneOpt.phone.view.color}"></div>
+                        <div class="row" th:text="${'IMEI: '+phoneOpt.imei}"></div>
+                    </div>
+                    <div class="col-2" align="center" th:text="${'Price: '+phoneOpt.price+' $'}"></div>
                     <div class="col-1" align="center">
                         <div class="col text-center">
                             <form th:action="${'/admin/allphones?id='+phoneOpt.id}" th:method="post">
@@ -62,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-1"></div>
+            <div class="col-2"></div>
         </div>
     </div>
     <br>

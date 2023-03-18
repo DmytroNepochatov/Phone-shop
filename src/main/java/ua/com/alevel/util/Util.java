@@ -1,8 +1,11 @@
 package ua.com.alevel.util;
 
+import ua.com.alevel.model.check.ClientCheck;
+import ua.com.alevel.model.dto.OrdersForSelectUserForAdmin;
 import ua.com.alevel.model.dto.PhoneColors;
 import ua.com.alevel.model.dto.PhoneForAddToCart;
 import ua.com.alevel.model.dto.filterparams.FilterSettings;
+import ua.com.alevel.service.phone.PhoneInstanceService;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
@@ -16,6 +19,23 @@ import static org.apache.commons.lang.NumberUtils.isNumber;
 
 public final class Util {
     private Util() {
+    }
+
+    public static OrdersForSelectUserForAdmin createOrderForSelectUserForAdmin(ClientCheck check, SimpleDateFormat formatter, PhoneInstanceService phoneInstanceService) {
+        OrdersForSelectUserForAdmin order = new OrdersForSelectUserForAdmin();
+        order.setCheck(check);
+        order.setTotalPrices(phoneInstanceService.findPriceForClientCheckId(check.getId()));
+        order.setDates(formatter.format(check.getCreated()));
+
+        if (check.getClosedDate() != null) {
+            order.setDatesClosed(formatter.format(check.getClosedDate()));
+            order.setFlag(true);
+        }
+        else {
+            order.setFlag(false);
+        }
+
+        return order;
     }
 
     public static List<String> getListYears() {

@@ -37,12 +37,20 @@ public class ClientCheckService {
         return clientCheckRepository.findAllClosedChecksForUserId(userId);
     }
 
-    public ClientCheck findById(String id) {
-        return clientCheckRepository.findById(id).get();
+    public Optional<ClientCheck> findById(String id) {
+        return clientCheckRepository.findById(id);
     }
 
     public void updateCheckClosed(boolean isClosed, String id) {
         clientCheckRepository.updateCheckClosed(isClosed, new Date(), id);
         LOGGER.info("Check with id {} closed", id);
+    }
+
+    public List<ClientCheck> findAllChecksForUserId(String userId) {
+        return clientCheckRepository.findAllChecksForUserId(userId);
+    }
+
+    public String getUserIdForCheckId(String checkId) {
+        return clientCheckRepository.getUserIdForCheckId(checkId);
     }
 }

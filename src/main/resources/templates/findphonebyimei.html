@@ -1,0 +1,116 @@
+<!DOCTYPE HTML SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="en">
+
+<head th:replace="menu :: header-css">
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous">
+    <link rel="shortcut icon" th:href="@{/images/brand.ico}" href="../static/images/brand.ico" type="image/x-icon">
+</head>
+<body>
+<div th:replace="menu :: menu"></div>
+
+<div class="container-fluid">
+    <br>
+    <div class="row">
+        <div class="col-3">
+            <div class="col text-center" style="padding-right: 90px;">
+                <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
+                    to profile</a>
+            </div>
+        </div>
+        <div class="col"></div>
+        <div class="col-3"></div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <form autocomplete="off" th:action="@{/admin/find-by-imei-finding}" th:object="${findPhoneByImei}" method="get">
+                <div class="row">
+                    <div class="col">
+                        <div style="height: 10px;"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col" align="center">
+                        <div style="width: 354px; height: 90px;">
+                            <label class="form-label">Phone IMEI:</label>
+                            <div style="height: 30px; width: 350px;">
+                                <input style="height: 30px; width: 350px;" type="text" class="form-control"
+                                       required="true"
+                                       th:field="*{imei}" th:value="${imei}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col" align="center">
+                        <div style="height: 10px;"></div>
+                        <div style="height: 40px; width: 220px;">
+                            <button class="w-100 btn btn-primary btn-lg"
+                                    style="height: 40px; width: 220px; display: flex; align-items: center; justify-content: center;"
+                                    type="submit">
+                                Find phone by IMEI
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br><br><br>
+    <div class="row" th:if="${resultPhone == null}">
+        <div class="col" align="center">
+            <h5 th:text="${success}"></h5>
+        </div>
+    </div>
+    <div class="row" th:if="${resultPhone != null}">
+        <div class="col-2"></div>
+        <div class="col" style="height: 90px; border: 1px solid black;">
+            <div class="row align-items-center" style="height: 90px;">
+                <div class="col-1">
+                    <img th:src="${resultPhone.phone.view.phoneFrontAndBack}" class="card-img-top"
+                         style="height: 70px; width: 70px;">
+                </div>
+                <div style="width: 20px;"></div>
+                <div class="col-7">
+                    <div th:if="${resultPhone.clientCheck == null}">
+                        <div class="row" th:text="${resultPhone.phone.phoneDescription.brand.name+' '+ resultPhone.phone.phoneDescription.series + ' '+ resultPhone.phone.phoneDescription.name
+        +' '+resultPhone.phone.amountOfRam+'/'+resultPhone.phone.amountOfBuiltInMemory+' Gb. Color: '+resultPhone.phone.view.color}"></div>
+                        <div class="row" th:text="${'IMEI: '+resultPhone.imei+'.'}"></div>
+                    </div>
+                    <div th:if="${resultPhone.clientCheck != null}">
+                        <div class="row" th:text="${resultPhone.phone.phoneDescription.brand.name+' '+ resultPhone.phone.phoneDescription.series + ' '+ resultPhone.phone.phoneDescription.name
+        +' '+resultPhone.phone.amountOfRam+'/'+resultPhone.phone.amountOfBuiltInMemory+' Gb. Color: '+resultPhone.phone.view.color}"></div>
+                        <div class="row" th:text="${'IMEI: '+resultPhone.imei+'.'}"></div>
+                        <div class="row" th:text="${'Order number: '+resultPhone.clientCheck+'.'}"></div>
+                    </div>
+                </div>
+                <div class="col-2" align="center" th:text="${'Price: '+resultPhone.price+' $'}" th:if="${resultPhone.clientCheck == null}"></div>
+                <div class="col" align="center" th:text="${'Price: '+resultPhone.price+' $'}" th:if="${resultPhone.clientCheck != null}"></div>
+                <div class="col-1" align="center" th:if="${resultPhone.clientCheck == null}">
+                    <div class="col text-center">
+                        <form th:action="${'/admin/find-phone-by-imei-delete?id='+resultPhone.id}" th:method="post">
+                            <div class="col text-center">
+                                <button type="submit" class="btn btn-primary" style="width: 80px;">Delete</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous">
+</script>
+</body>
+</html>

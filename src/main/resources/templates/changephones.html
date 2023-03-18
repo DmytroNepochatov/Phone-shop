@@ -514,7 +514,7 @@
                                                 th:field="*{phoneId}">
                                             <option selected="selected" th:value="${'Select phone'}">Select phone</option>
                                             <option th:each="phoneOpt : ${phones}" th:text="${phoneOpt.phone.phoneDescription.brand.name+' '+ phoneOpt.phone.phoneDescription.series + ' '+ phoneOpt.phone.phoneDescription.name
-        +' '+phoneOpt.phone.amountOfRam+'/'+phoneOpt.phone.amountOfBuiltInMemory+' Gb '+phoneOpt.price+ ' $'}"
+        +' '+phoneOpt.phone.amountOfRam+'/'+phoneOpt.phone.amountOfBuiltInMemory+' Gb. Price: '+phoneOpt.price+ ' $'}"
                                                     th:value="${phoneOpt.phone.id}"></option>
                                         </select>
                                     </div>

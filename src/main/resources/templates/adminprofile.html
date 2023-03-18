@@ -17,6 +17,12 @@
 
 <div class="container-fluid">
     <br>
+    <div style="border-left: 2px solid black;
+            height: 580px;
+            position: absolute;
+            left: 50%;
+            margin-left: -3px;
+            top: 155px;"></div>
     <div class="row">
         <div class="col">
             <div class="row my-2">
@@ -30,78 +36,192 @@
     </div>
     <br>
     <div class="row">
-        <div class="col"></div>
-        <div class="col" align="center">
-            <div style="height: 50px; width: 200px;">
-                <a th:href="${'/admin/create'}" class="btn btn-primary" role="button"
-                   style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Add
-                    phones</a>
+        <div class="col">
+            <div class="row">
+                <div class="col" align="center">
+                    <h5>Working with store products</h5>
+                    <div style="height: 10px;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col" align="center">
+                    <div style="height: 50px; width: 200px;">
+                        <a th:href="${'/admin/create'}" class="btn btn-primary" role="button"
+                           style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Add
+                            phones</a>
+                    </div>
+                </div>
+                <div class="col" align="center">
+                    <div style="height: 50px; width: 200px;">
+                        <a th:href="${'/admin/delete?success= '}" class="btn btn-primary" role="button"
+                           style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Delete phones</a>
+                    </div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div style="height: 20px;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col" align="center">
+                    <div style="height: 50px; width: 200px;">
+                        <a th:href="${'/admin/change?success= '}" class="btn btn-primary" role="button"
+                           style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Change phones</a>
+                    </div>
+                </div>
+                <div class="col" align="center">
+                    <div style="height: 50px; width: 200px;">
+                        <a th:href="${'/admin/characteristics'}" class="btn btn-primary" role="button"
+                           style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Characteristics</a>
+                    </div>
+                </div>
+                <div class="col-2"></div>
             </div>
         </div>
-        <div class="col" align="center">
-            <div style="height: 50px; width: 200px;">
-                <a th:href="${'/admin/delete?success= '}" class="btn btn-primary" role="button"
-                   style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Delete phones</a>
+        <div class="col">
+            <div class="row">
+                <div class="col" align="center">
+                    <h5>Working with the database of products</h5>
+                    <div style="height: 10px;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col" align="center">
+                    <div style="height: 50px; width: 200px;">
+                        <a th:href="${'/admin/store-composition'}" class="btn btn-primary" role="button"
+                           style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Store composition</a>
+                    </div>
+                </div>
+                <div class="col" align="center">
+                    <div style="height: 50px; width: 200px;">
+                        <a th:href="${'/admin/allphones?success= '}" class="btn btn-primary" role="button"
+                           style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">All phones on stock</a>
+                    </div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div style="height: 20px;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col" align="center">
+                    <div style="height: 50px; width: 200px;">
+                        <a th:href="${'/admin/find-by-imei'}" class="btn btn-primary" role="button"
+                           style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Find phone by IMEI</a>
+                    </div>
+                </div>
+                <div class="col"></div>
+                <div class="col-2"></div>
             </div>
         </div>
-        <div class="col" align="center">
-            <div style="height: 50px; width: 200px;">
-                <a th:href="${'/admin/change?success= '}" class="btn btn-primary" role="button"
-                   style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Change phones</a>
-            </div>
-        </div>
-        <div class="col"></div>
     </div>
-    <br>
+    <div style="height: 40px;"></div>
+    <div style="border: 2px solid black;"></div>
+    <div style="height: 30px;"></div>
+
     <div class="row">
-        <div class="col"></div>
-        <div class="col" align="center">
-            <div style="height: 50px; width: 200px;">
-                <a th:href="${'/admin/characteristics'}" class="btn btn-primary" role="button"
-                   style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Characteristics</a>
+        <div class="col">
+            <div class="row">
+                <div class="col" align="center">
+                    <h5>Working with client orders</h5>
+                    <div style="height: 10px;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col" align="center">
+                    <div style="height: 50px; width: 200px;">
+                        <a th:href="${'/admin/orders?success= '}" class="btn btn-primary" role="button"
+                           style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Client
+                            orders</a>
+                    </div>
+                </div>
+                <div class="col" align="center">
+                    <div style="height: 50px; width: 200px;">
+                        <a th:href="${'/admin/orders-history?success= '}" class="btn btn-primary" role="button"
+                           style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Client
+                            orders history</a>
+                    </div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div style="height: 20px;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col" align="center">
+                    <div style="height: 50px; width: 200px;">
+                        <a th:href="${'/admin/find-client-order-number'}" class="btn btn-primary" role="button"
+                           style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Find order by number</a>
+                    </div>
+                </div>
+                <div class="col"></div>
+                <div class="col-2"></div>
             </div>
         </div>
-        <div class="col" align="center">
-            <div style="height: 50px; width: 200px;">
-                <a th:href="${'/admin/store-composition'}" class="btn btn-primary" role="button"
-                   style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Store composition</a>
+        <div class="col">
+            <div class="row">
+                <div class="col" align="center">
+                    <h5>Working with the database of registered users</h5>
+                    <div style="height: 10px;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" align="center">
+                    <div style="height: 50px; width: 200px;">
+                        <a th:href="${'/admin/all-registered-users'}" class="btn btn-primary" role="button"
+                           style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">All registered users</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div style="height: 20px;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" align="center">
+                    <div style="height: 50px; width: 200px;">
+                        <a th:href="${'/admin/find-registered-user-last-name'}" class="btn btn-primary" role="button"
+                           style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Find user by last name</a>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col" align="center">
-            <div style="height: 50px; width: 200px;">
-                <a th:href="${'/admin/allphones?success= '}" class="btn btn-primary" role="button"
-                   style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">All phones</a>
-            </div>
-        </div>
-        <div class="col"></div>
     </div>
-    <br>
+    <div style="height: 40px;"></div>
+    <div style="border: 2px solid black;"></div>
+    <div style="height: 30px;"></div>
+
     <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col" align="center">
+                    <h5>Working with statistics</h5>
+                    <div style="height: 10px;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" align="center">
+                    <div style="height: 50px; width: 200px;">
+                        <a th:href="${'/admin/statistics'}" class="btn btn-primary" role="button"
+                           style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Statistics</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col"></div>
-        <div class="col" align="center">
-            <div style="height: 50px; width: 200px;">
-                <a th:href="${'/admin/orders?success= '}" class="btn btn-primary" role="button"
-                   style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Client
-                    orders</a>
-            </div>
-        </div>
-        <div class="col" align="center">
-            <div style="height: 50px; width: 200px;">
-                <a th:href="${'/admin/orders-history?success= '}" class="btn btn-primary" role="button"
-                   style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Client
-                    orders history</a>
-            </div>
-        </div>
-        <div class="col"></div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col" align="center">
-            <div style="height: 50px; width: 200px;">
-                <a th:href="${'/admin/statistics?success= '}" class="btn btn-primary" role="button"
-                   style="height: 50px; width: 200px; display: flex; align-items: center; justify-content: center;">Statistics</a>
-            </div>
-        </div>
     </div>
 </div>
 

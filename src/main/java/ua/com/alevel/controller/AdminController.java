@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.mapper.PhoneMapper;
 import ua.com.alevel.model.accessory.*;
+import ua.com.alevel.model.check.ClientCheck;
 import ua.com.alevel.model.dto.*;
 import ua.com.alevel.model.phone.Phone;
 import ua.com.alevel.model.phone.PhoneDescription;
@@ -26,10 +27,7 @@ import ua.com.alevel.service.view.ViewService;
 import ua.com.alevel.util.Util;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import static org.apache.commons.lang.NumberUtils.isNumber;
 
 @Controller
@@ -57,6 +55,8 @@ public class AdminController {
     private static final String YEARS = "years";
     private static final String SELECT_PHONE_COLOR = "Select phone color";
     private static final String SELECT_PHONE_DESCRIPTION = "Select phone description";
+    private static final String BIRTHDAY_PATTERN = "dd.M.yyyy";
+    private static final String CHECK_DATES_PATTERN = "dd.M.yyyy HH:mm:ss";
 
     public AdminController(UserDetailsServiceImpl userDetailsServiceImpl, PhoneInstanceService phoneInstanceService, BrandService brandService,
                            ChargeTypeService chargeTypeService, CommunicationStandardService communicationStandardService,
@@ -923,17 +923,110 @@ public class AdminController {
     public String getFifthStatistic(Model model) {
         List<RegisteredUser> registeredUsers = userDetailsServiceImpl.findAllUsersWhichHaveMoreThanOnePurchases();
 
-        return setStatisticForFifthAndSixth(model, registeredUsers);
+        return setStatisticForFifthAndSixth(model, registeredUsers, true);
     }
 
     @GetMapping("/statistic-6")
     public String getSixthStatistic(Model model) {
         List<RegisteredUser> registeredUsers = userDetailsServiceImpl.findAllUsersWhichDoesntHaveAnyPurchases();
 
-        return setStatisticForFifthAndSixth(model, registeredUsers);
+        return setStatisticForFifthAndSixth(model, registeredUsers, false);
     }
 
-    private String setStatisticForFifthAndSixth(Model model, List<RegisteredUser> registeredUsers) {
+    @GetMapping("/all-registered-users")
+    public String getAllRegisteredUsers(Model model) {
+        List<RegisteredUser> registeredUsers = userDetailsServiceImpl.findAllUsersForAdmin();
+        Collections.sort(registeredUsers);
+
+        SimpleDateFormat formatter = new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH);
+        List<String> years = new ArrayList<>();
+
+        registeredUsers.forEach(user -> years.add(formatter.format(user.getDateOfBirth())));
+
+        model.addAttribute(YEARS, years);
+        model.addAttribute("registeredUsers", registeredUsers);
+        return "allregisteredusers";
+    }
+
+    @GetMapping("/orders-for-user-id")
+    public String getOrdersForUserId(@RequestParam(value = "id") String id, @RequestParam(value = "flag") boolean flag, Model model) {
+        List<ClientCheck> checks = clientCheckService.findAllChecksForUserId(id);
+        RegisteredUser registeredUser = userDetailsServiceImpl.findById(id);
+        List<OrdersForSelectUserForAdmin> orders = new ArrayList<>();
+        SimpleDateFormat formatter = new SimpleDateFormat(CHECK_DATES_PATTERN, Locale.ENGLISH);
+        SimpleDateFormat formatterBirthday = new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH);
+
+        checks.forEach(check -> orders.add(Util.createOrderForSelectUserForAdmin(check, formatter, phoneInstanceService)));
+
+        Collections.sort(orders);
+
+        model.addAttribute("flag", flag);
+        model.addAttribute("orders", orders);
+        model.addAttribute("registeredUser", registeredUser);
+        model.addAttribute(YEARS, formatterBirthday.format(registeredUser.getDateOfBirth()));
+        return "allordersforuser";
+    }
+
+    @GetMapping("/find-by-imei")
+    public String findPhoneByImei(Model model) {
+        return setFindPhoneByImei(model, null, "");
+    }
+
+    @GetMapping("/find-by-imei-finding")
+    public String findPhoneByImeiFinding(Model model, FindPhoneByImei findPhoneByImei) {
+        if (findPhoneByImei.getImei().isBlank()) {
+            return setFindPhoneByImei(model, null, "Phone IMEI field is empty");
+        }
+
+        Optional<PhoneInstance> resultPhone = phoneInstanceService.findPhoneByImei(findPhoneByImei.getImei());
+
+        return (resultPhone.isEmpty()) ? setFindPhoneByImei(model, null, "This phone IMEI not found") :
+                setFindPhoneByImei(model, resultPhone.get(), "");
+    }
+
+    @GetMapping("/find-registered-user-last-name")
+    public String findUserByLastName(Model model) {
+        return setFindUserByLastName(model, new ArrayList<>(), "");
+    }
+
+    @GetMapping("/find-registered-user-last-name-finding")
+    public String findUserByLastNameFinding(Model model, FindUserByLastName findUserByLastName) {
+        if (findUserByLastName.getLastName().isBlank()) {
+            return setFindUserByLastName(model, new ArrayList<>(), "User last name field is empty");
+        }
+
+        List<RegisteredUser> users = userDetailsServiceImpl.findUserByLastName(findUserByLastName.getLastName());
+
+        return (users.isEmpty()) ? setFindUserByLastName(model, new ArrayList<>(), "User with this last name not found") :
+                setFindUserByLastName(model, users, "");
+    }
+
+    @PostMapping("/find-phone-by-imei-delete")
+    public String deleteFromFindPhoneByImei(@RequestParam(value = "id") String id, Model model) {
+        phoneInstanceService.deleteByIdPhoneInstance(id);
+
+        return setFindPhoneByImei(model, null, "The phone has been deleted successfully");
+    }
+
+    @GetMapping("/find-client-order-number")
+    public String findOrderByNumber(Model model) {
+        return setFindOrderByNumber(model, null, "");
+    }
+
+    @GetMapping("/find-client-order-number-finding")
+    public String findOrderByNumberFinding(Model model, FindOrderByNumber findOrderByNumber) {
+        if (findOrderByNumber.getNumber().isBlank()) {
+            return setFindOrderByNumber(model, null, "Order number field is empty");
+        }
+
+        Optional<ClientCheck> order = clientCheckService.findById(findOrderByNumber.getNumber());
+
+        return (order.isEmpty()) ? setFindOrderByNumber(model, null, "Order with this number not found") :
+                setFindOrderByNumber(model, order.get(), "");
+    }
+
+    private String setStatisticForFifthAndSixth(Model model, List<RegisteredUser> registeredUsers, boolean flag) {
+        Collections.sort(registeredUsers);
         int countUsers = userDetailsServiceImpl.countAllUsers();
 
         String pattern = "##0.00";
@@ -941,11 +1034,19 @@ public class AdminController {
 
         double percent = (double) (registeredUsers.size() * 100) / countUsers;
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.M.yyyy", Locale.ENGLISH);
+        SimpleDateFormat formatter = new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH);
         List<String> years = new ArrayList<>();
 
         registeredUsers.forEach(user -> years.add(formatter.format(user.getDateOfBirth())));
 
+        if(flag) {
+            List<Integer> orderCount = new ArrayList<>();
+            registeredUsers.forEach(user -> orderCount.add(userDetailsServiceImpl.countUserOrdersForUserId(user.getId())));
+
+            model.addAttribute("orderCount", orderCount);
+        }
+
+        model.addAttribute("flag", flag);
         model.addAttribute(YEARS, years);
         model.addAttribute("percent", decimalFormat.format(percent));
         model.addAttribute("registeredUsers", registeredUsers);
@@ -1034,7 +1135,7 @@ public class AdminController {
         orders.forEach(order -> order.getChecks().forEach(check -> order.getTotalPrices().add(phoneInstanceService.findPriceForClientCheckId(check.getId()))));
         Collections.sort(orders);
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.M.yyyy HH:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat formatter = new SimpleDateFormat(CHECK_DATES_PATTERN, Locale.ENGLISH);
         orders.forEach(order -> order.getChecks().forEach(check -> order.getDates().add(formatter.format(check.getCreated()))));
 
         if (!flag) {
@@ -1061,5 +1162,48 @@ public class AdminController {
         model.addAttribute("flag", flag);
         model.addAttribute(ERROR_MSG, errorMsg);
         return "secondstatistic";
+    }
+
+    private String setFindPhoneByImei(Model model, PhoneInstance resultPhone, String success) {
+        model.addAttribute("resultPhone", resultPhone);
+        model.addAttribute(SUCCESS, success);
+        model.addAttribute("findPhoneByImei", new FindPhoneByImei());
+        return "findphonebyimei";
+    }
+
+    private String setFindUserByLastName(Model model, List<RegisteredUser> users, String success) {
+        if (!users.isEmpty()) {
+            Collections.sort(users);
+
+            SimpleDateFormat formatter = new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH);
+            List<String> years = new ArrayList<>();
+            users.forEach(user -> years.add(formatter.format(user.getDateOfBirth())));
+            model.addAttribute(YEARS, years);
+        }
+
+        model.addAttribute("users", users);
+        model.addAttribute(SUCCESS, success);
+        model.addAttribute("findUserByLastName", new FindUserByLastName());
+        return "finduserbylastname";
+    }
+
+    private String setFindOrderByNumber(Model model, ClientCheck order, String success) {
+        if (order != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat(CHECK_DATES_PATTERN, Locale.ENGLISH);
+            SimpleDateFormat formatterBirthday = new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH);
+            
+            RegisteredUser registeredUser = userDetailsServiceImpl.findById(clientCheckService.getUserIdForCheckId(order.getId()));
+            
+            model.addAttribute("registeredUser", registeredUser);
+            model.addAttribute(YEARS, formatterBirthday.format(registeredUser.getDateOfBirth()));
+            model.addAttribute("order", Util.createOrderForSelectUserForAdmin(order, formatter, phoneInstanceService));
+        }
+        else {
+            model.addAttribute("order", null);
+        }
+
+        model.addAttribute(SUCCESS, success);
+        model.addAttribute("findOrderByNumber", new FindOrderByNumber());
+        return "findorderbynumber";
     }
 }

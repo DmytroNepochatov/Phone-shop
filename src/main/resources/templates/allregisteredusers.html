@@ -18,21 +18,11 @@
 <div class="container-fluid">
     <br>
     <div class="row">
-        <div class="col" align="center" th:if="${flag}">
-            <h5>Customers which made repeat purchases</h5>
-        </div>
-        <div class="col" align="center" th:if="${!flag}">
-            <h5>Customers who registered but didn't make any purchases</h5>
-        </div>
-    </div>
-    <div style="height: 25px;"></div>
-    <div class="row">
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Go
-                        back
-                    </a>
+                    <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
+                        to profile</a>
                 </div>
             </div>
         </div>
@@ -44,7 +34,6 @@
         <div class="col-3"></div>
         <div class="col-6" align="center">
             <h6 th:if="${registeredUsers.empty}" th:text="${'No such users'}"></h6>
-            <h6 th:if="${!registeredUsers.empty}" th:text="${'Percentage of these users to all registered users: '+percent+' %'}"></h6>
         </div>
         <div class="col-3"></div>
     </div>
@@ -57,7 +46,7 @@
             <div class="col" align="center" style="border: 1px solid black;">Date of birth</div>
             <div class="col" align="center" style="border: 1px solid black;">Phone number</div>
             <div class="col-3" align="center" style="border: 1px solid black;">Email address</div>
-            <div class="col-1" th:if="${flag}" align="center" style="border: 1px solid black;">Order count</div>
+            <div class="col" align="center" style="border: 1px solid black;">Orders</div>
         </div>
         <div class="row">
             <div class="col">
@@ -78,8 +67,12 @@
                                          th:text="${registeredUser.phoneNumber}"></div>
                                     <div class="col-3" style="border: 1px solid black;"
                                          th:text="${registeredUser.emailAddress}"></div>
-                                    <div class="col-1" th:if="${flag}" style="border: 1px solid black;" align="center"
-                                         th:text="${orderCount[__${state.index}__]}"></div>
+                                    <div class="col" style="border: 1px solid black;">
+                                        <div class="col text-center">
+                                            <a th:href="${'/admin/orders-for-user-id?id='+registeredUser.id+'&flag=true'}" class="btn btn-primary" style="width: 120px;">See orders
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

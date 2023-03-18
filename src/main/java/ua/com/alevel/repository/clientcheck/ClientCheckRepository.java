@@ -26,4 +26,10 @@ public interface ClientCheckRepository extends CrudRepository<ClientCheck, Strin
     @Modifying
     @Query("update ClientCheck check set check.isClosed = ?1, check.closedDate = ?2 where check.id = ?3")
     void updateCheckClosed(boolean isClosed, Date closed, String id);
+
+    @Query("select check from ClientCheck check where check.registeredUser.id = ?1")
+    List<ClientCheck> findAllChecksForUserId(String userId);
+
+    @Query("select clientCheck.registeredUser.id from ClientCheck clientCheck where clientCheck.id = ?1")
+    String getUserIdForCheckId(String checkId);
 }

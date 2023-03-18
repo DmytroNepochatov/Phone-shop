@@ -20,10 +20,15 @@
     <div class="row">
         <div class="col">
             <div class="row my-2">
-                <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
-                        to profile
-                    </a>
+                <div class="col text-center" style="padding-right: 90px;" th:if="${flag}">
+                    <a th:href="@{/admin/all-registered-users}" class="btn btn-primary" role="button"
+                       style="width: 200px;">Go back
+                        to user list</a>
+                </div>
+                <div class="col text-center" style="padding-right: 90px;" th:if="${!flag}">
+                    <a th:href="@{/admin/find-registered-user-last-name}" class="btn btn-primary" role="button"
+                       style="width: 270px;">Go back
+                        to find user by last name</a>
                 </div>
             </div>
         </div>
@@ -31,35 +36,54 @@
         <div class="col-3"></div>
     </div>
     <br>
+
     <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6" align="center">
-            <h4 th:if="${!orders.empty}" th:text="${success}"></h4>
-            <h4 th:if="${orders.empty}" th:text="${'There are currently no orders'}"></h4>
+        <div class="col" align="center">
+            <div align="center" style="width: 1300px;">
+                <div class="row">
+                    <div class="col" align="center" style="border: 1px solid black;">Last name</div>
+                    <div class="col" align="center" style="border: 1px solid black;">First name</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Middle name</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Date of birth</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Phone number</div>
+                    <div class="col-3" align="center" style="border: 1px solid black;">Email address</div>
+                </div>
+                <div class="row">
+                    <div class="col" style="border: 1px solid black;"
+                         th:text="${registeredUser.lastName}"></div>
+                    <div class="col" style="border: 1px solid black;"
+                         th:text="${registeredUser.firstName}"></div>
+                    <div class="col" style="border: 1px solid black;"
+                         th:text="${registeredUser.middleName}"></div>
+                    <div class="col" style="border: 1px solid black;"
+                         th:text="${years}"></div>
+                    <div class="col" style="border: 1px solid black;"
+                         th:text="${registeredUser.phoneNumber}"></div>
+                    <div class="col-3" style="border: 1px solid black;"
+                         th:text="${registeredUser.emailAddress}"></div>
+                </div>
+            </div>
         </div>
-        <div class="col-3"></div>
     </div>
-    <br>
+    <div style="height: 50px;"></div>
+
+    <div align="center" th:if="${orders.empty}">
+        <h5 th:text="${'No orders'}"></h5>
+    </div>
     <div th:if="${!orders.empty}">
-        <div class="row" th:each="order: ${orders}">
+        <div class="row">
             <div class="col-1"></div>
             <div class="col" style="border: 1px solid black;">
-                <div class="row">
-                    <div class="col">
-                        <h6 th:text="${order.lastName+' '+order.firstName+' '+order.middleName+' Phone number: '
-                        +order.phoneNumber}"></h6>
-                    </div>
-                </div>
-                <div class="row" th:each="check, state: ${order.checks}">
+                <div class="row" th:each="order, state: ${orders}">
                     <div class="col-1"></div>
                     <div class="col">
                         <div class="row">
                             <div class="col">
-                                <h6 th:if="${flag}" th:text="${'Order number: '+check.id+'. Created: '+order.dates[__${state.index}__] +'. Total price: '+order.totalPrices[__${state.index}__]+'$.'}"></h6>
-                                <h6 th:if="${!flag}" th:text="${'Order number: '+check.id+'. Created: '+order.dates[__${state.index}__] +'. Closed: '+order.datesClosed[__${state.index}__]+'. Total price: '+order.totalPrices[__${state.index}__]+'$.'}"></h6>
+                                <h6 th:if="${!order.flag}" th:text="${'Order number: '+order.check.id+'. Created: '+order.dates +'. Total price: '+order.totalPrices+'$.'}"></h6>
+                                <h6 th:if="${order.flag}" th:text="${'Order number: '+order.check.id+'. Created: '+order.dates +'. Closed: '+order.datesClosed+'. Total price: '+order.totalPrices+'$.'}"></h6>
                             </div>
                         </div>
-                        <div class="row" th:each="phoneInstance: ${check.phoneInstances}">
+                        <div class="row" th:each="phoneInstance: ${order.check.phoneInstances}">
                             <div class="col-1"></div>
                             <div class="col" style="height: 90px; border: 1px solid black;">
                                 <div class="row align-items-center" style="height: 90px;">
@@ -79,15 +103,7 @@
                             <div class="col-1"></div>
                         </div>
                     </div>
-                    <div class="col-1">
-                        <div th:if="${flag}">
-                        <form th:action="${'/admin/close-order?id='+check.id}" th:method="put">
-                            <div class="col text-center">
-                                <button type="submit" class="btn btn-primary" style="width: 80px;">Close</button>
-                            </div>
-                        </form>
-                        </div>
-                    </div>
+                    <div class="col-1"></div>
                     <div style="height: 30px;"></div>
                 </div>
                 <div class="row">
@@ -97,9 +113,9 @@
             <div class="col-1"></div>
         </div>
     </div>
+    <br>
+    <br>
 </div>
-<br>
-<br>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"

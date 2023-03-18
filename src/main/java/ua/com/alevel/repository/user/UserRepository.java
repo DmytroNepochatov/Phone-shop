@@ -20,4 +20,13 @@ public interface UserRepository extends CrudRepository<RegisteredUser, String> {
 
     @Query("select registeredUser from RegisteredUser registeredUser where registeredUser.checks.size >= 2 and registeredUser.role = 'USER'")
     List<RegisteredUser> findAllUsersWhichHaveMoreThanOnePurchases();
+
+    @Query("select registeredUser from RegisteredUser registeredUser where registeredUser.role = 'USER'")
+    List<RegisteredUser> findAllUsersForAdmin();
+
+    @Query("select registeredUser from RegisteredUser registeredUser where registeredUser.role = 'USER' and registeredUser.lastName = ?1")
+    List<RegisteredUser> findUserByLastName(String lastName);
+
+    @Query("select registeredUser.checks.size from RegisteredUser registeredUser where registeredUser.role = 'USER' and registeredUser.id = ?1")
+    int countUserOrdersForUserId(String userId);
 }

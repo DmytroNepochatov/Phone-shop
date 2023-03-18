@@ -24,7 +24,7 @@ public class ClientCheckController {
 
     @GetMapping
     public String getClientCheckById(Model model, @RequestParam(value = "id") String id) {
-        ClientCheck clientCheck = clientCheckService.findById(id);
+        ClientCheck clientCheck = clientCheckService.findById(id).get();
         SimpleDateFormat formatter = new SimpleDateFormat("dd.M.yyyy HH:mm:ss", Locale.ENGLISH);
 
         if (clientCheck.getClosedDate() != null) {

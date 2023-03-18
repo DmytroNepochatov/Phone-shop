@@ -17,6 +17,12 @@
 
 <div class="container-fluid">
     <br>
+    <div class="row" th:if="${!flag}">
+        <div class="col" align="center">
+            <h5>All-time phone models sales statistics</h5>
+        </div>
+    </div>
+    <div style="height: 25px;" th:if="${!flag}"></div>
     <div class="row">
         <div class="col">
             <div class="row my-2">
@@ -53,11 +59,11 @@
                         <img th:src="${phoneForStoreComposition.phone.view.phoneFrontAndBack}" class="card-img-top"
                              style="height: 70px; width: 70px;">
                     </div>
-                    <div class="col-11">
-                        <div th:if="${flag}" th:text="${phoneForStoreComposition.phone.phoneDescription.brand.name+' '+ phoneForStoreComposition.phone.phoneDescription.series + ' '+ phoneForStoreComposition.phone.phoneDescription.name
-        +' '+phoneForStoreComposition.phone.amountOfRam+'/'+phoneForStoreComposition.phone.amountOfBuiltInMemory+' Gb '+phoneForStoreComposition.phone.view.color+ ' Price: '+phoneForStoreComposition.price+ ' $, quantity: '+phoneForStoreComposition.countInStore+' units'}"></div>
-                        <div th:if="${!flag}" th:text="${phoneForStoreComposition.phone.phoneDescription.brand.name+' '+ phoneForStoreComposition.phone.phoneDescription.series + ' '+ phoneForStoreComposition.phone.phoneDescription.name
-        +' '+phoneForStoreComposition.phone.amountOfRam+'/'+phoneForStoreComposition.phone.amountOfBuiltInMemory+' Gb '+phoneForStoreComposition.phone.view.color+ ' Price: '+phoneForStoreComposition.price+ ' $, sold: '+phoneForStoreComposition.countInStore+' units'}"></div>
+                    <div class="col-6" th:text="${phoneForStoreComposition.phone.phoneDescription.brand.name+' '+ phoneForStoreComposition.phone.phoneDescription.series + ' '+ phoneForStoreComposition.phone.phoneDescription.name
+        +' '+phoneForStoreComposition.phone.amountOfRam+'/'+phoneForStoreComposition.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneForStoreComposition.phone.view.color}"></div>
+                    <div class="col-5" align="right">
+                        <div th:if="${flag}" th:text="${'Price: '+phoneForStoreComposition.price+ ' $. Quantity: '+phoneForStoreComposition.countInStore+' units'}"></div>
+                        <div th:if="${!flag}" th:text="${'Price: '+phoneForStoreComposition.price+ ' $. Sold: '+phoneForStoreComposition.countInStore+' units'}"></div>
                     </div>
                 </div>
             </div>

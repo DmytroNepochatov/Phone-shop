@@ -110,4 +110,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public List<RegisteredUser> findAllUsersWhichHaveMoreThanOnePurchases() {
         return userRepository.findAllUsersWhichHaveMoreThanOnePurchases();
     }
+
+    public List<RegisteredUser> findAllUsersForAdmin() {
+        return userRepository.findAllUsersForAdmin();
+    }
+
+    public RegisteredUser findById(String id) {
+        return userRepository.findById(id).get();
+    }
+
+    public List<RegisteredUser> findUserByLastName(String lastName) {
+        return userRepository.findUserByLastName(lastName);
+    }
+
+    public int countUserOrdersForUserId(String userId) {
+        return userRepository.countUserOrdersForUserId(userId);
+    }
 }
