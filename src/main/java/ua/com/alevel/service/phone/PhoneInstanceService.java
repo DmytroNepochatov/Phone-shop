@@ -14,9 +14,7 @@ import ua.com.alevel.model.check.ClientCheck;
 import ua.com.alevel.model.dto.*;
 import ua.com.alevel.model.dto.filterparams.*;
 import ua.com.alevel.model.phone.Phone;
-import ua.com.alevel.model.phone.PhoneDescription;
 import ua.com.alevel.model.phone.PhoneInstance;
-import ua.com.alevel.model.phone.View;
 import ua.com.alevel.model.rating.Rating;
 import ua.com.alevel.model.shoppingcart.ShoppingCart;
 import ua.com.alevel.repository.phone.PhoneInstanceRepository;
@@ -89,17 +87,6 @@ public class PhoneInstanceService {
             phoneRepository.save(phone);
             return phoneRepository.findFirstPhoneForSave(phone.getView(), phone.getPhoneDescription(), phone.getAmountOfBuiltInMemory(),
                     phone.getAmountOfRam()).get(0);
-        }
-    }
-
-    public Phone findFirstForDelete(View view, PhoneDescription phoneDescription, int amountOfBuiltInMemory, int amountOfRam) {
-        List<Phone> phones = phoneRepository.findFirstPhoneForSave(view, phoneDescription, amountOfBuiltInMemory, amountOfRam);
-
-        if (phones.isEmpty()) {
-            return null;
-        }
-        else {
-            return phones.get(0);
         }
     }
 
@@ -366,6 +353,10 @@ public class PhoneInstanceService {
         return phones;
     }
 
+    public List<Phone> findAllPhonesWithBetweenTime(Date startDate, Date endDate) {
+        return phoneRepository.findAllPhonesWithBetweenTime(startDate, endDate);
+    }
+
     public double findPriceForPhoneForAdmin(Phone phone) {
         Optional<PhoneInstance> phoneInstance = phoneInstanceRepository.findFirstByPhoneAndClientCheckIsNull(phone);
         if (phoneInstance.isPresent()) {
@@ -379,6 +370,13 @@ public class PhoneInstanceService {
         else {
             return 0.0;
         }
+    }
+
+    public void cancelOrder(String orderId) {
+        phoneInstanceRepository.findAllPhoneInstancesByClientCheckId(orderId).forEach(phone -> {
+            phone.setClientCheck(null);
+            phoneInstanceRepository.save(phone);
+        });
     }
 
     public int countPhonesInStoreForAdmin(Phone phone) {

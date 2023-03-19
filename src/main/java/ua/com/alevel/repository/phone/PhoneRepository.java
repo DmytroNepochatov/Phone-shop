@@ -9,6 +9,7 @@ import ua.com.alevel.model.phone.Phone;
 import ua.com.alevel.model.phone.PhoneDescription;
 import ua.com.alevel.model.phone.View;
 import ua.com.alevel.model.rating.Rating;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,4 +40,7 @@ public interface PhoneRepository extends CrudRepository<Phone, String>, PagingAn
     @Query("select phone from Phone phone where phone.phoneDescription.brand = ?1 and phone.phoneDescription.name = ?2 " +
             "and phone.phoneDescription.series = ?3 and phone.amountOfBuiltInMemory = ?4 and phone.amountOfRam = ?5")
     List<Phone> findAllPhonesForChange(Brand brand, String name, String series, int amountOfBuiltInMemory, int amountOfRam);
+
+    @Query("select phone from Phone phone where phone.phoneDescription.dateAddedToDatabase between ?1 and ?2")
+    List<Phone> findAllPhonesWithBetweenTime(Date startDate, Date endDate);
 }

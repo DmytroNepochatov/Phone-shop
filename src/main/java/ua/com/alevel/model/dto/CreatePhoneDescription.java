@@ -34,4 +34,5 @@ public class CreatePhoneDescription {
     private String guaranteeTimeMonths;
     private String country;
     private String phoneDescriptionId;
+    private String dateAddedToDatabase;
 }

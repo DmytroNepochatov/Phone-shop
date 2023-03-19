@@ -28,7 +28,7 @@
 <div class="container-fluid">
     <br>
     <div style="border-left: 2px solid black;
-            height: 1540px;
+            height: 1620px;
             position: absolute;
             left: 50%;
             margin-left: -3px;
@@ -393,6 +393,19 @@
                             </select>
                         </div>
                     </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <label for="dateAddedToDatabase" class="form-label">Date added to database:</label>
+                        <div style="height: 30px; width: 200px;">
+                            <input style="height: 30px; width: 200px;" type="text" class="form-control"
+                                   id="dateAddedToDatabase"
+                                   required="true"
+                                   th:name="dateAddedToDatabase" th:value="${dateAddedToDb}">
+                        </div>
+                    </div>
+                    <div class="col"></div>
                 </div>
                 <br>
                 <div class="row">

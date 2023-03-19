@@ -18,24 +18,17 @@
 <div class="container-fluid">
     <br>
     <div class="row">
-        <div class="col" align="center">
-            <h5>Customer preferences by age</h5>
+        <div class="col text-center" style="padding-right: 90px;">
+            <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Go
+                back
+            </a>
         </div>
+        <div class="col" align="center">
+            <div style="width: 800px;"><h5>Customer preferences by age</h5></div>
+        </div>
+        <div class="col"></div>
     </div>
     <div style="height: 25px;"></div>
-    <div class="row">
-        <div class="col">
-            <div class="col text-center" style="padding-right: 90px;">
-                <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Go
-                    back
-                </a>
-            </div>
-        </div>
-        <div class="col-7">
-        </div>
-        <div class="col">
-        </div>
-    </div>
     <br>
     <div class="row" th:each="customerPreferencesByAge : ${customerPreferencesByAgeList}">
         <div th:if="${!customerPreferencesByAge.phoneInstances.isEmpty}">

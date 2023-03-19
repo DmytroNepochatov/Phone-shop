@@ -5,6 +5,7 @@ import ua.com.alevel.model.dto.OrdersForSelectUserForAdmin;
 import ua.com.alevel.model.dto.PhoneColors;
 import ua.com.alevel.model.dto.PhoneForAddToCart;
 import ua.com.alevel.model.dto.filterparams.FilterSettings;
+import ua.com.alevel.model.user.RegisteredUser;
 import ua.com.alevel.service.phone.PhoneInstanceService;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
@@ -19,6 +20,14 @@ import static org.apache.commons.lang.NumberUtils.isNumber;
 
 public final class Util {
     private Util() {
+    }
+
+    public static List<String> getYearsForListRegisteredUsers(List<RegisteredUser> registeredUsers, String pattern) {
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.ENGLISH);
+        List<String> years = new ArrayList<>();
+        registeredUsers.forEach(user -> years.add(formatter.format(user.getDateOfBirth())));
+
+        return years;
     }
 
     public static OrdersForSelectUserForAdmin createOrderForSelectUserForAdmin(ClientCheck check, SimpleDateFormat formatter, PhoneInstanceService phoneInstanceService) {

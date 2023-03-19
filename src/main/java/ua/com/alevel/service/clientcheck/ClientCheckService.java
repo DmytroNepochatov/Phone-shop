@@ -46,6 +46,11 @@ public class ClientCheckService {
         LOGGER.info("Check with id {} closed", id);
     }
 
+    public void cancelCheck(String id) {
+        clientCheckRepository.deleteById(id);
+        LOGGER.info("Check with id {} canceled", id);
+    }
+
     public List<ClientCheck> findAllChecksForUserId(String userId) {
         return clientCheckRepository.findAllChecksForUserId(userId);
     }

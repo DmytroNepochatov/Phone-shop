@@ -18,15 +18,6 @@
 <div class="container-fluid">
     <br>
     <div class="row">
-        <div class="col" align="center" th:if="${flag}">
-            <h5>Customers which made repeat purchases</h5>
-        </div>
-        <div class="col" align="center" th:if="${!flag}">
-            <h5>Customers who registered but didn't make any purchases</h5>
-        </div>
-    </div>
-    <div style="height: 25px;"></div>
-    <div class="row">
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
@@ -36,9 +27,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-6"></div>
-        <div class="col-3"></div>
+        <div class="col" align="center" th:if="${flag}">
+            <div style="width: 800px;"><h5>Customers which made repeat purchases</h5></div>
+        </div>
+        <div class="col" align="center" th:if="${!flag}">
+            <div style="width: 800px;"><h5>Customers who registered but didn't make any purchases</h5></div>
+        </div>
+        <div class="col"></div>
     </div>
+    <div style="height: 25px;"></div>
     <br>
     <div class="row">
         <div class="col-3"></div>

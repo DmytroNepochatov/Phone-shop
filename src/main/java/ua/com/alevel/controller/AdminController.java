@@ -27,6 +27,7 @@ import ua.com.alevel.service.view.ViewService;
 import ua.com.alevel.util.Util;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import static org.apache.commons.lang.NumberUtils.isNumber;
 
@@ -53,10 +54,14 @@ public class AdminController {
     private static final String SUCCESS = "success";
     private static final String PHONES = "phones";
     private static final String YEARS = "years";
+    private static final String PHONE_FOR_STORE_COMPOSITIONS = "phoneForStoreCompositions";
+    private static final String FLAG_FOR_STATISTIC = "flagStat";
+    private static final String FLAG = "flag";
     private static final String SELECT_PHONE_COLOR = "Select phone color";
     private static final String SELECT_PHONE_DESCRIPTION = "Select phone description";
     private static final String BIRTHDAY_PATTERN = "dd.M.yyyy";
     private static final String CHECK_DATES_PATTERN = "dd.M.yyyy HH:mm:ss";
+    private static final int COUNT_PHONES_FOR_BAD_SALES = 10;
 
     public AdminController(UserDetailsServiceImpl userDetailsServiceImpl, PhoneInstanceService phoneInstanceService, BrandService brandService,
                            ChargeTypeService chargeTypeService, CommunicationStandardService communicationStandardService,
@@ -90,7 +95,7 @@ public class AdminController {
     }
 
     @PostMapping("/create/phone-description")
-    public String savePhoneDescription(Model model, CreatePhoneDescription phoneDescription) {
+    public String savePhoneDescription(Model model, CreatePhoneDescription phoneDescription) throws Exception {
         if (phoneDescription.getBrand().equals("Select brand")) {
             return errorMsg(model, "You must choose a brand");
         }
@@ -184,9 +189,15 @@ public class AdminController {
         if (Integer.parseInt(phoneDescription.getGuaranteeTimeMonths()) <= 0.0) {
             return errorMsg(model, "Incorrect guarantee time in months");
         }
+        if (phoneDescription.getDateAddedToDatabase().isBlank()) {
+            return errorMsg(model, "Date added to database field is empty");
+        }
+        if (!Util.isValidDate(phoneDescription.getDateAddedToDatabase(), BIRTHDAY_PATTERN)) {
+            return errorMsg(model, "Incorrect date added to database");
+        }
 
         PhoneDescription phoneDescriptionForDb = PhoneMapper.mapCreatePhoneDescriptionToPhoneDescription(new PhoneDescription(), phoneDescription, brandService, chargeTypeService,
-                communicationStandardService, operationSystemService, processorService, typeScreenService, countryService);
+                communicationStandardService, operationSystemService, processorService, typeScreenService, countryService, new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH));
 
         if (!phoneDescriptionService.save(phoneDescriptionForDb)) {
             return errorMsg(model, "Phone description for this phone already exists");
@@ -299,6 +310,49 @@ public class AdminController {
         }
     }
 
+    @PostMapping("/add-existing-phones")
+    public String addExistingPhones(Model model, PhoneAddExisting phoneAddExisting) {
+        if (phoneAddExisting.getPhoneId().equals("Select phone")) {
+            return errorMsg(model, "You must select phone which is already in the database");
+        }
+        if (phoneAddExisting.getImei().isBlank()) {
+            return errorMsg(model, "IMEI field is empty");
+        }
+
+        Phone phoneInDatabase = phoneInstanceService.findByIdPhone(phoneAddExisting.getPhoneId());
+
+        String[] imeiList = phoneAddExisting.getImei().split(",");
+        int check = -1;
+        int value = 0;
+
+        for (int i = 0; i < imeiList.length; i++) {
+            if (!imeiList[i].isBlank()) {
+
+                PhoneInstance phoneInstance = new PhoneInstance();
+                phoneInstance.setPhone(phoneInDatabase);
+                phoneInstance.setImei(imeiList[i].trim());
+                phoneInstance.setPrice(phoneInstanceService.findPriceForPhoneForAdmin(phoneInDatabase));
+
+                if (!phoneInstanceService.save(phoneInstance)) {
+                    check = i;
+                    break;
+                }
+
+                value++;
+            }
+        }
+
+        if (check != -1) {
+            return errorMsg(model, "This IMEI: " + imeiList[check].trim() + " already exists");
+        }
+        else if (value == 1) {
+            return errorMsg(model, "Phone saved successfully");
+        }
+        else {
+            return errorMsg(model, "Phones saved successfully");
+        }
+    }
+
     @GetMapping("/delete")
     public String deletePhone(Model model, @RequestParam(value = "success") String success) {
         PhoneDescriptionForDelete deletePhoneDescription = new PhoneDescriptionForDelete();
@@ -307,10 +361,11 @@ public class AdminController {
 
         model.addAttribute("views", viewService.findAllViews());
         model.addAttribute("phoneDescriptions", phoneDescriptionService.findAllPhoneDescriptions());
-        model.addAttribute("phone", phone);
+        model.addAttribute("phoneDelete", phone);
         model.addAttribute("deleteView", deleteView);
         model.addAttribute("deletePhoneDescription", deletePhoneDescription);
         model.addAttribute(SUCCESS, success);
+        model.addAttribute(PHONES, getPhoneForStoreCompositions(true));
         return "deletephones";
     }
 
@@ -343,39 +398,13 @@ public class AdminController {
     }
 
     @PostMapping("/delete/phone")
-    public String deletePhone(CreatePhone phone) {
-        if (phone.getView().equals(SELECT_PHONE_COLOR)) {
-            return "redirect:/admin/delete?success=You must choose a phone color";
-        }
-        if (phone.getPhoneDescription().equals(SELECT_PHONE_DESCRIPTION)) {
-            return "redirect:/admin/delete?success=You must choose a phone description";
-        }
-        if (!isNumber(phone.getAmountOfBuiltInMemory())) {
-            return "redirect:/admin/delete?success=Incorrect amount of built in memory";
-        }
-        if (Integer.parseInt(phone.getAmountOfBuiltInMemory()) <= 0.0) {
-            return "redirect:/admin/delete?success=Incorrect amount of built in memory";
-        }
-        if (!isNumber(phone.getAmountOfRam())) {
-            return "redirect:/admin/delete?success=Incorrect amount of RAM";
-        }
-        if (Integer.parseInt(phone.getAmountOfRam()) <= 0.0) {
-            return "redirect:/admin/delete?success=Incorrect amount of RAM";
+    public String deletePhone(CreatePhone phoneDelete) {
+        if (phoneDelete.getPhoneId().equals("Select phone")) {
+            return "redirect:/admin/delete?success=You must select a phone";
         }
 
-        View view = viewService.findById(phone.getView());
-        PhoneDescription phoneDescription = phoneDescriptionService.findById(phone.getPhoneDescription());
-
-        Phone phoneFromBd = phoneInstanceService.findFirstForDelete(view, phoneDescription,
-                Integer.parseInt(phone.getAmountOfBuiltInMemory()), Integer.parseInt(phone.getAmountOfRam()));
-
-        if (phoneFromBd == null) {
-            return "redirect:/admin/delete?success=This phones is not in the database";
-        }
-        else {
-            phoneInstanceService.delete(phoneFromBd);
-            return "redirect:/admin/delete?success=This phones successfully deleted";
-        }
+        phoneInstanceService.delete(phoneInstanceService.findByIdPhone(phoneDelete.getPhoneId()));
+        return "redirect:/admin/delete?success=This phones successfully deleted";
     }
 
     @GetMapping("/change")
@@ -415,7 +444,7 @@ public class AdminController {
     }
 
     @PostMapping("/change/phone-description")
-    public String changePhoneDescription(CreatePhoneDescription changePhoneDescription) {
+    public String changePhoneDescription(CreatePhoneDescription changePhoneDescription) throws Exception {
         if (changePhoneDescription.getPhoneDescriptionId().isBlank()) {
             return "redirect:/admin/change?success=You must select phone description";
         }
@@ -512,11 +541,17 @@ public class AdminController {
         if (Integer.parseInt(changePhoneDescription.getGuaranteeTimeMonths()) <= 0.0) {
             return "redirect:/admin/change?success=Incorrect guarantee time in months";
         }
+        if (changePhoneDescription.getDateAddedToDatabase().isBlank()) {
+            return "redirect:/admin/change?success=Date added to database field is empty";
+        }
+        if (!Util.isValidDate(changePhoneDescription.getDateAddedToDatabase(), BIRTHDAY_PATTERN)) {
+            return "redirect:/admin/change?success=Incorrect date added to database";
+        }
 
         PhoneDescription phoneDescription = phoneDescriptionService.findById(changePhoneDescription.getPhoneDescriptionId());
 
         PhoneDescription phoneDescriptionForDb = PhoneMapper.mapCreatePhoneDescriptionToPhoneDescription(phoneDescription, changePhoneDescription, brandService, chargeTypeService,
-                communicationStandardService, operationSystemService, processorService, typeScreenService, countryService);
+                communicationStandardService, operationSystemService, processorService, typeScreenService, countryService, new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH));
 
         phoneDescriptionService.update(phoneDescriptionForDb);
         return "redirect:/admin/change?success=Phone description updated successfully";
@@ -608,20 +643,27 @@ public class AdminController {
 
     @GetMapping("/store-composition")
     public String getStoreComposition(Model model) {
-        model.addAttribute("phoneForStoreCompositions", getPhoneForStoreCompositions(true));
-        model.addAttribute("flag", true);
+        model.addAttribute(PHONE_FOR_STORE_COMPOSITIONS, getPhoneForStoreCompositions(true));
+        model.addAttribute(FLAG, true);
+        model.addAttribute(FLAG_FOR_STATISTIC, false);
         return "storecomposition";
     }
 
     @GetMapping("/orders")
     public String getOrders(Model model, @RequestParam(value = "success") String success) {
-        setOrder(model, success, true);
+        setOrder(model, success, true, false);
+        return "adminorders";
+    }
+
+    @GetMapping("/cancellation-of-orders")
+    public String getOrdersForCancellation(Model model, @RequestParam(value = "success") String success) {
+        setOrder(model, success, true, true);
         return "adminorders";
     }
 
     @GetMapping("/orders-history")
     public String getOrdersHistory(Model model, @RequestParam(value = "success") String success) {
-        setOrder(model, success, false);
+        setOrder(model, success, false, false);
         return "adminorders";
     }
 
@@ -630,6 +672,14 @@ public class AdminController {
         clientCheckService.updateCheckClosed(true, id);
 
         return "redirect:/admin/orders?success=Check " + id + " successfully closed";
+    }
+
+    @PutMapping("/cancel-order")
+    public String cancelOrder(@RequestParam(value = "id") String id) {
+        phoneInstanceService.cancelOrder(id);
+        clientCheckService.cancelCheck(id);
+
+        return "redirect:/admin/cancellation-of-orders?success=Check " + id + " successfully canceled";
     }
 
     @GetMapping("/characteristics")
@@ -933,10 +983,11 @@ public class AdminController {
             phoneForStoreCompositions.add(phoneForStoreComposition);
         });
 
-        Collections.sort(phoneForStoreCompositions);
+        phoneForStoreCompositions.sort(Comparator.comparing(o -> o.getPhone().getPhoneDescription()));
 
-        model.addAttribute("phoneForStoreCompositions", phoneForStoreCompositions);
-        model.addAttribute("flag", false);
+        model.addAttribute(PHONE_FOR_STORE_COMPOSITIONS, phoneForStoreCompositions);
+        model.addAttribute(FLAG, false);
+        model.addAttribute(FLAG_FOR_STATISTIC, false);
         return "storecomposition";
     }
 
@@ -954,17 +1005,46 @@ public class AdminController {
         return setStatisticForFifthAndSixth(model, registeredUsers, false);
     }
 
+    @GetMapping("/statistic-7")
+    public String getSeventhStatistic(Model model) throws Exception {
+        List<PhoneForStoreComposition> phoneForStoreCompositions = new ArrayList<>();
+        List<String> years = new ArrayList<>();
+        SimpleDateFormat formatterForDateAdded = new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH);
+        SimpleDateFormat formatter = new SimpleDateFormat(CHECK_DATES_PATTERN, Locale.ENGLISH);
+        String startDate = LocalDate.now().getDayOfMonth() + "." + (LocalDate.now().getMonthValue() - 2) + "." + (LocalDate.now().getYear() - 1) + " 00:00:00";
+        String endDate = LocalDate.now().getDayOfMonth() + "." + (LocalDate.now().getMonthValue() - 2) + "." + (LocalDate.now().getYear()) + " 23:59:59";
+
+        phoneInstanceService.findAllPhonesWithBetweenTime(formatter.parse(startDate), formatter.parse(endDate)).forEach(phone -> {
+            int count = phoneInstanceService.countPhonesInStoreForAdminForStatistic(phone);
+
+            if (count <= COUNT_PHONES_FOR_BAD_SALES) {
+                PhoneForStoreComposition phoneForStoreComposition = new PhoneForStoreComposition();
+                phoneForStoreComposition.setPhone(phone);
+                phoneForStoreComposition.setPrice(phoneInstanceService.findPriceForPhoneForAdmin(phone));
+                phoneForStoreComposition.setCountInStore(count);
+
+                phoneForStoreCompositions.add(phoneForStoreComposition);
+                years.add(formatterForDateAdded.format(phone.getPhoneDescription().getDateAddedToDatabase()));
+            }
+        });
+
+        phoneForStoreCompositions.sort(Comparator.comparing(o -> o.getPhone().getPhoneDescription()));
+
+        model.addAttribute(PHONE_FOR_STORE_COMPOSITIONS, phoneForStoreCompositions);
+        model.addAttribute(FLAG, false);
+        model.addAttribute(FLAG_FOR_STATISTIC, true);
+        model.addAttribute(YEARS, years);
+        model.addAttribute("startDate", startDate.replace(" 00:00:00", ""));
+        model.addAttribute("endDate", endDate.replace(" 23:59:59", ""));
+        return "storecomposition";
+    }
+
     @GetMapping("/all-registered-users")
     public String getAllRegisteredUsers(Model model) {
         List<RegisteredUser> registeredUsers = userDetailsServiceImpl.findAllUsersForAdmin();
         Collections.sort(registeredUsers);
 
-        SimpleDateFormat formatter = new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH);
-        List<String> years = new ArrayList<>();
-
-        registeredUsers.forEach(user -> years.add(formatter.format(user.getDateOfBirth())));
-
-        model.addAttribute(YEARS, years);
+        model.addAttribute(YEARS, Util.getYearsForListRegisteredUsers(registeredUsers, BIRTHDAY_PATTERN));
         model.addAttribute("registeredUsers", registeredUsers);
         return "allregisteredusers";
     }
@@ -981,7 +1061,7 @@ public class AdminController {
 
         Collections.sort(orders);
 
-        model.addAttribute("flag", flag);
+        model.addAttribute(FLAG, flag);
         model.addAttribute("orders", orders);
         model.addAttribute("registeredUser", registeredUser);
         model.addAttribute(YEARS, formatterBirthday.format(registeredUser.getDateOfBirth()));
@@ -1067,7 +1147,7 @@ public class AdminController {
             model.addAttribute("orderCount", orderCount);
         }
 
-        model.addAttribute("flag", flag);
+        model.addAttribute(FLAG, flag);
         model.addAttribute(YEARS, years);
         model.addAttribute("percent", decimalFormat.format(percent));
         model.addAttribute("registeredUsers", registeredUsers);
@@ -1088,6 +1168,8 @@ public class AdminController {
         model.addAttribute("phone", phone);
         model.addAttribute("createView", createView);
         model.addAttribute("phoneDescription", phoneDescription);
+        model.addAttribute(PHONES, getPhoneForStoreCompositions(true));
+        model.addAttribute("phoneAddExisting", new PhoneAddExisting());
         tuneModelForCreateAndChange(model);
     }
 
@@ -1151,7 +1233,7 @@ public class AdminController {
         return phoneForStoreCompositions;
     }
 
-    private void setOrder(Model model, String success, boolean flag) {
+    private void setOrder(Model model, String success, boolean flag, boolean isCancellation) {
         List<UserOrdersForAdmin> orders = userDetailsServiceImpl.getUsersOrdersForAdmin(flag);
         orders.forEach(order -> order.getChecks().forEach(check -> order.getTotalPrices().add(phoneInstanceService.findPriceForClientCheckId(check.getId()))));
         Collections.sort(orders);
@@ -1165,14 +1247,15 @@ public class AdminController {
 
         model.addAttribute("orders", orders);
         model.addAttribute(SUCCESS, success);
-        model.addAttribute("flag", flag);
+        model.addAttribute(FLAG, flag);
+        model.addAttribute("cancel", isCancellation);
     }
 
     private String modelAttributesForFirstStatistic(Model model, String errorMsg, boolean flag) {
         model.addAttribute(YEARS, Util.getListYears());
         model.addAttribute(PHONES, phoneInstanceService.findAllPhonesInDb());
         model.addAttribute("salesSettingsForSpecificModels", new SalesSettingsForSpecificModels());
-        model.addAttribute("flag", flag);
+        model.addAttribute(FLAG, flag);
         model.addAttribute(ERROR_MSG, errorMsg);
         return "firststatistic";
     }
@@ -1180,7 +1263,7 @@ public class AdminController {
     private String modelAttributesForSecondStatistic(Model model, String errorMsg, boolean flag) {
         model.addAttribute(YEARS, Util.getListYears());
         model.addAttribute("salesSettingsForSpecificModels", new SalesSettingsForSpecificModels());
-        model.addAttribute("flag", flag);
+        model.addAttribute(FLAG, flag);
         model.addAttribute(ERROR_MSG, errorMsg);
         return "secondstatistic";
     }
@@ -1195,11 +1278,7 @@ public class AdminController {
     private String setFindUserByLastName(Model model, List<RegisteredUser> users, String success) {
         if (!users.isEmpty()) {
             Collections.sort(users);
-
-            SimpleDateFormat formatter = new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH);
-            List<String> years = new ArrayList<>();
-            users.forEach(user -> years.add(formatter.format(user.getDateOfBirth())));
-            model.addAttribute(YEARS, years);
+            model.addAttribute(YEARS, Util.getYearsForListRegisteredUsers(users, BIRTHDAY_PATTERN));
         }
 
         model.addAttribute("users", users);
@@ -1230,6 +1309,15 @@ public class AdminController {
 
     private String createChangePhone(Model model, String success, CreatePhoneDescription changePhoneDescription, CreateView changeView,
                                      CreatePhone changePhone, PhoneDescription phoneDescriptionInput, View viewInput, PhoneForStoreComposition phoneInput) {
+        if (phoneDescriptionInput.getId() != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH);
+
+            model.addAttribute("dateAddedToDb", formatter.format(phoneDescriptionInput.getDateAddedToDatabase()));
+        }
+        else {
+            model.addAttribute("dateAddedToDb", "");
+        }
+
         model.addAttribute("phoneDescriptionInput", phoneDescriptionInput);
         model.addAttribute("viewInput", viewInput);
         model.addAttribute("phoneInput", phoneInput);

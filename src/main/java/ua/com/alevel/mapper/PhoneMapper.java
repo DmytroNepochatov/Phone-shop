@@ -18,6 +18,7 @@ import ua.com.alevel.service.country.CountryService;
 import ua.com.alevel.service.operationsystem.OperationSystemService;
 import ua.com.alevel.service.processor.ProcessorService;
 import ua.com.alevel.service.typescreen.TypeScreenService;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public final class PhoneMapper {
@@ -72,7 +73,7 @@ public final class PhoneMapper {
 
     public static PhoneDescription mapCreatePhoneDescriptionToPhoneDescription(PhoneDescription phoneDescriptionForDb, CreatePhoneDescription phoneDescription, BrandService brandService, ChargeTypeService chargeTypeService,
                                                                                CommunicationStandardService communicationStandardService, OperationSystemService operationSystemService,
-                                                                               ProcessorService processorService, TypeScreenService typeScreenService, CountryService countryService) {
+                                                                               ProcessorService processorService, TypeScreenService typeScreenService, CountryService countryService, SimpleDateFormat formatter) throws Exception {
         phoneDescriptionForDb.setBrand(brandService.findBrandByName(phoneDescription.getBrand()).get());
         phoneDescriptionForDb.setChargeType(chargeTypeService.findFirstByName(phoneDescription.getChargeType()).get());
         phoneDescriptionForDb.setCommunicationStandard(communicationStandardService.findFirstByName(phoneDescription.getCommunicationStandard()).get());
@@ -96,6 +97,7 @@ public final class PhoneMapper {
         phoneDescriptionForDb.setDegreeOfMoistureProtection(phoneDescription.getDegreeOfMoistureProtection());
         phoneDescriptionForDb.setHaveNfc(phoneDescription.isNfc());
         phoneDescriptionForDb.setGuaranteeTimeMonths(Integer.parseInt(phoneDescription.getGuaranteeTimeMonths()));
+        phoneDescriptionForDb.setDateAddedToDatabase(formatter.parse(phoneDescription.getDateAddedToDatabase()));
 
         return phoneDescriptionForDb;
     }

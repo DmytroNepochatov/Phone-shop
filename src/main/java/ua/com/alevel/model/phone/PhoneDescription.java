@@ -9,6 +9,7 @@ import ua.com.alevel.model.country.Country;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -90,6 +91,9 @@ public class PhoneDescription implements Comparable<PhoneDescription> {
     private String degreeOfMoistureProtection;
 
     private boolean isHaveNfc;
+
+    @NotNull
+    private Date dateAddedToDatabase;
 
     @NotNull
     private int guaranteeTimeMonths;

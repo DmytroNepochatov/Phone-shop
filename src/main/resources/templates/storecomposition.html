@@ -17,23 +17,37 @@
 
 <div class="container-fluid">
     <br>
-    <div class="row" th:if="${!flag}">
-        <div class="col" align="center">
-            <h5>All-time phone models sales statistics</h5>
+    <div class="row" th:if="${!flag and !flagStat}">
+        <div class="col text-center" style="padding-right: 90px;">
+            <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Go
+                back
+            </a>
         </div>
+        <div class="col" align="center">
+            <div style="width: 800px;"><h5>All-time phone models sales statistics</h5></div>
+        </div>
+        <div class="col"></div>
     </div>
-    <div style="height: 25px;" th:if="${!flag}"></div>
-    <div class="row">
+    <div class="row" th:if="${flagStat}">
+        <div class="col text-center" style="padding-right: 90px;">
+            <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Go
+                back
+            </a>
+        </div>
+        <div class="col" align="center">
+            <div style="width: 800px;">
+            <h5>Phone models with bad sales</h5>
+            <h6 th:text="${'Statistics for '+startDate+' - '+endDate}"></h6>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+    <div class="row" th:if="${flag}">
         <div class="col">
             <div class="row my-2">
-                <div class="col text-center" style="padding-right: 90px;" th:if="${flag}">
+                <div class="col text-center" style="padding-right: 90px;">
                     <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
                         to profile
-                    </a>
-                </div>
-                <div class="col text-center" style="padding-right: 90px;" th:if="${!flag}">
-                    <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Go
-                        back
                     </a>
                 </div>
             </div>
@@ -51,7 +65,7 @@
     </div>
     <br>
     <div th:if="${!phoneForStoreCompositions.empty}">
-        <div class="row" th:each="phoneForStoreComposition: ${phoneForStoreCompositions}">
+        <div class="row" th:each="phoneForStoreComposition, state: ${phoneForStoreCompositions}">
             <div class="col-2"></div>
             <div class="col" style="height: 90px; border: 1px solid black;">
                 <div class="row align-items-center" style="height: 90px;">
@@ -63,7 +77,15 @@
         +' '+phoneForStoreComposition.phone.amountOfRam+'/'+phoneForStoreComposition.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneForStoreComposition.phone.view.color}"></div>
                     <div class="col-5" align="right">
                         <div th:if="${flag}" th:text="${'Price: '+phoneForStoreComposition.price+ ' $. Quantity: '+phoneForStoreComposition.countInStore+' units'}"></div>
-                        <div th:if="${!flag}" th:text="${'Price: '+phoneForStoreComposition.price+ ' $. Sold: '+phoneForStoreComposition.countInStore+' units'}"></div>
+                        <div th:if="${!flag and !flagStat}" th:text="${'Price: '+phoneForStoreComposition.price+ ' $. Sold: '+phoneForStoreComposition.countInStore+' units'}"></div>
+                        <div th:if="${flagStat}">
+                            <div class="row">
+                                <div class="col" align="right" th:text="${'Price: '+phoneForStoreComposition.price+ ' $. Sold: '+phoneForStoreComposition.countInStore+' units'}"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col" align="right" th:text="${'Date added to database: '+years[__${state.index}__]}"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

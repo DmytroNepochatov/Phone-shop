@@ -28,7 +28,7 @@
 <div class="container-fluid">
     <br>
     <div style="border-left: 2px solid black;
-            height: 1540px;
+            height: 1620px;
             position: absolute;
             left: 50%;
             margin-left: -3px;
@@ -340,6 +340,19 @@
                 </div>
                 <br>
                 <div class="row">
+                    <div class="col">
+                        <label for="dateAddedToDatabase" class="form-label">Date added to database:</label>
+                        <div style="height: 30px; width: 200px;">
+                            <input style="height: 30px; width: 200px;" type="text" class="form-control"
+                                   id="dateAddedToDatabase"
+                                   required="true"
+                                   th:field="*{dateAddedToDatabase}" th:value="${dateAddedToDatabase}">
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+                <br>
+                <div class="row">
                     <div class="col" align="center">
                         <div style="height: 10px;"></div>
                         <div style="height: 40px; width: 250px;">
@@ -574,6 +587,71 @@
                                             style="height: 40px; width: 200px; display: flex; align-items: center; justify-content: center;"
                                             type="submit">
                                         Save phone
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+                    <div style="border: 1px solid black;"></div>
+                    <br>
+                    <br><br>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col">
+                    <form autocomplete="off" th:action="@{/admin/add-existing-phones}" th:object="${phoneAddExisting}"
+                          method="post">
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col">
+                                <div style="width: 680px;" align="center">
+                                    <h5>Add phones that were already in the database</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height: 10px;"></div>
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col" align="center">
+                                <div style="width: 680px; height: 90px;">
+                                    <label class="form-label">Phones that have been added to the database:</label>
+                                    <div style="height: 30px; width: 500px;">
+                                        <select class="select-box"  style="height: 30px; width: 500px;"
+                                                th:field="*{phoneId}">
+                                            <option th:value="${'Select phone'}">Select phone</option>
+                                            <option th:each="phoneOpt : ${phones}" th:text="${phoneOpt.phone.phoneDescription.brand.name+' '+ phoneOpt.phone.phoneDescription.series + ' '+ phoneOpt.phone.phoneDescription.name
+        +' '+phoneOpt.phone.amountOfRam+'/'+phoneOpt.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneOpt.phone.view.color +' Price: '+phoneOpt.price+ ' $'}"
+                                                    th:value="${phoneOpt.phone.id}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col">
+                                <div style="width: 680px; height: 150px;">
+                                    <label for="imei2" class="form-label">IMEI (If there are several such models, write their IMEI
+                                        separated by commas):</label>
+                                    <div style="height: 30px; width: 300px;">
+                                        <textarea style="height: 100px; width: 600px;" class="form-control" id="imei2"
+                                                  required="true" th:field="*{imei}" th:value="${imei}"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col" align="center">
+                                <div style="height: 10px; width: 680px;"></div>
+                                <div style="height: 40px; width: 250px;">
+                                    <button class="w-100 btn btn-primary btn-lg"
+                                            style="height: 40px; width: 250px; display: flex; align-items: center; justify-content: center;"
+                                            type="submit">
+                                        Add phones to database
                                     </button>
                                 </div>
                             </div>

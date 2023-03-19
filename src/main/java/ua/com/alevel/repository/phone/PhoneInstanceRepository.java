@@ -151,7 +151,7 @@ public interface PhoneInstanceRepository extends CrudRepository<PhoneInstance, S
     @Query("select count(phoneInstance) from PhoneInstance phoneInstance where phoneInstance.phone = ?1 and phoneInstance.clientCheck is null")
     int countPhonesInStoreForAdmin(Phone phone);
 
-    @Query("select count(phoneInstance) from PhoneInstance phoneInstance where phoneInstance.phone = ?1 and phoneInstance.clientCheck is not null")
+    @Query("select count(phoneInstance) from PhoneInstance phoneInstance where phoneInstance.phone = ?1 and phoneInstance.clientCheck is not null and phoneInstance.clientCheck.closedDate is not null")
     int countPhonesInStoreForAdminForStatistic(Phone phone);
 
     @Transactional
@@ -184,4 +184,7 @@ public interface PhoneInstanceRepository extends CrudRepository<PhoneInstance, S
             "and phoneInstance.phone.phoneDescription.series =?3 and phoneInstance.phone.amountOfBuiltInMemory =?4 " +
             "and phoneInstance.phone.amountOfRam =?5 and phoneInstance.clientCheck.closedDate between ?6 and ?7")
     int soldMostPopularPhoneModelsMonth(Brand brand, String name, String series, int amountOfBuiltInMemory, int amountOfRam, Date startDate, Date endDate);
+
+    @Query("select phoneInstance from PhoneInstance phoneInstance where phoneInstance.clientCheck.id = ?1")
+    List<PhoneInstance> findAllPhoneInstancesByClientCheckId(String checkId);
 }

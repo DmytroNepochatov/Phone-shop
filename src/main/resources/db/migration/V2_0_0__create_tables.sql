@@ -125,6 +125,7 @@ CREATE TABLE IF NOT EXISTS public.phone_description
     id character varying(255) COLLATE pg_catalog."default" NOT NULL,
     degree_of_moisture_protection character varying(255) COLLATE pg_catalog."default",
     diagonal real NOT NULL,
+    date_added_to_database timestamp without time zone NOT NULL,
     display_resolution character varying(255) COLLATE pg_catalog."default",
     guarantee_time_months integer NOT NULL,
     height real NOT NULL,

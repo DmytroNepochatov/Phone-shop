@@ -80,12 +80,19 @@
                         </div>
                     </div>
                     <div class="col-1">
-                        <div th:if="${flag}">
+                        <div th:if="${flag and !cancel}">
                         <form th:action="${'/admin/close-order?id='+check.id}" th:method="put">
                             <div class="col text-center">
                                 <button type="submit" class="btn btn-primary" style="width: 80px;">Close</button>
                             </div>
                         </form>
+                        </div>
+                        <div th:if="${cancel}">
+                            <form th:action="${'/admin/cancel-order?id='+check.id}" th:method="put">
+                                <div class="col text-center">
+                                    <button type="submit" class="btn btn-primary" style="width: 80px; background-color: red;">Cancel</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     <div style="height: 30px;"></div>
