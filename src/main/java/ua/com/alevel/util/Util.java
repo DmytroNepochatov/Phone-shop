@@ -8,7 +8,6 @@ import ua.com.alevel.model.dto.filterparams.FilterSettings;
 import ua.com.alevel.model.user.RegisteredUser;
 import ua.com.alevel.service.phone.PhoneInstanceService;
 import java.text.DateFormat;
-import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -19,6 +18,8 @@ import java.util.Locale;
 import static org.apache.commons.lang.NumberUtils.isNumber;
 
 public final class Util {
+    private static final String[] MONTHS = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
     private Util() {
     }
 
@@ -71,7 +72,7 @@ public final class Util {
     }
 
     public static String getMonth(int month) {
-        return new DateFormatSymbols(Locale.ENGLISH).getMonths()[month - 1];
+        return MONTHS[month - 1];
     }
 
     public static int checkColorsCount(PhoneForAddToCart phoneForAddToCart) {

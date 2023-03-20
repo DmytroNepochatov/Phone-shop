@@ -41,44 +41,42 @@
         <div class="col-3"></div>
         <div class="col-6" align="center">
             <h6 th:if="${registeredUsers.empty}" th:text="${'No such users'}"></h6>
-            <h6 th:if="${!registeredUsers.empty}" th:text="${'Percentage of these users to all registered users: '+percent+' %'}"></h6>
+            <h6 th:if="${!registeredUsers.empty}"
+                th:text="${'Percentage of these users to all registered users: '+percent+' %'}"></h6>
         </div>
         <div class="col-3"></div>
     </div>
     <br>
     <div th:if="${!registeredUsers.empty}">
-        <div class="row">
-            <div class="col" align="center" style="border: 1px solid black;">Last name</div>
-            <div class="col" align="center" style="border: 1px solid black;">First name</div>
-            <div class="col" align="center" style="border: 1px solid black;">Middle name</div>
-            <div class="col" align="center" style="border: 1px solid black;">Date of birth</div>
-            <div class="col" align="center" style="border: 1px solid black;">Phone number</div>
-            <div class="col-3" align="center" style="border: 1px solid black;">Email address</div>
-            <div class="col-1" th:if="${flag}" align="center" style="border: 1px solid black;">Order count</div>
-        </div>
-        <div class="row">
-            <div class="col">
+        <div align="center">
+            <div style="width: 1400px;">
+                <div class="row">
+                    <div class="col" align="center" style="border: 1px solid black;">Last name</div>
+                    <div class="col" align="center" style="border: 1px solid black;">First name</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Middle name</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Date of birth</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Phone number</div>
+                    <div class="col-3" align="center" style="border: 1px solid black;">Email address</div>
+                    <div class="col-1" th:if="${flag}" align="center" style="border: 1px solid black;">Order count</div>
+                </div>
                 <div class="row" th:each="registeredUser, state: ${registeredUsers}">
-                    <div class="col" style="height: 50px;">
-                        <div class="row align-items-center" style="height: 50px;">
-                            <div class="col">
-                                <div class="row">
-                                    <div class="col" style="border: 1px solid black;"
-                                         th:text="${registeredUser.lastName}"></div>
-                                    <div class="col" style="border: 1px solid black;"
-                                         th:text="${registeredUser.firstName}"></div>
-                                    <div class="col" style="border: 1px solid black;"
-                                         th:text="${registeredUser.middleName}"></div>
-                                    <div class="col" style="border: 1px solid black;"
-                                         th:text="${years[__${state.index}__]}"></div>
-                                    <div class="col" style="border: 1px solid black;"
-                                         th:text="${registeredUser.phoneNumber}"></div>
-                                    <div class="col-3" style="border: 1px solid black;"
-                                         th:text="${registeredUser.emailAddress}"></div>
-                                    <div class="col-1" th:if="${flag}" style="border: 1px solid black;" align="center"
-                                         th:text="${orderCount[__${state.index}__]}"></div>
-                                </div>
-                            </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col" style="border: 1px solid black; height: 30px;" align="left"
+                                 th:text="${registeredUser.lastName}"></div>
+                            <div class="col" style="border: 1px solid black;" align="left"
+                                 th:text="${registeredUser.firstName}"></div>
+                            <div class="col" style="border: 1px solid black;" align="left"
+                                 th:text="${registeredUser.middleName}"></div>
+                            <div class="col" style="border: 1px solid black;" align="left"
+                                 th:text="${years[__${state.index}__]}"></div>
+                            <div class="col" style="border: 1px solid black;" align="left"
+                                 th:text="${registeredUser.phoneNumber}"></div>
+                            <div class="col-3" style="border: 1px solid black;" align="left"
+                                 th:text="${registeredUser.emailAddress}"></div>
+                            <div class="col-1" th:if="${flag}" style="border: 1px solid black;"
+                                 align="center"
+                                 th:text="${orderCount[__${state.index}__]}"></div>
                         </div>
                     </div>
                 </div>

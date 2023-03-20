@@ -29,6 +29,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import static org.apache.commons.lang.NumberUtils.isNumber;
 
 @Controller
@@ -936,7 +937,27 @@ public class AdminController {
         }
 
         List<SalesSettingsForSpecificModelsParams> salesSettingsForSpecificModelsParamsList = phoneInstanceService.getSalesSettingsForSpecificModelsParams(salesSettingsForSpecificModels);
+        List<List<Object>> chartData = new ArrayList<>();
+        List<Integer> maxSoldValue = new ArrayList<>();
 
+        salesSettingsForSpecificModelsParamsList.forEach(salesSettingsForSpecificModelsParams -> {
+            List<Object> chart = new ArrayList<>();
+            AtomicInteger max = new AtomicInteger(-1);
+
+            salesSettingsForSpecificModelsParams.getFields().forEach(field -> {
+                chart.add(List.of(field.getMonth(), field.getSold()));
+
+                if (field.getSold() > max.get()) {
+                    max.set(field.getSold());
+                }
+            });
+
+            chartData.add(new ArrayList<>(chart));
+            maxSoldValue.add(max.get());
+        });
+
+        model.addAttribute("chartData", chartData);
+        model.addAttribute("maxSoldValue", maxSoldValue);
         model.addAttribute("list", salesSettingsForSpecificModelsParamsList);
         model.addAttribute("forWhatPhone", salesSettingsForSpecificModelsParamsList.get(0).getPhone());
         model.addAttribute("forWhatYear", salesSettingsForSpecificModels.getYear());

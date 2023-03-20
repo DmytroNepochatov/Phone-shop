@@ -30,7 +30,8 @@
     <br>
     <div class="row">
         <div class="col">
-            <form autocomplete="off" th:action="@{/admin/find-registered-user-last-name-finding}" th:object="${findUserByLastName}" method="get">
+            <form autocomplete="off" th:action="@{/admin/find-registered-user-last-name-finding}"
+                  th:object="${findUserByLastName}" method="get">
                 <div class="row">
                     <div class="col">
                         <div style="height: 10px;"></div>
@@ -70,40 +71,37 @@
         </div>
     </div>
     <div th:if="${!users.empty}">
-        <div class="row">
-            <div class="col" align="center" style="border: 1px solid black;">Last name</div>
-            <div class="col" align="center" style="border: 1px solid black;">First name</div>
-            <div class="col" align="center" style="border: 1px solid black;">Middle name</div>
-            <div class="col" align="center" style="border: 1px solid black;">Date of birth</div>
-            <div class="col" align="center" style="border: 1px solid black;">Phone number</div>
-            <div class="col-3" align="center" style="border: 1px solid black;">Email address</div>
-            <div class="col" align="center" style="border: 1px solid black;">Orders</div>
-        </div>
-        <div class="row">
-            <div class="col">
+        <div align="center">
+            <div style="width: 1400px;">
+                <div class="row">
+                    <div class="col" align="center" style="border: 1px solid black;">Last name</div>
+                    <div class="col" align="center" style="border: 1px solid black;">First name</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Middle name</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Date of birth</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Phone number</div>
+                    <div class="col-3" align="center" style="border: 1px solid black;">Email address</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Orders</div>
+                </div>
                 <div class="row" th:each="user, state: ${users}">
-                    <div class="col" style="height: 50px;">
-                        <div class="row align-items-center" style="height: 50px;">
-                            <div class="col">
-                                <div class="row">
-                                    <div class="col" style="border: 1px solid black;"
-                                         th:text="${user.lastName}"></div>
-                                    <div class="col" style="border: 1px solid black;"
-                                         th:text="${user.firstName}"></div>
-                                    <div class="col" style="border: 1px solid black;"
-                                         th:text="${user.middleName}"></div>
-                                    <div class="col" style="border: 1px solid black;"
-                                         th:text="${years[__${state.index}__]}"></div>
-                                    <div class="col" style="border: 1px solid black;"
-                                         th:text="${user.phoneNumber}"></div>
-                                    <div class="col-3" style="border: 1px solid black;"
-                                         th:text="${user.emailAddress}"></div>
-                                    <div class="col" style="border: 1px solid black;">
-                                        <div class="col text-center">
-                                            <a th:href="${'/admin/orders-for-user-id?id='+user.id+'&flag=false'}" class="btn btn-primary" style="width: 120px;">See orders
-                                            </a>
-                                        </div>
-                                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col" style="border: 1px solid black; height: 50px;" align="left"
+                                 th:text="${user.lastName}"></div>
+                            <div class="col" style="border: 1px solid black;" align="left"
+                                 th:text="${user.firstName}"></div>
+                            <div class="col" style="border: 1px solid black;" align="left"
+                                 th:text="${user.middleName}"></div>
+                            <div class="col" style="border: 1px solid black;" align="left"
+                                 th:text="${years[__${state.index}__]}"></div>
+                            <div class="col" style="border: 1px solid black;" align="left"
+                                 th:text="${user.phoneNumber}"></div>
+                            <div class="col-3" style="border: 1px solid black;" align="left"
+                                 th:text="${user.emailAddress}"></div>
+                            <div class="col" style="border: 1px solid black;">
+                                <div class="col text-center">
+                                    <a th:href="${'/admin/orders-for-user-id?id='+user.id+'&flag=false'}"
+                                       class="btn btn-primary" style="width: 120px;">See orders
+                                    </a>
                                 </div>
                             </div>
                         </div>

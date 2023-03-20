@@ -13,5 +13,5 @@ import ua.com.alevel.model.phone.Phone;
 public class MostPopularPhoneModels {
     private Phone phone;
     private String month;
-    private String sold;
+    private int sold;
 }

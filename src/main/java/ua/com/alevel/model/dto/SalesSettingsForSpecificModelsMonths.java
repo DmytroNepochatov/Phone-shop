@@ -11,5 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SalesSettingsForSpecificModelsMonths {
     private String month;
-    private String sold;
+    private int sold;
 }

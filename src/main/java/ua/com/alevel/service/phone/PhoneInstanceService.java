@@ -520,7 +520,7 @@ public class PhoneInstanceService {
 
                 SalesSettingsForSpecificModelsMonths salesSettingsForSpecificModelsMonths = new SalesSettingsForSpecificModelsMonths();
                 salesSettingsForSpecificModelsMonths.setMonth(Util.getMonth(tempMonth));
-                salesSettingsForSpecificModelsMonths.setSold(phoneInstanceRepository.soldSpecificModelsMonth(phone, startDate, endDate) + "");
+                salesSettingsForSpecificModelsMonths.setSold(phoneInstanceRepository.soldSpecificModelsMonth(phone, startDate, endDate));
 
                 settings.getFields().add(salesSettingsForSpecificModelsMonths);
             }
@@ -568,7 +568,7 @@ public class PhoneInstanceService {
                 mostPopularPhoneModels.setPhone(phone);
                 mostPopularPhoneModels.setMonth(tempMonth + "");
                 mostPopularPhoneModels.setSold(phoneInstanceRepository.soldMostPopularPhoneModelsMonth(phone.getPhoneDescription().getBrand(),
-                        phone.getPhoneDescription().getName(), phone.getPhoneDescription().getSeries(), phone.getAmountOfBuiltInMemory(), phone.getAmountOfRam(), startDate, endDate) + "");
+                        phone.getPhoneDescription().getName(), phone.getPhoneDescription().getSeries(), phone.getAmountOfBuiltInMemory(), phone.getAmountOfRam(), startDate, endDate));
 
                 mostPopularPhoneModelsList.add(mostPopularPhoneModels);
             }
@@ -579,10 +579,10 @@ public class PhoneInstanceService {
 
         while (month != monthCount + 1) {
             MostPopularPhoneModels max = new MostPopularPhoneModels();
-            max.setSold("-1");
+            max.setSold(-1);
 
             for (MostPopularPhoneModels mostPopularPhoneModels : mostPopularPhoneModelsList) {
-                if (Integer.parseInt(mostPopularPhoneModels.getSold()) > Integer.parseInt(max.getSold()) &&
+                if (mostPopularPhoneModels.getSold() > max.getSold() &&
                         Integer.parseInt(mostPopularPhoneModels.getMonth()) == month) {
                     max.setSold(mostPopularPhoneModels.getSold());
                     max.setPhone(mostPopularPhoneModels.getPhone());

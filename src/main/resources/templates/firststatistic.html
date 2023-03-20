@@ -13,6 +13,49 @@
     <link rel="shortcut icon" th:href="@{/images/brand.ico}" href="../static/images/brand.ico" type="image/x-icon">
 </head>
 <body>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    var list = [[${chartData}]];
+    var maxFromServer = [[${maxSoldValue}]];
+    var i = 0;
+
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        for (; i < list.length; i++) {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Month');
+            data.addColumn('number', 'Units sold');
+            data.addRows(list[i]);
+
+            var max = maxFromServer[i];
+
+            var options = {
+                'width': 1000,
+                'height': 400,
+                vAxis: {
+                    gridlines: {count: max + 1},
+                    viewWindow: {
+                        min: 0,
+                        max: max
+                    },
+                },
+                chartArea:{
+                    top:20,
+                    bottom: 80
+                }
+            };
+
+            var chart = new google.visualization.ColumnChart(document.getElementById('chart_div' + i));
+            chart.draw(data, options);
+        }
+    }
+</script>
+
 <div th:replace="menu :: menu"></div>
 
 <div class="container-fluid">
@@ -92,6 +135,7 @@
             <h5 th:text="${errorMsg}"></h5>
         </div>
     </div>
+    <br>
     <div th:if="${!flag}">
         <div class="row">
             <div class="col" align="center">
@@ -100,38 +144,19 @@
             </div>
         </div>
         <br>
-        <div class="row" th:each="listOpt : ${list}">
+        <div class="row" th:each="listOpt, state : ${list}">
             <div class="row">
                 <div class="col" align="center">
                     <h5 th:text="${listOpt.phone.phoneDescription.brand.name+' '+ listOpt.phone.phoneDescription.series + ' '+ listOpt.phone.phoneDescription.name
         +' '+listOpt.phone.amountOfRam+'/'+listOpt.phone.amountOfBuiltInMemory+' Gb. Color: '+listOpt.phone.view.color}"></h5>
                 </div>
             </div>
-            <div style="height: 10px;"></div>
-            <div class="row">
-                <div class="col" align="center" style="border: 1px solid black;" th:each="field : ${listOpt.fields}">
-                    <h6 th:text="${field.month}"></h6>
-                </div>
+            <div align="center" th:if="${maxSoldValue[__${state.index}__] <= 1}">
+                <div style="height: 40px;"></div>
+                <h5 th:text="${'Not enough data to display statistics'}"></h5>
+                <div style="height: 80px;"></div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <div class="row">
-                        <div class="col" style="height: 50px;">
-                            <div class="row align-items-center" style="height: 50px;">
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col" style="border: 1px solid black;" align="center"
-                                             th:each="field : ${listOpt.fields}">
-                                            <h6 th:text="${'Sold: '+field.sold}"></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div style="height: 20px;"></div>
+            <div th:id="${'chart_div'+__${state.index}__}" th:if="${maxSoldValue[__${state.index}__] > 1}" align="center"></div>
         </div>
     </div>
     <br>
