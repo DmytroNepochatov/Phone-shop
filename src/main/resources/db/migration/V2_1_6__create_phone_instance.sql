@@ -602,3 +602,702 @@ INSERT INTO public.phone_instance(
     id, imei, price, check_id, phone_id, shopping_cart_id)
 VALUES ('195077b7-f144-488a-9461-5acebe7b6c88', '195077b7-f144-488a-9461-5acebe7b6c88', 350,
         null, 'cd013c5a-be3f-469e-8153-0154fa2aa1d1', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('711aee01-638b-4314-8a28-e9743fd251b2', '711aee01-638b-4314-8a28-e9743fd251b2', 2000,
+        '8df61e5b-a8c1-47ed-8a3a-dbee8f78192b', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('b2ae9de9-2b3b-4a99-af5c-7a940ee57740', 'b2ae9de9-2b3b-4a99-af5c-7a940ee57740', 2000,
+        '8df61e5b-a8c1-47ed-8a3a-dbee8f78192b', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('591545b4-3fd3-450b-bd59-809225b3b464', '591545b4-3fd3-450b-bd59-809225b3b464', 2000,
+        '8df61e5b-a8c1-47ed-8a3a-dbee8f78192b', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('98a68eaa-d033-4fb7-9530-6d7eb237db9c', '98a68eaa-d033-4fb7-9530-6d7eb237db9c', 2000,
+        '8df61e5b-a8c1-47ed-8a3a-dbee8f78192b', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('13a402c7-8989-4961-b7d5-c87ade80b5cf', '13a402c7-8989-4961-b7d5-c87ade80b5cf', 2000,
+        '8df61e5b-a8c1-47ed-8a3a-dbee8f78192b', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('a90f7228-c1e4-4a43-87f0-675ff95272bc', 'a90f7228-c1e4-4a43-87f0-675ff95272bc', 2000,
+        '0249ddbb-7f42-43af-ba0d-c51b21ba1466', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('89e7737f-764a-417a-938c-fdea2268ee5a', '89e7737f-764a-417a-938c-fdea2268ee5a', 2000,
+        '0249ddbb-7f42-43af-ba0d-c51b21ba1466', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('0ff8e92e-dbfb-4286-8e43-de18b47e1145', '0ff8e92e-dbfb-4286-8e43-de18b47e1145', 2000,
+        '0249ddbb-7f42-43af-ba0d-c51b21ba1466', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('a5fd4269-adc1-4b4e-bc41-bf5c9cc7c192', 'a5fd4269-adc1-4b4e-bc41-bf5c9cc7c192', 2000,
+        '0249ddbb-7f42-43af-ba0d-c51b21ba1466', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('4e0bfba7-ba6b-4a75-836f-5b96bb792b75', '4e0bfba7-ba6b-4a75-836f-5b96bb792b75', 2000,
+        'db959cfa-6606-4875-91b7-7e17285756fb', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('c0a7a513-e013-49d1-bc7b-778a99157dcc', 'c0a7a513-e013-49d1-bc7b-778a99157dcc', 2000,
+        'db959cfa-6606-4875-91b7-7e17285756fb', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('7f109bd8-2dda-4e60-9574-b7f5aaba840b', '7f109bd8-2dda-4e60-9574-b7f5aaba840b', 2000,
+        'db959cfa-6606-4875-91b7-7e17285756fb', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('2e08ed53-81fd-4e15-8f78-9929362dab0a', '2e08ed53-81fd-4e15-8f78-9929362dab0a', 2000,
+        'db959cfa-6606-4875-91b7-7e17285756fb', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('d06ddc22-07b2-4b2d-b9e4-62d763980fbc', 'd06ddc22-07b2-4b2d-b9e4-62d763980fbc', 2000,
+        'db959cfa-6606-4875-91b7-7e17285756fb', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('9a5911b7-8e40-483a-bc09-642f002d1ec8', '9a5911b7-8e40-483a-bc09-642f002d1ec8', 2000,
+        'db959cfa-6606-4875-91b7-7e17285756fb', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('167ba207-0165-410b-89bc-86d6d914152e', '167ba207-0165-410b-89bc-86d6d914152e', 2000,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('050bd016-acdb-45a8-bc79-5fded7eb0be7', '050bd016-acdb-45a8-bc79-5fded7eb0be7', 2000,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('182b326e-8165-47f9-bdf2-b223891c3f49', '182b326e-8165-47f9-bdf2-b223891c3f49', 2000,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('3b5f4b80-03bb-4c42-93be-0605e68b315d', '3b5f4b80-03bb-4c42-93be-0605e68b315d', 2000,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('bb8a2f61-7c45-40a9-8445-a3e8e9cae206', 'bb8a2f61-7c45-40a9-8445-a3e8e9cae206', 2000,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('dcfb8094-87f2-443a-8a39-b9cc5f0151de', 'dcfb8094-87f2-443a-8a39-b9cc5f0151de', 2000,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('b96727ef-e898-4d16-ad91-16945a100f3a', 'b96727ef-e898-4d16-ad91-16945a100f3a', 2000,
+        'e4b7fd0b-26ab-48ed-9027-18efd78e2480', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('1ec81b4b-6d81-4695-a22f-8874d8f0ac60', '1ec81b4b-6d81-4695-a22f-8874d8f0ac60', 2000,
+        'e4b7fd0b-26ab-48ed-9027-18efd78e2480', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('81b6be93-4cec-4c2e-91c3-8be328fb2c60', '81b6be93-4cec-4c2e-91c3-8be328fb2c60', 2000,
+        'e4b7fd0b-26ab-48ed-9027-18efd78e2480', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('bba59f8a-6817-4c20-8252-9e1ffbd0f98e', 'bba59f8a-6817-4c20-8252-9e1ffbd0f98e', 2000,
+        'e4b7fd0b-26ab-48ed-9027-18efd78e2480', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('0b952fbd-7add-4148-96a9-967fff59e24b', '0b952fbd-7add-4148-96a9-967fff59e24b', 2000,
+        'e4b7fd0b-26ab-48ed-9027-18efd78e2480', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('0d29a761-9ec3-408e-9f54-a3b1860eacc4', '0d29a761-9ec3-408e-9f54-a3b1860eacc4', 2000,
+        'e4b7fd0b-26ab-48ed-9027-18efd78e2480', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('bece2fb5-bab3-4d47-9009-2ece50b98a8a', 'bece2fb5-bab3-4d47-9009-2ece50b98a8a', 2000,
+        'e4b7fd0b-26ab-48ed-9027-18efd78e2480', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('9046b428-c30b-40b9-87a8-ab876574a73f', '9046b428-c30b-40b9-87a8-ab876574a73f', 2000,
+        'e4b7fd0b-26ab-48ed-9027-18efd78e2480', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('3c925924-9174-4f77-95fa-a419e60cb7d0', '3c925924-9174-4f77-95fa-a419e60cb7d0', 2000,
+        '1d24c238-5774-4a04-80ec-d5694d29fc28', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('9709e35c-d3f0-4f4b-a5d2-c54bc6ec8340', '9709e35c-d3f0-4f4b-a5d2-c54bc6ec8340', 2000,
+        '1d24c238-5774-4a04-80ec-d5694d29fc28', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('a2d9cfc1-0dbb-4014-aa0d-eeb78fa21e27', 'a2d9cfc1-0dbb-4014-aa0d-eeb78fa21e27', 2000,
+        '1d24c238-5774-4a04-80ec-d5694d29fc28', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('b0e0930c-84f6-4283-8cb8-3ffa1305622c', 'b0e0930c-84f6-4283-8cb8-3ffa1305622c', 2000,
+        '30ad1c5e-5f3f-4ae5-a082-4e6adb4ee317', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('bbe69b54-81fa-4987-964a-c4b381be4e01', 'bbe69b54-81fa-4987-964a-c4b381be4e01', 2000,
+        '30ad1c5e-5f3f-4ae5-a082-4e6adb4ee317', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('70503703-81ce-4e00-a7f5-b1af22007db4', '70503703-81ce-4e00-a7f5-b1af22007db4', 2000,
+        '30ad1c5e-5f3f-4ae5-a082-4e6adb4ee317', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('ef2a36cd-06c2-4bcc-b78c-41c35de41e39', 'ef2a36cd-06c2-4bcc-b78c-41c35de41e39', 2000,
+        '30ad1c5e-5f3f-4ae5-a082-4e6adb4ee317', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('2060b87b-f31b-4dab-b79e-6206ab75fc97', '2060b87b-f31b-4dab-b79e-6206ab75fc97', 2000,
+        '30ad1c5e-5f3f-4ae5-a082-4e6adb4ee317', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('64cc60f8-7eda-400f-ad2b-40b6b04aaea0', '64cc60f8-7eda-400f-ad2b-40b6b04aaea0', 2000,
+        '30ad1c5e-5f3f-4ae5-a082-4e6adb4ee317', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('07d23508-1202-4f6e-a582-cc5a4683c1fd', '07d23508-1202-4f6e-a582-cc5a4683c1fd', 2000,
+        '30ad1c5e-5f3f-4ae5-a082-4e6adb4ee317', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('4838042e-e2df-4211-ab6e-13914b27616f', '4838042e-e2df-4211-ab6e-13914b27616f', 2000,
+        '94365a74-9ca3-40be-94e4-29579fcfd6a3', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('29115182-f444-4342-a090-30fa90d0dcca', '29115182-f444-4342-a090-30fa90d0dcca', 2000,
+        '94365a74-9ca3-40be-94e4-29579fcfd6a3', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('6c802ab5-81de-4c26-bc8c-2a413ac4873b', '6c802ab5-81de-4c26-bc8c-2a413ac4873b', 2000,
+        '94365a74-9ca3-40be-94e4-29579fcfd6a3', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('6ec079a3-5667-4075-9ce2-516e7c37d8e8', '6ec079a3-5667-4075-9ce2-516e7c37d8e8', 2000,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('55a0e2d2-3887-4667-9506-463f5cfe3d99', '55a0e2d2-3887-4667-9506-463f5cfe3d99', 2000,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('50b62c8a-3552-4a8c-a87f-4aea9f05aae9', '50b62c8a-3552-4a8c-a87f-4aea9f05aae9', 2000,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('cf403253-df8f-46f4-9317-85acf496a544', 'cf403253-df8f-46f4-9317-85acf496a544', 2000,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('442e9068-6da2-4954-9437-9fb29dc334f9', '442e9068-6da2-4954-9437-9fb29dc334f9', 2000,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('cbcef622-a662-466c-bef4-9dff6f2cfb3f', 'cbcef622-a662-466c-bef4-9dff6f2cfb3f', 2000,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('68daa979-ea44-4430-82e2-3dcda13027b7', '68daa979-ea44-4430-82e2-3dcda13027b7', 2000,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('56589e3e-b36e-450c-b1fa-18ec6cbba7dc', '56589e3e-b36e-450c-b1fa-18ec6cbba7dc', 2000,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('d0962c29-4687-4bc1-8393-010284d49c2b', 'd0962c29-4687-4bc1-8393-010284d49c2b', 2000,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('273015b1-4100-49b1-8c31-c5d9bf59a2b2', '273015b1-4100-49b1-8c31-c5d9bf59a2b2', 2000,
+        '7f1252c7-b185-4da0-84fb-6e405d6b6061', 'c09f009e-16c9-4b6d-a0bc-a0649e759b7c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('279ad8bb-bcee-4af9-b1d6-9644415ee5a7', '279ad8bb-bcee-4af9-b1d6-9644415ee5a7', 2000,
+        '7f1252c7-b185-4da0-84fb-6e405d6b6061', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('f49dab11-5bb5-4f0f-88a0-f00458cb84bb', 'f49dab11-5bb5-4f0f-88a0-f00458cb84bb', 2000,
+        '7f1252c7-b185-4da0-84fb-6e405d6b6061', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('432ed183-6052-42cb-ac54-47650309c065', '432ed183-6052-42cb-ac54-47650309c065', 2000,
+        '7f1252c7-b185-4da0-84fb-6e405d6b6061', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('e94f0095-46d9-4000-ab89-4b4f3803cbae', 'e94f0095-46d9-4000-ab89-4b4f3803cbae', 2000,
+        '7f1252c7-b185-4da0-84fb-6e405d6b6061', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('ef1a5a1e-9935-494f-a8dc-3a99bd70bf4e', 'ef1a5a1e-9935-494f-a8dc-3a99bd70bf4e', 2000,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'b93bd8fc-692b-4713-bf0b-01afca234063', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('b100742a-a5eb-47dc-b449-650084b8e90e', 'b100742a-a5eb-47dc-b449-650084b8e90e', 2000,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('b1042807-2af6-4190-bff1-c41389d59816', 'b1042807-2af6-4190-bff1-c41389d59816', 2000,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('729b1a75-bcf5-485d-89d1-8ca700b0c658', '729b1a75-bcf5-485d-89d1-8ca700b0c658', 2000,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('85923526-5eff-4976-80de-3627fee05ff6', '85923526-5eff-4976-80de-3627fee05ff6', 2000,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('d62ca3fd-832e-401c-a3d0-a93376f140a1', 'd62ca3fd-832e-401c-a3d0-a93376f140a1', 2000,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('712e25a5-9f41-4036-8ecc-430429dcacbd', '712e25a5-9f41-4036-8ecc-430429dcacbd', 2000,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('897ace47-39dc-43f8-961e-551e3bb7da9f', '897ace47-39dc-43f8-961e-551e3bb7da9f', 2000,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'cc446fed-1231-45af-8398-2b2eccd1e039', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('e49acdf7-0460-4fc9-8edf-c5ed1e7978b4', 'e49acdf7-0460-4fc9-8edf-c5ed1e7978b4', 350,
+        '8df61e5b-a8c1-47ed-8a3a-dbee8f78192b', 'cd013c5a-be3f-469e-8153-0154fa2aa1d1', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('592439a8-d3f6-4e7d-a576-db65acc9d179', '592439a8-d3f6-4e7d-a576-db65acc9d179', 350,
+        '8df61e5b-a8c1-47ed-8a3a-dbee8f78192b', 'cd013c5a-be3f-469e-8153-0154fa2aa1d1', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('7a51d7a2-db1b-482c-bb96-e303bf840fa8', '7a51d7a2-db1b-482c-bb96-e303bf840fa8', 350,
+        '8df61e5b-a8c1-47ed-8a3a-dbee8f78192b', 'cd013c5a-be3f-469e-8153-0154fa2aa1d1', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('e131a511-47a7-4c88-8104-1b6191efa0c4', 'e131a511-47a7-4c88-8104-1b6191efa0c4', 350,
+        '8df61e5b-a8c1-47ed-8a3a-dbee8f78192b', 'cd013c5a-be3f-469e-8153-0154fa2aa1d1', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('1ea86633-6c65-4f59-8708-706b9a912e93', '1ea86633-6c65-4f59-8708-706b9a912e93', 350,
+        '8df61e5b-a8c1-47ed-8a3a-dbee8f78192b', 'cd013c5a-be3f-469e-8153-0154fa2aa1d1', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('088c3943-87a2-4e8e-8158-19de03a71331', '088c3943-87a2-4e8e-8158-19de03a71331', 350,
+        '8df61e5b-a8c1-47ed-8a3a-dbee8f78192b', 'cd013c5a-be3f-469e-8153-0154fa2aa1d1', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('9a76a190-bdf9-4a29-91f5-74e50866c1b9', '9a76a190-bdf9-4a29-91f5-74e50866c1b9', 350,
+        '8df61e5b-a8c1-47ed-8a3a-dbee8f78192b', 'cd013c5a-be3f-469e-8153-0154fa2aa1d1', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('15519a95-93e9-4512-9245-5050d0fc51cc', '15519a95-93e9-4512-9245-5050d0fc51cc', 350,
+        '8df61e5b-a8c1-47ed-8a3a-dbee8f78192b', 'cd013c5a-be3f-469e-8153-0154fa2aa1d1', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('08dec085-76f6-4577-97ce-eadf8f999d61', '08dec085-76f6-4577-97ce-eadf8f999d61', 350,
+        '8df61e5b-a8c1-47ed-8a3a-dbee8f78192b', 'cd013c5a-be3f-469e-8153-0154fa2aa1d1', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('7d126d85-3f44-4663-88b5-72ddc818aad7', '7d126d85-3f44-4663-88b5-72ddc818aad7', 350,
+        '0249ddbb-7f42-43af-ba0d-c51b21ba1466', '3f92672f-bb78-49f1-9dcf-cfc41c9bb540', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('5477277e-e712-4c03-94ab-29ef677ddfd0', '5477277e-e712-4c03-94ab-29ef677ddfd0', 350,
+        '0249ddbb-7f42-43af-ba0d-c51b21ba1466', '3f92672f-bb78-49f1-9dcf-cfc41c9bb540', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('bc21c26c-57b2-45e7-8338-5e5eb751d567', 'bc21c26c-57b2-45e7-8338-5e5eb751d567', 350,
+        '0249ddbb-7f42-43af-ba0d-c51b21ba1466', '3f92672f-bb78-49f1-9dcf-cfc41c9bb540', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('041f3912-bec6-4bac-9943-3a6e8057e845', '041f3912-bec6-4bac-9943-3a6e8057e845', 350,
+        '0249ddbb-7f42-43af-ba0d-c51b21ba1466', '3f92672f-bb78-49f1-9dcf-cfc41c9bb540', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('fc99e48d-bfb9-4bb3-9766-bf88af5d796b', 'fc99e48d-bfb9-4bb3-9766-bf88af5d796b', 350,
+        '0249ddbb-7f42-43af-ba0d-c51b21ba1466', '3f92672f-bb78-49f1-9dcf-cfc41c9bb540', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('d25d56a1-5faf-4227-a46d-c0d9657036b7', 'd25d56a1-5faf-4227-a46d-c0d9657036b7', 350,
+        '0249ddbb-7f42-43af-ba0d-c51b21ba1466', '3f92672f-bb78-49f1-9dcf-cfc41c9bb540', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('5f7f72bf-6c2b-4fb9-8ed5-86529f6a9641', '5f7f72bf-6c2b-4fb9-8ed5-86529f6a9641', 350,
+        '0249ddbb-7f42-43af-ba0d-c51b21ba1466', '3f92672f-bb78-49f1-9dcf-cfc41c9bb540', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('11889126-41f7-4c33-ba98-cf6436f94946', '11889126-41f7-4c33-ba98-cf6436f94946', 350,
+        '0249ddbb-7f42-43af-ba0d-c51b21ba1466', '3f92672f-bb78-49f1-9dcf-cfc41c9bb540', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('621fbbc4-9eaf-45dc-8c58-c740fbed94b6', '621fbbc4-9eaf-45dc-8c58-c740fbed94b6', 350,
+        '0249ddbb-7f42-43af-ba0d-c51b21ba1466', '3f92672f-bb78-49f1-9dcf-cfc41c9bb540', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('f5036708-49da-4c5d-a86b-a6646d093188', 'f5036708-49da-4c5d-a86b-a6646d093188', 350,
+        '0249ddbb-7f42-43af-ba0d-c51b21ba1466', '3f92672f-bb78-49f1-9dcf-cfc41c9bb540', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('600dfca9-9216-43e3-bb28-5dc80e359ba6', '600dfca9-9216-43e3-bb28-5dc80e359ba6', 980,
+        'db959cfa-6606-4875-91b7-7e17285756fb', '74c7d247-6aaf-4f82-a6b5-4a906ab5fd75', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('946c882c-9093-4a26-a17b-761d1f060635', '946c882c-9093-4a26-a17b-761d1f060635', 980,
+        'db959cfa-6606-4875-91b7-7e17285756fb', '74c7d247-6aaf-4f82-a6b5-4a906ab5fd75', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('b151c053-0c1a-46b9-ba1e-ae6bd89e74c4', 'b151c053-0c1a-46b9-ba1e-ae6bd89e74c4', 980,
+        'db959cfa-6606-4875-91b7-7e17285756fb', '74c7d247-6aaf-4f82-a6b5-4a906ab5fd75', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('8260e3d4-415b-4944-a850-425285272828', '8260e3d4-415b-4944-a850-425285272828', 980,
+        'db959cfa-6606-4875-91b7-7e17285756fb', '74c7d247-6aaf-4f82-a6b5-4a906ab5fd75', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('01e0d796-3570-46af-89ee-6c245909126d', '01e0d796-3570-46af-89ee-6c245909126d', 980,
+        'db959cfa-6606-4875-91b7-7e17285756fb', '74c7d247-6aaf-4f82-a6b5-4a906ab5fd75', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('e495111b-3e94-45b1-94cb-b9c2d53e74ba', 'e495111b-3e94-45b1-94cb-b9c2d53e74ba', 980,
+        'db959cfa-6606-4875-91b7-7e17285756fb', '74c7d247-6aaf-4f82-a6b5-4a906ab5fd75', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('8dd048ac-a126-41b3-966e-cccd9961b009', '8dd048ac-a126-41b3-966e-cccd9961b009', 980,
+        'db959cfa-6606-4875-91b7-7e17285756fb', '74c7d247-6aaf-4f82-a6b5-4a906ab5fd75', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('54223de8-a0c5-4889-b37f-4b668705a3f3', '54223de8-a0c5-4889-b37f-4b668705a3f3', 980,
+        'db959cfa-6606-4875-91b7-7e17285756fb', '74c7d247-6aaf-4f82-a6b5-4a906ab5fd75', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('56698cd2-1f3f-4481-979a-83eca08235a6', '56698cd2-1f3f-4481-979a-83eca08235a6', 980,
+        'db959cfa-6606-4875-91b7-7e17285756fb', '74c7d247-6aaf-4f82-a6b5-4a906ab5fd75', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('333578c1-14cc-48ea-9b4d-f07e675c50b5', '333578c1-14cc-48ea-9b4d-f07e675c50b5', 500,
+        '4c217c22-243e-4ec5-a4d1-8d8bde2a4a36', '8e02c624-72d7-4c50-85cb-1c1b7c917c8c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('97c60ffc-dc07-43d6-902d-2db625d68d66', '97c60ffc-dc07-43d6-902d-2db625d68d66', 500,
+        '4c217c22-243e-4ec5-a4d1-8d8bde2a4a36', '8e02c624-72d7-4c50-85cb-1c1b7c917c8c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('4ed10a6c-505d-4b1f-aded-b40df7c6f14d', '4ed10a6c-505d-4b1f-aded-b40df7c6f14d', 500,
+        '4c217c22-243e-4ec5-a4d1-8d8bde2a4a36', '8e02c624-72d7-4c50-85cb-1c1b7c917c8c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('8c757e32-e751-4dcd-9446-0a682172a0c0', '8c757e32-e751-4dcd-9446-0a682172a0c0', 500,
+        '4c217c22-243e-4ec5-a4d1-8d8bde2a4a36', '8e02c624-72d7-4c50-85cb-1c1b7c917c8c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('98dbabc8-6d5c-44a7-adc4-51ff14d52d53', '98dbabc8-6d5c-44a7-adc4-51ff14d52d53', 500,
+        '4c217c22-243e-4ec5-a4d1-8d8bde2a4a36', '8e02c624-72d7-4c50-85cb-1c1b7c917c8c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('43646391-31df-402f-9480-26542232a3b1', '43646391-31df-402f-9480-26542232a3b1', 500,
+        '4c217c22-243e-4ec5-a4d1-8d8bde2a4a36', '8e02c624-72d7-4c50-85cb-1c1b7c917c8c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('12d7cfce-d62e-4b11-b4b4-27cafcd4522d', '12d7cfce-d62e-4b11-b4b4-27cafcd4522d', 500,
+        '4c217c22-243e-4ec5-a4d1-8d8bde2a4a36', '8e02c624-72d7-4c50-85cb-1c1b7c917c8c', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('f5779803-e377-4059-a9ef-8666684935b6', 'f5779803-e377-4059-a9ef-8666684935b6', 950,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', '025d0401-875b-4e77-9680-90f9f68aa575', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('3b1f85c0-778f-47ec-bce8-0916eafa8175', '3b1f85c0-778f-47ec-bce8-0916eafa8175', 950,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', '025d0401-875b-4e77-9680-90f9f68aa575', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('0d0cafa1-9356-496d-b0f6-edd7420a2438', '0d0cafa1-9356-496d-b0f6-edd7420a2438', 950,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', '025d0401-875b-4e77-9680-90f9f68aa575', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('8163f595-2f64-439a-8792-bcae2b38abe2', '8163f595-2f64-439a-8792-bcae2b38abe2', 950,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', '025d0401-875b-4e77-9680-90f9f68aa575', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('a530a063-35bc-46bf-a395-46df6630313e', 'a530a063-35bc-46bf-a395-46df6630313e', 950,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', '025d0401-875b-4e77-9680-90f9f68aa575', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('f1fc4730-7604-4b28-84f8-db0a86c75a0d', 'f1fc4730-7604-4b28-84f8-db0a86c75a0d', 950,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', '025d0401-875b-4e77-9680-90f9f68aa575', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('f3605317-3634-4a8b-97b7-7c0907dae41c', 'f3605317-3634-4a8b-97b7-7c0907dae41c', 950,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', '025d0401-875b-4e77-9680-90f9f68aa575', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('462f7d1b-9cbf-4b80-8432-1cb8dc82e113', '462f7d1b-9cbf-4b80-8432-1cb8dc82e113', 950,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', '025d0401-875b-4e77-9680-90f9f68aa575', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('358e5568-6dc0-44ac-b2c8-c5498b962403', '358e5568-6dc0-44ac-b2c8-c5498b962403', 950,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', '025d0401-875b-4e77-9680-90f9f68aa575', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('86d34d3d-7427-4380-9698-431089ab8dc0', '86d34d3d-7427-4380-9698-431089ab8dc0', 950,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', '025d0401-875b-4e77-9680-90f9f68aa575', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('269e5b0f-884d-4d7c-8fcf-ee6d43a229b5', '269e5b0f-884d-4d7c-8fcf-ee6d43a229b5', 950,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', '025d0401-875b-4e77-9680-90f9f68aa575', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('587d783e-51b9-4276-b790-fb68f9521d6d', '587d783e-51b9-4276-b790-fb68f9521d6d', 950,
+        '3b1e0ea6-cf11-4f69-80e2-3271e10397b5', '025d0401-875b-4e77-9680-90f9f68aa575', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('bcea60ae-501a-443d-b6de-d73eaeb40d59', 'bcea60ae-501a-443d-b6de-d73eaeb40d59', 400,
+        'e4b7fd0b-26ab-48ed-9027-18efd78e2480', '5d0591a6-e936-4354-9b9d-924e1f540513', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('04b6baea-ca94-4e22-acf5-7e5f1d2834ef', '04b6baea-ca94-4e22-acf5-7e5f1d2834ef', 400,
+        'e4b7fd0b-26ab-48ed-9027-18efd78e2480', '5d0591a6-e936-4354-9b9d-924e1f540513', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('e94492d0-49a0-4869-9cd3-03f8e89a4153', 'e94492d0-49a0-4869-9cd3-03f8e89a4153', 400,
+        'e4b7fd0b-26ab-48ed-9027-18efd78e2480', '5d0591a6-e936-4354-9b9d-924e1f540513', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('3c3f3c42-4a34-4c2a-8bcf-28ddf6c1a718', '3c3f3c42-4a34-4c2a-8bcf-28ddf6c1a718', 400,
+        'e4b7fd0b-26ab-48ed-9027-18efd78e2480', '5d0591a6-e936-4354-9b9d-924e1f540513', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('bd798f43-5507-4d87-abcc-c3adc2a1d339', 'bd798f43-5507-4d87-abcc-c3adc2a1d339', 400,
+        'e4b7fd0b-26ab-48ed-9027-18efd78e2480', '5d0591a6-e936-4354-9b9d-924e1f540513', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('2e11601a-44f8-4eaa-b7ff-05aede4ad44c', '2e11601a-44f8-4eaa-b7ff-05aede4ad44c', 400,
+        'e4b7fd0b-26ab-48ed-9027-18efd78e2480', '5d0591a6-e936-4354-9b9d-924e1f540513', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('f0b6af7b-1c6e-4295-a9e1-6ee3ee41def2', 'f0b6af7b-1c6e-4295-a9e1-6ee3ee41def2', 400,
+        'e4b7fd0b-26ab-48ed-9027-18efd78e2480', '5d0591a6-e936-4354-9b9d-924e1f540513', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('25041e90-b5d7-4600-a413-a1c6d357b783', '25041e90-b5d7-4600-a413-a1c6d357b783', 1200,
+        '1d24c238-5774-4a04-80ec-d5694d29fc28', '0a1bddcf-8b3d-4744-98ae-9f82eb78e60a', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('f8ce5c90-7d4d-4733-89fb-9e3d40e7f849', 'f8ce5c90-7d4d-4733-89fb-9e3d40e7f849', 1200,
+        '1d24c238-5774-4a04-80ec-d5694d29fc28', '0a1bddcf-8b3d-4744-98ae-9f82eb78e60a', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('f849e3ec-73df-4829-abf6-de311b36a421', 'f849e3ec-73df-4829-abf6-de311b36a421', 1200,
+        '1d24c238-5774-4a04-80ec-d5694d29fc28', '0a1bddcf-8b3d-4744-98ae-9f82eb78e60a', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('63f7e658-9336-436e-9cfa-ca52ef8343a9', '63f7e658-9336-436e-9cfa-ca52ef8343a9', 1200,
+        '1d24c238-5774-4a04-80ec-d5694d29fc28', '0a1bddcf-8b3d-4744-98ae-9f82eb78e60a', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('b9e86026-e300-4b1c-8d45-9daed0de6e2c', 'b9e86026-e300-4b1c-8d45-9daed0de6e2c', 1200,
+        '1d24c238-5774-4a04-80ec-d5694d29fc28', '0a1bddcf-8b3d-4744-98ae-9f82eb78e60a', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('b2d6a374-d891-437f-a207-d326e67da617', 'b2d6a374-d891-437f-a207-d326e67da617', 300,
+        '30ad1c5e-5f3f-4ae5-a082-4e6adb4ee317', 'eb869b2d-b454-42a9-9301-648e10852955', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('defc1d52-60b4-470b-97c6-13aaa076ffb7', 'defc1d52-60b4-470b-97c6-13aaa076ffb7', 300,
+        '30ad1c5e-5f3f-4ae5-a082-4e6adb4ee317', 'eb869b2d-b454-42a9-9301-648e10852955', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('cd970602-06f7-4e55-98a7-21fe8a013e73', 'cd970602-06f7-4e55-98a7-21fe8a013e73', 300,
+        '30ad1c5e-5f3f-4ae5-a082-4e6adb4ee317', 'eb869b2d-b454-42a9-9301-648e10852955', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('bf3cc4d8-d723-45fb-a562-054d5de57921', 'bf3cc4d8-d723-45fb-a562-054d5de57921', 300,
+        '30ad1c5e-5f3f-4ae5-a082-4e6adb4ee317', 'eb869b2d-b454-42a9-9301-648e10852955', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('cf191aed-ab0d-440f-9685-09c11f0e80d0', 'cf191aed-ab0d-440f-9685-09c11f0e80d0', 300,
+        '30ad1c5e-5f3f-4ae5-a082-4e6adb4ee317', 'eb869b2d-b454-42a9-9301-648e10852955', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('e707fda8-76d8-4f72-9a1b-9a3f5e902cb9', 'e707fda8-76d8-4f72-9a1b-9a3f5e902cb9', 200,
+        '94365a74-9ca3-40be-94e4-29579fcfd6a3', '60cc3b88-8a8a-436b-803a-0f87927080c4', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('5bce19b0-e0c9-4efe-91d0-f79f3d5da8b5', '5bce19b0-e0c9-4efe-91d0-f79f3d5da8b5', 200,
+        '94365a74-9ca3-40be-94e4-29579fcfd6a3', '60cc3b88-8a8a-436b-803a-0f87927080c4', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('167e9cf8-eddd-4215-9cd8-4beb29ec0c3e', '167e9cf8-eddd-4215-9cd8-4beb29ec0c3e', 200,
+        '94365a74-9ca3-40be-94e4-29579fcfd6a3', '60cc3b88-8a8a-436b-803a-0f87927080c4', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('f2705214-2b5e-43e7-a991-8a8286aeaf8a', 'f2705214-2b5e-43e7-a991-8a8286aeaf8a', 200,
+        '94365a74-9ca3-40be-94e4-29579fcfd6a3', '60cc3b88-8a8a-436b-803a-0f87927080c4', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('d923dd11-865f-4171-8e2a-013d8d12c3e2', 'd923dd11-865f-4171-8e2a-013d8d12c3e2', 200,
+        '94365a74-9ca3-40be-94e4-29579fcfd6a3', '60cc3b88-8a8a-436b-803a-0f87927080c4', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('c4b43969-7808-403e-8c89-5de4dfa60511', 'c4b43969-7808-403e-8c89-5de4dfa60511', 200,
+        '94365a74-9ca3-40be-94e4-29579fcfd6a3', '60cc3b88-8a8a-436b-803a-0f87927080c4', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('e53f8166-3fbb-4fe8-a570-5c98db148eba', 'e53f8166-3fbb-4fe8-a570-5c98db148eba', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('14fd6702-d5de-4d4a-b08a-ea860c987578', '14fd6702-d5de-4d4a-b08a-ea860c987578', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('f1b02880-6ebf-4186-9258-8ddba73c78b2', 'f1b02880-6ebf-4186-9258-8ddba73c78b2', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('97a2c0a0-c6da-48d3-a38b-474bebb1d0ed', '97a2c0a0-c6da-48d3-a38b-474bebb1d0ed', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('e0d4f103-1ea3-4ce1-92e9-ba9fb0ce665d', 'e0d4f103-1ea3-4ce1-92e9-ba9fb0ce665d', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('475f3288-9b43-4ff5-beca-e93aa3e80e00', '475f3288-9b43-4ff5-beca-e93aa3e80e00', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('fbadf48d-5b64-40e6-94e5-6db675e859da', 'fbadf48d-5b64-40e6-94e5-6db675e859da', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('9c075bab-e479-438f-8d20-2aab051aea1b', '9c075bab-e479-438f-8d20-2aab051aea1b', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('f1f2ee21-11f8-448f-b4b3-6faad4d83e2e', 'f1f2ee21-11f8-448f-b4b3-6faad4d83e2e', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('9506d5c9-b6c0-42e2-9059-894b42114a63', '9506d5c9-b6c0-42e2-9059-894b42114a63', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('e3e01958-b3e9-422d-9a2a-a42c09d56f78', 'e3e01958-b3e9-422d-9a2a-a42c09d56f78', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('ec0a9d1c-ae0e-4dd6-b593-91164c23182e', 'ec0a9d1c-ae0e-4dd6-b593-91164c23182e', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('8f01c32f-18cf-40da-ac2b-05d56731b967', '8f01c32f-18cf-40da-ac2b-05d56731b967', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('30813736-69dd-4eb3-a5d4-712854daf6ad', '30813736-69dd-4eb3-a5d4-712854daf6ad', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('a1687c5f-34ba-4dc0-84d3-6de627b99113', 'a1687c5f-34ba-4dc0-84d3-6de627b99113', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('2ed77865-ffb6-41f1-a4d6-75200f8f10cb', '2ed77865-ffb6-41f1-a4d6-75200f8f10cb', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('197658ef-290f-4a33-9bef-2040943772c0', '197658ef-290f-4a33-9bef-2040943772c0', 650,
+        'e13f96a4-3435-45e8-a488-50f0d210d498', '74ff91e3-9e6d-4646-b41d-74d7a03e075e', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('9465a794-83bc-439a-945e-fdb8233dfb6b', '9465a794-83bc-439a-945e-fdb8233dfb6b', 600,
+        '7f1252c7-b185-4da0-84fb-6e405d6b6061', '3399f6da-679a-41cc-9726-27ae381b9a2c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('969b381b-6288-4fd2-b94c-23d1820cd259', '969b381b-6288-4fd2-b94c-23d1820cd259', 600,
+        '7f1252c7-b185-4da0-84fb-6e405d6b6061', '3399f6da-679a-41cc-9726-27ae381b9a2c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('23c75d6b-3e6f-403d-82b8-4c3dda1f754a', '23c75d6b-3e6f-403d-82b8-4c3dda1f754a', 600,
+        '7f1252c7-b185-4da0-84fb-6e405d6b6061', '3399f6da-679a-41cc-9726-27ae381b9a2c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('647a3c59-6662-4107-9720-581d01b27d85', '647a3c59-6662-4107-9720-581d01b27d85', 600,
+        '7f1252c7-b185-4da0-84fb-6e405d6b6061', '3399f6da-679a-41cc-9726-27ae381b9a2c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('96477d5c-1423-4974-90dd-3f95e6cfbe9a', '96477d5c-1423-4974-90dd-3f95e6cfbe9a', 600,
+        '7f1252c7-b185-4da0-84fb-6e405d6b6061', '3399f6da-679a-41cc-9726-27ae381b9a2c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('5e63181c-887f-44af-9985-0017b8ec893f', '5e63181c-887f-44af-9985-0017b8ec893f', 600,
+        '7f1252c7-b185-4da0-84fb-6e405d6b6061', '3399f6da-679a-41cc-9726-27ae381b9a2c', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('e63eb6f9-7f48-41a0-81ea-e309212595e3', 'e63eb6f9-7f48-41a0-81ea-e309212595e3', 600,
+        '7f1252c7-b185-4da0-84fb-6e405d6b6061', '3399f6da-679a-41cc-9726-27ae381b9a2c', null);
+
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('2afe1133-ebea-43d8-8ba3-0601f241d8af', '2afe1133-ebea-43d8-8ba3-0601f241d8af', 250,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'c791e156-d9c7-4ca4-8cb8-e6058f4697d9', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('4d39ae47-73ab-4fbf-aee3-af2075454b19', '4d39ae47-73ab-4fbf-aee3-af2075454b19', 250,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'c791e156-d9c7-4ca4-8cb8-e6058f4697d9', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('3eadf69d-6c77-4998-acb7-82d2b5dfac17', '3eadf69d-6c77-4998-acb7-82d2b5dfac17', 250,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'c791e156-d9c7-4ca4-8cb8-e6058f4697d9', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('1cf2a26e-5944-4c29-8778-7f2d2927c091', '1cf2a26e-5944-4c29-8778-7f2d2927c091', 250,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'c791e156-d9c7-4ca4-8cb8-e6058f4697d9', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('1d41d4c4-1507-4d5a-90e2-d1efaae6fc1b', '1d41d4c4-1507-4d5a-90e2-d1efaae6fc1b', 250,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'c791e156-d9c7-4ca4-8cb8-e6058f4697d9', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('c0467e5b-65c7-4262-b0b5-69e7b799cfed', 'c0467e5b-65c7-4262-b0b5-69e7b799cfed', 250,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'c791e156-d9c7-4ca4-8cb8-e6058f4697d9', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('6abe868d-5d5f-4a4f-8240-2d567bfe0487', '6abe868d-5d5f-4a4f-8240-2d567bfe0487', 250,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'c791e156-d9c7-4ca4-8cb8-e6058f4697d9', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('9ef55b93-fad1-45af-a769-14c157f0926d', '9ef55b93-fad1-45af-a769-14c157f0926d', 250,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'c791e156-d9c7-4ca4-8cb8-e6058f4697d9', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('1d02aa73-90ed-46f3-bf81-f85881da9aff', '1d02aa73-90ed-46f3-bf81-f85881da9aff', 250,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'c791e156-d9c7-4ca4-8cb8-e6058f4697d9', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('2476f6bf-7f7d-4399-896b-0a0253193934', '2476f6bf-7f7d-4399-896b-0a0253193934', 250,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'c791e156-d9c7-4ca4-8cb8-e6058f4697d9', null);
+INSERT INTO public.phone_instance(
+    id, imei, price, check_id, phone_id, shopping_cart_id)
+VALUES ('5a13a1d8-697b-4626-aa1e-a88aee8cfb0f', '5a13a1d8-697b-4626-aa1e-a88aee8cfb0f', 250,
+        '376cbbe2-971b-4d99-9d2e-ea21b8667fcd', 'c791e156-d9c7-4ca4-8cb8-e6058f4697d9', null);

@@ -31,3 +31,40 @@ VALUES ('9820b579-d07e-441d-8c78-2550ae6e67fd', '2022-09-01 18:18:24.036', true,
 INSERT INTO public.client_check(
     id, created, is_closed, closed_date, registered_user_id)
 VALUES ('a95de5fb-2be2-41b3-a4cb-5ccdd80b6fa0', '2022-05-31 11:05:05.036', true, '2022-06-01 15:05:05.036', 'f0bc8b02-923c-47d8-a652-a3635cf7c376');
+
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id)
+VALUES ('8df61e5b-a8c1-47ed-8a3a-dbee8f78192b', '2022-01-20 12:05:05.036', true, '2022-01-21 14:05:05.036', 'e93c2a6f-422a-4ce7-9b46-2cb9be577e0e');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id)
+VALUES ('0249ddbb-7f42-43af-ba0d-c51b21ba1466', '2022-02-03 20:05:05.036', true, '2022-02-04 11:05:05.036', 'e93c2a6f-422a-4ce7-9b46-2cb9be577e0e');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id)
+VALUES ('db959cfa-6606-4875-91b7-7e17285756fb', '2022-03-11 09:05:05.036', true, '2022-03-11 15:05:05.036', 'e93c2a6f-422a-4ce7-9b46-2cb9be577e0e');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id)
+VALUES ('4c217c22-243e-4ec5-a4d1-8d8bde2a4a36', '2022-04-21 20:05:05.036', true, '2022-04-22 09:05:05.036', '6ddbc8c1-c5cd-4a1b-bd0c-a3a140d7f82e');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id)
+VALUES ('3b1e0ea6-cf11-4f69-80e2-3271e10397b5', '2022-05-18 15:05:05.036', true, '2022-05-19 12:05:05.036', '54b944de-073d-4333-b9c0-3cc2b2eb45c3');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id)
+VALUES ('e4b7fd0b-26ab-48ed-9027-18efd78e2480', '2022-06-11 19:05:05.036', true, '2022-06-12 11:05:05.036', '313e56ab-eb04-4ee3-9d50-e7310ef9c0f9');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id)
+VALUES ('1d24c238-5774-4a04-80ec-d5694d29fc28', '2022-07-20 11:05:05.036', true, '2022-07-21 16:05:05.036', 'b363c7f5-51cf-4d93-93e3-179235bb0b87');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id)
+VALUES ('30ad1c5e-5f3f-4ae5-a082-4e6adb4ee317', '2022-08-03 20:05:05.036', true, '2022-08-04 09:05:05.036', '78b40cb8-2d37-407c-a372-98c471ae928c');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id)
+VALUES ('94365a74-9ca3-40be-94e4-29579fcfd6a3', '2022-09-09 11:05:05.036', true, '2022-09-10 10:05:05.036', '151c8598-567d-4701-a549-3964fab67f95');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id)
+VALUES ('e13f96a4-3435-45e8-a488-50f0d210d498', '2022-10-11 11:05:05.036', true, '2022-10-12 15:05:05.036', 'bc2f07e4-1cff-47d4-9ef0-1c8fee29c431');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id)
+VALUES ('7f1252c7-b185-4da0-84fb-6e405d6b6061', '2022-11-28 11:05:05.036', true, '2022-11-29 15:05:05.036', 'b1470da6-33ea-4f20-ab5a-3a65691db406');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id)
+VALUES ('376cbbe2-971b-4d99-9d2e-ea21b8667fcd', '2022-12-11 11:05:05.036', true, '2022-12-12 15:05:05.036', '5fb1b091-ad40-4b45-8916-5e67263caff2');

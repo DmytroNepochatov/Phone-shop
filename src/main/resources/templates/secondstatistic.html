@@ -100,27 +100,19 @@
                     <div class="row">
                         <div class="col">
                             <div class="row">
-                                <div class="col" style="height: 50px;">
-                                    <div class="row align-items-center" style="height: 50px;">
-                                        <div class="col">
-                                            <div class="row">
-                                                <div class="col" style="border: 1px solid black;" align="center"
-                                                     th:each="listOpt : ${list}">
-                                                    <div th:if="${#strings.equals(listOpt.sold, '0')}">
-                                                        <h6 th:text="${'Nothing was sold'}"></h6>
-                                                    </div>
-                                                    <div th:if="${!#strings.equals(listOpt.sold, '0')}">
-                                                        <div align="center">
-                                                            <img th:src="${listOpt.phone.view.phoneFrontAndBack}"
-                                                                 class="card-img-top"
-                                                                 alt="..." style="height: 100px; width: 80px;">
-                                                        </div>
-                                                        <h6 th:text="${listOpt.phone.phoneDescription.brand.name+' '+ listOpt.phone.phoneDescription.series + ' '+ listOpt.phone.phoneDescription.name
-        +' '+listOpt.phone.amountOfRam+'/'+listOpt.phone.amountOfBuiltInMemory+' Gb. Sold: '+listOpt.sold}"></h6>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div class="col" style="border: 1px solid black;" align="center"
+                                     th:each="listOpt : ${list}">
+                                    <div th:if="${#strings.equals(listOpt.sold, '0')}">
+                                        <h6 th:text="${'Nothing was sold'}"></h6>
+                                    </div>
+                                    <div th:if="${!#strings.equals(listOpt.sold, '0')}">
+                                        <div align="center">
+                                            <img th:src="${listOpt.phone.view.phoneFrontAndBack}"
+                                                 class="card-img-top"
+                                                 alt="..." style="height: 100px; width: 80px;">
                                         </div>
+                                        <h6 th:text="${listOpt.phone.phoneDescription.brand.name+' '+ listOpt.phone.phoneDescription.series + ' '+ listOpt.phone.phoneDescription.name
+        +' '+listOpt.phone.amountOfRam+'/'+listOpt.phone.amountOfBuiltInMemory+' Gb. Sold: '+listOpt.sold}"></h6>
                                     </div>
                                 </div>
                             </div>

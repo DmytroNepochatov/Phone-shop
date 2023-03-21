@@ -28,3 +28,34 @@ VALUES ('3307c174-1f69-4675-b41c-f7b25ac1e12c', '14.03.1969', 'mail_albertov@gma
 INSERT INTO public.registered_user(
     id, date_of_birth, email_address, first_name, last_name, middle_name, password, phone_number, role)
 VALUES ('9dfdc400-4afb-4a7a-8edd-5c379b3c41c6', '14.10.1985', 'admin_adminov@gmail.com', 'Dim', 'Dimov', 'Dimich', '$2a$12$VPlfSsQLSp3SiLsmht7H5OCnNdF4eixliKjn6hssAkImLAgFqWoFW', '+380999999999', 'ADMIN');
+
+INSERT INTO public.registered_user(
+    id, date_of_birth, email_address, first_name, last_name, middle_name, password, phone_number, role)
+VALUES ('e93c2a6f-422a-4ce7-9b46-2cb9be577e0e', '14.08.2003', 'mail_stanislav@gmail.com', 'Stanislav', 'Stanislavskiy', 'Stanislavovich', '$2a$12$vymr4jnpoo0rC74ZJJJbXOIz3FDRheFlfjPGZEIswaVvWoL0E.zXu', '+380147852963', 'USER');
+INSERT INTO public.registered_user(
+    id, date_of_birth, email_address, first_name, last_name, middle_name, password, phone_number, role)
+VALUES ('6ddbc8c1-c5cd-4a1b-bd0c-a3a140d7f82e', '15.03.1993', 'mail_svetlana@gmail.com', 'Svetlana', 'Svetlanovskaya', 'Dmitrievna', '$2a$12$m2BJJwTt0OVCzpThJw6OkuP/BM7.nQJv8xc0LuWtkfzQwpO.8VtIG', '+380753951852', 'USER');
+INSERT INTO public.registered_user(
+    id, date_of_birth, email_address, first_name, last_name, middle_name, password, phone_number, role)
+VALUES ('54b944de-073d-4333-b9c0-3cc2b2eb45c3', '28.02.1988', 'mail_ekaterina@gmail.com', 'Ekaterina', 'Ekaterinskaya', 'Petrovna', '$2a$12$07Mv4cniLMfEQjRmI23UL.TPVi8b/F4mHHO2U.aP39/mtLrcE63Oy', '+380963852741', 'USER');
+INSERT INTO public.registered_user(
+    id, date_of_birth, email_address, first_name, last_name, middle_name, password, phone_number, role)
+VALUES ('313e56ab-eb04-4ee3-9d50-e7310ef9c0f9', '02.01.2001', 'mail_daniel@gmail.com', 'Daniel', 'Danilenko', 'Danilovich', '$2a$12$kKWGbgjMcG/CdNBxo8YsDOhiMJmNTI4CK3RcfWsYF3/tvYahFIvZa', '+380987654321', 'USER');
+INSERT INTO public.registered_user(
+    id, date_of_birth, email_address, first_name, last_name, middle_name, password, phone_number, role)
+VALUES ('b363c7f5-51cf-4d93-93e3-179235bb0b87', '10.08.1978', 'mail_uliya@gmail.com', 'Uliya', 'Uliyanko', 'Danilovna', '$2a$12$40Nhq6OwSwNfeXUp1hm8oOLSmg.WARTDOIIx7bU5dJSaKD4vkAy3a', '+380654789321', 'USER');
+INSERT INTO public.registered_user(
+    id, date_of_birth, email_address, first_name, last_name, middle_name, password, phone_number, role)
+VALUES ('78b40cb8-2d37-407c-a372-98c471ae928c', '08.12.1999', 'mail_evgeniy@gmail.com', 'Evgeniy', 'Evgenko', 'Evgenievich', '$2a$12$8hwbuWJ5MLAKBdMZEwh5fuscRMsXrOCA3RkDT4jUF1C3YWWSXQY4e', '+380741963852', 'USER');
+INSERT INTO public.registered_user(
+    id, date_of_birth, email_address, first_name, last_name, middle_name, password, phone_number, role)
+VALUES ('151c8598-567d-4701-a549-3964fab67f95', '04.07.2000', 'mail_anna@gmail.com', 'Anna', 'Annko', 'Aleksandrovna', '$2a$12$dlnTGcmSJfkIThz2t..iVuRPzInq4QILZ5cNfQvL9H9.2soWvwcj.', '+380789963741', 'USER');
+INSERT INTO public.registered_user(
+    id, date_of_birth, email_address, first_name, last_name, middle_name, password, phone_number, role)
+VALUES ('bc2f07e4-1cff-47d4-9ef0-1c8fee29c431', '09.09.1989', 'mail_vladimir@gmail.com', 'Vladimir', 'Vladimirenko', 'Vladislavovich', '$2a$12$jGHpYD.zLcWkz5Z.bsmFrumofn4ATjv1HYN3/Aid3zS/4RFucmOMy', '+380741789123', 'USER');
+INSERT INTO public.registered_user(
+    id, date_of_birth, email_address, first_name, last_name, middle_name, password, phone_number, role)
+VALUES ('b1470da6-33ea-4f20-ab5a-3a65691db406', '12.05.2002', 'mail_bogdan@gmail.com', 'Bogdan', 'Bogdankov', 'Bogdanov', '$2a$12$5RbnBWIwhDW2SZYhvqsm4ede7owKUGwJO7LX/y3MTS3Yvn0WGre0.', '+380963753951', 'USER');
+INSERT INTO public.registered_user(
+    id, date_of_birth, email_address, first_name, last_name, middle_name, password, phone_number, role)
+VALUES ('5fb1b091-ad40-4b45-8916-5e67263caff2', '11.08.2001', 'mail_charles@gmail.com', 'Charles', 'Spectre', 'Robert', '$2a$12$IAy/6E9mN.Cx.0SXrc3rzO6MbMnfvUy1Bem1Os29FUFZvSme.jbNm', '+380753852963', 'USER');
