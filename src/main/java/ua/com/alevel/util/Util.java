@@ -12,9 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import static org.apache.commons.lang.NumberUtils.isNumber;
 
 public final class Util {
@@ -58,6 +56,14 @@ public final class Util {
         }
 
         return years;
+    }
+
+    public static Date getDateMinusTwoMonth(Date date, int amount) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, amount);
+
+        return cal.getTime();
     }
 
     public static String getAgeFromDate(String date) {

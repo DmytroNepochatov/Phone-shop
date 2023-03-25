@@ -3,10 +3,7 @@ package ua.com.alevel.mapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import ua.com.alevel.model.accessory.*;
-import ua.com.alevel.model.dto.CreatePhoneDescription;
-import ua.com.alevel.model.dto.PhoneColors;
-import ua.com.alevel.model.dto.PhoneForMainView;
-import ua.com.alevel.model.dto.PhoneForShoppingCart;
+import ua.com.alevel.model.dto.*;
 import ua.com.alevel.model.phone.PhoneDescription;
 import ua.com.alevel.model.phone.PhoneInstance;
 import ua.com.alevel.repository.phone.PhoneInstanceRepository;
@@ -16,9 +13,14 @@ import ua.com.alevel.service.chargetype.ChargeTypeService;
 import ua.com.alevel.service.communicationstandard.CommunicationStandardService;
 import ua.com.alevel.service.country.CountryService;
 import ua.com.alevel.service.operationsystem.OperationSystemService;
+import ua.com.alevel.service.phone.PhoneInstanceService;
 import ua.com.alevel.service.processor.ProcessorService;
 import ua.com.alevel.service.typescreen.TypeScreenService;
+import ua.com.alevel.util.Util;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public final class PhoneMapper {
@@ -73,7 +75,7 @@ public final class PhoneMapper {
 
     public static PhoneDescription mapCreatePhoneDescriptionToPhoneDescription(PhoneDescription phoneDescriptionForDb, CreatePhoneDescription phoneDescription, BrandService brandService, ChargeTypeService chargeTypeService,
                                                                                CommunicationStandardService communicationStandardService, OperationSystemService operationSystemService,
-                                                                               ProcessorService processorService, TypeScreenService typeScreenService, CountryService countryService, SimpleDateFormat formatter) throws Exception {
+                                                                               ProcessorService processorService, TypeScreenService typeScreenService, CountryService countryService, SimpleDateFormat formatter, boolean createFlag) throws Exception {
         phoneDescriptionForDb.setBrand(brandService.findBrandByName(phoneDescription.getBrand()).get());
         phoneDescriptionForDb.setChargeType(chargeTypeService.findFirstByName(phoneDescription.getChargeType()).get());
         phoneDescriptionForDb.setCommunicationStandard(communicationStandardService.findFirstByName(phoneDescription.getCommunicationStandard()).get());
@@ -97,7 +99,13 @@ public final class PhoneMapper {
         phoneDescriptionForDb.setDegreeOfMoistureProtection(phoneDescription.getDegreeOfMoistureProtection());
         phoneDescriptionForDb.setHaveNfc(phoneDescription.isNfc());
         phoneDescriptionForDb.setGuaranteeTimeMonths(Integer.parseInt(phoneDescription.getGuaranteeTimeMonths()));
-        phoneDescriptionForDb.setDateAddedToDatabase(formatter.parse(phoneDescription.getDateAddedToDatabase()));
+
+        if (createFlag) {
+            phoneDescriptionForDb.setDateAddedToDatabase(new Date());
+        }
+        else {
+            phoneDescriptionForDb.setDateAddedToDatabase(formatter.parse(phoneDescription.getDateAddedToDatabase()));
+        }
 
         return phoneDescriptionForDb;
     }
@@ -112,5 +120,61 @@ public final class PhoneMapper {
         phoneForMainView.setAmountOfRam(amountOfRam);
 
         return phoneForMainView;
+    }
+
+    public static List<TablesForFirstStatistic> getListTablesForFirstStatistic(SalesSettingsForSpecificModels salesSettingsForSpecificModels, PhoneInstanceService phoneInstanceService) throws Exception {
+        List<List<SalesSettingsForSpecificModelsParams>> salesSettingsForSpecificModelsParamsList = new ArrayList<>();
+
+        for (int year = LocalDate.now().getYear(); year != LocalDate.now().getYear() - 3; year--) {
+            salesSettingsForSpecificModels.setYear(year + "");
+
+            if (year == LocalDate.now().getYear()) {
+                List<SalesSettingsForSpecificModelsParams> salesSettingsForSpecificModelsParams = phoneInstanceService.getSalesSettingsForSpecificModelsParams(salesSettingsForSpecificModels);
+
+                salesSettingsForSpecificModelsParams.forEach(salesSettingsForSpecificModelsParam -> {
+                    int monthNumber = salesSettingsForSpecificModelsParam.getFields().size() + 1;
+
+                    for (; monthNumber < 13; monthNumber++) {
+                        salesSettingsForSpecificModelsParam.getFields().add(new SalesSettingsForSpecificModelsMonths(Util.getMonth(monthNumber), -1));
+                    }
+                });
+
+                salesSettingsForSpecificModelsParamsList.add(salesSettingsForSpecificModelsParams);
+            }
+            else {
+                salesSettingsForSpecificModelsParamsList.add(phoneInstanceService.getSalesSettingsForSpecificModelsParams(salesSettingsForSpecificModels));
+            }
+        }
+
+        List<TablesForFirstStatistic> tablesForFirstStatistics = new ArrayList<>();
+
+        for (SalesSettingsForSpecificModelsParams settings : salesSettingsForSpecificModelsParamsList.get(0)) {
+            tablesForFirstStatistics.add(new TablesForFirstStatistic(settings.getPhone(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+        }
+
+        for (List<SalesSettingsForSpecificModelsParams> salesSettingsForSpecificModelsParams : salesSettingsForSpecificModelsParamsList) {
+            for (SalesSettingsForSpecificModelsParams salesSettingsForSpecificModelsParam : salesSettingsForSpecificModelsParams) {
+
+                for (TablesForFirstStatistic tablesForFirstStatistic : tablesForFirstStatistics) {
+                    if (tablesForFirstStatistic.getPhone().equals(salesSettingsForSpecificModelsParam.getPhone()) &&
+                            tablesForFirstStatistic.getPhone().getView().getColor().equals(salesSettingsForSpecificModelsParam.getPhone().getView().getColor())) {
+                        if (tablesForFirstStatistic.getTempYear().isEmpty()) {
+                            tablesForFirstStatistic.setTempYear(salesSettingsForSpecificModelsParam.getFields());
+                            break;
+                        }
+                        if (tablesForFirstStatistic.getLastYear().isEmpty()) {
+                            tablesForFirstStatistic.setLastYear(salesSettingsForSpecificModelsParam.getFields());
+                            break;
+                        }
+                        if (tablesForFirstStatistic.getYearBeforeLast().isEmpty()) {
+                            tablesForFirstStatistic.setYearBeforeLast(salesSettingsForSpecificModelsParam.getFields());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return tablesForFirstStatistics;
     }
 }

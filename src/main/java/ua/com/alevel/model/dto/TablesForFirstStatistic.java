@@ -11,7 +11,9 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SalesSettingsForSpecificModelsParams {
+public class TablesForFirstStatistic {
     private Phone phone;
-    private List<SalesSettingsForSpecificModelsMonths> fields;
+    private List<SalesSettingsForSpecificModelsMonths> tempYear;
+    private List<SalesSettingsForSpecificModelsMonths> lastYear;
+    private List<SalesSettingsForSpecificModelsMonths> yearBeforeLast;
 }

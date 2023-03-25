@@ -353,10 +353,6 @@ public class PhoneInstanceService {
         return phones;
     }
 
-    public List<Phone> findAllPhonesWithBetweenTime(Date startDate, Date endDate) {
-        return phoneRepository.findAllPhonesWithBetweenTime(startDate, endDate);
-    }
-
     public double findPriceForPhoneForAdmin(Phone phone) {
         Optional<PhoneInstance> phoneInstance = phoneInstanceRepository.findFirstByPhoneAndClientCheckIsNull(phone);
         if (phoneInstance.isPresent()) {
@@ -597,6 +593,44 @@ public class PhoneInstanceService {
         }
 
         return result;
+    }
+
+    public List<PhoneForStoreComposition> getPhonesWithBadSales(String startDate, String endDate, SimpleDateFormat formatter,
+                                                                SimpleDateFormat formatterForDateAdded, List<String> years, int countPhonesForBadSales) throws Exception {
+        List<PhoneForStoreComposition> phoneForStoreCompositions = new ArrayList<>();
+
+        phoneRepository.findAllPhonesWithBetweenTime(formatter.parse(startDate), formatter.parse(endDate)).forEach(phone -> {
+            try {
+                int countMonth = 0;
+                int checkCountBadSales = 0;
+
+                Date endDateTemp = formatter.parse(endDate);
+
+                for (int i = 2; i != countPhonesForBadSales + 2; countMonth -= 2, i += 2) {
+                    if (phoneInstanceRepository.soldSpecificModelsMonth(phone,
+                            Util.getDateMinusTwoMonth(endDateTemp, countMonth - 2),
+                            Util.getDateMinusTwoMonth(endDateTemp, countMonth)) < i) {
+                        checkCountBadSales++;
+                    }
+                }
+
+                if (checkCountBadSales == 6) {
+                    PhoneForStoreComposition phoneForStoreComposition = new PhoneForStoreComposition();
+                    phoneForStoreComposition.setPhone(phone);
+                    phoneForStoreComposition.setPrice(findPriceForPhoneForAdmin(phone));
+                    phoneForStoreComposition.setCountInStore(phoneInstanceRepository.countPhonesInStoreForAdminForStatistic(phone));
+
+                    phoneForStoreCompositions.add(phoneForStoreComposition);
+                    years.add(formatterForDateAdded.format(phone.getPhoneDescription().getDateAddedToDatabase()));
+                }
+            }
+            catch (Exception e) {
+            }
+        });
+
+        phoneForStoreCompositions.sort(Comparator.comparing(o -> o.getPhone().getPhoneDescription()));
+
+        return phoneForStoreCompositions;
     }
 
     public Optional<PhoneInstance> findPhoneByImei(String imei) {

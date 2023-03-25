@@ -44,8 +44,8 @@
                         max: max
                     },
                 },
-                chartArea:{
-                    top:20,
+                chartArea: {
+                    top: 20,
                     bottom: 80
                 }
             };
@@ -139,28 +139,84 @@
     <div th:if="${!flag}">
         <div class="row">
             <div class="col" align="center">
-                <h5 th:text="${'Statistic for '+forWhatPhone.phoneDescription.brand.name+' '+ forWhatPhone.phoneDescription.series + ' '+ forWhatPhone.phoneDescription.name
+                <h5 th:if="${forWhatYear == '3 years'}" th:text="${'Statistic for '+forWhatPhone.phoneDescription.brand.name+' '+ forWhatPhone.phoneDescription.series + ' '+ forWhatPhone.phoneDescription.name
+        +' '+forWhatPhone.amountOfRam+'/'+forWhatPhone.amountOfBuiltInMemory+' Gb for '+forWhatYear}"></h5>
+                <h5 th:if="${forWhatYear != '3 years'}" th:text="${'Statistic for '+forWhatPhone.phoneDescription.brand.name+' '+ forWhatPhone.phoneDescription.series + ' '+ forWhatPhone.phoneDescription.name
         +' '+forWhatPhone.amountOfRam+'/'+forWhatPhone.amountOfBuiltInMemory+' Gb for '+forWhatYear+' year'}"></h5>
             </div>
         </div>
-        <br>
-        <div class="row" th:each="listOpt, state : ${list}">
-            <div class="row">
-                <div class="col" align="center">
-                    <h5 th:text="${listOpt.phone.phoneDescription.brand.name+' '+ listOpt.phone.phoneDescription.series + ' '+ listOpt.phone.phoneDescription.name
+        <div style="height: 40px;"></div>
+        <div th:if="${!flagTables}">
+            <div class="row" th:each="listOpt, state : ${list}">
+                <div class="row">
+                    <div class="col" align="center">
+                        <h5 th:text="${listOpt.phone.phoneDescription.brand.name+' '+ listOpt.phone.phoneDescription.series + ' '+ listOpt.phone.phoneDescription.name
         +' '+listOpt.phone.amountOfRam+'/'+listOpt.phone.amountOfBuiltInMemory+' Gb. Color: '+listOpt.phone.view.color}"></h5>
+                    </div>
                 </div>
+                <div align="center" th:if="${maxSoldValue[__${state.index}__] <= 1}">
+                    <div style="height: 40px;"></div>
+                    <h5 th:text="${'Not enough data to display statistics'}"></h5>
+                    <div style="height: 80px;"></div>
+                </div>
+                <div th:id="${'chart_div'+__${state.index}__}" th:if="${maxSoldValue[__${state.index}__] > 1}"
+                     align="center"></div>
             </div>
-            <div align="center" th:if="${maxSoldValue[__${state.index}__] <= 1}">
-                <div style="height: 40px;"></div>
-                <h5 th:text="${'Not enough data to display statistics'}"></h5>
-                <div style="height: 80px;"></div>
+            <br>
+            <br>
+        </div>
+        <div th:if="${flagTables}">
+            <div class="row" th:each="listOpt, state : ${list}">
+                <div class="row">
+                    <div class="col" align="center">
+                        <h5 th:text="${listOpt.phone.phoneDescription.brand.name+' '+ listOpt.phone.phoneDescription.series + ' '+ listOpt.phone.phoneDescription.name
+        +' '+listOpt.phone.amountOfRam+'/'+listOpt.phone.amountOfBuiltInMemory+' Gb. Color: '+listOpt.phone.view.color}"></h5>
+                    </div>
+                </div>
+                <div style="height: 20px;"></div>
+                <div align="center">
+                    <div style="width: 1050px;">
+                        <div class="row">
+                            <div class="col" style="border: 1px solid black;">
+                                <div style="width: 100px;">&nbsp;</div>
+                            </div>
+                            <div class="col" align="center" style="border: 1px solid black;" th:each="month : ${monthNames}"
+                            th:text="${month}"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col" style="border: 1px solid black;" align="left">
+                                        <div style="width: 100px;" align="left" th:text="${years[0]}"></div>
+                                    </div>
+                                    <div class="col" style="border: 1px solid black;" align="center" th:each="tempYearOpt : ${listOpt.tempYear}">
+                                        <div th:if="${tempYearOpt.sold == -1}" th:text="${'-'}"></div>
+                                        <div th:if="${tempYearOpt.sold != -1}" th:text="${tempYearOpt.sold}"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col" style="border: 1px solid black;" align="left">
+                                        <div style="width: 100px;" align="left" th:text="${years[1]}"></div>
+                                    </div>
+                                    <div class="col" style="border: 1px solid black;" align="center" th:each="lastYearOpt : ${listOpt.lastYear}"
+                                         th:text="${lastYearOpt.sold}"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col" style="border: 1px solid black;" align="left">
+                                        <div style="width: 100px;" align="left" th:text="${years[2]}"></div>
+                                    </div>
+                                    <div class="col" style="border: 1px solid black;" align="center" th:each="yearBeforeLastOpt : ${listOpt.yearBeforeLast}"
+                                         th:text="${yearBeforeLastOpt.sold}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height: 50px;"></div>
             </div>
-            <div th:id="${'chart_div'+__${state.index}__}" th:if="${maxSoldValue[__${state.index}__] > 1}" align="center"></div>
+            <br>
         </div>
     </div>
-    <br>
-    <br>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"

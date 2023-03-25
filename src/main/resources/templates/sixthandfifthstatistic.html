@@ -58,11 +58,12 @@
                     <div class="col" align="center" style="border: 1px solid black;">Phone number</div>
                     <div class="col-3" align="center" style="border: 1px solid black;">Email address</div>
                     <div class="col-1" th:if="${flag}" align="center" style="border: 1px solid black;">Order count</div>
+                    <div class="col" th:if="${flag}" align="center" style="border: 1px solid black;">Orders</div>
                 </div>
                 <div class="row" th:each="registeredUser, state: ${registeredUsers}">
                     <div class="col">
                         <div class="row">
-                            <div class="col" style="border: 1px solid black; height: 30px;" align="left"
+                            <div class="col" style="border: 1px solid black; height: 50px;" align="left"
                                  th:text="${registeredUser.lastName}"></div>
                             <div class="col" style="border: 1px solid black;" align="left"
                                  th:text="${registeredUser.firstName}"></div>
@@ -77,6 +78,13 @@
                             <div class="col-1" th:if="${flag}" style="border: 1px solid black;"
                                  align="center"
                                  th:text="${orderCount[__${state.index}__]}"></div>
+                            <div class="col" style="border: 1px solid black;" th:if="${flag}">
+                                <div class="col text-center">
+                                    <a th:href="${'/admin/orders-for-user-id?id='+registeredUser.id+'&flag=false&flag-stat=true'}"
+                                       class="btn btn-primary" style="width: 120px;">See orders
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

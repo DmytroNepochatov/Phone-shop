@@ -20,15 +20,19 @@
     <div class="row">
         <div class="col">
             <div class="row my-2">
-                <div class="col text-center" style="padding-right: 90px;" th:if="${flag}">
+                <div class="col text-center" style="padding-right: 90px;" th:if="${flag and !flagStat}">
                     <a th:href="@{/admin/all-registered-users}" class="btn btn-primary" role="button"
                        style="width: 200px;">Go back
                         to user list</a>
                 </div>
-                <div class="col text-center" style="padding-right: 90px;" th:if="${!flag}">
+                <div class="col text-center" style="padding-right: 90px;" th:if="${!flag and !flagStat}">
                     <a th:href="@{/admin/find-registered-user-last-name}" class="btn btn-primary" role="button"
                        style="width: 270px;">Go back
                         to find user by last name</a>
+                </div>
+                <div class="col text-center" style="padding-right: 90px;" th:if="${!flag and flagStat}">
+                    <a th:href="@{/admin/statistic-5}" class="btn btn-primary" role="button"
+                       style="width: 200px;">Go back to statistic</a>
                 </div>
             </div>
         </div>

@@ -67,7 +67,7 @@
                                  th:text="${registeredUser.emailAddress}"></div>
                             <div class="col" style="border: 1px solid black;">
                                 <div class="col text-center">
-                                    <a th:href="${'/admin/orders-for-user-id?id='+registeredUser.id+'&flag=true'}"
+                                    <a th:href="${'/admin/orders-for-user-id?id='+registeredUser.id+'&flag=true&flag-stat=false'}"
                                        class="btn btn-primary" style="width: 120px;">See orders
                                     </a>
                                 </div>

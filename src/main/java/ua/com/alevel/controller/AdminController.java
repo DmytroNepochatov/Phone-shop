@@ -62,7 +62,9 @@ public class AdminController {
     private static final String SELECT_PHONE_DESCRIPTION = "Select phone description";
     private static final String BIRTHDAY_PATTERN = "dd.M.yyyy";
     private static final String CHECK_DATES_PATTERN = "dd.M.yyyy HH:mm:ss";
-    private static final int COUNT_PHONES_FOR_BAD_SALES = 10;
+    private static final String FOR_WHAT_YEAR = "forWhatYear";
+    private static final String THREE_YEARS = "3 years";
+    private static final int COUNT_PHONES_FOR_BAD_SALES = 12;
 
     public AdminController(UserDetailsServiceImpl userDetailsServiceImpl, PhoneInstanceService phoneInstanceService, BrandService brandService,
                            ChargeTypeService chargeTypeService, CommunicationStandardService communicationStandardService,
@@ -190,15 +192,9 @@ public class AdminController {
         if (Integer.parseInt(phoneDescription.getGuaranteeTimeMonths()) <= 0.0) {
             return errorMsg(model, "Incorrect guarantee time in months");
         }
-        if (phoneDescription.getDateAddedToDatabase().isBlank()) {
-            return errorMsg(model, "Date added to database field is empty");
-        }
-        if (!Util.isValidDate(phoneDescription.getDateAddedToDatabase(), BIRTHDAY_PATTERN)) {
-            return errorMsg(model, "Incorrect date added to database");
-        }
 
         PhoneDescription phoneDescriptionForDb = PhoneMapper.mapCreatePhoneDescriptionToPhoneDescription(new PhoneDescription(), phoneDescription, brandService, chargeTypeService,
-                communicationStandardService, operationSystemService, processorService, typeScreenService, countryService, new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH));
+                communicationStandardService, operationSystemService, processorService, typeScreenService, countryService, new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH), true);
 
         if (!phoneDescriptionService.save(phoneDescriptionForDb)) {
             return errorMsg(model, "Phone description for this phone already exists");
@@ -552,7 +548,7 @@ public class AdminController {
         PhoneDescription phoneDescription = phoneDescriptionService.findById(changePhoneDescription.getPhoneDescriptionId());
 
         PhoneDescription phoneDescriptionForDb = PhoneMapper.mapCreatePhoneDescriptionToPhoneDescription(phoneDescription, changePhoneDescription, brandService, chargeTypeService,
-                communicationStandardService, operationSystemService, processorService, typeScreenService, countryService, new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH));
+                communicationStandardService, operationSystemService, processorService, typeScreenService, countryService, new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH), false);
 
         phoneDescriptionService.update(phoneDescriptionForDb);
         return "redirect:/admin/change?success=Phone description updated successfully";
@@ -652,19 +648,19 @@ public class AdminController {
 
     @GetMapping("/orders")
     public String getOrders(Model model, @RequestParam(value = "success") String success) {
-        setOrder(model, success, true, false);
+        setOrder(model, success, true);
         return "adminorders";
     }
 
     @GetMapping("/cancellation-of-orders")
     public String getOrdersForCancellation(Model model, @RequestParam(value = "success") String success) {
-        setOrder(model, success, true, true);
+        setOrder(model, success, true);
         return "adminorders";
     }
 
     @GetMapping("/orders-history")
     public String getOrdersHistory(Model model, @RequestParam(value = "success") String success) {
-        setOrder(model, success, false, false);
+        setOrder(model, success, false);
         return "adminorders";
     }
 
@@ -680,7 +676,7 @@ public class AdminController {
         phoneInstanceService.cancelOrder(id);
         clientCheckService.cancelCheck(id);
 
-        return "redirect:/admin/cancellation-of-orders?success=Check " + id + " successfully canceled";
+        return "redirect:/admin/orders?success=Check " + id + " successfully canceled";
     }
 
     @GetMapping("/characteristics")
@@ -924,44 +920,59 @@ public class AdminController {
 
     @GetMapping("/statistic-1")
     public String getFirstStatistic(Model model) {
-        return modelAttributesForFirstStatistic(model, "", true);
+        return modelAttributesForFirstStatistic(model, "", true, false);
     }
 
     @GetMapping("/statistic-1/show")
     public String getFirstStatisticShow(Model model, SalesSettingsForSpecificModels salesSettingsForSpecificModels) throws Exception {
         if (salesSettingsForSpecificModels.getId().equals("Select phone")) {
-            return modelAttributesForFirstStatistic(model, "You must select phone", true);
+            return modelAttributesForFirstStatistic(model, "You must select phone", true, false);
         }
         if (salesSettingsForSpecificModels.getYear().equals("Select year")) {
-            return modelAttributesForFirstStatistic(model, "You must select year", true);
+            return modelAttributesForFirstStatistic(model, "You must select year", true, false);
         }
 
-        List<SalesSettingsForSpecificModelsParams> salesSettingsForSpecificModelsParamsList = phoneInstanceService.getSalesSettingsForSpecificModelsParams(salesSettingsForSpecificModels);
-        List<List<Object>> chartData = new ArrayList<>();
-        List<Integer> maxSoldValue = new ArrayList<>();
+        if (!salesSettingsForSpecificModels.getYear().equals(THREE_YEARS)) {
+            List<SalesSettingsForSpecificModelsParams> salesSettingsForSpecificModelsParamsList = phoneInstanceService.getSalesSettingsForSpecificModelsParams(salesSettingsForSpecificModels);
+            List<List<Object>> chartData = new ArrayList<>();
+            List<Integer> maxSoldValue = new ArrayList<>();
 
-        salesSettingsForSpecificModelsParamsList.forEach(salesSettingsForSpecificModelsParams -> {
-            List<Object> chart = new ArrayList<>();
-            AtomicInteger max = new AtomicInteger(-1);
+            salesSettingsForSpecificModelsParamsList.forEach(salesSettingsForSpecificModelsParams -> {
+                List<Object> chart = new ArrayList<>();
+                AtomicInteger max = new AtomicInteger(-1);
 
-            salesSettingsForSpecificModelsParams.getFields().forEach(field -> {
-                chart.add(List.of(field.getMonth(), field.getSold()));
+                salesSettingsForSpecificModelsParams.getFields().forEach(field -> {
+                    chart.add(List.of(field.getMonth(), field.getSold()));
 
-                if (field.getSold() > max.get()) {
-                    max.set(field.getSold());
-                }
+                    if (field.getSold() > max.get()) {
+                        max.set(field.getSold());
+                    }
+                });
+
+                chartData.add(new ArrayList<>(chart));
+                maxSoldValue.add(max.get());
             });
 
-            chartData.add(new ArrayList<>(chart));
-            maxSoldValue.add(max.get());
-        });
+            model.addAttribute("chartData", chartData);
+            model.addAttribute("maxSoldValue", maxSoldValue);
+            model.addAttribute("list", salesSettingsForSpecificModelsParamsList);
+            model.addAttribute("forWhatPhone", salesSettingsForSpecificModelsParamsList.get(0).getPhone());
+            model.addAttribute(FOR_WHAT_YEAR, salesSettingsForSpecificModels.getYear());
+            return modelAttributesForFirstStatistic(model, "", false, false);
+        }
+        else {
+            List<TablesForFirstStatistic> tablesForFirstStatisticList = PhoneMapper.getListTablesForFirstStatistic(salesSettingsForSpecificModels, phoneInstanceService);
+            List<String> monthNames = new ArrayList<>();
+            for (int i = 1; i < 13; i++) {
+                monthNames.add(Util.getMonth(i));
+            }
 
-        model.addAttribute("chartData", chartData);
-        model.addAttribute("maxSoldValue", maxSoldValue);
-        model.addAttribute("list", salesSettingsForSpecificModelsParamsList);
-        model.addAttribute("forWhatPhone", salesSettingsForSpecificModelsParamsList.get(0).getPhone());
-        model.addAttribute("forWhatYear", salesSettingsForSpecificModels.getYear());
-        return modelAttributesForFirstStatistic(model, "", false);
+            model.addAttribute("monthNames", monthNames);
+            model.addAttribute("list", tablesForFirstStatisticList);
+            model.addAttribute("forWhatPhone", tablesForFirstStatisticList.get(0).getPhone());
+            model.addAttribute(FOR_WHAT_YEAR, THREE_YEARS);
+            return modelAttributesForFirstStatistic(model, "", false, true);
+        }
     }
 
     @GetMapping("/statistic-2")
@@ -978,7 +989,7 @@ public class AdminController {
         List<MostPopularPhoneModels> mostPopularPhoneModelsList = phoneInstanceService.getMostPopularPhoneModels(salesSettingsForSpecificModels.getYear());
 
         model.addAttribute("list", mostPopularPhoneModelsList);
-        model.addAttribute("forWhatYear", salesSettingsForSpecificModels.getYear());
+        model.addAttribute(FOR_WHAT_YEAR, salesSettingsForSpecificModels.getYear());
         return modelAttributesForSecondStatistic(model, "", false);
     }
 
@@ -1028,30 +1039,14 @@ public class AdminController {
 
     @GetMapping("/statistic-7")
     public String getSeventhStatistic(Model model) throws Exception {
-        List<PhoneForStoreComposition> phoneForStoreCompositions = new ArrayList<>();
+        String startDate = LocalDate.now().getDayOfMonth() + "." + (LocalDate.now().getMonthValue() - 2) + "." + (LocalDate.now().getYear() - 1) + " 00:00:00";
+        String endDate = LocalDate.now().getDayOfMonth() + "." + (LocalDate.now().getMonthValue() - 2) + "." + (LocalDate.now().getYear()) + " 23:59:59";
         List<String> years = new ArrayList<>();
         SimpleDateFormat formatterForDateAdded = new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH);
         SimpleDateFormat formatter = new SimpleDateFormat(CHECK_DATES_PATTERN, Locale.ENGLISH);
-        String startDate = LocalDate.now().getDayOfMonth() + "." + (LocalDate.now().getMonthValue() - 2) + "." + (LocalDate.now().getYear() - 1) + " 00:00:00";
-        String endDate = LocalDate.now().getDayOfMonth() + "." + (LocalDate.now().getMonthValue() - 2) + "." + (LocalDate.now().getYear()) + " 23:59:59";
 
-        phoneInstanceService.findAllPhonesWithBetweenTime(formatter.parse(startDate), formatter.parse(endDate)).forEach(phone -> {
-            int count = phoneInstanceService.countPhonesInStoreForAdminForStatistic(phone);
-
-            if (count <= COUNT_PHONES_FOR_BAD_SALES) {
-                PhoneForStoreComposition phoneForStoreComposition = new PhoneForStoreComposition();
-                phoneForStoreComposition.setPhone(phone);
-                phoneForStoreComposition.setPrice(phoneInstanceService.findPriceForPhoneForAdmin(phone));
-                phoneForStoreComposition.setCountInStore(count);
-
-                phoneForStoreCompositions.add(phoneForStoreComposition);
-                years.add(formatterForDateAdded.format(phone.getPhoneDescription().getDateAddedToDatabase()));
-            }
-        });
-
-        phoneForStoreCompositions.sort(Comparator.comparing(o -> o.getPhone().getPhoneDescription()));
-
-        model.addAttribute(PHONE_FOR_STORE_COMPOSITIONS, phoneForStoreCompositions);
+        model.addAttribute(PHONE_FOR_STORE_COMPOSITIONS, phoneInstanceService.getPhonesWithBadSales(startDate,
+                endDate, formatter, formatterForDateAdded, years, COUNT_PHONES_FOR_BAD_SALES));
         model.addAttribute(FLAG, false);
         model.addAttribute(FLAG_FOR_STATISTIC, true);
         model.addAttribute(YEARS, years);
@@ -1071,7 +1066,8 @@ public class AdminController {
     }
 
     @GetMapping("/orders-for-user-id")
-    public String getOrdersForUserId(@RequestParam(value = "id") String id, @RequestParam(value = "flag") boolean flag, Model model) {
+    public String getOrdersForUserId(@RequestParam(value = "id") String id, @RequestParam(value = "flag") boolean flag,
+                                     @RequestParam(value = "flag-stat") boolean flagStat, Model model) {
         List<ClientCheck> checks = clientCheckService.findAllChecksForUserId(id);
         RegisteredUser registeredUser = userDetailsServiceImpl.findById(id);
         List<OrdersForSelectUserForAdmin> orders = new ArrayList<>();
@@ -1083,6 +1079,7 @@ public class AdminController {
         Collections.sort(orders);
 
         model.addAttribute(FLAG, flag);
+        model.addAttribute(FLAG_FOR_STATISTIC, flagStat);
         model.addAttribute("orders", orders);
         model.addAttribute("registeredUser", registeredUser);
         model.addAttribute(YEARS, formatterBirthday.format(registeredUser.getDateOfBirth()));
@@ -1254,7 +1251,7 @@ public class AdminController {
         return phoneForStoreCompositions;
     }
 
-    private void setOrder(Model model, String success, boolean flag, boolean isCancellation) {
+    private void setOrder(Model model, String success, boolean flag) {
         List<UserOrdersForAdmin> orders = userDetailsServiceImpl.getUsersOrdersForAdmin(flag);
         orders.forEach(order -> order.getChecks().forEach(check -> order.getTotalPrices().add(phoneInstanceService.findPriceForClientCheckId(check.getId()))));
         Collections.sort(orders);
@@ -1269,14 +1266,17 @@ public class AdminController {
         model.addAttribute("orders", orders);
         model.addAttribute(SUCCESS, success);
         model.addAttribute(FLAG, flag);
-        model.addAttribute("cancel", isCancellation);
     }
 
-    private String modelAttributesForFirstStatistic(Model model, String errorMsg, boolean flag) {
-        model.addAttribute(YEARS, Util.getListYears());
+    private String modelAttributesForFirstStatistic(Model model, String errorMsg, boolean flag, boolean flagTables) {
+        List<String> years = Util.getListYears();
+        years.add(THREE_YEARS);
+
+        model.addAttribute(YEARS, years);
         model.addAttribute(PHONES, phoneInstanceService.findAllPhonesInDb());
         model.addAttribute("salesSettingsForSpecificModels", new SalesSettingsForSpecificModels());
         model.addAttribute(FLAG, flag);
+        model.addAttribute("flagTables", flagTables);
         model.addAttribute(ERROR_MSG, errorMsg);
         return "firststatistic";
     }
