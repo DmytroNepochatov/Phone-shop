@@ -47,7 +47,7 @@ public class ClientCheckService {
     }
 
     public void cancelCheck(String id) {
-        clientCheckRepository.deleteById(id);
+        clientCheckRepository.deleteByClientCheckId(id);
         LOGGER.info("Check with id {} canceled", id);
     }
 

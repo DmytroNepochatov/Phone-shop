@@ -1,0 +1,111 @@
+<!DOCTYPE HTML SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="en">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<div style="height: 10px;"></div>
+<div align="center">
+    <table style="width: 1000px; border-spacing: 0px;">
+        <tr>
+            <td style="width: 180px;" align="left">
+                <img th:src="${'http://drive.google.com/uc?export=view&id=17keeVgQcpUuq3NMmKdNqiU7Qnw9CxFOf'}"
+                     style="height: 42px; width: 180px;">
+            </td>
+            <td style="width: 670px;" align="center">
+                <div th:if="${flag}">
+                    <div style="font-size: 16px; "><b
+                            th:text="${'Thanks '+user.firstName+' '+user.lastName+' for your order!'}"></b></div>
+                </div>
+                <div th:if="${!flag}">
+                    <div style="font-size: 16px;"><b>Order has been canceled.</b></div>
+                </div>
+            </td>
+            <td style="width: 60px;"></td>
+            <td style="width: 90px;" align="center">
+                <div th:if="${flag}">
+                    <div style="font-size: 16px; ">
+                        <a th:href="${'http://localhost:8080/client-check?id='+clientCheck.id}">See order</a>      <!--change localhost on remote service-->
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div style="height: 20px;"></div>
+<div align="center">
+    <table>
+        <tr>
+            <td align="center">
+                <div th:text="${'Order number: '+clientCheck.id+'.'}" style="font-size: 17px;">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="height: 5px;"></div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <div th:text="${'Created: '+created+'.'}" style="font-size: 17px;">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="height: 5px;"></div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <div th:text="${'Total price: '+totalPrice+'$.'}" style="font-size: 17px;">
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div style="height: 30px;"></div>
+
+<div align="center">
+    <table style="width: 850px; border-spacing: 0px;">
+        <tr th:each="phoneInstance: ${clientCheck.phoneInstances}">
+            <td style="border: 1px solid black; height: 80px;">
+                <table>
+                    <tr>
+                        <td>
+                            <div style="height: 70px; width: 80px;" align="right">
+                                <img th:src="${phoneInstance.phone.view.phoneFrontAndBack}"
+                                     style="height: 70px; width: 70px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="height: 80px; width: 20px;">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="height: 25px; width: 510px; font-size: 16px;" th:text="${phoneInstance.phone.phoneDescription.brand.name+' '+ phoneInstance.phone.phoneDescription.series + ' '+ phoneInstance.phone.phoneDescription.name
+        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneInstance.phone.view.color}">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="height: 25px; width: 180px; font-size: 16px;" align="right"
+                                 th:text="${'Price: '+phoneInstance.price+ ' $'}">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+<div style="height: 20px;"></div>
+
+</body>
+</html>

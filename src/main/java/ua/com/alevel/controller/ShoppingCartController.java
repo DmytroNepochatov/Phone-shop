@@ -8,17 +8,21 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.alevel.model.check.ClientCheck;
+import ua.com.alevel.model.dto.OrderInfoForMail;
 import ua.com.alevel.model.dto.PhoneForAddToCart;
 import ua.com.alevel.model.dto.PhoneForShoppingCart;
 import ua.com.alevel.model.phone.PhoneInstance;
 import ua.com.alevel.model.shoppingcart.ShoppingCart;
 import ua.com.alevel.model.user.RegisteredUser;
 import ua.com.alevel.service.clientcheck.ClientCheckService;
+import ua.com.alevel.service.mailsender.MailSender;
 import ua.com.alevel.service.phone.PhoneInstanceService;
 import ua.com.alevel.service.user.UserDetailsServiceImpl;
 import ua.com.alevel.util.Util;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/shopping-cart")
@@ -26,12 +30,15 @@ public class ShoppingCartController {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final PhoneInstanceService phoneInstanceService;
     private final ClientCheckService clientCheckService;
+    private final MailSender mailSender;
 
     public ShoppingCartController(PhoneInstanceService phoneInstanceService,
-                                  UserDetailsServiceImpl userDetailsServiceImpl, ClientCheckService clientCheckService) {
+                                  UserDetailsServiceImpl userDetailsServiceImpl, ClientCheckService clientCheckService,
+                                  MailSender mailSender) {
         this.phoneInstanceService = phoneInstanceService;
         this.clientCheckService = clientCheckService;
         this.userDetailsServiceImpl = userDetailsServiceImpl;
+        this.mailSender = mailSender;
     }
 
     @GetMapping
@@ -101,6 +108,12 @@ public class ShoppingCartController {
 
         phoneInstances.forEach(phoneInstance -> phoneInstanceService.addPhoneToClientCheck(clientCheckFromDB, phoneInstance.getId()));
         phoneInstances.forEach(phoneInstance -> phoneInstanceService.delShoppingCartForPhone(phoneInstance.getId()));
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.M.yyyy HH:mm:ss", Locale.ENGLISH);
+
+        mailSender.sendMailPurchaseNotice(registeredUser.getEmailAddress(), "Your order " + clientCheckFromDB.getId() + " has been accepted",
+                new OrderInfoForMail(clientCheckFromDB, formatter.format(clientCheckFromDB.getCreated()),
+                        phoneInstanceService.findPriceForClientCheckId(clientCheckFromDB.getId()), true, registeredUser));
 
         model.addAttribute("clientCheck", clientCheckFromDB.getId());
         return "order";

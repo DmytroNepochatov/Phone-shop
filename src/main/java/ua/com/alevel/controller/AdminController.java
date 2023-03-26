@@ -17,6 +17,7 @@ import ua.com.alevel.service.chargetype.ChargeTypeService;
 import ua.com.alevel.service.clientcheck.ClientCheckService;
 import ua.com.alevel.service.communicationstandard.CommunicationStandardService;
 import ua.com.alevel.service.country.CountryService;
+import ua.com.alevel.service.mailsender.MailSender;
 import ua.com.alevel.service.operationsystem.OperationSystemService;
 import ua.com.alevel.service.phone.PhoneInstanceService;
 import ua.com.alevel.service.phonedescription.PhoneDescriptionService;
@@ -37,6 +38,7 @@ import static org.apache.commons.lang.NumberUtils.isNumber;
 public class AdminController {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final PhoneInstanceService phoneInstanceService;
+    private final MailSender mailSender;
     private final BrandService brandService;
     private final ChargeTypeService chargeTypeService;
     private final CommunicationStandardService communicationStandardService;
@@ -70,7 +72,7 @@ public class AdminController {
                            ChargeTypeService chargeTypeService, CommunicationStandardService communicationStandardService,
                            OperationSystemService operationSystemService, ProcessorService processorService,
                            TypeScreenService typeScreenService, ClientCheckService clientCheckService,
-                           CountryService countryService, ViewService viewService, PhoneDescriptionService phoneDescriptionService) {
+                           CountryService countryService, ViewService viewService, PhoneDescriptionService phoneDescriptionService, MailSender mailSender) {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.phoneInstanceService = phoneInstanceService;
         this.brandService = brandService;
@@ -83,6 +85,7 @@ public class AdminController {
         this.countryService = countryService;
         this.viewService = viewService;
         this.phoneDescriptionService = phoneDescriptionService;
+        this.mailSender = mailSender;
     }
 
     @GetMapping("/profile")
@@ -673,6 +676,14 @@ public class AdminController {
 
     @PutMapping("/cancel-order")
     public String cancelOrder(@RequestParam(value = "id") String id) {
+        ClientCheck clientCheckFromDB = clientCheckService.findById(id).get();
+        RegisteredUser registeredUser = userDetailsServiceImpl.findById(clientCheckService.getUserIdForCheckId(id));
+        SimpleDateFormat formatter = new SimpleDateFormat(CHECK_DATES_PATTERN, Locale.ENGLISH);
+
+        mailSender.sendMailPurchaseNotice(registeredUser.getEmailAddress(), "Your order " + clientCheckFromDB.getId() + " has been canceled",
+                new OrderInfoForMail(clientCheckFromDB, formatter.format(clientCheckFromDB.getCreated()),
+                        phoneInstanceService.findPriceForClientCheckId(clientCheckFromDB.getId()), false, registeredUser));
+
         phoneInstanceService.cancelOrder(id);
         clientCheckService.cancelCheck(id);
 

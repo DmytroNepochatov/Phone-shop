@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 public class UserController {
     private static final int REQUIRED_AGE = 16;
     private static final String REGEX_FOR_PHONE_NUMBER = "[a-zA-Z]";
-    private static final int PHONE_NUMBER_SIZE = 13;
+    private static final int PHONE_NUMBER_SIZE = 12;
     private static final String DATE_PATTERN = "dd.M.yyyy";
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final ClientCheckService clientCheckService;
@@ -59,7 +59,7 @@ public class UserController {
         }
         if (userRegistration.getPhoneNumber().charAt(0) != '+' || Pattern.compile(REGEX_FOR_PHONE_NUMBER).matcher(userRegistration.getPhoneNumber()).find()
                 || userRegistration.getPhoneNumber().length() != PHONE_NUMBER_SIZE) {
-            return errorModel(model, new UserRegistration(), "Incorrect phone number. For example: +380123456789");
+            return errorModel(model, new UserRegistration(), "Incorrect phone number. For example: +10123456789");
         }
         if (userRegistration.getPassword().isBlank() || userRegistration.getSecondPassword().isBlank()) {
             return errorModel(model, new UserRegistration(), "Password field is empty");

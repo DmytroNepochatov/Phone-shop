@@ -32,4 +32,9 @@ public interface ClientCheckRepository extends CrudRepository<ClientCheck, Strin
 
     @Query("select clientCheck.registeredUser.id from ClientCheck clientCheck where clientCheck.id = ?1")
     String getUserIdForCheckId(String checkId);
+
+    @Transactional
+    @Modifying
+    @Query("delete from ClientCheck clientCheck where clientCheck.id = ?1")
+    void deleteByClientCheckId(String checkId);
 }
