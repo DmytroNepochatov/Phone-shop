@@ -95,7 +95,7 @@ public class ShoppingCartController {
     public String createOrder(Model model) {
         ShoppingCart shoppingCart = userDetailsServiceImpl.findShoppingCartForUserEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         List<PhoneInstance> phoneInstances = phoneInstanceService.findAllPhonesForShoppingCartId(shoppingCart.getId());
-        RegisteredUser registeredUser = userDetailsServiceImpl.findUserByEmailAddress(SecurityContextHolder.getContext().getAuthentication().getName());
+        RegisteredUser registeredUser = userDetailsServiceImpl.findUserByEmailAddress(SecurityContextHolder.getContext().getAuthentication().getName()).get();
         Date date = new Date();
 
         ClientCheck clientCheck = new ClientCheck();

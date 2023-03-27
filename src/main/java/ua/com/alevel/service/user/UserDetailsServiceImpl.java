@@ -22,6 +22,7 @@ import ua.com.alevel.repository.user.UserRepository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service("userDetailsServiceImpl")
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -55,8 +56,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return true;
     }
 
-    public RegisteredUser findUserByEmailAddress(String emailAddress) {
-        return userRepository.findFirstByEmailAddress(emailAddress).get();
+    public void saveChanges(RegisteredUser registeredUser) {
+        userRepository.save(registeredUser);
+        LOGGER.info("User {} {} {} {} successfully changed information about account", registeredUser.getLastName(), registeredUser.getFirstName(),
+                registeredUser.getMiddleName(), registeredUser.getPhoneNumber());
+    }
+
+    public Optional<RegisteredUser> findUserByEmailAddress(String emailAddress) {
+        return userRepository.findFirstByEmailAddress(emailAddress);
     }
 
     public ShoppingCart findShoppingCartForUserEmail(String emailAddress) {

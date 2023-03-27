@@ -81,6 +81,26 @@
             <h5 th:text="${'You haven&prime;t had a single closed check yet'}"></h5>
         </div>
     </div>
+    <div class="row">
+        <div class="col-7" align="center"></div>
+        <div class="col-5" align="center">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col">
+                    <div>
+                        <a style="width: 250px;" th:href="${'/users/change-info-about-profile'}" class="btn btn-primary">Change account information</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        <a style="width: 175px;" th:href="${'/users/change-password'}" class="btn btn-primary">Change password</a>
+                    </div>
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+    </div>
+    <div style="height: 20px;"></div>
     <div class="row" th:if="${!historyChecks.empty}">
         <div class="col-7" align="center">
             <h5>Your history:</h5>

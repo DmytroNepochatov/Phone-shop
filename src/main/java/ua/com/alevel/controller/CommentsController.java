@@ -41,7 +41,7 @@ public class CommentsController {
 
     @GetMapping
     public String getPhonesForComment(Model model, @RequestParam(value = "successMessage") String successMessage) {
-        RegisteredUser registeredUser = userDetailsServiceImpl.findUserByEmailAddress(SecurityContextHolder.getContext().getAuthentication().getName());
+        RegisteredUser registeredUser = userDetailsServiceImpl.findUserByEmailAddress(SecurityContextHolder.getContext().getAuthentication().getName()).get();
         List<ClientCheck> clientCheckList = clientCheckService.findAllClosedChecksForUserId(registeredUser.getId());
         List<Phone> allPhonesInDb = phoneInstanceService.findAllPhonesInDb();
         List<Phone> phones = commentService.findAllAvailablePhonesForComment(registeredUser, clientCheckList, allPhonesInDb);
@@ -84,7 +84,7 @@ public class CommentsController {
             return getErrorMsg(model, commentForSave, "Incorrect rating");
         }
 
-        RegisteredUser registeredUser = userDetailsServiceImpl.findUserByEmailAddress(SecurityContextHolder.getContext().getAuthentication().getName());
+        RegisteredUser registeredUser = userDetailsServiceImpl.findUserByEmailAddress(SecurityContextHolder.getContext().getAuthentication().getName()).get();
         Phone phone = phoneInstanceService.findByIdPhone(commentForSave.getPhoneId());
 
         Comment comment = new Comment();

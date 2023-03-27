@@ -6,6 +6,7 @@ import ua.com.alevel.model.dto.UserOrdersForAdmin;
 import ua.com.alevel.model.dto.UserRegistration;
 import ua.com.alevel.model.user.RegisteredUser;
 import ua.com.alevel.model.user.Role;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,5 +34,22 @@ public final class UserMapper {
     public static UserOrdersForAdmin mapRegisteredUsersToUsersOrdersForAdmin(RegisteredUser registeredUser, List<ClientCheck> checkList) {
         return new UserOrdersForAdmin(registeredUser.getLastName(), registeredUser.getFirstName(),
                 registeredUser.getMiddleName(), registeredUser.getPhoneNumber(), checkList, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    }
+
+    public static RegisteredUser changeUserInformation(SimpleDateFormat formatter, RegisteredUser registeredUser, UserRegistration userRegistration) throws Exception {
+        registeredUser.setFirstName(userRegistration.getFirstName());
+        registeredUser.setMiddleName(userRegistration.getMiddleName());
+        registeredUser.setLastName(userRegistration.getLastName());
+        registeredUser.setEmailAddress(userRegistration.getEmailAddress());
+        registeredUser.setDateOfBirth(formatter.parse(userRegistration.getDateOfBirth()));
+        registeredUser.setPhoneNumber(userRegistration.getPhoneNumber());
+
+        return registeredUser;
+    }
+
+    public static RegisteredUser changeUserPassword(RegisteredUser registeredUser, UserRegistration userRegistration, PasswordEncoder passwordEncoder) {
+        registeredUser.setPassword(passwordEncoder.encode(userRegistration.getPassword()));
+
+        return registeredUser;
     }
 }

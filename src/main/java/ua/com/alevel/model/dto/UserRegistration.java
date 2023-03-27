@@ -17,4 +17,5 @@ public class UserRegistration {
     private String password;
     private String secondPassword;
     private String errorString;
+    private String userId;
 }
