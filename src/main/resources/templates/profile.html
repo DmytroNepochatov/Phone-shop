@@ -11,7 +11,6 @@
           integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
           crossorigin="anonymous">
     <link rel="shortcut icon" th:href="@{/images/brand.ico}" href="../static/images/brand.ico" type="image/x-icon">
-
 </head>
 <body>
 <div th:replace="menu :: menu"></div>
@@ -81,26 +80,6 @@
             <h5 th:text="${'You haven&prime;t had a single closed check yet'}"></h5>
         </div>
     </div>
-    <div class="row">
-        <div class="col-7" align="center"></div>
-        <div class="col-5" align="center">
-            <div class="row">
-                <div class="col"></div>
-                <div class="col">
-                    <div>
-                        <a style="width: 250px;" th:href="${'/users/change-info-about-profile'}" class="btn btn-primary">Change account information</a>
-                    </div>
-                </div>
-                <div class="col">
-                    <div>
-                        <a style="width: 175px;" th:href="${'/users/change-password'}" class="btn btn-primary">Change password</a>
-                    </div>
-                </div>
-                <div class="col"></div>
-            </div>
-        </div>
-    </div>
-    <div style="height: 20px;"></div>
     <div class="row" th:if="${!historyChecks.empty}">
         <div class="col-7" align="center">
             <h5>Your history:</h5>
@@ -112,9 +91,9 @@
             </div>
         </div>
     </div>
-    <div class="row" th:if="${!historyChecks.empty}">
+    <div class="row">
         <div class="col-7">
-            <div class="card-group">
+            <div class="card-group" th:if="${!historyChecks.empty}">
                 <div class="col col-sm-2" align="center" style="width: 425px; height: 115px;"
                      th:each="historyCheck : ${historyChecks}">
                     <div class="card">
@@ -129,6 +108,25 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col" align="center">
+            <div style="height: 20px;"></div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col">
+                    <div>
+                        <a style="width: 250px;" th:href="${'/users/change-info-about-profile'}"
+                           class="btn btn-primary">Change account information</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        <a style="width: 175px;" th:href="${'/users/change-password'}" class="btn btn-primary">Change
+                            password</a>
+                    </div>
+                </div>
+                <div class="col"></div>
             </div>
         </div>
     </div>

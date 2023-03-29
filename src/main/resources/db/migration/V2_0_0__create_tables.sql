@@ -100,7 +100,12 @@ CREATE TABLE IF NOT EXISTS public.client_check
     id character varying(255) COLLATE pg_catalog."default" NOT NULL,
     closed_date timestamp without time zone,
     created timestamp without time zone NOT NULL,
+    delivery_address character varying(255) COLLATE pg_catalog."default",
+    delivery_type character varying(255) COLLATE pg_catalog."default",
     is_closed boolean NOT NULL,
+    payment_type character varying(255) COLLATE pg_catalog."default",
+    recipient character varying(255) COLLATE pg_catalog."default",
+    recipient_number_phone character varying(255) COLLATE pg_catalog."default",
     registered_user_id character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT client_check_pkey PRIMARY KEY (id),
     CONSTRAINT fk1is7ivvjp99ymq66d4o7e6krd FOREIGN KEY (registered_user_id)

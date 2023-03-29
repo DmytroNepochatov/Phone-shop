@@ -303,12 +303,10 @@ public class PhoneInstanceService {
 
     public void setShoppingCartForPhone(ShoppingCart shoppingCart, String phoneId) {
         phoneInstanceRepository.setShoppingCartForPhone(shoppingCart, phoneId);
-        LOGGER.info("Phone {} in shopping cart {}", phoneId, shoppingCart.getId());
     }
 
     public void delShoppingCartForPhone(String phoneId) {
         phoneInstanceRepository.delShoppingCartForPhone(phoneId);
-        LOGGER.info("Phone {} is no longer in the shopping cart", phoneId);
     }
 
     public List<PhoneForShoppingCart> findAllPhoneForShoppingCartId(String shoppingCartId) {
@@ -319,7 +317,6 @@ public class PhoneInstanceService {
 
     public void addPhoneToClientCheck(ClientCheck clientCheck, String phoneId) {
         phoneInstanceRepository.addPhoneToClientCheck(clientCheck, phoneId);
-        LOGGER.info("Phone {} added to client check {}", phoneId, clientCheck.getId());
     }
 
     public List<PhoneInstance> findAllPhonesForShoppingCartId(String shoppingCartId) {
@@ -371,6 +368,14 @@ public class PhoneInstanceService {
     public void cancelOrder(String orderId) {
         phoneInstanceRepository.findAllPhoneInstancesByClientCheckId(orderId).forEach(phone -> {
             phone.setClientCheck(null);
+            phoneInstanceRepository.save(phone);
+        });
+    }
+
+    public void goBackToShoppingCart(String orderId, ShoppingCart cart) {
+        phoneInstanceRepository.findAllPhoneInstancesByClientCheckId(orderId).forEach(phone -> {
+            phone.setClientCheck(null);
+            phone.setShoppingCart(cart);
             phoneInstanceRepository.save(phone);
         });
     }

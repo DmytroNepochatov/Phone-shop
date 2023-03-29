@@ -22,7 +22,6 @@ public class ClientCheckService {
 
     public void save(ClientCheck clientCheck) {
         clientCheckRepository.save(clientCheck);
-        LOGGER.info("Client check for user {} saved", clientCheck.getRegisteredUser().getId());
     }
 
     public Optional<ClientCheck> findClientCheckForUserIdForNewOrder(String userId, Date date) {
@@ -48,7 +47,6 @@ public class ClientCheckService {
 
     public void cancelCheck(String id) {
         clientCheckRepository.deleteByClientCheckId(id);
-        LOGGER.info("Check with id {} canceled", id);
     }
 
     public List<ClientCheck> findAllChecksForUserId(String userId) {

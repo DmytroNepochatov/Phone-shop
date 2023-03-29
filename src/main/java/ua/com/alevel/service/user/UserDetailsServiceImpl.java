@@ -85,7 +85,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             });
 
             if (!checkList.isEmpty()) {
-                usersOrdersForAdmin.add(UserMapper.mapRegisteredUsersToUsersOrdersForAdmin(registeredUser, checkList));
+                usersOrdersForAdmin.addAll(UserMapper.mapRegisteredUsersToUsersOrdersForAdmin(registeredUser, checkList));
             }
         }
 

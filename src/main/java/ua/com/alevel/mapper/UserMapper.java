@@ -31,9 +31,20 @@ public final class UserMapper {
         return registeredUser;
     }
 
-    public static UserOrdersForAdmin mapRegisteredUsersToUsersOrdersForAdmin(RegisteredUser registeredUser, List<ClientCheck> checkList) {
-        return new UserOrdersForAdmin(registeredUser.getLastName(), registeredUser.getFirstName(),
-                registeredUser.getMiddleName(), registeredUser.getPhoneNumber(), checkList, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    public static List<UserOrdersForAdmin> mapRegisteredUsersToUsersOrdersForAdmin(RegisteredUser registeredUser, List<ClientCheck> checkList) {
+        List<UserOrdersForAdmin> list = new ArrayList<>();
+
+        checkList.forEach(order -> {
+            UserOrdersForAdmin userOrder = new UserOrdersForAdmin();
+            userOrder.setLastName(registeredUser.getLastName());
+            userOrder.setFirstName(registeredUser.getFirstName());
+            userOrder.setPhoneNumber(registeredUser.getPhoneNumber());
+            userOrder.setCheck(order);
+
+            list.add(userOrder);
+        });
+
+        return list;
     }
 
     public static RegisteredUser changeUserInformation(SimpleDateFormat formatter, RegisteredUser registeredUser, UserRegistration userRegistration) throws Exception {

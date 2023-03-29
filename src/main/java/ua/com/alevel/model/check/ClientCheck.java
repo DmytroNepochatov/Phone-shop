@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import ua.com.alevel.model.phone.PhoneInstance;
 import ua.com.alevel.model.user.RegisteredUser;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -34,4 +35,18 @@ public class ClientCheck {
     private List<PhoneInstance> phoneInstances;
 
     private boolean isClosed;
+
+    @NotBlank
+    private String deliveryType;
+
+    private String deliveryAddress;
+
+    @NotBlank
+    private String paymentType;
+
+    @NotBlank
+    private String recipient;
+
+    @NotBlank
+    private String recipientNumberPhone;
 }

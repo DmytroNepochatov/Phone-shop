@@ -39,9 +39,16 @@
         <div class="col-6"></div>
         <div class="col-3"></div>
     </div>
-    <br>
 
     <div class="row">
+        <div align="center">
+            <div class="row">
+                <div class="col">
+                    <div style="font-size: 16px;">Full information about buyer</div>
+                </div>
+            </div>
+        </div>
+        <div style="height: 20px;"></div>
         <div class="col" align="center">
             <div align="center" style="width: 1300px;">
                 <div class="row">
@@ -75,50 +82,142 @@
         <h5 th:text="${'No orders'}"></h5>
     </div>
     <div th:if="${!orders.empty}">
-        <div class="row">
-            <div class="col-1"></div>
-            <div class="col" style="border: 1px solid black;">
-                <div class="row" th:each="order, state: ${orders}">
-                    <div class="col-1"></div>
-                    <div class="col">
+        <div class="row" th:each="order, state: ${orders}">
+            <div class="col">
+                <div align="center">
+                    <div style="border: 1px solid black; width: 1400px;">
+                        <div style="height: 8px;"></div>
                         <div class="row">
-                            <div class="col">
-                                <h6 th:if="${!order.flag}" th:text="${'Order number: '+order.check.id+'. Created: '+order.dates +'. Total price: '+order.totalPrices+'$.'}"></h6>
-                                <h6 th:if="${order.flag}" th:text="${'Order number: '+order.check.id+'. Created: '+order.dates +'. Closed: '+order.datesClosed+'. Total price: '+order.totalPrices+'$.'}"></h6>
+                            <div class="col-3"></div>
+                            <div class="col-6" align="center">
+                                <div style="font-size: 16px;" th:text="${'Order number: '+order.check.id+'.'}"></div>
+                            </div>
+                            <div class="col-3"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="col-8" align="center">
+                                <div style="font-size: 16px;" th:text="${'Created: '+order.dates+'.'}"
+                                     th:if="${!order.check.isClosed}"></div>
+                                <div style="font-size: 16px;"
+                                     th:text="${'Created: '+order.dates+'. Closed: '+order.datesClosed+'.'}"
+                                     th:if="${order.check.isClosed}"></div>
+                                <div style="font-size: 16px;" th:text="${'Total price: '+order.totalPrices+'$.'}"></div>
+                            </div>
+                            <div class="col-2"></div>
+                        </div>
+
+                        <br>
+                        <div>
+                            <div class="row" th:each="phoneInstance: ${order.check.phoneInstances}">
+                                <div class="col"></div>
+                                <div class="col-7" style="height: 90px; border: 1px solid black;">
+                                    <div class="row align-items-center" style="height: 90px;">
+                                        <div class="col-1">
+                                            <img th:src="${phoneInstance.phone.view.phoneFrontAndBack}"
+                                                 class="card-img-top"
+                                                 style="height: 70px; width: 70px;">
+                                        </div>
+                                        <div style="width: 20px;"></div>
+                                        <div class="col">
+                                            <div class="row" align="left" th:text="${phoneInstance.phone.phoneDescription.brand.name+' '+ phoneInstance.phone.phoneDescription.series + ' '+ phoneInstance.phone.phoneDescription.name
+        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneInstance.phone.view.color}"></div>
+                                            <div class="row" align="left" th:text="${'IMEI: '+phoneInstance.imei}"></div>
+                                        </div>
+                                        <div class="col-2" align="center"
+                                             th:text="${'Price: '+phoneInstance.price+ ' $'}"></div>
+                                    </div>
+                                </div>
+                                <div class="col"></div>
                             </div>
                         </div>
-                        <div class="row" th:each="phoneInstance: ${order.check.phoneInstances}">
-                            <div class="col-1"></div>
-                            <div class="col" style="height: 90px; border: 1px solid black;">
-                                <div class="row align-items-center" style="height: 90px;">
-                                    <div class="col-1">
-                                        <img th:src="${phoneInstance.phone.view.phoneFrontAndBack}" class="card-img-top"
-                                             style="height: 70px; width: 70px;">
+                        <div style="height: 30px;"></div>
+
+                        <div class="row">
+                            <div class="col-4"></div>
+                            <div class="col" style="border: 1px solid lightgray;">
+                                <div class="row">
+                                    <div class="col" align="left">
+                                        <div style="height: 5px;"></div>
+                                        <div style="font-size: 15px;">Delivery type</div>
                                     </div>
-                                    <div style="width: 20px;"></div>
-                                    <div class="col">
-                                        <div class="row" th:text="${phoneInstance.phone.phoneDescription.brand.name+' '+ phoneInstance.phone.phoneDescription.series + ' '+ phoneInstance.phone.phoneDescription.name
-        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneInstance.phone.view.color}"></div>
-                                        <div class="row" th:text="${'IMEI: '+phoneInstance.imei}"></div>
+                                    <div class="col" align="left">
+                                        <div style="height: 5px;"></div>
+                                        <div style="width: 300px; font-size: 15px;"
+                                             th:text="${order.check.deliveryType}"></div>
                                     </div>
-                                    <div class="col-2" align="center" th:text="${'Price: '+phoneInstance.price+ ' $'}"></div>
+                                </div>
+                                <div class="row" th:if="${order.check.deliveryAddress !=''}">
+                                    <div class="col" align="left">
+                                        <div style="height: 5px;"></div>
+                                        <div style="font-size: 15px;">Delivery address</div>
+                                        <div style="height: 5px;"></div>
+                                    </div>
+                                    <div class="col" align="left">
+                                        <div style="height: 5px;"></div>
+                                        <div style="width: 300px; font-size: 15px;"
+                                             th:text="${order.check.deliveryAddress}"></div>
+                                        <div style="height: 5px;"></div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-1"></div>
+                            <div class="col-4"></div>
                         </div>
+                        <div class="row">
+                            <div class="col-4"></div>
+                            <div class="col" style="border: 1px solid lightgray;">
+                                <div class="row">
+                                    <div class="col" align="left">
+                                        <div style="height: 5px;"></div>
+                                        <div style="font-size: 15px;">Payment type</div>
+                                        <div style="height: 5px;"></div>
+                                    </div>
+                                    <div class="col" align="left">
+                                        <div style="height: 5px;"></div>
+                                        <div style="width: 300px; font-size: 15px;"
+                                             th:text="${order.check.paymentType}"></div>
+                                        <div style="height: 5px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4"></div>
+                            <div class="col" style="border: 1px solid lightgray;">
+                                <div class="row">
+                                    <div class="col" align="left">
+                                        <div style="height: 5px;"></div>
+                                        <div style="font-size: 15px;">Recipient</div>
+                                        <div style="height: 5px;"></div>
+                                    </div>
+                                    <div class="col" align="left">
+                                        <div style="height: 5px;"></div>
+                                        <div style="width: 300px; font-size: 15px;"
+                                             th:text="${order.check.recipient}"></div>
+                                        <div style="height: 5px;"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col" align="left">
+                                    </div>
+                                    <div class="col" align="left">
+                                        <div style="width: 300px; font-size: 15px;"
+                                             th:text="${order.check.recipientNumberPhone}"></div>
+                                        <div style="height: 5px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4"></div>
+                        </div>
+                        <div style="height: 20px;"></div>
                     </div>
-                    <div class="col-1"></div>
-                    <div style="height: 30px;"></div>
-                </div>
-                <div class="row">
-                    <div class="col" style="height: 40px;"></div>
                 </div>
             </div>
-            <div class="col-1"></div>
         </div>
+        <br>
+        <br>
     </div>
-    <br>
-    <br>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"

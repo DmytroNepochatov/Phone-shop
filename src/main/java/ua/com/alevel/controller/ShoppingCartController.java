@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ua.com.alevel.mapper.OrderMapper;
 import ua.com.alevel.model.check.ClientCheck;
-import ua.com.alevel.model.dto.OrderInfoForMail;
+import ua.com.alevel.model.dto.CreateOrderParams;
 import ua.com.alevel.model.dto.PhoneForAddToCart;
 import ua.com.alevel.model.dto.PhoneForShoppingCart;
 import ua.com.alevel.model.phone.PhoneInstance;
 import ua.com.alevel.model.shoppingcart.ShoppingCart;
 import ua.com.alevel.model.user.RegisteredUser;
 import ua.com.alevel.service.clientcheck.ClientCheckService;
-import ua.com.alevel.service.mailsender.MailSender;
 import ua.com.alevel.service.phone.PhoneInstanceService;
 import ua.com.alevel.service.user.UserDetailsServiceImpl;
 import ua.com.alevel.util.Util;
@@ -30,15 +30,14 @@ public class ShoppingCartController {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final PhoneInstanceService phoneInstanceService;
     private final ClientCheckService clientCheckService;
-    private final MailSender mailSender;
+    private final List DELIVERY_TYPE = List.of("Pickup from the store", "Delivery service", "Courier delivery");
+    private final List PAYMENT_TYPE = List.of("Pay by card on the website", "Payment upon receipt");
 
     public ShoppingCartController(PhoneInstanceService phoneInstanceService,
-                                  UserDetailsServiceImpl userDetailsServiceImpl, ClientCheckService clientCheckService,
-                                  MailSender mailSender) {
+                                  UserDetailsServiceImpl userDetailsServiceImpl, ClientCheckService clientCheckService) {
         this.phoneInstanceService = phoneInstanceService;
         this.clientCheckService = clientCheckService;
         this.userDetailsServiceImpl = userDetailsServiceImpl;
-        this.mailSender = mailSender;
     }
 
     @GetMapping
@@ -91,6 +90,16 @@ public class ShoppingCartController {
         return "redirect:/shopping-cart";
     }
 
+    @GetMapping("/back-to-cart")
+    public String getBackToCart(@RequestParam(value = "id") String id) {
+        ShoppingCart shoppingCart = userDetailsServiceImpl.findShoppingCartForUserEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        phoneInstanceService.goBackToShoppingCart(id, shoppingCart);
+        clientCheckService.cancelCheck(id);
+
+        return "redirect:/shopping-cart";
+    }
+
     @PutMapping("/create-order")
     public String createOrder(Model model) {
         ShoppingCart shoppingCart = userDetailsServiceImpl.findShoppingCartForUserEmail(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -103,7 +112,7 @@ public class ShoppingCartController {
         clientCheck.setCreated(date);
         clientCheck.setPhoneInstances(phoneInstances);
         clientCheck.setClosed(false);
-        clientCheckService.save(clientCheck);
+        clientCheckService.save(OrderMapper.fillClientCheckDefaultValues(clientCheck));
         ClientCheck clientCheckFromDB = clientCheckService.findClientCheckForUserIdForNewOrder(registeredUser.getId(), date).get();
 
         phoneInstances.forEach(phoneInstance -> phoneInstanceService.addPhoneToClientCheck(clientCheckFromDB, phoneInstance.getId()));
@@ -111,12 +120,15 @@ public class ShoppingCartController {
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd.M.yyyy HH:mm:ss", Locale.ENGLISH);
 
-        mailSender.sendMailPurchaseNotice(registeredUser.getEmailAddress(), "Your order " + clientCheckFromDB.getId() + " has been accepted",
-                new OrderInfoForMail(clientCheckFromDB, formatter.format(clientCheckFromDB.getCreated()),
-                        phoneInstanceService.findPriceForClientCheckId(clientCheckFromDB.getId()), true, registeredUser));
-
-        model.addAttribute("clientCheck", clientCheckFromDB.getId());
-        return "order";
+        model.addAttribute("created", formatter.format(clientCheckFromDB.getCreated()));
+        model.addAttribute("totalPrice", phoneInstanceService.findPriceForClientCheckId(clientCheckFromDB.getId()));
+        model.addAttribute("deliveryTypes", DELIVERY_TYPE);
+        model.addAttribute("paymentTypes", PAYMENT_TYPE);
+        model.addAttribute("msg", "");
+        model.addAttribute("createOrderParams", new CreateOrderParams());
+        model.addAttribute("clientCheck", clientCheckFromDB);
+        model.addAttribute("registeredUser", registeredUser);
+        return "setparamsfororder";
     }
 
     private String redirectUrl(PhoneForAddToCart phoneForAddToCart, String message) {

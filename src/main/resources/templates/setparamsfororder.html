@@ -1,0 +1,308 @@
+<!DOCTYPE HTML SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="en">
+
+<head th:replace="menu :: header-css">
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous">
+    <link rel="shortcut icon" th:href="@{/images/brand.ico}" href="../static/images/brand.ico" type="image/x-icon">
+</head>
+<body>
+<script>
+    function showDiv1(divId, element)
+    {
+        if(element.value === 'Delivery service' || element.value === 'Courier delivery') {
+            document.getElementById(divId).style.display = 'block';
+        }
+        else {
+            document.getElementById(divId).style.display = 'none';
+        }
+    }
+
+    function showDiv2(divId, element)
+    {
+        if(element.value === 'Pay by card on the website') {
+            document.getElementById(divId).style.display = 'block';
+        }
+        else {
+            document.getElementById(divId).style.display = 'none';
+        }
+    }
+</script>
+
+<div th:replace="menu :: menu"></div>
+
+<div class="container-fluid">
+    <br>
+    <div class="row">
+        <div class="col">
+            <div class="row my-2">
+                <div class="col text-center" style="padding-right: 90px;">
+                    <a th:href="${'/shopping-cart/back-to-cart?id='+clientCheck.id}" class="btn btn-primary" role="button" style="width: 230px;">Go back
+                        to shopping cart</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-6" align="center">
+            <h5 style="color: red" th:text="${msg}"></h5>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6" align="center">
+            <h5 th:text="${'Creating order'}"></h5>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8" align="center">
+            <h5 th:text="${'Created: '+created+'.'}"></h5>
+            <h5 th:text="${'Total price: '+totalPrice+'$.'}"></h5>
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+    <br>
+    <div>
+        <div class="row" th:each="phoneInstance: ${clientCheck.phoneInstances}">
+            <div class="col"></div>
+            <div class="col-7" style="height: 90px; border: 1px solid black;">
+                <div class="row align-items-center" style="height: 90px;">
+                    <div class="col-1">
+                        <img th:src="${phoneInstance.phone.view.phoneFrontAndBack}" class="card-img-top"
+                             style="height: 70px; width: 70px;">
+                    </div>
+                    <div style="width: 20px;"></div>
+                    <div class="col" th:text="${phoneInstance.phone.phoneDescription.brand.name+' '+ phoneInstance.phone.phoneDescription.series + ' '+ phoneInstance.phone.phoneDescription.name
+        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneInstance.phone.view.color}"></div>
+                    <div class="col-2" align="center" th:text="${'Price: '+phoneInstance.price+ ' $'}"></div>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+    <div style="height: 10px;"></div>
+    <div align="center">
+        <div style="width: 1300px;">
+            <hr class="my-4">
+        </div>
+    </div>
+
+    <form autocomplete="off" th:action="@{/client-check/create-order-last-params}" th:object="${createOrderParams}" method="post">
+
+        <label><input th:name="checkId" th:value="${clientCheck.id}" type="hidden"></label>
+
+        <div align="center">
+            <div class="row">
+                <div class="col-3" align="right">
+                    <div style="height: 2px;"></div>
+                    <div style="font-size: 17px;">Select delivery type</div>
+                </div>
+                <div class="col-2" align="left">
+                    <div style="height: 30px; width: 200px;">
+                        <select class="select-box" autofocus="true" style="height: 30px; width: 200px;"
+                                th:name="deliveryType" onchange="showDiv1('div1', this)">
+                            <option th:value="${'Select delivery type'}">Select delivery type</option>
+                            <option th:each="deliveryTypeOpt : ${deliveryTypes}" th:text="${deliveryTypeOpt}"
+                                    th:value="${deliveryTypeOpt}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <table id="div1" style="display: none;">
+                        <tr>
+                            <td>
+                                <div style="width: 150px;"></div>
+                            </td>
+                            <td>
+                                <div align="right">
+                                    <div style="height: 2px;"></div>
+                                    <div style="font-size: 17px;">Delivery address</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="width: 10px;"></div>
+                            </td>
+                            <td>
+                                <div align="left">
+                                    <input style="height: 30px; width: 400px;" type="text" class="form-control"
+                                           th:name="deliveryAddress" th:value="${deliveryAddress}">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div style="height: 10px;"></div>
+        <div align="center">
+            <div style="width: 1300px;">
+                <hr class="my-4">
+            </div>
+        </div>
+
+        <div align="center">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col" align="right">
+                    <div style="height: 2px;"></div>
+                    <div style="font-size: 17px;">Select payment type</div>
+                </div>
+                <div class="col" align="left">
+                    <div style="height: 30px; width: 200px;">
+                        <select class="select-box"  style="height: 30px; width: 200px;"
+                                th:name="paymentType" onchange="showDiv2('div2', this)">
+                            <option th:value="${'Select payment type'}">Select payment type</option>
+                            <option th:each="paymentTypeOpt : ${paymentTypes}" th:text="${paymentTypeOpt}"
+                                    th:value="${paymentTypeOpt}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+        <div style="height: 30px;"></div>
+
+        <div class="row" style="display: none;" id="div2">
+            <table>
+                <tr>
+                    <td>
+                        <div style="width: 438px;"></div>
+                    </td>
+                    <td>
+                        <div style="width: 632px;">
+                            <div class="row gy-3">
+                                <div class="col-md-6">
+                                    <label for="cc-name" class="form-label">Name on card</label>
+                                    <input type="text" class="form-control" id="cc-name"
+                                           th:field="*{nameOnCard}" th:value="${nameOnCard}">
+                                    <small class="text-muted">Full name as displayed on card</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="cc-number" class="form-label">Credit card number</label>
+                                    <input type="text" class="form-control" id="cc-number"
+                                           th:field="*{creditCardNumber}" th:value="${creditCardNumber}">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="cc-expiration" class="form-label">Expiration</label>
+                                    <input type="text" class="form-control" id="cc-expiration"
+                                           th:name="expiration" th:value="${'/'}">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="cc-cvv" class="form-label">CVV</label>
+                                    <input type="text" class="form-control" id="cc-cvv"
+                                           th:field="*{cvv}" th:value="${cvv}">
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="width: 435px;"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div align="center">
+            <div style="width: 1300px;">
+                <hr class="my-4">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col" style="border: 1px solid lightgray;">
+                <div class="row">
+                    <div class="col">
+                        <div style="font-size: 17px;">Buyer</div>
+                    </div>
+                    <div class="col">
+                        <div style="width: 300px; font-size: 17px;" th:text="${registeredUser.lastName+' '+registeredUser.firstName}"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                        <div style="width: 300px; font-size: 17px;" th:text="${registeredUser.phoneNumber}"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div style="height: 10px;"></div>
+        <div align="center">
+            <div style="width: 1300px;">
+                <hr class="my-4">
+            </div>
+        </div>
+        <div style="height: 10px;"></div>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col" style="border: 1px solid lightgray;">
+                <div class="row">
+                    <div class="col">
+                        <div style="font-size: 17px;">Recipient</div>
+                    </div>
+                    <div class="col">
+                        <label for="recipientFirstField" class="form-label">Last name and first name</label>
+                        <input style="height: 30px; width: 300px;" type="text" class="form-control" required="true" id="recipientFirstField"
+                               th:name="recipient" th:value="${registeredUser.lastName+' '+registeredUser.firstName}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                        <label for="recipientSecondField" class="form-label">Phone number</label>
+                        <input style="height: 30px; width: 300px;" type="text" class="form-control" required="true" id="recipientSecondField"
+                               th:name="recipientNumberPhone" th:value="${registeredUser.phoneNumber}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div style="height: 30px;"></div>
+
+        <div align="center">
+        <div class="row">
+            <div class="col">
+                <label for="sendEmail" class="form-label">Send E-mail</label>
+                <input style="height: 20px; width: 20px;" class="form-check-input" type="checkbox" id="sendEmail"
+                       th:field="*{sendEmail}" th:value="${sendEmail}">
+            </div>
+        </div>
+        </div>
+        <div style="height: 10px;"></div>
+        <div class="row">
+            <div class="col" align="center">
+                <div style="height: 40px; width: 180px;">
+                    <button class="w-100 btn btn-primary btn-lg"
+                            style="height: 40px; width: 180px; display: flex; align-items: center; justify-content: center;"
+                            type="submit">
+                        Make order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div style="height: 50px;"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous">
+</script>
+</body>
+</html>

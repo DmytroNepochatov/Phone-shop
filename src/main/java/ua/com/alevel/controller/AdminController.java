@@ -1264,14 +1264,14 @@ public class AdminController {
 
     private void setOrder(Model model, String success, boolean flag) {
         List<UserOrdersForAdmin> orders = userDetailsServiceImpl.getUsersOrdersForAdmin(flag);
-        orders.forEach(order -> order.getChecks().forEach(check -> order.getTotalPrices().add(phoneInstanceService.findPriceForClientCheckId(check.getId()))));
+        orders.forEach(order -> order.setTotalPrices(phoneInstanceService.findPriceForClientCheckId(order.getCheck().getId())));
         Collections.sort(orders);
 
         SimpleDateFormat formatter = new SimpleDateFormat(CHECK_DATES_PATTERN, Locale.ENGLISH);
-        orders.forEach(order -> order.getChecks().forEach(check -> order.getDates().add(formatter.format(check.getCreated()))));
+        orders.forEach(order -> order.setDates(formatter.format(order.getCheck().getCreated())));
 
         if (!flag) {
-            orders.forEach(order -> order.getChecks().forEach(check -> order.getDatesClosed().add(formatter.format(check.getClosedDate()))));
+            orders.forEach(order -> order.setDatesClosed(formatter.format(order.getCheck().getClosedDate())));
         }
 
         model.addAttribute("orders", orders);

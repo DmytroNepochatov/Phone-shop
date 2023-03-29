@@ -88,7 +88,7 @@
                         <div class="row" th:text="${resultPhone.phone.phoneDescription.brand.name+' '+ resultPhone.phone.phoneDescription.series + ' '+ resultPhone.phone.phoneDescription.name
         +' '+resultPhone.phone.amountOfRam+'/'+resultPhone.phone.amountOfBuiltInMemory+' Gb. Color: '+resultPhone.phone.view.color}"></div>
                         <div class="row" th:text="${'IMEI: '+resultPhone.imei+'.'}"></div>
-                        <div class="row" th:text="${'Order number: '+resultPhone.clientCheck+'.'}"></div>
+                        <div class="row" th:text="${'Order number: '+resultPhone.clientCheck.id+'.'}"></div>
                     </div>
                 </div>
                 <div class="col-2" align="center" th:text="${'Price: '+resultPhone.price+' $'}" th:if="${resultPhone.clientCheck == null}"></div>

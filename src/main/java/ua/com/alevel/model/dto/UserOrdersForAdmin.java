@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ua.com.alevel.model.check.ClientCheck;
-import java.util.List;
 
 @Getter
 @Setter
@@ -14,15 +13,16 @@ import java.util.List;
 public class UserOrdersForAdmin implements Comparable<UserOrdersForAdmin> {
     private String lastName;
     private String firstName;
-    private String middleName;
     private String phoneNumber;
-    private List<ClientCheck> checks;
-    private List<String> dates;
-    private List<String> datesClosed;
-    private List<Double> totalPrices;
+    private ClientCheck check;
+    private String dates;
+    private String datesClosed;
+    private Double totalPrices;
 
     @Override
     public int compareTo(UserOrdersForAdmin o) {
-        return this.lastName.compareTo(o.lastName);
+        String thisString = this.lastName+" "+ this.firstName;
+        String oString = o.lastName+" "+ o.firstName;
+        return thisString.compareTo(oString);
     }
 }
