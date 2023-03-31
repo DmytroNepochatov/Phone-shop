@@ -28,6 +28,10 @@ public class ClientCheckService {
         return clientCheckRepository.findClientCheckForUserIdForNewOrder(userId, date);
     }
 
+    public Optional<String> findDefaultCheckIdForUserEmail(String email) {
+        return clientCheckRepository.findDefaultCheckIdForUserEmail(email);
+    }
+
     public List<ClientCheck> findAllNoClosedChecksForUserId(String userId) {
         return clientCheckRepository.findAllNoClosedChecksForUserId(userId);
     }

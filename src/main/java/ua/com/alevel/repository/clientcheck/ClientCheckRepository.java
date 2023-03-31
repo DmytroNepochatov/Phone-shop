@@ -37,4 +37,10 @@ public interface ClientCheckRepository extends CrudRepository<ClientCheck, Strin
     @Modifying
     @Query("delete from ClientCheck clientCheck where clientCheck.id = ?1")
     void deleteByClientCheckId(String checkId);
+
+    @Query("select clientCheck.id from ClientCheck clientCheck where clientCheck.registeredUser.emailAddress = ?1 and clientCheck.deliveryType = 'default'")
+    Optional<String> findDefaultCheckIdForUserEmail(String email);
+
+    @Query("select clientCheck from ClientCheck clientCheck where clientCheck.deliveryType = 'default'")
+    List<ClientCheck> findAllDefaultClientChecksForCleaner();
 }

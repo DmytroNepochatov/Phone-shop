@@ -1,5 +1,7 @@
 package ua.com.alevel.controller;
 
+import com.stripe.exception.StripeException;
+import com.stripe.model.Token;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +17,14 @@ import ua.com.alevel.model.user.RegisteredUser;
 import ua.com.alevel.service.clientcheck.ClientCheckService;
 import ua.com.alevel.service.mailsender.MailSender;
 import ua.com.alevel.service.phone.PhoneInstanceService;
+import ua.com.alevel.service.stripe.StripeService;
 import ua.com.alevel.service.user.UserDetailsServiceImpl;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 @Controller
@@ -28,6 +34,7 @@ public class ClientCheckController {
     private final PhoneInstanceService phoneInstanceService;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final MailSender mailSender;
+    private final StripeService stripeService;
     private static final String REGEX_FOR_PHONE_NUMBER = "[a-zA-Z]";
     private static final int PHONE_NUMBER_SIZE = 12;
     private static final int CREDIT_CARD_NUMBER_COUNT = 16;
@@ -35,11 +42,12 @@ public class ClientCheckController {
     private final List PAYMENT_TYPE = List.of("Pay by card on the website", "Payment upon receipt");
 
     public ClientCheckController(ClientCheckService clientCheckService, PhoneInstanceService phoneInstanceService,
-                                 UserDetailsServiceImpl userDetailsServiceImpl, MailSender mailSender) {
+                                 UserDetailsServiceImpl userDetailsServiceImpl, MailSender mailSender, StripeService stripeService) {
         this.clientCheckService = clientCheckService;
         this.phoneInstanceService = phoneInstanceService;
         this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.mailSender = mailSender;
+        this.stripeService = stripeService;
     }
 
     @GetMapping
@@ -98,11 +106,48 @@ public class ClientCheckController {
             if (Pattern.compile(REGEX_FOR_PHONE_NUMBER).matcher(createOrderParams.getExpiration()).find()) {
                 return createOrderError(model, "Incorrect expiration", createOrderParams.getCheckId());
             }
-            if (createOrderParams.getCvv().isBlank()) {
-                return createOrderError(model, "CVV field is empty", createOrderParams.getCheckId());
+            if (createOrderParams.getCvc().isBlank()) {
+                return createOrderError(model, "CVC field is empty", createOrderParams.getCheckId());
             }
-            if (Pattern.compile(REGEX_FOR_PHONE_NUMBER).matcher(createOrderParams.getCvv()).find()) {
-                return createOrderError(model, "Incorrect CVV", createOrderParams.getCheckId());
+            if (Pattern.compile(REGEX_FOR_PHONE_NUMBER).matcher(createOrderParams.getCvc()).find() ||
+                    createOrderParams.getCvc().length() != 3) {
+                return createOrderError(model, "Incorrect CVC", createOrderParams.getCheckId());
+            }
+
+            String[] expirationArr = createOrderParams.getExpiration().split("/");
+            int expirationYear = Integer.parseInt(expirationArr[1]) + 2000;
+
+            if (Integer.parseInt(expirationArr[0]) <= 0 || Integer.parseInt(expirationArr[0]) > 12) {
+                return createOrderError(model, "Incorrect expiration month", createOrderParams.getCheckId());
+            }
+            if (expirationYear > LocalDate.now().getYear() + 40) {
+                return createOrderError(model, "Incorrect expiration year", createOrderParams.getCheckId());
+            }
+            if (expirationYear < LocalDate.now().getYear() || (expirationYear == LocalDate.now().getYear()
+                    && Integer.parseInt(expirationArr[0]) < LocalDate.now().getMonthValue())) {
+                return createOrderError(model, "Your card's expiration year is invalid", createOrderParams.getCheckId());
+            }
+
+            try {
+                Map<String, Object> card = new HashMap<>();
+                card.put("number", createOrderParams.getCreditCardNumber());
+                card.put("exp_month", Integer.parseInt(expirationArr[0]));
+                card.put("exp_year", expirationYear);
+                card.put("cvc", createOrderParams.getCvc());
+                card.put("name", createOrderParams.getNameOnCard());
+                Map<String, Object> params = new HashMap<>();
+                params.put("card", card);
+
+                Token token = Token.create(params);
+                stripeService.charge(
+                        (int) (phoneInstanceService.findPriceForClientCheckId(createOrderParams.getCheckId()) * 100),
+                        "usd",
+                        SecurityContextHolder.getContext().getAuthentication().getName(),
+                        token.getId()
+                );
+            }
+            catch (StripeException e) {
+                return createOrderError(model, e.getMessage(), createOrderParams.getCheckId());
             }
         }
 
@@ -113,7 +158,7 @@ public class ClientCheckController {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.M.yyyy HH:mm:ss", Locale.ENGLISH);
         RegisteredUser registeredUser = userDetailsServiceImpl.findUserByEmailAddress(SecurityContextHolder.getContext().getAuthentication().getName()).get();
 
-        if(createOrderParams.isSendEmail()) {
+        if (createOrderParams.isSendEmail()) {
             mailSender.sendMailPurchaseNotice(registeredUser.getEmailAddress(), "Your order " + clientCheck.getId() + " has been accepted",
                     new OrderInfoForMail(clientCheck, formatter.format(clientCheck.getCreated()),
                             phoneInstanceService.findPriceForClientCheckId(clientCheck.getId()), true, registeredUser));

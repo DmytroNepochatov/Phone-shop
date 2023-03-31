@@ -187,4 +187,7 @@ public interface PhoneInstanceRepository extends CrudRepository<PhoneInstance, S
 
     @Query("select phoneInstance from PhoneInstance phoneInstance where phoneInstance.clientCheck.id = ?1")
     List<PhoneInstance> findAllPhoneInstancesByClientCheckId(String checkId);
+
+    @Query("select phoneInstance from PhoneInstance phoneInstance where phoneInstance.shoppingCart is not null")
+    List<PhoneInstance> findAllPhoneInstancesWhichInCartForCleaner();
 }

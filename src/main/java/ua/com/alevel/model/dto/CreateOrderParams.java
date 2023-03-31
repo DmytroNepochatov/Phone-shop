@@ -19,6 +19,6 @@ public class CreateOrderParams {
     private String nameOnCard;
     private String creditCardNumber;
     private String expiration;
-    private String cvv;
+    private String cvc;
     private boolean sendEmail;
 }

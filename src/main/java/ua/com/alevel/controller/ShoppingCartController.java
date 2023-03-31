@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/shopping-cart")
@@ -42,7 +43,15 @@ public class ShoppingCartController {
 
     @GetMapping
     public String getShoppingCart(Model model) {
-        ShoppingCart shoppingCart = userDetailsServiceImpl.findShoppingCartForUserEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<String> defaultOrder = clientCheckService.findDefaultCheckIdForUserEmail(email);
+        ShoppingCart shoppingCart = userDetailsServiceImpl.findShoppingCartForUserEmail(email);
+
+        if (defaultOrder.isPresent()) {
+            phoneInstanceService.goBackToShoppingCart(defaultOrder.get(), shoppingCart);
+            clientCheckService.cancelCheck(defaultOrder.get());
+        }
+
         List<PhoneForShoppingCart> phones = phoneInstanceService.findAllPhoneForShoppingCartId(shoppingCart.getId());
         String deletePhone = "/shopping-cart/delete-from-cart?phoneId=";
 
