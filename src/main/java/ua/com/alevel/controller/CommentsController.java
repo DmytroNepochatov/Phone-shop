@@ -46,7 +46,7 @@ public class CommentsController {
         List<Phone> allPhonesInDb = phoneInstanceService.findAllPhonesInDb();
         List<Phone> phones = commentService.findAllAvailablePhonesForComment(registeredUser, clientCheckList, allPhonesInDb);
 
-        List<Double> prices = new ArrayList<>();
+        List<Integer> prices = new ArrayList<>();
         for (Phone phone : phones) {
             prices.add(phoneInstanceService.findPriceForPhoneId(phone.getId()));
         }

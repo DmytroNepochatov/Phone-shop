@@ -12,7 +12,7 @@ import ua.com.alevel.model.phone.Phone;
 @NoArgsConstructor
 public class PhoneForStoreComposition implements Comparable<PhoneForStoreComposition> {
     private Phone phone;
-    private double price;
+    private int price;
     private int countInStore;
 
     @Override

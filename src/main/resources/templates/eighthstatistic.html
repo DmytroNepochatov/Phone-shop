@@ -1,0 +1,206 @@
+<!DOCTYPE HTML SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      lang="en">
+
+<head th:replace="menu :: header-css">
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+          crossorigin="anonymous">
+    <link rel="shortcut icon" th:href="@{/images/brand.ico}" href="../static/images/brand.ico" type="image/x-icon">
+</head>
+<body>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    var list = [[${chartData}]];
+
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Month');
+        data.addColumn('number', 'Money earned');
+        data.addRows(list);
+
+        var options = {
+            'width': 1000,
+            'height': 360,
+            format: "currency",
+            prefix:"$",
+            vAxis: {title: '', format: '$#,##0;($#,##0)', prefix:"$"},
+            hAxis: {format: 'currency', prefix:"$"},
+            chartArea: {
+                top: 20,
+                bottom: 40
+            }
+        };
+
+        var formatter = new google.visualization.NumberFormat({pattern:'$#,##0'} );
+        formatter.format(data, 1);
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div0'));
+        chart.draw(data, options);
+    }
+</script>
+
+<div th:replace="menu :: menu"></div>
+
+<div class="container-fluid">
+    <br>
+    <div class="row">
+        <div class="col">
+            <div class="row my-2">
+                <div class="col text-center" style="padding-right: 90px;">
+                    <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Go
+                        back
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col" align="center">
+            <div style="width: 800px;"><h5>Store earnings statistics by year/month</h5></div>
+        </div>
+        <div class="col"></div>
+    </div>
+    <div style="height: 25px;"></div>
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-9">
+            <form autocomplete="off" th:action="@{/admin/statistic-8/show}"
+                  th:object="${salesSettingsForSpecificModels}" method="get">
+
+                <div class="row">
+                    <div class="col">
+                        <div style="height: 10px;"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div style="height: 30px; width: 380px;"></div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col">
+                                <div style="height: 30px; width: 150px;">
+                                    <select class="select-box" style="height: 30px; width: 150px;"
+                                            th:field="*{year}">
+                                        <option selected="selected" th:value="${'Select year'}">Select year</option>
+                                        <option th:each="yearOpt : ${years}" th:text="${yearOpt}"
+                                                th:value="${yearOpt}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col"></div>
+                        </div>
+                    </div>
+                    <div class="col" align="center">
+                        <div style="height: 40px; width: 200px;">
+                            <button class="w-100 btn btn-primary btn-lg"
+                                    style="height: 40px; width: 200px; display: flex; align-items: center; justify-content: center;"
+                                    type="submit">
+                                Show statistics
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div style="height: 10px;"></div>
+    <div class="row">
+        <div class="col" align="center">
+            <h5 th:text="${errorMsg}"></h5>
+        </div>
+    </div>
+    <br>
+    <div th:if="${!flag}">
+        <div class="row">
+            <div class="col" align="center">
+                <h5 th:if="${forWhatYear == '3 years'}" th:text="${'Statistic for '+forWhatYear}"></h5>
+                <h5 th:if="${forWhatYear != '3 years'}" th:text="${'Statistic for '+forWhatYear+' year. Earned this year: '+#numbers.formatInteger(sum,0,'COMMA')+' $.'}"></h5>
+            </div>
+        </div>
+        <div style="height: 40px;"></div>
+        <div th:if="${!flagTables}">
+            <div align="center" th:if="${maxPrice <= 200}">
+                <div style="height: 40px;"></div>
+                <h5 th:text="${'Not enough data to display statistics'}"></h5>
+                <div style="height: 80px;"></div>
+            </div>
+            <div th:id="${'chart_div0'}" th:if="${maxPrice > 200}"
+                 align="center"></div>
+            <br>
+            <br>
+        </div>
+        <div th:if="${flagTables}">
+            <div align="center">
+                <div style="width: 1400px;">
+                    <div class="row">
+                        <div class="col" style="border: 1px solid black;">
+                            <div style="width: 100px;">&nbsp;</div>
+                        </div>
+                        <div class="col" align="center" style="border: 1px solid black;"
+                             th:each="month : ${monthNames}"
+                             th:text="${month}"></div>
+                        <div class="col" align="center" style="border: 1px solid black; background: lightgray; width: 100px;">Sum</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col" style="border: 1px solid black;" align="left">
+                                    <div style="width: 100px;" align="left" th:text="${years[0]}"></div>
+                                </div>
+                                <div class="col" style="border: 1px solid black;" align="center"
+                                     th:each="tempYearOpt : ${listOpt.tempYear}">
+                                    <div th:if="${tempYearOpt.sold == -1}" th:text="${'-'}"></div>
+                                    <div th:if="${tempYearOpt.sold != -1}" th:text="${#numbers.formatInteger(tempYearOpt.sold/100,0,'COMMA')+'$'}"></div>
+                                </div>
+                                <div class="col" style="border: 1px solid black; background: lightgray; " align="center"
+                                     th:text="${#numbers.formatInteger(sumList[0],0,'COMMA')+'$'}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col" style="border: 1px solid black;" align="left">
+                                    <div style="width: 100px;" align="left" th:text="${years[1]}"></div>
+                                </div>
+                                <div class="col" style="border: 1px solid black;" align="center"
+                                     th:each="lastYearOpt : ${listOpt.lastYear}"
+                                     th:text="${#numbers.formatInteger(lastYearOpt.sold/100,0,'COMMA')+'$'}"></div>
+                                <div class="col" style="border: 1px solid black; background: lightgray; " align="center"
+                                     th:text="${#numbers.formatInteger(sumList[1],0,'COMMA')+'$'}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col" style="border: 1px solid black;" align="left">
+                                    <div style="width: 100px;" align="left" th:text="${years[2]}"></div>
+                                </div>
+                                <div class="col" style="border: 1px solid black;" align="center"
+                                     th:each="yearBeforeLastOpt : ${listOpt.yearBeforeLast}"
+                                     th:text="${#numbers.formatInteger(yearBeforeLastOpt.sold/100,0,'COMMA')+'$'}"></div>
+                                <div class="col" style="border: 1px solid black; background: lightgray; " align="center"
+                                     th:text="${#numbers.formatInteger(sumList[2],0,'COMMA')+'$'}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous">
+</script>
+</body>
+</html>

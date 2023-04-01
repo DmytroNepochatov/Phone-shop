@@ -140,7 +140,7 @@ public class ClientCheckController {
 
                 Token token = Token.create(params);
                 stripeService.charge(
-                        (int) (phoneInstanceService.findPriceForClientCheckId(createOrderParams.getCheckId()) * 100),
+                        phoneInstanceService.findPriceForClientCheckId(createOrderParams.getCheckId()) * 100,
                         "usd",
                         SecurityContextHolder.getContext().getAuthentication().getName(),
                         token.getId()

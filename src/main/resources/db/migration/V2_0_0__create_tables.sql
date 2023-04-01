@@ -227,7 +227,7 @@ CREATE TABLE IF NOT EXISTS public.phone_instance
 (
     id character varying(255) COLLATE pg_catalog."default" NOT NULL,
     imei character varying(255) COLLATE pg_catalog."default",
-    price double precision NOT NULL,
+    price integer NOT NULL,
     check_id character varying(255) COLLATE pg_catalog."default",
     phone_id character varying(255) COLLATE pg_catalog."default",
     shopping_cart_id character varying(255) COLLATE pg_catalog."default",

@@ -16,33 +16,26 @@
 <div th:replace="menu :: menu"></div>
 
 <div class="container-fluid">
-    <br>
+    <div style="height: 10px;"></div>
     <div class="row">
-        <div class="col">
+        <div class="col-2">
             <div class="row my-2">
-                <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/?page=1}" class="btn btn-primary" role="button" style="width: 200px;">Go back</a>
+                <div class="col-1">
+                </div>
+                <div class="col" align="left">
+                    <a th:href="@{/?page=1}" class="btn btn-primary" role="button" style="width: 150px;">Go back</a>
                 </div>
             </div>
         </div>
-        <div class="col-4"></div>
-        <div class="col-5">
-            <nav>
-                <ul class="pagination">
-                    <li class="page-item"><a class="page-link">Pages:</a></li>
-                    <li class="page-item" th:each="page: ${pages}"><a class="page-link"
-                                                                      th:href="${pageForWhat}+${page}+${pageForWhatPhone}+${'&successAddToCart= '}"
-                                                                      th:text="${page}"></a></li>
-                </ul>
-            </nav>
-        </div>
+        <div class="col"></div>
     </div>
-    <br>
+    <div style="height: 20px;"></div>
     <div class="row">
-        <div class="col-5"><h4 th:text="${fullInfo.phone.phoneDescription.brand.name+' '+ fullInfo.phone.phoneDescription.series + ' '+ fullInfo.phone.phoneDescription.name
-        +' '+fullInfo.phone.amountOfRam+'/'+fullInfo.phone.amountOfBuiltInMemory+' Gb'}"></h4></div>
-        <div class="col"><h4 th:text="${'Rating: '+rating+' Price: '+fullInfo.price+' $'}"></h4></div>
+        <div class="col-6"><h4 th:text="${fullInfo.phone.phoneDescription.brand.name+' '+ fullInfo.phone.phoneDescription.series + ' '+ fullInfo.phone.phoneDescription.name
+        +' '+fullInfo.phone.amountOfRam+'/'+fullInfo.phone.amountOfBuiltInMemory+' Gb. Price: '+fullInfo.price+' $'}"></h4></div>
+        <div class="col" align="center"><h4 th:text="${'Rating: '+rating}"></h4></div>
     </div>
+    <div style="height: 15px;"></div>
     <div class="row">
         <div class="col-7">
             <div style="padding-left: 150px;">
@@ -120,14 +113,18 @@
             <div align="center">
                 <h6 th:text="${successAddToCart}"></h6>
             </div>
-            <br>
+            <div style="height: 30px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">Processor</h5>
                 <h6 th:text="${'Name: '+fullInfo.phone.phoneDescription.processor.name}"></h6>
                 <h6 th:text="${'Number of cores: '+fullInfo.phone.phoneDescription.processor.numberOfCores}"></h6>
                 <h6 th:text="${'Core frequency: '+fullInfo.phone.phoneDescription.processor.coreFrequency+ ' GHz'}"></h6>
             </div>
-            <br>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">Screen</h5>
                 <h6 th:text="${'Type screen: '+fullInfo.phone.phoneDescription.typeScreen.name}"></h6>
@@ -135,84 +132,124 @@
                 <h6 th:text="${'Display resoulution: '+fullInfo.phone.phoneDescription.displayResolution+' px'}"></h6>
                 <h6 th:text="${'Screen refresh rate: '+fullInfo.phone.phoneDescription.screenRefreshRate+' Hz'}"></h6>
             </div>
-            <br>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">Charge type</h5>
                 <h6 th:text="${'Charge type: '+fullInfo.phone.phoneDescription.chargeType.name}"></h6>
             </div>
-            <br>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">Communication standard</h5>
                 <h6 th:text="${'Communication standard: '+fullInfo.phone.phoneDescription.communicationStandard.name+' and lower'}"></h6>
             </div>
-            <br>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">Number of SIM cards</h5>
                 <h6 th:text="${'Number of SIM cards: '+fullInfo.phone.phoneDescription.numberOfSimCards}"></h6>
             </div>
-            <br>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">Operation system</h5>
                 <h6 th:text="${'Operation system: '+fullInfo.phone.phoneDescription.operationSystem.name}"></h6>
             </div>
-            <br>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">Series</h5>
                 <h6 th:text="${'Series: '+fullInfo.phone.phoneDescription.series}"></h6>
             </div>
-            <br>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">Memory</h5>
                 <h6 th:text="${'Amount of built in memory: '+fullInfo.phone.amountOfBuiltInMemory+' Gb'}"></h6>
                 <h6 th:text="${'Amount of RAM: '+fullInfo.phone.amountOfRam+' Gb'}"></h6>
             </div>
-            <br>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">NFC</h5>
                 <h6 th:text="${'Have NFC?: '+fullInfo.phone.phoneDescription.isHaveNfc}"></h6>
             </div>
-            <br>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">Front cameras</h5>
                 <h6 th:text="${'Number of front cameras: '+fullInfo.phone.phoneDescription.numberOfFrontCameras}"></h6>
                 <h6 th:text="${'Info about front cameras: '+fullInfo.phone.phoneDescription.infoAboutFrontCameras}"></h6>
             </div>
-            <br>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">Main cameras</h5>
                 <h6 th:text="${'Number of main cameras: '+fullInfo.phone.phoneDescription.numberOfMainCameras}"></h6>
                 <h6 th:text="${'Info about main cameras: '+fullInfo.phone.phoneDescription.infoAboutMainCameras}"></h6>
             </div>
-            <br>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">Physical characteristics</h5>
                 <h6 th:text="${'Weight: '+fullInfo.phone.phoneDescription.weight+' g'}"></h6>
                 <h6 th:text="${'Height: '+fullInfo.phone.phoneDescription.height+' mm'}"></h6>
                 <h6 th:text="${'Width: '+fullInfo.phone.phoneDescription.width+' mm'}"></h6>
             </div>
-            <br>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">Degree of moisture protection</h5>
                 <h6 th:text="${'Degree of moisture protection: '+fullInfo.phone.phoneDescription.degreeOfMoistureProtection}"></h6>
             </div>
-            <br>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">Brand</h5>
                 <h6 th:text="${'Brand: '+fullInfo.phone.phoneDescription.brand.name}"></h6>
                 <h6 th:text="${'Brand registration country: '+fullInfo.phone.phoneDescription.brand.country.name}"></h6>
             </div>
-            <br>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">Country producer of the product</h5>
                 <h6 th:text="${'Country producer of the product: '+fullInfo.phone.phoneDescription.country.name}"></h6>
             </div>
-            <br>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 400px;"></div>
+            <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">Guarantee</h5>
                 <h6 th:text="${'Time: '+fullInfo.phone.phoneDescription.guaranteeTimeMonths+' month'}"></h6>
             </div>
         </div>
         <div class="col" style="width: 300px;">
+            <div class="row" th:if="${!comments.empty}">
+                <div class="col">
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link">Pages:</a></li>
+                            <li class="page-item" th:each="page: ${pages}"><a class="page-link"
+                                                                              th:href="${pageForWhat}+${page}+${pageForWhatPhone}+${'&successAddToCart= '}"
+                                                                              th:text="${page}"></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
             <div class="card-body " th:each="comment : ${comments}">
                 <div class="" style="height: 30px; width: 570px; border: 1px solid black;">
                     <h6 class="card-title" align="left" th:text="${comment.lastName+' '+comment.firstName}"></h6>

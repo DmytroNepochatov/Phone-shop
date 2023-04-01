@@ -18,5 +18,5 @@ public class PhoneForShoppingCart {
     private int amountOfRam;
     private String color;
     private String phoneFrontAndBack;
-    private double price;
+    private int price;
 }

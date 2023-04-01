@@ -94,15 +94,7 @@ public class UserController {
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_PATTERN, Locale.ENGLISH);
         String dateOfBirth = formatter.format(user.getDateOfBirth());
 
-        String[] strBirth = dateOfBirth.split("\\.");
-        LocalDate dateBirth = LocalDate.of(Integer.parseInt(strBirth[2]),
-                Integer.parseInt(strBirth[1]), Integer.parseInt(strBirth[0]));
-        LocalDate currentDate = LocalDate.now();
-        Period period = Period.between(dateBirth, currentDate);
-        int age = period.getYears();
-
         model.addAttribute("dateOfBirth", dateOfBirth);
-        model.addAttribute("age", age);
         model.addAttribute("user", user);
         model.addAttribute("tempChecks", tempChecks);
         model.addAttribute("historyChecks", historyChecks);

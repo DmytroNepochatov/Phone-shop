@@ -5,19 +5,76 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.model.check.ClientCheck;
+import ua.com.alevel.model.dto.SalesSettingsForSpecificModels;
+import ua.com.alevel.model.dto.SalesSettingsForSpecificModelsMonths;
+import ua.com.alevel.model.dto.SalesSettingsForSpecificModelsParams;
 import ua.com.alevel.repository.clientcheck.ClientCheckRepository;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import ua.com.alevel.repository.phone.PhoneInstanceRepository;
+import ua.com.alevel.util.Util;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ClientCheckService {
     private final ClientCheckRepository clientCheckRepository;
+    private final PhoneInstanceRepository phoneInstanceRepository;
+    private static final String DATE_PATTERN = "dd.M.yyyy HH:mm:ss";
+    private static final String START_DAY = " 00:00:00";
+    private static final String END_DAY = " 23:59:59";
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientCheckService.class);
 
     @Autowired
-    public ClientCheckService(ClientCheckRepository clientCheckRepository) {
+    public ClientCheckService(ClientCheckRepository clientCheckRepository, PhoneInstanceRepository phoneInstanceRepository) {
         this.clientCheckRepository = clientCheckRepository;
+        this.phoneInstanceRepository = phoneInstanceRepository;
+    }
+
+    public SalesSettingsForSpecificModelsParams getStoreEarningsByMonthAndYear(SalesSettingsForSpecificModels salesSettingsForSpecificModels) throws Exception {
+        SalesSettingsForSpecificModelsParams salesSettingsForSpecificModelsParam = new SalesSettingsForSpecificModelsParams(null, new ArrayList<>());
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_PATTERN, Locale.ENGLISH);
+
+        int monthCount = 0;
+        boolean checkTempYear = false;
+
+        if (LocalDate.now().getYear() == Integer.parseInt(salesSettingsForSpecificModels.getYear())) {
+            monthCount = LocalDate.now().getMonthValue();
+            checkTempYear = true;
+        }
+        else {
+            monthCount = 12;
+        }
+
+        for (int i = 0; i < monthCount; i++) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Integer.parseInt(salesSettingsForSpecificModels.getYear()), i, 1);
+            calendar.add(Calendar.MONTH, 0);
+
+            int lastDayInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            int tempMonth = i + 1;
+
+            if (checkTempYear && LocalDate.now().getMonthValue() == i + 1) {
+                lastDayInMonth = LocalDate.now().getDayOfMonth();
+            }
+
+            Date startDate = formatter.parse("1." + tempMonth + "." + salesSettingsForSpecificModels.getYear() + START_DAY);
+            Date endDate = formatter.parse(lastDayInMonth + "." + tempMonth + "." + salesSettingsForSpecificModels.getYear() + END_DAY);
+
+            AtomicInteger priceForMonth = new AtomicInteger(0);
+
+            clientCheckRepository.findAllClientChecksBetweenDates(startDate, endDate).forEach(clientCheck ->
+                    priceForMonth.addAndGet(phoneInstanceRepository.findPriceForClientCheckId(clientCheck.getId()) * 100)
+            );
+
+            SalesSettingsForSpecificModelsMonths salesSettingsForSpecificModelsMonths = new SalesSettingsForSpecificModelsMonths();
+            salesSettingsForSpecificModelsMonths.setMonth(Util.getMonth(tempMonth));
+            salesSettingsForSpecificModelsMonths.setSold(priceForMonth.get());
+
+            salesSettingsForSpecificModelsParam.getFields().add(salesSettingsForSpecificModelsMonths);
+        }
+
+        return salesSettingsForSpecificModelsParam;
     }
 
     public void save(ClientCheck clientCheck) {

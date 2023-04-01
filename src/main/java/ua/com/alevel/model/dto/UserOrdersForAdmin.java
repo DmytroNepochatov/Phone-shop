@@ -17,7 +17,7 @@ public class UserOrdersForAdmin implements Comparable<UserOrdersForAdmin> {
     private ClientCheck check;
     private String dates;
     private String datesClosed;
-    private Double totalPrices;
+    private int totalPrices;
 
     @Override
     public int compareTo(UserOrdersForAdmin o) {

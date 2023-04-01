@@ -43,4 +43,7 @@ public interface ClientCheckRepository extends CrudRepository<ClientCheck, Strin
 
     @Query("select clientCheck from ClientCheck clientCheck where clientCheck.deliveryType = 'default'")
     List<ClientCheck> findAllDefaultClientChecksForCleaner();
+
+    @Query("select clientCheck from ClientCheck clientCheck where clientCheck.isClosed = true and clientCheck.closedDate between ?1 and ?2")
+    List<ClientCheck> findAllClientChecksBetweenDates(Date startDate, Date endDate);
 }

@@ -14,7 +14,7 @@ public class OrdersForSelectUserForAdmin implements Comparable<OrdersForSelectUs
     private ClientCheck check;
     private String dates;
     private String datesClosed;
-    private double totalPrices;
+    private int totalPrices;
     private boolean flag;
 
     @Override

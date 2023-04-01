@@ -18,7 +18,7 @@ public class PhoneForMainView implements Comparable<PhoneForMainView> {
     private int amountOfBuiltInMemory;
     private int amountOfRam;
     private String phoneFrontAndBack;
-    private double price;
+    private int price;
 
     @Override
     public int compareTo(PhoneForMainView o) {

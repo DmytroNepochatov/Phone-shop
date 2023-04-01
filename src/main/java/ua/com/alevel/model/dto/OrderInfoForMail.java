@@ -14,7 +14,7 @@ import ua.com.alevel.model.user.RegisteredUser;
 public class OrderInfoForMail {
     private ClientCheck clientCheck;
     private String created;
-    private double totalPrice;
+    private int totalPrice;
     private boolean flag;
     private RegisteredUser registeredUser;
 }

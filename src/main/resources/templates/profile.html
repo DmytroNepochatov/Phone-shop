@@ -16,7 +16,7 @@
 <div th:replace="menu :: menu"></div>
 
 <div class="container-fluid">
-    <br>
+    <div style="height: 10px;"></div>
     <div class="row">
         <div class="col">
             <div class="row my-2">
@@ -32,18 +32,25 @@
         <div class="col-3"></div>
     </div>
 
-    <br>
+    <div style="height: 30px;"></div>
+    <div style="border: 1px solid lightgray; width: 600px;"></div>
+    <div style="height: 10px;"></div>
     <div class="row">
         <div class="col-5">
-            <h5 align="center">Your information</h5>
-            <h6 th:text="${'Your first name: '+user.firstName}"></h6>
-            <h6 th:text="${'Your middle name: '+user.middleName}"></h6>
-            <h6 th:text="${'Your last name: '+user.lastName}"></h6>
-            <h6 th:text="${'Your age: '+age}"></h6>
-            <h6 th:text="${'Your date of birth: '+dateOfBirth}"></h6>
+            <h5 align="center">Information about you</h5>
+            <h6 th:text="${'First name: '+user.firstName}"></h6>
+            <h6 th:text="${'Middle name: '+user.middleName}"></h6>
+            <h6 th:text="${'Last name: '+user.lastName}"></h6>
+            <h6 th:text="${'Date of birth: '+dateOfBirth}"></h6>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 600px;"></div>
+            <div style="height: 10px;"></div>
             <h5 align="center">Ways to contact you</h5>
-            <h6 th:text="${'Your phone number: '+user.phoneNumber}"></h6>
-            <h6 th:text="${'Your email address: '+user.emailAddress}"></h6>
+            <h6 th:text="${'Phone number: '+user.phoneNumber}"></h6>
+            <h6 th:text="${'Email address: '+user.emailAddress}"></h6>
+            <div style="height: 10px;"></div>
+            <div style="border: 1px solid lightgray; width: 600px;"></div>
+            <div style="height: 10px;"></div>
         </div>
         <div class="col-7">
             <div class="row">
@@ -58,7 +65,7 @@
                         <div class="col col-sm-2" align="center" style="width: 425px; height: 115px;"
                              th:each="tempCheck : ${tempChecks}">
                             <div class="card">
-                                <h6>Your order number:</h6>
+                                <h6 th:text="${'Order number:'}"></h6>
                                 <h6 th:text="${tempCheck.id}"></h6>
                                 <div style="height: 50px; width: 420px;">
                                     <div style="height: 10px;"></div>
@@ -74,15 +81,13 @@
             </div>
         </div>
     </div>
-    <div class="row" style="height: 12px;"></div>
-    <div class="row" th:if="${historyChecks.empty}">
-        <div class="col" align="center">
-            <h5 th:text="${'You haven&prime;t had a single closed check yet'}"></h5>
-        </div>
+    <div align="center">
+    <div style="border: 1px solid lightgray; width: 1400px;"></div>
     </div>
+    <div style="height: 20px;"></div>
     <div class="row" th:if="${!historyChecks.empty}">
         <div class="col-7" align="center">
-            <h5>Your history:</h5>
+            <h5>Order history:</h5>
         </div>
         <div class="col-5" align="center">
             <div>
@@ -93,11 +98,16 @@
     </div>
     <div class="row">
         <div class="col-7">
+            <div class="row" th:if="${historyChecks.empty}">
+                <div class="col" align="center">
+                    <h5 th:text="${'You don&prime;t have any closed order yet'}"></h5>
+                </div>
+            </div>
             <div class="card-group" th:if="${!historyChecks.empty}">
                 <div class="col col-sm-2" align="center" style="width: 425px; height: 115px;"
                      th:each="historyCheck : ${historyChecks}">
                     <div class="card">
-                        <h6>Your order number:</h6>
+                        <h6 th:text="${'Order number:'}"></h6>
                         <h6 th:text="${historyCheck.id}"></h6>
                         <div style="height: 50px; width: 420px;">
                             <div style="height: 10px;"></div>

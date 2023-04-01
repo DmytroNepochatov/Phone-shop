@@ -3,6 +3,7 @@ package ua.com.alevel.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ua.com.alevel.mapper.OrderMapper;
 import ua.com.alevel.mapper.PhoneMapper;
 import ua.com.alevel.model.accessory.*;
 import ua.com.alevel.model.check.ClientCheck;
@@ -261,7 +262,7 @@ public class AdminController {
         if (!isNumber(phone.getPrice())) {
             return errorMsg(model, "Incorrect price");
         }
-        if (Double.parseDouble(phone.getPrice()) <= 0.0) {
+        if (Integer.parseInt(phone.getPrice()) <= 0) {
             return errorMsg(model, "Incorrect price");
         }
         if (phone.getImei().isBlank()) {
@@ -288,7 +289,7 @@ public class AdminController {
                 PhoneInstance phoneInstance = new PhoneInstance();
                 phoneInstance.setPhone(phoneResult);
                 phoneInstance.setImei(imeiList[i].trim());
-                phoneInstance.setPrice(Double.parseDouble(phone.getPrice()));
+                phoneInstance.setPrice(Integer.parseInt(phone.getPrice()));
 
                 if (!phoneInstanceService.save(phoneInstance)) {
                     check = i;
@@ -612,7 +613,7 @@ public class AdminController {
         if (!isNumber(changePhone.getPrice())) {
             return "redirect:/admin/change?success=Incorrect price";
         }
-        if (Double.parseDouble(changePhone.getPrice()) <= 0.0) {
+        if (Integer.parseInt(changePhone.getPrice()) <= 0) {
             return "redirect:/admin/change?success=Incorrect price";
         }
 
@@ -621,7 +622,7 @@ public class AdminController {
         phoneInstanceService.updatePhone(phone, Integer.parseInt(changePhone.getAmountOfBuiltInMemory()),
                 Integer.parseInt(changePhone.getAmountOfRam()));
         phoneInstanceService.updatePhoneInstance(phone, Integer.parseInt(changePhone.getAmountOfBuiltInMemory()),
-                Integer.parseInt(changePhone.getAmountOfRam()), Double.parseDouble(changePhone.getPrice()));
+                Integer.parseInt(changePhone.getAmountOfRam()), Integer.parseInt(changePhone.getPrice()));
         return "redirect:/admin/change?success=Phones updated successfully";
     }
 
@@ -931,16 +932,16 @@ public class AdminController {
 
     @GetMapping("/statistic-1")
     public String getFirstStatistic(Model model) {
-        return modelAttributesForFirstStatistic(model, "", true, false);
+        return modelAttributesForFirstStatisticAndEighth(model, "", true, false, "firststatistic");
     }
 
     @GetMapping("/statistic-1/show")
     public String getFirstStatisticShow(Model model, SalesSettingsForSpecificModels salesSettingsForSpecificModels) throws Exception {
         if (salesSettingsForSpecificModels.getId().equals("Select phone")) {
-            return modelAttributesForFirstStatistic(model, "You must select phone", true, false);
+            return modelAttributesForFirstStatisticAndEighth(model, "You must select phone", true, false, "firststatistic");
         }
         if (salesSettingsForSpecificModels.getYear().equals("Select year")) {
-            return modelAttributesForFirstStatistic(model, "You must select year", true, false);
+            return modelAttributesForFirstStatisticAndEighth(model, "You must select year", true, false, "firststatistic");
         }
 
         if (!salesSettingsForSpecificModels.getYear().equals(THREE_YEARS)) {
@@ -969,7 +970,7 @@ public class AdminController {
             model.addAttribute("list", salesSettingsForSpecificModelsParamsList);
             model.addAttribute("forWhatPhone", salesSettingsForSpecificModelsParamsList.get(0).getPhone());
             model.addAttribute(FOR_WHAT_YEAR, salesSettingsForSpecificModels.getYear());
-            return modelAttributesForFirstStatistic(model, "", false, false);
+            return modelAttributesForFirstStatisticAndEighth(model, "", false, false, "firststatistic");
         }
         else {
             List<TablesForFirstStatistic> tablesForFirstStatisticList = PhoneMapper.getListTablesForFirstStatistic(salesSettingsForSpecificModels, phoneInstanceService);
@@ -982,7 +983,7 @@ public class AdminController {
             model.addAttribute("list", tablesForFirstStatisticList);
             model.addAttribute("forWhatPhone", tablesForFirstStatisticList.get(0).getPhone());
             model.addAttribute(FOR_WHAT_YEAR, THREE_YEARS);
-            return modelAttributesForFirstStatistic(model, "", false, true);
+            return modelAttributesForFirstStatisticAndEighth(model, "", false, true, "firststatistic");
         }
     }
 
@@ -1064,6 +1065,62 @@ public class AdminController {
         model.addAttribute("startDate", startDate.replace(" 00:00:00", ""));
         model.addAttribute("endDate", endDate.replace(" 23:59:59", ""));
         return "storecomposition";
+    }
+
+    @GetMapping("/statistic-8")
+    public String getEighthStatistic(Model model) {
+        return modelAttributesForFirstStatisticAndEighth(model, "", true, false, "eighthstatistic");
+    }
+
+    @GetMapping("/statistic-8/show")
+    public String getEighthStatisticShow(Model model, SalesSettingsForSpecificModels salesSettingsForSpecificModels) throws Exception {
+        if (salesSettingsForSpecificModels.getYear().equals("Select year")) {
+            return modelAttributesForFirstStatisticAndEighth(model, "You must select year", true, false, "eighthstatistic");
+        }
+
+        if (!salesSettingsForSpecificModels.getYear().equals(THREE_YEARS)) {
+            SalesSettingsForSpecificModelsParams salesSettingsForSpecificModelsParam = clientCheckService.getStoreEarningsByMonthAndYear(salesSettingsForSpecificModels);
+            List<Object> chart = new ArrayList<>();
+            AtomicInteger max = new AtomicInteger(-1);
+
+            salesSettingsForSpecificModelsParam.getFields().forEach(field -> {
+                chart.add(List.of(field.getMonth(), field.getSold() / 100));
+
+                if (field.getSold() > max.get()) {
+                    max.set(field.getSold());
+                }
+            });
+
+            AtomicInteger sum = new AtomicInteger(0);
+            salesSettingsForSpecificModelsParam.getFields().forEach(field -> sum.addAndGet(field.getSold()));
+
+            model.addAttribute("chartData", chart);
+            model.addAttribute("maxPrice", max.get() / 100);
+            model.addAttribute("sum", sum.get() / 100);
+            model.addAttribute(FOR_WHAT_YEAR, salesSettingsForSpecificModels.getYear());
+            return modelAttributesForFirstStatisticAndEighth(model, "", false, false, "eighthstatistic");
+        }
+        else {
+            TablesForFirstStatistic tablesForStatistic = OrderMapper.getListTablesForEighthStatistic(salesSettingsForSpecificModels, clientCheckService);
+            List<String> monthNames = new ArrayList<>();
+            for (int i = 1; i < 13; i++) {
+                monthNames.add(Util.getMonth(i));
+            }
+
+            List<Integer> sum = new ArrayList<>();
+            sum.add(0);
+            sum.add(0);
+            sum.add(0);
+            tablesForStatistic.getTempYear().forEach(field -> sum.set(0, sum.get(0) + (field.getSold() / 100)));
+            tablesForStatistic.getLastYear().forEach(field -> sum.set(1, sum.get(1) + (field.getSold() / 100)));
+            tablesForStatistic.getYearBeforeLast().forEach(field -> sum.set(2, sum.get(2) + (field.getSold() / 100)));
+
+            model.addAttribute("monthNames", monthNames);
+            model.addAttribute("listOpt", tablesForStatistic);
+            model.addAttribute(FOR_WHAT_YEAR, THREE_YEARS);
+            model.addAttribute("sumList", sum);
+            return modelAttributesForFirstStatisticAndEighth(model, "", false, true, "eighthstatistic");
+        }
     }
 
     @GetMapping("/all-registered-users")
@@ -1279,7 +1336,8 @@ public class AdminController {
         model.addAttribute(FLAG, flag);
     }
 
-    private String modelAttributesForFirstStatistic(Model model, String errorMsg, boolean flag, boolean flagTables) {
+    private String modelAttributesForFirstStatisticAndEighth(Model model, String errorMsg, boolean flag, boolean flagTables,
+                                                             String fileName) {
         List<String> years = Util.getListYears();
         years.add(THREE_YEARS);
 
@@ -1289,7 +1347,7 @@ public class AdminController {
         model.addAttribute(FLAG, flag);
         model.addAttribute("flagTables", flagTables);
         model.addAttribute(ERROR_MSG, errorMsg);
-        return "firststatistic";
+        return fileName;
     }
 
     private String modelAttributesForSecondStatistic(Model model, String errorMsg, boolean flag) {

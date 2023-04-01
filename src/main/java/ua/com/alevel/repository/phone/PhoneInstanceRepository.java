@@ -127,7 +127,7 @@ public interface PhoneInstanceRepository extends CrudRepository<PhoneInstance, S
     void delShoppingCartForPhone(String phoneId);
 
     @Query("select phoneInstance.price from PhoneInstance phoneInstance where phoneInstance.phone.id = ?1")
-    List<Double> findPriceForPhoneId(String id);
+    List<Integer> findPriceForPhoneId(String id);
 
     @Query("select phoneInstance from PhoneInstance phoneInstance where phoneInstance.shoppingCart.id = ?1")
     List<PhoneInstance> findAllPhonesForShoppingCartId(String shoppingCartId);
@@ -138,10 +138,10 @@ public interface PhoneInstanceRepository extends CrudRepository<PhoneInstance, S
     void addPhoneToClientCheck(ClientCheck clientCheck, String phoneId);
 
     @Query("select sum(phoneInstance.price) from PhoneInstance phoneInstance where phoneInstance.shoppingCart.id = ?1")
-    double findPriceForShoppingCartId(String ShoppingCartId);
+    int findPriceForShoppingCartId(String ShoppingCartId);
 
     @Query("select sum(phoneInstance.price) from PhoneInstance phoneInstance where phoneInstance.clientCheck.id = ?1")
-    double findPriceForClientCheckId(String ClientCheckId);
+    int findPriceForClientCheckId(String ClientCheckId);
 
     Optional<PhoneInstance> findFirstByPhoneAndClientCheckIsNull(Phone phone);
 

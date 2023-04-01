@@ -323,15 +323,15 @@ public class PhoneInstanceService {
         return phoneInstanceRepository.findAllPhonesForShoppingCartId(shoppingCartId);
     }
 
-    public double findPriceForShoppingCartId(String shoppingCartId) {
+    public int findPriceForShoppingCartId(String shoppingCartId) {
         if (phoneInstanceRepository.findAllPhonesForShoppingCartId(shoppingCartId).isEmpty()) {
-            return 0.0;
+            return 0;
         }
 
         return phoneInstanceRepository.findPriceForShoppingCartId(shoppingCartId);
     }
 
-    public double findPriceForClientCheckId(String clientCheckId) {
+    public int findPriceForClientCheckId(String clientCheckId) {
         return phoneInstanceRepository.findPriceForClientCheckId(clientCheckId);
     }
 
@@ -350,7 +350,7 @@ public class PhoneInstanceService {
         return phones;
     }
 
-    public double findPriceForPhoneForAdmin(Phone phone) {
+    public int findPriceForPhoneForAdmin(Phone phone) {
         Optional<PhoneInstance> phoneInstance = phoneInstanceRepository.findFirstByPhoneAndClientCheckIsNull(phone);
         if (phoneInstance.isPresent()) {
             return phoneInstance.get().getPrice();
@@ -361,7 +361,7 @@ public class PhoneInstanceService {
             return phoneInstances.get(0).getPrice();
         }
         else {
-            return 0.0;
+            return 0;
         }
     }
 
@@ -388,7 +388,7 @@ public class PhoneInstanceService {
         return phoneInstanceRepository.countPhonesInStoreForAdminForStatistic(phone);
     }
 
-    public double findPriceForPhoneId(String id) {
+    public int findPriceForPhoneId(String id) {
         return phoneInstanceRepository.findPriceForPhoneId(id).get(0);
     }
 
@@ -407,7 +407,7 @@ public class PhoneInstanceService {
         });
     }
 
-    public void updatePhoneInstance(Phone phone, int amountOfBuiltInMemoryUpdate, int amountOfRamUpdate, double price) {
+    public void updatePhoneInstance(Phone phone, int amountOfBuiltInMemoryUpdate, int amountOfRamUpdate, int price) {
         List<PhoneInstance> phoneInstances = phoneInstanceRepository.findAllPhoneInstancesForUpdatePrice(phone.getPhoneDescription().getBrand(),
                 phone.getPhoneDescription().getName(), phone.getPhoneDescription().getSeries(),
                 amountOfBuiltInMemoryUpdate, amountOfRamUpdate);

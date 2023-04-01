@@ -29,7 +29,7 @@ public class PhoneInstance implements Comparable<PhoneInstance> {
     private String imei;
 
     @NotNull
-    private double price;
+    private int price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shopping_cart_id")
