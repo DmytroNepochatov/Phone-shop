@@ -19,6 +19,7 @@ import ua.com.alevel.service.mailsender.MailSender;
 import ua.com.alevel.service.phone.PhoneInstanceService;
 import ua.com.alevel.service.stripe.StripeService;
 import ua.com.alevel.service.user.UserDetailsServiceImpl;
+import ua.com.alevel.util.Util;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -36,10 +37,10 @@ public class ClientCheckController {
     private final MailSender mailSender;
     private final StripeService stripeService;
     private static final String REGEX_FOR_PHONE_NUMBER = "[a-zA-Z]";
-    private static final int PHONE_NUMBER_SIZE = 12;
+    private static final int PHONE_NUMBER_SIZE = 13;
     private static final int CREDIT_CARD_NUMBER_COUNT = 16;
-    private final List DELIVERY_TYPE = List.of("Pickup from the store", "Delivery service", "Courier delivery");
-    private final List PAYMENT_TYPE = List.of("Pay by card on the website", "Payment upon receipt");
+    private final List DELIVERY_TYPE = List.of("Самовивіз з магазину", "Служба доставки", "Кур'єрська доставка");
+    private final List PAYMENT_TYPE = List.of("Оплатити карткою на сайті", "Оплата при отриманні");
 
     public ClientCheckController(ClientCheckService clientCheckService, PhoneInstanceService phoneInstanceService,
                                  UserDetailsServiceImpl userDetailsServiceImpl, MailSender mailSender, StripeService stripeService) {
@@ -68,64 +69,64 @@ public class ClientCheckController {
 
     @PostMapping("/create-order-last-params")
     public String createOrderLastParams(Model model, CreateOrderParams createOrderParams) {
-        if (createOrderParams.getDeliveryType().equals("Select delivery type")) {
-            return createOrderError(model, "You must select a delivery type", createOrderParams.getCheckId());
+        if (createOrderParams.getDeliveryType().equals("Виберіть тип доставки")) {
+            return createOrderError(model, "Ви повинні вибрати тип доставки", createOrderParams.getCheckId());
         }
-        if (createOrderParams.getPaymentType().equals("Select payment type")) {
-            return createOrderError(model, "You must select a payment type", createOrderParams.getCheckId());
+        if (createOrderParams.getPaymentType().equals("Виберіть тип оплати")) {
+            return createOrderError(model, "Ви повинні вибрати тип оплати", createOrderParams.getCheckId());
         }
         if (createOrderParams.getRecipient().isBlank()) {
-            return createOrderError(model, "Last name and first name for recipient field is empty", createOrderParams.getCheckId());
+            return createOrderError(model, "Поле Прізвище та ім'я одержувача порожнє", createOrderParams.getCheckId());
         }
         if (createOrderParams.getRecipientNumberPhone().charAt(0) != '+' || Pattern.compile(REGEX_FOR_PHONE_NUMBER).matcher(createOrderParams.getRecipientNumberPhone()).find()
                 || createOrderParams.getRecipientNumberPhone().length() != PHONE_NUMBER_SIZE) {
-            return createOrderError(model, "Incorrect phone number for recipient. For example: +10123456789", createOrderParams.getCheckId());
+            return createOrderError(model, "Неправильний номер телефону одержувача. Приклад: +380123456789", createOrderParams.getCheckId());
         }
 
         if (createOrderParams.getDeliveryType().equals(DELIVERY_TYPE.get(1)) ||
                 createOrderParams.getDeliveryType().equals(DELIVERY_TYPE.get(2))) {
             if (createOrderParams.getDeliveryAddress().isBlank()) {
-                return createOrderError(model, "Delivery address field is empty", createOrderParams.getCheckId());
+                return createOrderError(model, "Поле адреси доставки порожнє", createOrderParams.getCheckId());
             }
         }
 
         if (createOrderParams.getPaymentType().equals(PAYMENT_TYPE.get(0))) {
             if (createOrderParams.getNameOnCard().isBlank()) {
-                return createOrderError(model, "Name on card field is empty", createOrderParams.getCheckId());
+                return createOrderError(model, "Поле Ім'я на картці порожнє", createOrderParams.getCheckId());
             }
             if (createOrderParams.getCreditCardNumber().isBlank()) {
-                return createOrderError(model, "Credit card number field is empty", createOrderParams.getCheckId());
+                return createOrderError(model, "Поле Номер кредитної картки порожнє", createOrderParams.getCheckId());
             }
             if (Pattern.compile(REGEX_FOR_PHONE_NUMBER).matcher(createOrderParams.getCreditCardNumber()).find() ||
                     createOrderParams.getCreditCardNumber().length() != CREDIT_CARD_NUMBER_COUNT) {
-                return createOrderError(model, "Incorrect credit card number", createOrderParams.getCheckId());
+                return createOrderError(model, "Неправильний номер кредитної картки", createOrderParams.getCheckId());
             }
             if (createOrderParams.getExpiration().isBlank()) {
-                return createOrderError(model, "Expiration field is empty", createOrderParams.getCheckId());
+                return createOrderError(model, "Поле Термін дії порожнє", createOrderParams.getCheckId());
             }
             if (Pattern.compile(REGEX_FOR_PHONE_NUMBER).matcher(createOrderParams.getExpiration()).find()) {
-                return createOrderError(model, "Incorrect expiration", createOrderParams.getCheckId());
+                return createOrderError(model, "Неправильний термін придатності", createOrderParams.getCheckId());
             }
             if (createOrderParams.getCvc().isBlank()) {
-                return createOrderError(model, "CVC field is empty", createOrderParams.getCheckId());
+                return createOrderError(model, "Поле CVC порожнє", createOrderParams.getCheckId());
             }
             if (Pattern.compile(REGEX_FOR_PHONE_NUMBER).matcher(createOrderParams.getCvc()).find() ||
                     createOrderParams.getCvc().length() != 3) {
-                return createOrderError(model, "Incorrect CVC", createOrderParams.getCheckId());
+                return createOrderError(model, "Неправильний CVC", createOrderParams.getCheckId());
             }
 
             String[] expirationArr = createOrderParams.getExpiration().split("/");
             int expirationYear = Integer.parseInt(expirationArr[1]) + 2000;
 
             if (Integer.parseInt(expirationArr[0]) <= 0 || Integer.parseInt(expirationArr[0]) > 12) {
-                return createOrderError(model, "Incorrect expiration month", createOrderParams.getCheckId());
+                return createOrderError(model, "Неправильний місяць закінчення терміну дії", createOrderParams.getCheckId());
             }
             if (expirationYear > LocalDate.now().getYear() + 40) {
-                return createOrderError(model, "Incorrect expiration year", createOrderParams.getCheckId());
+                return createOrderError(model, "Неправильний рік закінчення терміну дії", createOrderParams.getCheckId());
             }
             if (expirationYear < LocalDate.now().getYear() || (expirationYear == LocalDate.now().getYear()
                     && Integer.parseInt(expirationArr[0]) < LocalDate.now().getMonthValue())) {
-                return createOrderError(model, "Your card's expiration year is invalid", createOrderParams.getCheckId());
+                return createOrderError(model, "Рік закінчення терміну дії вашої картки недійсний", createOrderParams.getCheckId());
             }
 
             try {
@@ -141,13 +142,13 @@ public class ClientCheckController {
                 Token token = Token.create(params);
                 stripeService.charge(
                         phoneInstanceService.findPriceForClientCheckId(createOrderParams.getCheckId()) * 100,
-                        "usd",
+                        "uah",
                         SecurityContextHolder.getContext().getAuthentication().getName(),
                         token.getId()
                 );
             }
             catch (StripeException e) {
-                return createOrderError(model, e.getMessage(), createOrderParams.getCheckId());
+                return createOrderError(model, Util.translate(e.getMessage()), createOrderParams.getCheckId());
             }
         }
 
@@ -159,7 +160,7 @@ public class ClientCheckController {
         RegisteredUser registeredUser = userDetailsServiceImpl.findUserByEmailAddress(SecurityContextHolder.getContext().getAuthentication().getName()).get();
 
         if (createOrderParams.isSendEmail()) {
-            mailSender.sendMailPurchaseNotice(registeredUser.getEmailAddress(), "Your order " + clientCheck.getId() + " has been accepted",
+            mailSender.sendMailPurchaseNotice(registeredUser.getEmailAddress(), "Ваше замовлення " + clientCheck.getId() + " було прийнято",
                     new OrderInfoForMail(clientCheck, formatter.format(clientCheck.getCreated()),
                             phoneInstanceService.findPriceForClientCheckId(clientCheck.getId()), true, registeredUser));
         }

@@ -51,10 +51,10 @@
                  class="d-inline-block align-text-top rounded pic-size">
             Phone store
         </a>
-        <div style="position: absolute; left: 400px; top: 8px;">
+        <div style="position: absolute; left: 400px; top: 10px;">
             <ul class="nav navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/about}" th:text="${'About'}">About</a>
+                    <a class="nav-link" th:href="@{/about}" th:text="${'Про нас'}">Про нас</a>
                 </li>
             </ul>
         </div>
@@ -62,16 +62,16 @@
             <ul class="nav navbar-nav">
                 <li class="nav-item">
                     <form class="d-flex" th:action="@{/search}" method="get">
-                        <input class="form-control me-2" type="search" placeholder="Let's search"
+                        <input class="form-control me-2" type="search" placeholder="Пошукаймо"
                                aria-label="Search" name="searchKeyword" th:value="${searchKeyword}">
                         <button class="btn btn-outline-light" type="submit">
-                            Search
+                            Пошук
                         </button>
                     </form>
                 </li>
             </ul>
             <ul class="nav navbar-nav">
-                <li class="navbar-text" sec:authorize="isAuthenticated()">You logged as:</li>
+                <li class="navbar-text" sec:authorize="isAuthenticated()">Ви увійшли як:</li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link admin-color" sec:authorize="hasAuthority('ADMIN')" th:href="@{/admin/profile}" style="color: red;"
                        th:text="${#authentication.getPrincipal().getUsername()}"></a>
@@ -80,15 +80,15 @@
                        th:text="${#authentication.getPrincipal().getUsername()}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" th:href="@{/auth/logout}">Log out</a>
+                    <a class="nav-link" th:href="@{/auth/logout}">Вийти</a>
                 </li>
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
-                    <a class="nav-link" th:href="@{/auth/login}">Login</a>
+                    <a class="nav-link" th:href="@{/auth/login}">Увійти</a>
                 </li>
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
-                    <a class="nav-link" th:href="@{/users/new}">Registration</a>
+                    <a class="nav-link" th:href="@{/users/new}">Реєстрація</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="!hasAuthority('ADMIN')">
                     <a th:href="@{/shopping-cart}">
                         <img id="shopping-cart" width="50" height="50" th:src="@{/images/shopping-cart.ico}">
                     </a>

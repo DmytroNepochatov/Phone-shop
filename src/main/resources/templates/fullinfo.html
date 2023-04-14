@@ -23,7 +23,7 @@
                 <div class="col-1">
                 </div>
                 <div class="col" align="left">
-                    <a th:href="@{/?page=1}" class="btn btn-primary" role="button" style="width: 150px;">Go back</a>
+                    <a th:href="@{/?page=1}" class="btn btn-primary" role="button" style="width: 150px;">Назад</a>
                 </div>
             </div>
         </div>
@@ -32,8 +32,8 @@
     <div style="height: 20px;"></div>
     <div class="row">
         <div class="col-6"><h4 th:text="${fullInfo.phone.phoneDescription.brand.name+' '+ fullInfo.phone.phoneDescription.series + ' '+ fullInfo.phone.phoneDescription.name
-        +' '+fullInfo.phone.amountOfRam+'/'+fullInfo.phone.amountOfBuiltInMemory+' Gb. Price: '+fullInfo.price+' $'}"></h4></div>
-        <div class="col" align="center"><h4 th:text="${'Rating: '+rating}"></h4></div>
+        +' '+fullInfo.phone.amountOfRam+'/'+fullInfo.phone.amountOfBuiltInMemory+' Gb. Ціна: '+fullInfo.price+' ₴'}"></h4></div>
+        <div class="col" align="center"><h4 th:text="${'Рейтинг: '+rating}"></h4></div>
     </div>
     <div style="height: 15px;"></div>
     <div class="row">
@@ -69,7 +69,7 @@
                     <div class="card" style="width: 200px;">
                         <article class="card-group-item">
                             <header class="card-header">
-                                <h6 class="title" align="center">Available colors:</h6>
+                                <h6 class="title" align="center">Доступні кольори:</h6>
                             </header>
                             <div class="filter-content" align="center">
                                 <div class="card-body">
@@ -105,7 +105,7 @@
 
                 <div class="row my-2">
                     <div class="col text-center">
-                        <button type="submit" class="btn btn-primary" style="width: 200px;">Add to cart</button>
+                        <button type="submit" class="btn btn-primary" style="width: 200px;">Додати до кошика</button>
                     </div>
                 </div>
             </form>
@@ -117,124 +117,129 @@
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
-                <h5 style="font-weight: bold;">Processor</h5>
-                <h6 th:text="${'Name: '+fullInfo.phone.phoneDescription.processor.name}"></h6>
-                <h6 th:text="${'Number of cores: '+fullInfo.phone.phoneDescription.processor.numberOfCores}"></h6>
-                <h6 th:text="${'Core frequency: '+fullInfo.phone.phoneDescription.processor.coreFrequency+ ' GHz'}"></h6>
+                <h5 style="font-weight: bold;">Процесор</h5>
+                <h6 th:text="${'Назва: '+fullInfo.phone.phoneDescription.processor.name}"></h6>
+                <h6 th:text="${'Кількість ядер: '+fullInfo.phone.phoneDescription.processor.numberOfCores}"></h6>
+                <h6 th:text="${'Частота ядра: '+fullInfo.phone.phoneDescription.processor.coreFrequency+ ' ГГц'}"></h6>
             </div>
             <div style="height: 10px;"></div>
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
-                <h5 style="font-weight: bold;">Screen</h5>
-                <h6 th:text="${'Type screen: '+fullInfo.phone.phoneDescription.typeScreen.name}"></h6>
-                <h6 th:text="${'Diagonal: '+fullInfo.phone.phoneDescription.diagonal+'&quot;'}"></h6>
-                <h6 th:text="${'Display resoulution: '+fullInfo.phone.phoneDescription.displayResolution+' px'}"></h6>
-                <h6 th:text="${'Screen refresh rate: '+fullInfo.phone.phoneDescription.screenRefreshRate+' Hz'}"></h6>
+                <h5 style="font-weight: bold;">Екран</h5>
+                <h6 th:text="${'Тип екрану: '+fullInfo.phone.phoneDescription.typeScreen.name}"></h6>
+                <h6 th:text="${'Діагональ: '+fullInfo.phone.phoneDescription.diagonal+'&quot;'}"></h6>
+                <h6 th:text="${'Роздільна здатність дисплея: '+fullInfo.phone.phoneDescription.displayResolution}"></h6>
+                <h6 th:text="${'Частота оновлення екрану: '+fullInfo.phone.phoneDescription.screenRefreshRate+' Гц'}"></h6>
             </div>
             <div style="height: 10px;"></div>
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
-                <h5 style="font-weight: bold;">Charge type</h5>
-                <h6 th:text="${'Charge type: '+fullInfo.phone.phoneDescription.chargeType.name}"></h6>
+                <h5 style="font-weight: bold;">Тип зарядного пристрою</h5>
+                <h6 th:text="${'Тип зарядного пристрою: '+fullInfo.phone.phoneDescription.chargeType.name}"></h6>
             </div>
             <div style="height: 10px;"></div>
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
-                <h5 style="font-weight: bold;">Communication standard</h5>
-                <h6 th:text="${'Communication standard: '+fullInfo.phone.phoneDescription.communicationStandard.name+' and lower'}"></h6>
+                <h5 style="font-weight: bold;">Стандарт зв'язку</h5>
+                <h6 th:text="${'Стандарт зв&prime;язку: '+fullInfo.phone.phoneDescription.communicationStandard.name+' та нижче'}"></h6>
             </div>
             <div style="height: 10px;"></div>
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
-                <h5 style="font-weight: bold;">Number of SIM cards</h5>
-                <h6 th:text="${'Number of SIM cards: '+fullInfo.phone.phoneDescription.numberOfSimCards}"></h6>
+                <h5 style="font-weight: bold;">Кількість SIM-карт</h5>
+                <h6 th:text="${'Кількість SIM-карт: '+fullInfo.phone.phoneDescription.numberOfSimCards}"></h6>
             </div>
             <div style="height: 10px;"></div>
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
-                <h5 style="font-weight: bold;">Operation system</h5>
-                <h6 th:text="${'Operation system: '+fullInfo.phone.phoneDescription.operationSystem.name}"></h6>
+                <h5 style="font-weight: bold;">Операційна система</h5>
+                <h6 th:text="${'Операційна система: '+fullInfo.phone.phoneDescription.operationSystem.name}"></h6>
             </div>
             <div style="height: 10px;"></div>
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
-                <h5 style="font-weight: bold;">Series</h5>
-                <h6 th:text="${'Series: '+fullInfo.phone.phoneDescription.series}"></h6>
+                <h5 style="font-weight: bold;">Серія</h5>
+                <h6 th:text="${'Серія: '+fullInfo.phone.phoneDescription.series}"></h6>
             </div>
             <div style="height: 10px;"></div>
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
-                <h5 style="font-weight: bold;">Memory</h5>
-                <h6 th:text="${'Amount of built in memory: '+fullInfo.phone.amountOfBuiltInMemory+' Gb'}"></h6>
-                <h6 th:text="${'Amount of RAM: '+fullInfo.phone.amountOfRam+' Gb'}"></h6>
+                <h5 style="font-weight: bold;">Пам'ять</h5>
+                <h6 th:text="${'Об&prime;єм вбудованої пам&prime;яті: '+fullInfo.phone.amountOfBuiltInMemory+' Gb'}"></h6>
+                <h6 th:text="${'Об&prime;єм оперативної пам&prime;яті: '+fullInfo.phone.amountOfRam+' Gb'}"></h6>
             </div>
             <div style="height: 10px;"></div>
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
                 <h5 style="font-weight: bold;">NFC</h5>
-                <h6 th:text="${'Have NFC?: '+fullInfo.phone.phoneDescription.isHaveNfc}"></h6>
+                <div th:if="${fullInfo.phone.phoneDescription.isHaveNfc}">
+                    <h6 th:text="${'Чи має NFC?: так'}"></h6>
+                </div>
+                <div th:if="${!fullInfo.phone.phoneDescription.isHaveNfc}">
+                    <h6 th:text="${'Чи має NFC?: ні'}"></h6>
+                </div>
             </div>
             <div style="height: 10px;"></div>
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
-                <h5 style="font-weight: bold;">Front cameras</h5>
-                <h6 th:text="${'Number of front cameras: '+fullInfo.phone.phoneDescription.numberOfFrontCameras}"></h6>
-                <h6 th:text="${'Info about front cameras: '+fullInfo.phone.phoneDescription.infoAboutFrontCameras}"></h6>
+                <h5 style="font-weight: bold;">Фронтальні камери</h5>
+                <h6 th:text="${'Кількість фронтальних камер: '+fullInfo.phone.phoneDescription.numberOfFrontCameras}"></h6>
+                <h6 th:text="${'Інформація про фронтальні камери: '+fullInfo.phone.phoneDescription.infoAboutFrontCameras}"></h6>
             </div>
             <div style="height: 10px;"></div>
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
-                <h5 style="font-weight: bold;">Main cameras</h5>
-                <h6 th:text="${'Number of main cameras: '+fullInfo.phone.phoneDescription.numberOfMainCameras}"></h6>
-                <h6 th:text="${'Info about main cameras: '+fullInfo.phone.phoneDescription.infoAboutMainCameras}"></h6>
+                <h5 style="font-weight: bold;">Основні камери</h5>
+                <h6 th:text="${'Кількість основних камер: '+fullInfo.phone.phoneDescription.numberOfMainCameras}"></h6>
+                <h6 th:text="${'Інформація про основні камери: '+fullInfo.phone.phoneDescription.infoAboutMainCameras}"></h6>
             </div>
             <div style="height: 10px;"></div>
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
-                <h5 style="font-weight: bold;">Physical characteristics</h5>
-                <h6 th:text="${'Weight: '+fullInfo.phone.phoneDescription.weight+' g'}"></h6>
-                <h6 th:text="${'Height: '+fullInfo.phone.phoneDescription.height+' mm'}"></h6>
-                <h6 th:text="${'Width: '+fullInfo.phone.phoneDescription.width+' mm'}"></h6>
+                <h5 style="font-weight: bold;">Фізичні характеристики</h5>
+                <h6 th:text="${'Вага: '+fullInfo.phone.phoneDescription.weight+' г'}"></h6>
+                <h6 th:text="${'Висота: '+fullInfo.phone.phoneDescription.height+' мм'}"></h6>
+                <h6 th:text="${'Ширина: '+fullInfo.phone.phoneDescription.width+' мм'}"></h6>
             </div>
             <div style="height: 10px;"></div>
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
-                <h5 style="font-weight: bold;">Degree of moisture protection</h5>
-                <h6 th:text="${'Degree of moisture protection: '+fullInfo.phone.phoneDescription.degreeOfMoistureProtection}"></h6>
+                <h5 style="font-weight: bold;">Ступінь вологозахисту</h5>
+                <h6 th:text="${'Ступінь вологозахисту: '+fullInfo.phone.phoneDescription.degreeOfMoistureProtection}"></h6>
             </div>
             <div style="height: 10px;"></div>
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
-                <h5 style="font-weight: bold;">Brand</h5>
-                <h6 th:text="${'Brand: '+fullInfo.phone.phoneDescription.brand.name}"></h6>
-                <h6 th:text="${'Brand registration country: '+fullInfo.phone.phoneDescription.brand.country.name}"></h6>
+                <h5 style="font-weight: bold;">Бренд</h5>
+                <h6 th:text="${'Бренд: '+fullInfo.phone.phoneDescription.brand.name}"></h6>
+                <h6 th:text="${'Країна реєстрації бренду: '+fullInfo.phone.phoneDescription.brand.country.name}"></h6>
             </div>
             <div style="height: 10px;"></div>
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
-                <h5 style="font-weight: bold;">Country producer of the product</h5>
-                <h6 th:text="${'Country producer of the product: '+fullInfo.phone.phoneDescription.country.name}"></h6>
+                <h5 style="font-weight: bold;">Країна-виробник продукту</h5>
+                <h6 th:text="${'Країна-виробник продукту: '+fullInfo.phone.phoneDescription.country.name}"></h6>
             </div>
             <div style="height: 10px;"></div>
             <div style="border: 1px solid lightgray; width: 400px;"></div>
             <div style="height: 10px;"></div>
             <div>
-                <h5 style="font-weight: bold;">Guarantee</h5>
-                <h6 th:text="${'Time: '+fullInfo.phone.phoneDescription.guaranteeTimeMonths+' month'}"></h6>
+                <h5 style="font-weight: bold;">Гарантія</h5>
+                <h6 th:text="${'Термін: '+fullInfo.phone.phoneDescription.guaranteeTimeMonths+' місяців'}"></h6>
             </div>
         </div>
         <div class="col" style="width: 300px;">
@@ -242,7 +247,7 @@
                 <div class="col">
                     <nav>
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link">Pages:</a></li>
+                            <li class="page-item"><a class="page-link">Сторінки:</a></li>
                             <li class="page-item" th:each="page: ${pages}"><a class="page-link"
                                                                               th:href="${pageForWhat}+${page}+${pageForWhatPhone}+${'&successAddToCart= '}"
                                                                               th:text="${page}"></a></li>
@@ -262,7 +267,7 @@
             <div th:if="${#lists.size(comments)} > 15">
                 <nav>
                     <ul class="pagination">
-                        <li class="page-item"><a class="page-link">Pages:</a></li>
+                        <li class="page-item"><a class="page-link">Сторінки:</a></li>
                         <li class="page-item" th:each="page: ${pages}"><a class="page-link"
                                                                           th:href="${pageForWhat}+${page}+${pageForWhatPhone}+${'&successAddToCart= '}"
                                                                           th:text="${page}"></a></li>
@@ -272,7 +277,7 @@
 
             <div th:if="${comments.empty}">
                 <br>
-                <h5>No one has commented on this product</h5>
+                <h5>Ніхто не прокоментував цю модель телефону</h5>
             </div>
         </div>
     </div>

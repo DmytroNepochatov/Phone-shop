@@ -21,8 +21,7 @@
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
-                        to profile</a>
+                    <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Назад до профілю</a>
                 </div>
             </div>
         </div>
@@ -33,7 +32,7 @@
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6" align="center">
-            <h6 th:if="${registeredUsers.empty}" th:text="${'No such users'}"></h6>
+            <h6 th:if="${registeredUsers.empty}" th:text="${'Користувачі відсутні'}"></h6>
         </div>
         <div class="col-3"></div>
     </div>
@@ -42,13 +41,13 @@
         <div align="center">
             <div style="width: 1400px;">
                 <div class="row">
-                    <div class="col" align="center" style="border: 1px solid black;">Last name</div>
-                    <div class="col" align="center" style="border: 1px solid black;">First name</div>
-                    <div class="col" align="center" style="border: 1px solid black;">Middle name</div>
-                    <div class="col" align="center" style="border: 1px solid black;">Date of birth</div>
-                    <div class="col" align="center" style="border: 1px solid black;">Phone number</div>
-                    <div class="col-3" align="center" style="border: 1px solid black;">Email address</div>
-                    <div class="col" align="center" style="border: 1px solid black;">Orders</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Прізвище</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Ім'я</div>
+                    <div class="col" align="center" style="border: 1px solid black;">По-батькові</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Дата народження</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Номер телефону</div>
+                    <div class="col-3" align="center" style="border: 1px solid black;">Адреса електронної пошти</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Замовлення</div>
                 </div>
                 <div class="row" th:each="registeredUser, state: ${registeredUsers}">
                     <div class="col">
@@ -68,7 +67,7 @@
                             <div class="col" style="border: 1px solid black;">
                                 <div class="col text-center">
                                     <a th:href="${'/admin/orders-for-user-id?id='+registeredUser.id+'&flag=true&flag-stat=false'}"
-                                       class="btn btn-primary" style="width: 120px;">See orders
+                                       class="btn btn-primary" style="width: 120px;">Замовлення
                                     </a>
                                 </div>
                             </div>

@@ -7,6 +7,11 @@ import ua.com.alevel.model.dto.PhoneForAddToCart;
 import ua.com.alevel.model.dto.filterparams.FilterSettings;
 import ua.com.alevel.model.user.RegisteredUser;
 import ua.com.alevel.service.phone.PhoneInstanceService;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,7 +21,7 @@ import java.util.*;
 import static org.apache.commons.lang.NumberUtils.isNumber;
 
 public final class Util {
-    private static final String[] MONTHS = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    private static final String[] MONTHS = new String[]{"Січ", "Лют", "Бер", "Кві", "Тра", "Чер", "Лип", "Сер", "Вер", "Жов", "Лис", "Груд"};
 
     private Util() {
     }
@@ -331,5 +336,50 @@ public final class Util {
         });
 
         return params;
+    }
+
+    public static String translate(String text) {
+        String output = "";
+
+        try {
+            String jsonPayload = new StringBuilder()
+                    .append("{")
+                    .append("\"fromLang\":\"")
+                    .append("en")
+                    .append("\",")
+                    .append("\"toLang\":\"")
+                    .append("uk")
+                    .append("\",")
+                    .append("\"text\":\"")
+                    .append(text)
+                    .append("\"")
+                    .append("}")
+                    .toString();
+
+            URL url = new URL("http://api.whatsmate.net/v1/translation/translate");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("X-WM-CLIENT-ID", "FREE_TRIAL_ACCOUNT");
+            conn.setRequestProperty("X-WM-CLIENT-SECRET", "PUBLIC_SECRET");
+            conn.setRequestProperty("Content-Type", "application/json");
+
+            OutputStream os = conn.getOutputStream();
+            os.write(jsonPayload.getBytes());
+            os.flush();
+            os.close();
+
+            int statusCode = conn.getResponseCode();
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (statusCode == 200) ? conn.getInputStream() : conn.getErrorStream()
+            ));
+
+            output = br.readLine();
+            conn.disconnect();
+        }
+        catch (Exception e) {
+        }
+
+        return output;
     }
 }

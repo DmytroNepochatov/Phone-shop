@@ -20,8 +20,8 @@
     <div class="row">
         <div class="col-3">
             <div class="col text-center" style="padding-right: 90px;">
-                <a th:href="${'/comments?successMessage= '}" class="btn btn-primary" role="button" style="width: 200px;">Go back
-                    to phone list</a>
+                <a th:href="${'/comments?successMessage= '}" class="btn btn-primary" role="button" style="width: 210px;">Повернутися
+                    до списку</a>
             </div>
         </div>
         <div class="col" style="height: 90px; border: 1px solid black;">
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-8" th:text="${phone.phoneDescription.brand.name+' '+ phone.phoneDescription.series + ' '+ phone.phoneDescription.name
         +' '+phone.amountOfRam+'/'+phone.amountOfBuiltInMemory+' Gb.'}"></div>
-                <div class="col-2" align="center" th:text="${'Price: '+price+ ' $'}"></div>
+                <div class="col-2" align="center" th:text="${'Ціна: '+price+ ' ₴'}"></div>
             </div>
         </div>
         <div class="col-3"></div>
@@ -41,14 +41,14 @@
     <div class="row">
         <div class="col" style="height: 470px;" align="center">
             <form autocomplete="off" th:action="@{/comments/add-comment}" th:object="${commentForSave}" method="post">
-                <label for="com" class="form-label"><h6>Comment:</h6></label>
+                <label for="com" class="form-label"><h6>Коментар:</h6></label>
                 <div style="height: 213px; width: 750px;">
                     <textarea style="height: 213px; width: 750px;" class="form-control" id="com" required="true"
                               autofocus="true"
                               th:field="*{description}" th:value="${description}"></textarea>
                 </div>
                 <br>
-                <label for="rating" class="form-label"><h6>Rating (1 to 5)</h6></label>
+                <label for="rating" class="form-label"><h6>Рейтинг (від 1 до 5)</h6></label>
                 <div style="height: 35px; width: 40px;">
                     <input style="height: 35px; width: 40px;" type="text" class="form-control" id="rating"
                            required="true"
@@ -62,7 +62,7 @@
                     <button class="w-100 btn btn-primary btn-lg"
                             style="height: 40px; width: 150px; display: flex; align-items: center; justify-content: center;"
                             type="submit">
-                        Comment
+                        Коментувати
                     </button>
                 </div>
             </form>

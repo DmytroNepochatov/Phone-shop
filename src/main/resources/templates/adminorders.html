@@ -21,8 +21,8 @@
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
-                        to profile
+                    <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 220px;">Повернутися
+                        до профілю
                     </a>
                 </div>
             </div>
@@ -33,7 +33,7 @@
     <div class="row">
         <div class="col" align="center">
             <h4 th:if="${!orders.empty}" th:text="${success}"></h4>
-            <h4 th:if="${orders.empty}" th:text="${'There are currently no orders'}"></h4>
+            <h4 th:if="${orders.empty}" th:text="${'Наразі замовлень немає'}"></h4>
         </div>
     </div>
     <br>
@@ -46,13 +46,13 @@
                         <div class="row">
                             <div class="col-2"></div>
                             <div class="col-8" align="center">
-                                <div style="font-size: 16px;" th:text="${'Order number: '+order.check.id+'.'}"></div>
-                                <div style="font-size: 16px;" th:text="${'Created: '+order.dates+'.'}"
+                                <div style="font-size: 16px;" th:text="${'Номер замовлення: '+order.check.id+'.'}"></div>
+                                <div style="font-size: 16px;" th:text="${'Створено: '+order.dates+'.'}"
                                      th:if="${!order.check.isClosed}"></div>
                                 <div style="font-size: 16px;"
-                                     th:text="${'Created: '+order.dates+'. Closed: '+order.datesClosed+'.'}"
+                                     th:text="${'Створено: '+order.dates+'. Закрито: '+order.datesClosed+'.'}"
                                      th:if="${order.check.isClosed}"></div>
-                                <div style="font-size: 16px;" th:text="${'Total price: '+order.totalPrices+'$.'}"></div>
+                                <div style="font-size: 16px;" th:text="${'Загальна вартість: '+order.totalPrices+'₴.'}"></div>
                             </div>
                             <div class="col-2">
                                 <div class="row">
@@ -62,8 +62,8 @@
                                             <form th:action="${'/admin/close-order?id='+order.check.id}"
                                                   th:method="put">
                                                 <div class="col text-center">
-                                                    <button type="submit" class="btn btn-primary" style="width: 85px;">
-                                                        Close
+                                                    <button type="submit" class="btn btn-primary" style="width: 100px;">
+                                                        Закрити
                                                     </button>
                                                 </div>
                                             </form>
@@ -73,7 +73,7 @@
                                                   th:method="put">
                                                 <div class="col text-center">
                                                     <button type="submit" class="btn btn-primary"
-                                                            style="width: 85px; background-color: red;">Cancel
+                                                            style="width: 100px; background-color: red;">Скасувати
                                                     </button>
                                                 </div>
                                             </form>
@@ -100,12 +100,12 @@
                                                 <div style="width: 20px;"></div>
                                                 <div class="col">
                                                     <div class="row" align="left" th:text="${phoneInstance.phone.phoneDescription.brand.name+' '+ phoneInstance.phone.phoneDescription.series + ' '+ phoneInstance.phone.phoneDescription.name
-        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneInstance.phone.view.color}"></div>
+        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb. Колір: '+phoneInstance.phone.view.color}"></div>
                                                     <div class="row" align="left"
                                                          th:text="${'IMEI: '+phoneInstance.imei}"></div>
                                                 </div>
                                                 <div class="col-2" align="center"
-                                                     th:text="${'Price: '+phoneInstance.price+ ' $'}"></div>
+                                                     th:text="${'Ціна: '+phoneInstance.price+ ' ₴'}"></div>
                                             </div>
                                         </div>
                                         <div class="col-1"></div>
@@ -123,7 +123,7 @@
                                 <div class="row">
                                     <div class="col" align="left">
                                         <div style="height: 5px;"></div>
-                                        <div style="font-size: 15px;">Delivery type</div>
+                                        <div style="font-size: 15px;">Тип доставки</div>
                                     </div>
                                     <div class="col" align="left">
                                         <div style="height: 5px;"></div>
@@ -134,7 +134,7 @@
                                 <div class="row" th:if="${order.check.deliveryAddress !=''}">
                                     <div class="col" align="left">
                                         <div style="height: 5px;"></div>
-                                        <div style="font-size: 15px;">Delivery address</div>
+                                        <div style="font-size: 15px;">Адреса доставки</div>
                                         <div style="height: 5px;"></div>
                                     </div>
                                     <div class="col" align="left">
@@ -153,7 +153,7 @@
                                 <div class="row">
                                     <div class="col" align="left">
                                         <div style="height: 5px;"></div>
-                                        <div style="font-size: 15px;">Payment type</div>
+                                        <div style="font-size: 15px;">Тип оплати</div>
                                         <div style="height: 5px;"></div>
                                     </div>
                                     <div class="col" align="left">
@@ -172,7 +172,7 @@
                                 <div class="row">
                                     <div class="col" align="left">
                                         <div style="height: 5px;"></div>
-                                        <div style="font-size: 15px;">Buyer</div>
+                                        <div style="font-size: 15px;">Покупець</div>
                                         <div style="height: 5px;"></div>
                                     </div>
                                     <div class="col" align="left">
@@ -200,7 +200,7 @@
                                 <div class="row">
                                     <div class="col" align="left">
                                         <div style="height: 5px;"></div>
-                                        <div style="font-size: 15px;">Recipient</div>
+                                        <div style="font-size: 15px;">Одержувач</div>
                                         <div style="height: 5px;"></div>
                                     </div>
                                     <div class="col" align="left">

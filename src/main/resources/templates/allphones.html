@@ -21,8 +21,7 @@
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
-                        to profile
+                    <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Назад до профілю
                     </a>
                 </div>
             </div>
@@ -35,7 +34,7 @@
         <div class="col-3"></div>
         <div class="col-6" align="center">
             <h6 th:if="${!phones.empty}" th:text="${success}"></h6>
-            <h6 th:if="${phones.empty}" th:text="${'No phones in stock'}"></h6>
+            <h6 th:if="${phones.empty}" th:text="${'Нема телефонів на складі'}"></h6>
         </div>
         <div class="col-3"></div>
     </div>
@@ -52,15 +51,15 @@
                     <div style="width: 20px;"></div>
                     <div class="col-7">
                         <div class="row" th:text="${phoneOpt.phone.phoneDescription.brand.name+' '+ phoneOpt.phone.phoneDescription.series + ' '+ phoneOpt.phone.phoneDescription.name
-        +' '+phoneOpt.phone.amountOfRam+'/'+phoneOpt.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneOpt.phone.view.color}"></div>
+        +' '+phoneOpt.phone.amountOfRam+'/'+phoneOpt.phone.amountOfBuiltInMemory+' Gb. Колір: '+phoneOpt.phone.view.color}"></div>
                         <div class="row" th:text="${'IMEI: '+phoneOpt.imei}"></div>
                     </div>
-                    <div class="col-2" align="center" th:text="${'Price: '+phoneOpt.price+' $'}"></div>
+                    <div class="col-2" align="center" th:text="${'Ціна: '+phoneOpt.price+' ₴'}"></div>
                     <div class="col-1" align="center">
                         <div class="col text-center">
                             <form th:action="${'/admin/allphones?id='+phoneOpt.id}" th:method="post">
                                 <div class="col text-center">
-                                    <button type="submit" class="btn btn-primary" style="width: 80px;">Delete</button>
+                                    <button type="submit" class="btn btn-primary" style="width: 100px;">Видалити</button>
                                 </div>
                             </form>
                         </div>

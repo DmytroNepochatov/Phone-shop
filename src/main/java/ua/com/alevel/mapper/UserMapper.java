@@ -9,7 +9,6 @@ import ua.com.alevel.model.user.Role;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public final class UserMapper {
     private UserMapper() {
@@ -31,20 +30,14 @@ public final class UserMapper {
         return registeredUser;
     }
 
-    public static List<UserOrdersForAdmin> mapRegisteredUsersToUsersOrdersForAdmin(RegisteredUser registeredUser, List<ClientCheck> checkList) {
-        List<UserOrdersForAdmin> list = new ArrayList<>();
+    public static UserOrdersForAdmin mapRegisteredUsersToUsersOrdersForAdmin(RegisteredUser registeredUser, ClientCheck checkList) {
+        UserOrdersForAdmin userOrder = new UserOrdersForAdmin();
+        userOrder.setLastName(registeredUser.getLastName());
+        userOrder.setFirstName(registeredUser.getFirstName());
+        userOrder.setPhoneNumber(registeredUser.getPhoneNumber());
+        userOrder.setCheck(checkList);
 
-        checkList.forEach(order -> {
-            UserOrdersForAdmin userOrder = new UserOrdersForAdmin();
-            userOrder.setLastName(registeredUser.getLastName());
-            userOrder.setFirstName(registeredUser.getFirstName());
-            userOrder.setPhoneNumber(registeredUser.getPhoneNumber());
-            userOrder.setCheck(order);
-
-            list.add(userOrder);
-        });
-
-        return list;
+        return userOrder;
     }
 
     public static RegisteredUser changeUserInformation(SimpleDateFormat formatter, RegisteredUser registeredUser, UserRegistration userRegistration) throws Exception {

@@ -22,21 +22,19 @@
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;" th:if="${flag and !flagStat}">
                     <a th:href="@{/admin/all-registered-users}" class="btn btn-primary" role="button"
-                       style="width: 200px;">Go back
-                        to user list</a>
+                       style="width: 250px;">Назад до списку користувачів</a>
                 </div>
                 <div class="col text-center" style="padding-right: 90px;" th:if="${!flag and !flagStat}">
                     <a th:href="@{/admin/find-registered-user-last-name}" class="btn btn-primary" role="button"
-                       style="width: 270px;">Go back
-                        to find user by last name</a>
+                       style="width: 390px;">Назад до пошуку користувача за прізвищем</a>
                 </div>
                 <div class="col text-center" style="padding-right: 90px;" th:if="${!flag and flagStat}">
                     <a th:href="@{/admin/statistic-5}" class="btn btn-primary" role="button"
-                       style="width: 200px;">Go back to statistic</a>
+                       style="width: 200px;">Назад до статистики</a>
                 </div>
             </div>
         </div>
-        <div class="col-6"></div>
+        <div class="col-5"></div>
         <div class="col-3"></div>
     </div>
 
@@ -44,7 +42,7 @@
         <div align="center">
             <div class="row">
                 <div class="col">
-                    <div style="font-size: 16px;">Full information about buyer</div>
+                    <div style="font-size: 16px;">Повна інформація про покупця</div>
                 </div>
             </div>
         </div>
@@ -52,12 +50,12 @@
         <div class="col" align="center">
             <div align="center" style="width: 1300px;">
                 <div class="row">
-                    <div class="col" align="center" style="border: 1px solid black;">Last name</div>
-                    <div class="col" align="center" style="border: 1px solid black;">First name</div>
-                    <div class="col" align="center" style="border: 1px solid black;">Middle name</div>
-                    <div class="col" align="center" style="border: 1px solid black;">Date of birth</div>
-                    <div class="col" align="center" style="border: 1px solid black;">Phone number</div>
-                    <div class="col-3" align="center" style="border: 1px solid black;">Email address</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Прізвище</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Ім'я</div>
+                    <div class="col" align="center" style="border: 1px solid black;">По-батькові</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Дата народження</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Номер телефону</div>
+                    <div class="col-3" align="center" style="border: 1px solid black;">Адреса електронної пошти</div>
                 </div>
                 <div class="row">
                     <div class="col" style="border: 1px solid black;"
@@ -79,7 +77,7 @@
     <div style="height: 50px;"></div>
 
     <div align="center" th:if="${orders.empty}">
-        <h5 th:text="${'No orders'}"></h5>
+        <h5 th:text="${'Нема замовлень'}"></h5>
     </div>
     <div th:if="${!orders.empty}">
         <div class="row" th:each="order, state: ${orders}">
@@ -90,19 +88,19 @@
                         <div class="row">
                             <div class="col-3"></div>
                             <div class="col-6" align="center">
-                                <div style="font-size: 16px;" th:text="${'Order number: '+order.check.id+'.'}"></div>
+                                <div style="font-size: 16px;" th:text="${'Номер замовлення: '+order.check.id+'.'}"></div>
                             </div>
                             <div class="col-3"></div>
                         </div>
                         <div class="row">
                             <div class="col-2"></div>
                             <div class="col-8" align="center">
-                                <div style="font-size: 16px;" th:text="${'Created: '+order.dates+'.'}"
+                                <div style="font-size: 16px;" th:text="${'Створено: '+order.dates+'.'}"
                                      th:if="${!order.check.isClosed}"></div>
                                 <div style="font-size: 16px;"
-                                     th:text="${'Created: '+order.dates+'. Closed: '+order.datesClosed+'.'}"
+                                     th:text="${'Створено: '+order.dates+'. Закрито: '+order.datesClosed+'.'}"
                                      th:if="${order.check.isClosed}"></div>
-                                <div style="font-size: 16px;" th:text="${'Total price: '+order.totalPrices+'$.'}"></div>
+                                <div style="font-size: 16px;" th:text="${'Загальна вартість: '+order.totalPrices+'₴.'}"></div>
                             </div>
                             <div class="col-2"></div>
                         </div>
@@ -121,11 +119,11 @@
                                         <div style="width: 20px;"></div>
                                         <div class="col">
                                             <div class="row" align="left" th:text="${phoneInstance.phone.phoneDescription.brand.name+' '+ phoneInstance.phone.phoneDescription.series + ' '+ phoneInstance.phone.phoneDescription.name
-        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneInstance.phone.view.color}"></div>
+        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb. Колір: '+phoneInstance.phone.view.color}"></div>
                                             <div class="row" align="left" th:text="${'IMEI: '+phoneInstance.imei}"></div>
                                         </div>
                                         <div class="col-2" align="center"
-                                             th:text="${'Price: '+phoneInstance.price+ ' $'}"></div>
+                                             th:text="${'Ціна: '+phoneInstance.price+ ' ₴'}"></div>
                                     </div>
                                 </div>
                                 <div class="col"></div>
@@ -139,7 +137,7 @@
                                 <div class="row">
                                     <div class="col" align="left">
                                         <div style="height: 5px;"></div>
-                                        <div style="font-size: 15px;">Delivery type</div>
+                                        <div style="font-size: 15px;">Тип доставки</div>
                                     </div>
                                     <div class="col" align="left">
                                         <div style="height: 5px;"></div>
@@ -150,7 +148,7 @@
                                 <div class="row" th:if="${order.check.deliveryAddress !=''}">
                                     <div class="col" align="left">
                                         <div style="height: 5px;"></div>
-                                        <div style="font-size: 15px;">Delivery address</div>
+                                        <div style="font-size: 15px;">Адреса доставки</div>
                                         <div style="height: 5px;"></div>
                                     </div>
                                     <div class="col" align="left">
@@ -169,7 +167,7 @@
                                 <div class="row">
                                     <div class="col" align="left">
                                         <div style="height: 5px;"></div>
-                                        <div style="font-size: 15px;">Payment type</div>
+                                        <div style="font-size: 15px;">Тип оплати</div>
                                         <div style="height: 5px;"></div>
                                     </div>
                                     <div class="col" align="left">
@@ -188,7 +186,7 @@
                                 <div class="row">
                                     <div class="col" align="left">
                                         <div style="height: 5px;"></div>
-                                        <div style="font-size: 15px;">Recipient</div>
+                                        <div style="font-size: 15px;">Одержувач</div>
                                         <div style="height: 5px;"></div>
                                     </div>
                                     <div class="col" align="left">

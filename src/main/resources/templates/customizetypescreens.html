@@ -22,9 +22,7 @@
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/admin/characteristics}" class="btn btn-primary" role="button" style="width: 150px;">Go
-                        back
-                    </a>
+                    <a th:href="@{/admin/characteristics}" class="btn btn-primary" role="button" style="width: 150px;">Назад</a>
                 </div>
             </div>
         </div>
@@ -36,14 +34,14 @@
         <div class="col-3"></div>
         <div class="col-6" align="center">
             <h6 th:if="${!typeScreens.empty}" th:text="${success}"></h6>
-            <h6 th:if="${typeScreens.empty}" th:text="${'No type screens in database'}"></h6>
+            <h6 th:if="${typeScreens.empty}" th:text="${'У базі даних немає типів екранів'}"></h6>
         </div>
         <div class="col-3"></div>
     </div>
     <br>
     <div class="row">
         <div class="col" align="center" style="border: 1px solid black;"><h5 th:if="${!typeScreens.empty}">
-            Name</h5>
+            Назва</h5>
         </div>
         <div class="col"></div>
         <div class="col"></div>
@@ -66,7 +64,7 @@
                                 <form th:action="${'/admin/characteristics/typescreens?id='+typeScreen.id}"
                                       th:method="post">
                                     <div class="col text-center">
-                                        <button type="submit" class="btn btn-primary" style="width: 80px;">Delete
+                                        <button type="submit" class="btn btn-primary" style="width: 100px;">Видалити
                                         </button>
                                     </div>
                                 </form>
@@ -79,7 +77,7 @@
         </div>
         <div class="col">
             <div class="row">
-                <div class="col" align="center"><h5>Create a new type screen</h5></div>
+                <div class="col" align="center"><h5>Додати тип екрану</h5></div>
             </div>
             <br>
             <form autocomplete="off" th:action="@{/admin/characteristics/typescreens/create}"
@@ -87,7 +85,7 @@
                   method="post">
                 <div class="row">
                     <div class="col" align="center">
-                        <label for="name" class="form-label">Name:</label>
+                        <label for="name" class="form-label">Назва:</label>
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control"
                                    id="name"
@@ -98,11 +96,11 @@
                 <br>
                 <div class="row">
                     <div class="col" align="center">
-                        <div style="height: 40px; width: 200px;">
+                        <div style="height: 40px; width: 240px;">
                             <button class="w-100 btn btn-primary btn-lg"
-                                    style="height: 40px; width: 200px; display: flex; align-items: center; justify-content: center;"
+                                    style="height: 40px; width: 240px; display: flex; align-items: center; justify-content: center;"
                                     type="submit">
-                                Save type screen
+                                Зберегти тип екрану
                             </button>
                         </div>
                     </div>

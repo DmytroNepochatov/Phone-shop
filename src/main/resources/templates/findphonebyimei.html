@@ -20,8 +20,7 @@
     <div class="row">
         <div class="col-3">
             <div class="col text-center" style="padding-right: 90px;">
-                <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
-                    to profile</a>
+                <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Назад до профілю</a>
             </div>
         </div>
         <div class="col"></div>
@@ -39,7 +38,7 @@
                 <div class="row">
                     <div class="col" align="center">
                         <div style="width: 354px; height: 90px;">
-                            <label class="form-label">Phone IMEI:</label>
+                            <label class="form-label">IMEI телефону:</label>
                             <div style="height: 30px; width: 350px;">
                                 <input style="height: 30px; width: 350px;" type="text" class="form-control"
                                        required="true"
@@ -51,11 +50,11 @@
                 <div class="row">
                     <div class="col" align="center">
                         <div style="height: 10px;"></div>
-                        <div style="height: 40px; width: 220px;">
+                        <div style="height: 40px; width: 280px;">
                             <button class="w-100 btn btn-primary btn-lg"
-                                    style="height: 40px; width: 220px; display: flex; align-items: center; justify-content: center;"
+                                    style="height: 40px; width: 280px; display: flex; align-items: center; justify-content: center;"
                                     type="submit">
-                                Find phone by IMEI
+                                Знайти телефон за IMEI
                             </button>
                         </div>
                     </div>
@@ -81,23 +80,23 @@
                 <div class="col-7">
                     <div th:if="${resultPhone.clientCheck == null}">
                         <div class="row" th:text="${resultPhone.phone.phoneDescription.brand.name+' '+ resultPhone.phone.phoneDescription.series + ' '+ resultPhone.phone.phoneDescription.name
-        +' '+resultPhone.phone.amountOfRam+'/'+resultPhone.phone.amountOfBuiltInMemory+' Gb. Color: '+resultPhone.phone.view.color}"></div>
+        +' '+resultPhone.phone.amountOfRam+'/'+resultPhone.phone.amountOfBuiltInMemory+' Gb. Колір: '+resultPhone.phone.view.color}"></div>
                         <div class="row" th:text="${'IMEI: '+resultPhone.imei+'.'}"></div>
                     </div>
                     <div th:if="${resultPhone.clientCheck != null}">
                         <div class="row" th:text="${resultPhone.phone.phoneDescription.brand.name+' '+ resultPhone.phone.phoneDescription.series + ' '+ resultPhone.phone.phoneDescription.name
-        +' '+resultPhone.phone.amountOfRam+'/'+resultPhone.phone.amountOfBuiltInMemory+' Gb. Color: '+resultPhone.phone.view.color}"></div>
+        +' '+resultPhone.phone.amountOfRam+'/'+resultPhone.phone.amountOfBuiltInMemory+' Gb. Колір: '+resultPhone.phone.view.color}"></div>
                         <div class="row" th:text="${'IMEI: '+resultPhone.imei+'.'}"></div>
-                        <div class="row" th:text="${'Order number: '+resultPhone.clientCheck.id+'.'}"></div>
+                        <div class="row" th:text="${'Номер замовлення: '+resultPhone.clientCheck.id+'.'}"></div>
                     </div>
                 </div>
-                <div class="col-2" align="center" th:text="${'Price: '+resultPhone.price+' $'}" th:if="${resultPhone.clientCheck == null}"></div>
-                <div class="col" align="center" th:text="${'Price: '+resultPhone.price+' $'}" th:if="${resultPhone.clientCheck != null}"></div>
+                <div class="col-2" align="center" th:text="${'Ціна: '+resultPhone.price+' ₴'}" th:if="${resultPhone.clientCheck == null}"></div>
+                <div class="col" align="center" th:text="${'Ціна: '+resultPhone.price+' ₴'}" th:if="${resultPhone.clientCheck != null}"></div>
                 <div class="col-1" align="center" th:if="${resultPhone.clientCheck == null}">
                     <div class="col text-center">
                         <form th:action="${'/admin/find-phone-by-imei-delete?id='+resultPhone.id}" th:method="post">
                             <div class="col text-center">
-                                <button type="submit" class="btn btn-primary" style="width: 80px;">Delete</button>
+                                <button type="submit" class="btn btn-primary" style="width: 100px;">Видалити</button>
                             </div>
                         </form>
                     </div>

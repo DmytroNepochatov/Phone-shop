@@ -19,25 +19,21 @@
     <br>
     <div class="row" th:if="${!flag and !flagStat}">
         <div class="col text-center" style="padding-right: 90px;">
-            <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Go
-                back
-            </a>
+            <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Назад</a>
         </div>
         <div class="col" align="center">
-            <div style="width: 800px;"><h5>All-time phone models sales statistics</h5></div>
+            <div style="width: 800px;"><h5>Статистика продажів усіх моделей телефонів за весь час</h5></div>
         </div>
         <div class="col"></div>
     </div>
     <div class="row" th:if="${flagStat}">
         <div class="col text-center" style="padding-right: 90px;">
-            <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Go
-                back
-            </a>
+            <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Назад</a>
         </div>
         <div class="col" align="center">
             <div style="width: 800px;">
-            <h5>Phone models with bad sales</h5>
-            <h6 th:text="${'Statistics for '+startDate+' - '+endDate}"></h6>
+            <h5>Моделі телефонів з поганими продажами</h5>
+            <h6 th:text="${'Статистика за '+startDate+' - '+endDate}"></h6>
             </div>
         </div>
         <div class="col"></div>
@@ -46,9 +42,7 @@
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
-                        to profile
-                    </a>
+                    <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Назад до профілю</a>
                 </div>
             </div>
         </div>
@@ -59,7 +53,7 @@
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6" align="center">
-            <h6 th:if="${phoneForStoreCompositions.empty}" th:text="${'No phones in stock'}"></h6>
+            <h6 th:if="${phoneForStoreCompositions.empty}" th:text="${'Телефонів немає на складі'}"></h6>
         </div>
         <div class="col-3"></div>
     </div>
@@ -74,16 +68,16 @@
                              style="height: 70px; width: 70px;">
                     </div>
                     <div class="col-6" th:text="${phoneForStoreComposition.phone.phoneDescription.brand.name+' '+ phoneForStoreComposition.phone.phoneDescription.series + ' '+ phoneForStoreComposition.phone.phoneDescription.name
-        +' '+phoneForStoreComposition.phone.amountOfRam+'/'+phoneForStoreComposition.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneForStoreComposition.phone.view.color}"></div>
+        +' '+phoneForStoreComposition.phone.amountOfRam+'/'+phoneForStoreComposition.phone.amountOfBuiltInMemory+' Gb. Колір: '+phoneForStoreComposition.phone.view.color}"></div>
                     <div class="col-5" align="right">
-                        <div th:if="${flag}" th:text="${'Price: '+phoneForStoreComposition.price+ ' $. Quantity: '+phoneForStoreComposition.countInStore+' units'}"></div>
-                        <div th:if="${!flag and !flagStat}" th:text="${'Price: '+phoneForStoreComposition.price+ ' $. Sold: '+phoneForStoreComposition.countInStore+' units'}"></div>
+                        <div th:if="${flag}" th:text="${'Ціна: '+phoneForStoreComposition.price+ ' ₴. Кількість: '+phoneForStoreComposition.countInStore+' одиниць'}"></div>
+                        <div th:if="${!flag and !flagStat}" th:text="${'Ціна: '+phoneForStoreComposition.price+ ' ₴. Продано: '+phoneForStoreComposition.countInStore+' одиниць'}"></div>
                         <div th:if="${flagStat}">
                             <div class="row">
-                                <div class="col" align="right" th:text="${'Price: '+phoneForStoreComposition.price+ ' $. Sold: '+phoneForStoreComposition.countInStore+' units'}"></div>
+                                <div class="col" align="right" th:text="${'Ціна: '+phoneForStoreComposition.price+ ' ₴. Продано: '+phoneForStoreComposition.countInStore+' одиниць'}"></div>
                             </div>
                             <div class="row">
-                                <div class="col" align="right" th:text="${'Date added to database: '+years[__${state.index}__]}"></div>
+                                <div class="col" align="right" th:text="${'Дата додавання до бази даних: '+years[__${state.index}__]}"></div>
                             </div>
                         </div>
                     </div>

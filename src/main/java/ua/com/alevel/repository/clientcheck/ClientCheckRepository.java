@@ -16,7 +16,7 @@ public interface ClientCheckRepository extends CrudRepository<ClientCheck, Strin
     @Query("select check from ClientCheck check where check.registeredUser.id = ?1 and check.created = ?2")
     Optional<ClientCheck> findClientCheckForUserIdForNewOrder(String userId, Date date);
 
-    @Query("select check from ClientCheck check where check.isClosed = false and check.registeredUser.id = ?1")
+    @Query("select check from ClientCheck check where check.isClosed = false and check.registeredUser.id = ?1 and check.deliveryType <> 'default'")
     List<ClientCheck> findAllNoClosedChecksForUserId(String userId);
 
     @Query("select check from ClientCheck check where check.isClosed = true and check.registeredUser.id = ?1")

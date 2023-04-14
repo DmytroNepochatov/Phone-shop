@@ -22,7 +22,7 @@
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/?page=1}" class="btn btn-primary" role="button" style="width: 200px;">Go back</a>
+                    <a th:href="@{/?page=1}" class="btn btn-primary" role="button" style="width: 200px;">Назад</a>
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
                 <div class="col text-center" style="padding-right: 90px;">
                     <form th:action="@{/shopping-cart/create-order}" th:method="put">
                         <div class="col text-center">
-                            <button type="submit" class="btn btn-primary" style="width: 200px;">Create order</button>
+                            <button type="submit" class="btn btn-primary" style="width: 200px;">Створити замовлення</button>
                         </div>
                     </form>
                 </div>
@@ -42,9 +42,9 @@
     <br>
     <div class="row">
         <div class="col-3"></div>
-        <div class="col-6" align="center"><h4 th:if="${phones.empty}" th:text="${'Shopping cart is empty'}"></h4></div>
+        <div class="col-6" align="center"><h4 th:if="${phones.empty}" th:text="${'Кошик порожній'}"></h4></div>
         <div class="col-3">
-            <h4 th:if="${!phones.empty}" th:text="${'Total price: '+totalPrice+'$'}"></h4>
+            <h4 th:if="${!phones.empty}" th:text="${'Загальна вартість: '+totalPrice+'₴'}"></h4>
         </div>
     </div>
     <br>
@@ -58,13 +58,13 @@
                              style="height: 70px; width: 70px;">
                     </div>
                     <div class="col-7" th:text="${phone.brand+' '+ phone.series + ' '+ phone.name
-        +' '+phone.amountOfRam+'/'+phone.amountOfBuiltInMemory+' Gb. Color: '+phone.color}"></div>
-                    <div class="col-2" align="center" th:text="${'Price: '+phone.price+ ' $'}"></div>
+        +' '+phone.amountOfRam+'/'+phone.amountOfBuiltInMemory+' Gb. Колір: '+phone.color}"></div>
+                    <div class="col-2" align="center" th:text="${'Ціна: '+phone.price+ ' ₴'}"></div>
                     <div class="col-2" align="center">
                         <div class="col text-center">
                             <form th:action="${deletePhone}+${phone.id}" th:method="put">
                                 <div class="col text-center">
-                                    <button type="submit" class="btn btn-primary" style="width: 100px;">Delete</button>
+                                    <button type="submit" class="btn btn-primary" style="width: 100px;">Видалити</button>
                                 </div>
                             </form>
                         </div>

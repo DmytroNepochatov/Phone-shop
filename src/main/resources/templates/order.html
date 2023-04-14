@@ -20,26 +20,26 @@
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6" align="center">
-            <h5 th:text="${'Thanks '+registeredUser.firstName+' '+registeredUser.lastName+' for your order!'}"></h5>
+            <h5 th:text="${'Дякуємо '+registeredUser.firstName+' '+registeredUser.lastName+' за Ваше замовлення!'}"></h5>
         </div>
         <div class="col-3" align="center">
             <div style="font-size: 16px; ">
-                <a th:href="${'/client-check?id='+clientCheck.id}">See order</a>
+                <a th:href="${'/client-check?id='+clientCheck.id}">Замовлення</a>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6" align="center">
-            <h5 th:text="${'Order number: '+clientCheck.id+'.'}"></h5>
+            <h5 th:text="${'Номер замовлення: '+clientCheck.id+'.'}"></h5>
         </div>
         <div class="col-3"></div>
     </div>
     <div class="row">
         <div class="col-2"></div>
         <div class="col-8" align="center">
-            <h5 th:text="${'Created: '+created+'.'}"></h5>
-            <h5 th:text="${'Total price: '+totalPrice+'$.'}"></h5>
+            <h5 th:text="${'Створено: '+created+'.'}"></h5>
+            <h5 th:text="${'Загальна вартість: '+totalPrice+'₴.'}"></h5>
         </div>
         <div class="col-2"></div>
     </div>
@@ -56,8 +56,8 @@
                     </div>
                     <div style="width: 20px;"></div>
                     <div class="col" th:text="${phoneInstance.phone.phoneDescription.brand.name+' '+ phoneInstance.phone.phoneDescription.series + ' '+ phoneInstance.phone.phoneDescription.name
-        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneInstance.phone.view.color}"></div>
-                    <div class="col-2" align="center" th:text="${'Price: '+phoneInstance.price+ ' $'}"></div>
+        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb. Колір: '+phoneInstance.phone.view.color}"></div>
+                    <div class="col-2" align="center" th:text="${'Ціна: '+phoneInstance.price+ ' ₴'}"></div>
                 </div>
             </div>
             <div class="col"></div>
@@ -71,7 +71,7 @@
             <div class="row">
                 <div class="col">
                     <div style="height: 5px;"></div>
-                    <div style="font-size: 17px;">Delivery type</div>
+                    <div style="font-size: 17px;">Тип доставки</div>
                 </div>
                 <div class="col">
                     <div style="height: 5px;"></div>
@@ -81,7 +81,7 @@
             <div class="row" th:if="${clientCheck.deliveryAddress !=''}">
                 <div class="col">
                     <div style="height: 5px;"></div>
-                    <div style="font-size: 17px;">Delivery address</div>
+                    <div style="font-size: 17px;">Адреса доставки</div>
                     <div style="height: 5px;"></div>
                 </div>
                 <div class="col">
@@ -99,7 +99,7 @@
             <div class="row">
                 <div class="col">
                     <div style="height: 5px;"></div>
-                    <div style="font-size: 17px;">Payment type</div>
+                    <div style="font-size: 17px;">Тип оплати</div>
                     <div style="height: 5px;"></div>
                 </div>
                 <div class="col">
@@ -117,7 +117,7 @@
             <div class="row">
                 <div class="col">
                     <div style="height: 5px;"></div>
-                    <div style="font-size: 17px;">Buyer</div>
+                    <div style="font-size: 17px;">Покупець</div>
                     <div style="height: 5px;"></div>
                 </div>
                 <div class="col">
@@ -143,7 +143,7 @@
             <div class="row">
                 <div class="col">
                     <div style="height: 5px;"></div>
-                    <div style="font-size: 17px;">Recipient</div>
+                    <div style="font-size: 17px;">Одержувач</div>
                     <div style="height: 5px;"></div>
                 </div>
                 <div class="col">
@@ -167,7 +167,7 @@
     <div style="height: 20px;"></div>
     <div class="row">
         <div class="col-3"></div>
-        <div class="col-6" align="center"><a href="/">Back home page</a></div>
+        <div class="col-6" align="center"><a href="/">На головну сторінку</a></div>
         <div class="col-3"></div>
     </div>
 </div>

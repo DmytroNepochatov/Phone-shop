@@ -24,24 +24,24 @@
 
     function drawChart() {
         var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Month');
-        data.addColumn('number', 'Money earned');
+        data.addColumn('string', 'Місяць');
+        data.addColumn('number', 'Грошей зароблено');
         data.addRows(list);
 
         var options = {
             'width': 1000,
             'height': 360,
             format: "currency",
-            prefix:"$",
-            vAxis: {title: '', format: '$#,##0;($#,##0)', prefix:"$"},
-            hAxis: {format: 'currency', prefix:"$"},
+            prefix:"₴",
+            vAxis: {title: '', format: '₴#,##0;(₴#,##0)', prefix:"₴"},
+            hAxis: {format: 'currency', prefix:"₴"},
             chartArea: {
                 top: 20,
                 bottom: 40
             }
         };
 
-        var formatter = new google.visualization.NumberFormat({pattern:'$#,##0'} );
+        var formatter = new google.visualization.NumberFormat({pattern:'₴#,##0'} );
         formatter.format(data, 1);
 
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div0'));
@@ -57,14 +57,13 @@
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Go
-                        back
+                    <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Назад
                     </a>
                 </div>
             </div>
         </div>
         <div class="col" align="center">
-            <div style="width: 800px;"><h5>Store earnings statistics by year/month</h5></div>
+            <div style="width: 800px;"><h5>Статистика доходів магазину за рік/місяць</h5></div>
         </div>
         <div class="col"></div>
     </div>
@@ -92,7 +91,7 @@
                                 <div style="height: 30px; width: 150px;">
                                     <select class="select-box" style="height: 30px; width: 150px;"
                                             th:field="*{year}">
-                                        <option selected="selected" th:value="${'Select year'}">Select year</option>
+                                        <option selected="selected" th:value="${'Виберіть рік'}">Виберіть рік</option>
                                         <option th:each="yearOpt : ${years}" th:text="${yearOpt}"
                                                 th:value="${yearOpt}"></option>
                                     </select>
@@ -102,11 +101,11 @@
                         </div>
                     </div>
                     <div class="col" align="center">
-                        <div style="height: 40px; width: 200px;">
+                        <div style="height: 40px; width: 230px;">
                             <button class="w-100 btn btn-primary btn-lg"
-                                    style="height: 40px; width: 200px; display: flex; align-items: center; justify-content: center;"
+                                    style="height: 40px; width: 230px; display: flex; align-items: center; justify-content: center;"
                                     type="submit">
-                                Show statistics
+                                Показати статистику
                             </button>
                         </div>
                     </div>
@@ -124,15 +123,15 @@
     <div th:if="${!flag}">
         <div class="row">
             <div class="col" align="center">
-                <h5 th:if="${forWhatYear == '3 years'}" th:text="${'Statistic for '+forWhatYear}"></h5>
-                <h5 th:if="${forWhatYear != '3 years'}" th:text="${'Statistic for '+forWhatYear+' year. Earned this year: '+#numbers.formatInteger(sum,0,'COMMA')+' $.'}"></h5>
+                <h5 th:if="${forWhatYear == '3 роки'}" th:text="${'Статистика за 3 роки'}"></h5>
+                <h5 th:if="${forWhatYear != '3 роки'}" th:text="${'Статистика за '+forWhatYear+' рік. Зароблено у цьому році: '+#numbers.formatInteger(sum,0,'COMMA')+' ₴.'}"></h5>
             </div>
         </div>
         <div style="height: 40px;"></div>
         <div th:if="${!flagTables}">
             <div align="center" th:if="${maxPrice <= 200}">
                 <div style="height: 40px;"></div>
-                <h5 th:text="${'Not enough data to display statistics'}"></h5>
+                <h5 th:text="${'Недостатньо даних для відображення статистики'}"></h5>
                 <div style="height: 80px;"></div>
             </div>
             <div th:id="${'chart_div0'}" th:if="${maxPrice > 200}"
@@ -145,7 +144,7 @@
                 <div style="width: 1400px;">
                     <div class="row">
                         <div class="col" style="border: 1px solid black;">
-                            <div style="width: 100px;">&nbsp;</div>
+                            <div style="width: 60px;">&nbsp;</div>
                         </div>
                         <div class="col" align="center" style="border: 1px solid black;"
                              th:each="month : ${monthNames}"
@@ -156,37 +155,37 @@
                         <div class="col">
                             <div class="row">
                                 <div class="col" style="border: 1px solid black;" align="left">
-                                    <div style="width: 100px;" align="left" th:text="${years[0]}"></div>
+                                    <div style="width: 60px;" align="left" th:text="${years[0]}"></div>
                                 </div>
                                 <div class="col" style="border: 1px solid black;" align="center"
                                      th:each="tempYearOpt : ${listOpt.tempYear}">
                                     <div th:if="${tempYearOpt.sold == -1}" th:text="${'-'}"></div>
-                                    <div th:if="${tempYearOpt.sold != -1}" th:text="${#numbers.formatInteger(tempYearOpt.sold/100,0,'COMMA')+'$'}"></div>
+                                    <div th:if="${tempYearOpt.sold != -1}" th:text="${#numbers.formatInteger(tempYearOpt.sold/100,0,'COMMA')+'₴'}"></div>
                                 </div>
-                                <div class="col" style="border: 1px solid black; background: lightgray; " align="center"
-                                     th:text="${#numbers.formatInteger(sumList[0],0,'COMMA')+'$'}">
+                                <div class="col" style="border: 1px solid black; background: lightgray; width: 100px;" align="center"
+                                     th:text="${#numbers.formatInteger(sumList[0],0,'COMMA')+'₴'}">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col" style="border: 1px solid black;" align="left">
-                                    <div style="width: 100px;" align="left" th:text="${years[1]}"></div>
+                                    <div style="width: 60px;" align="left" th:text="${years[1]}"></div>
                                 </div>
                                 <div class="col" style="border: 1px solid black;" align="center"
                                      th:each="lastYearOpt : ${listOpt.lastYear}"
-                                     th:text="${#numbers.formatInteger(lastYearOpt.sold/100,0,'COMMA')+'$'}"></div>
-                                <div class="col" style="border: 1px solid black; background: lightgray; " align="center"
-                                     th:text="${#numbers.formatInteger(sumList[1],0,'COMMA')+'$'}">
+                                     th:text="${#numbers.formatInteger(lastYearOpt.sold/100,0,'COMMA')+'₴'}"></div>
+                                <div class="col" style="border: 1px solid black; background: lightgray; width: 100px;" align="center"
+                                     th:text="${#numbers.formatInteger(sumList[1],0,'COMMA')+'₴'}">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col" style="border: 1px solid black;" align="left">
-                                    <div style="width: 100px;" align="left" th:text="${years[2]}"></div>
+                                    <div style="width: 60px;" align="left" th:text="${years[2]}"></div>
                                 </div>
                                 <div class="col" style="border: 1px solid black;" align="center"
                                      th:each="yearBeforeLastOpt : ${listOpt.yearBeforeLast}"
-                                     th:text="${#numbers.formatInteger(yearBeforeLastOpt.sold/100,0,'COMMA')+'$'}"></div>
-                                <div class="col" style="border: 1px solid black; background: lightgray; " align="center"
-                                     th:text="${#numbers.formatInteger(sumList[2],0,'COMMA')+'$'}">
+                                     th:text="${#numbers.formatInteger(yearBeforeLastOpt.sold/100,0,'COMMA')+'₴'}"></div>
+                                <div class="col" style="border: 1px solid black; background: lightgray; width: 100px;" align="center"
+                                     th:text="${#numbers.formatInteger(sumList[2],0,'COMMA')+'₴'}">
                                 </div>
                             </div>
                         </div>

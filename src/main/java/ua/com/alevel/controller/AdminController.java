@@ -61,12 +61,12 @@ public class AdminController {
     private static final String PHONE_FOR_STORE_COMPOSITIONS = "phoneForStoreCompositions";
     private static final String FLAG_FOR_STATISTIC = "flagStat";
     private static final String FLAG = "flag";
-    private static final String SELECT_PHONE_COLOR = "Select phone color";
-    private static final String SELECT_PHONE_DESCRIPTION = "Select phone description";
+    private static final String SELECT_PHONE_COLOR = "Виберіть колір телефону";
+    private static final String SELECT_PHONE_DESCRIPTION = "Виберіть опис телефону";
     private static final String BIRTHDAY_PATTERN = "dd.M.yyyy";
     private static final String CHECK_DATES_PATTERN = "dd.M.yyyy HH:mm:ss";
     private static final String FOR_WHAT_YEAR = "forWhatYear";
-    private static final String THREE_YEARS = "3 years";
+    private static final String THREE_YEARS = "3 роки";
     private static final int COUNT_PHONES_FOR_BAD_SALES = 12;
 
     public AdminController(UserDetailsServiceImpl userDetailsServiceImpl, PhoneInstanceService phoneInstanceService, BrandService brandService,
@@ -103,126 +103,126 @@ public class AdminController {
 
     @PostMapping("/create/phone-description")
     public String savePhoneDescription(Model model, CreatePhoneDescription phoneDescription) throws Exception {
-        if (phoneDescription.getBrand().equals("Select brand")) {
-            return errorMsg(model, "You must choose a brand");
+        if (phoneDescription.getBrand().equals("Виберіть бренд")) {
+            return errorMsg(model, "Ви повинні вибрати бренд");
         }
-        if (phoneDescription.getChargeType().equals("Select charge type")) {
-            return errorMsg(model, "You must choose a charge type");
+        if (phoneDescription.getChargeType().equals("Виберіть тип зарядного пристрою")) {
+            return errorMsg(model, "Ви повинні вибрати тип зарядного пристрою");
         }
-        if (phoneDescription.getCommunicationStandard().equals("Select communication standard")) {
-            return errorMsg(model, "You must choose a communication standard");
+        if (phoneDescription.getCommunicationStandard().equals("Виберіть стандарт звязку")) {
+            return errorMsg(model, "Ви повинні вибрати тип стандарту зв'язку");
         }
-        if (phoneDescription.getOperationSystem().equals("Select operation system")) {
-            return errorMsg(model, "You must choose an operation system");
+        if (phoneDescription.getOperationSystem().equals("Виберіть операційну систему")) {
+            return errorMsg(model, "Ви повинні вибрати операційну систему");
         }
-        if (phoneDescription.getProcessor().equals("Select processor")) {
-            return errorMsg(model, "You must choose a processor");
+        if (phoneDescription.getProcessor().equals("Виберіть процесор")) {
+            return errorMsg(model, "Ви повинні вибрати процесор");
         }
-        if (phoneDescription.getTypeScreen().equals("Select type screen")) {
-            return errorMsg(model, "You must choose a type screen");
+        if (phoneDescription.getTypeScreen().equals("Виберіть тип екрану")) {
+            return errorMsg(model, "Ви повинні вибрати тип екрану");
         }
-        if (phoneDescription.getCountry().equals("Select country producer")) {
-            return errorMsg(model, "You must choose a country producer");
+        if (phoneDescription.getCountry().equals("Виберіть країну виробника")) {
+            return errorMsg(model, "Ви повинні вибрати країну виробника");
         }
         if (phoneDescription.getName().isBlank()) {
-            return errorMsg(model, "Name field is empty");
+            return errorMsg(model, "Поле Назва порожнє");
         }
         if (phoneDescription.getSeries().isBlank()) {
-            return errorMsg(model, "Series field is empty");
+            return errorMsg(model, "Поле Серія порожнє");
         }
         if (!isNumber(phoneDescription.getDiagonal())) {
-            return errorMsg(model, "Incorrect diagonal");
+            return errorMsg(model, "Неправильна діагональ");
         }
         if (Float.parseFloat(phoneDescription.getDiagonal()) <= 0.0) {
-            return errorMsg(model, "Incorrect diagonal");
+            return errorMsg(model, "Неправильна діагональ");
         }
         if (phoneDescription.getDisplayResolution().isBlank()) {
-            return errorMsg(model, "Display resolution field is empty");
+            return errorMsg(model, "Поле Роздільна здатність дисплея порожнє");
         }
         if (!isNumber(phoneDescription.getScreenRefreshRate())) {
-            return errorMsg(model, "Incorrect screen refresh rate");
+            return errorMsg(model, "Неправильна частота оновлення екрана");
         }
         if (Integer.parseInt(phoneDescription.getScreenRefreshRate()) <= 0.0) {
-            return errorMsg(model, "Incorrect screen refresh rate");
+            return errorMsg(model, "Неправильна частота оновлення екрана");
         }
         if (!isNumber(phoneDescription.getNumberOfSimCards())) {
-            return errorMsg(model, "Incorrect number of sim cards");
+            return errorMsg(model, "Неправильна кількість сім-карт");
         }
         if (Integer.parseInt(phoneDescription.getNumberOfSimCards()) <= 0.0) {
-            return errorMsg(model, "Incorrect number of sim cards");
+            return errorMsg(model, "Неправильна кількість сім-карт");
         }
         if (!isNumber(phoneDescription.getNumberOfFrontCameras())) {
-            return errorMsg(model, "Incorrect number of front cameras");
+            return errorMsg(model, "Неправильна кількість фронтальних камер");
         }
         if (Integer.parseInt(phoneDescription.getNumberOfFrontCameras()) <= 0.0) {
-            return errorMsg(model, "Incorrect number of front cameras");
+            return errorMsg(model, "Неправильна кількість фронтальних камер");
         }
         if (phoneDescription.getInfoAboutFrontCameras().isBlank()) {
-            return errorMsg(model, "Information about front cameras field is empty");
+            return errorMsg(model, "Поле Інформація про фронтальні камери порожнє");
         }
         if (!isNumber(phoneDescription.getNumberOfMainCameras())) {
-            return errorMsg(model, "Incorrect number of main cameras");
+            return errorMsg(model, "Неправильна кількість основних камер");
         }
         if (Integer.parseInt(phoneDescription.getNumberOfMainCameras()) <= 0.0) {
-            return errorMsg(model, "Incorrect number of main cameras");
+            return errorMsg(model, "Неправильна кількість основних камер");
         }
         if (phoneDescription.getInfoAboutMainCameras().isBlank()) {
-            return errorMsg(model, "Information about main cameras field is empty");
+            return errorMsg(model, "Поле Інформація про основні камери порожнє");
         }
         if (!isNumber(phoneDescription.getWeight())) {
-            return errorMsg(model, "Incorrect weight");
+            return errorMsg(model, "Неправильна вага");
         }
         if (Float.parseFloat(phoneDescription.getWeight()) <= 0.0) {
-            return errorMsg(model, "Incorrect weight");
+            return errorMsg(model, "Неправильна вага");
         }
         if (!isNumber(phoneDescription.getHeight())) {
-            return errorMsg(model, "Incorrect height");
+            return errorMsg(model, "Неправильна висота");
         }
         if (Float.parseFloat(phoneDescription.getHeight()) <= 0.0) {
-            return errorMsg(model, "Incorrect height");
+            return errorMsg(model, "Неправильна висота");
         }
         if (!isNumber(phoneDescription.getWidth())) {
-            return errorMsg(model, "Incorrect width");
+            return errorMsg(model, "Неправильна ширина");
         }
         if (Float.parseFloat(phoneDescription.getWidth()) <= 0.0) {
-            return errorMsg(model, "Incorrect width");
+            return errorMsg(model, "Неправильна ширина");
         }
         if (phoneDescription.getDegreeOfMoistureProtection().isBlank()) {
-            return errorMsg(model, "Degree of moisture protection field is empty");
+            return errorMsg(model, "Поле Ступінь вологозахисту порожнє");
         }
         if (!isNumber(phoneDescription.getGuaranteeTimeMonths())) {
-            return errorMsg(model, "Incorrect guarantee time in months");
+            return errorMsg(model, "Неправильний термін гарантії в місяцях");
         }
         if (Integer.parseInt(phoneDescription.getGuaranteeTimeMonths()) <= 0.0) {
-            return errorMsg(model, "Incorrect guarantee time in months");
+            return errorMsg(model, "Неправильний термін гарантії в місяцях");
         }
 
         PhoneDescription phoneDescriptionForDb = PhoneMapper.mapCreatePhoneDescriptionToPhoneDescription(new PhoneDescription(), phoneDescription, brandService, chargeTypeService,
                 communicationStandardService, operationSystemService, processorService, typeScreenService, countryService, new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH), true);
 
         if (!phoneDescriptionService.save(phoneDescriptionForDb)) {
-            return errorMsg(model, "Phone description for this phone already exists");
+            return errorMsg(model, "Опис телефону для цієї  моделі телефону вже існує");
         }
 
-        return errorMsg(model, "Phone description saved successfully");
+        return errorMsg(model, "Опис телефону успішно збережено");
     }
 
     @PostMapping("/create/view")
     public String saveView(Model model, View createView) {
         if (createView.getColor().isBlank()) {
-            return errorMsg(model, "Color field is empty");
+            return errorMsg(model, "Поле кольору порожнє");
         }
-        if (createView.getColorForWhichPhone().equals("Select color for which phone")) {
-            return errorMsg(model, "You must select color for which phone");
+        if (createView.getColorForWhichPhone().equals("Виберіть колір для якого телефону")) {
+            return errorMsg(model, "Ви повинні вибрати колір для якого телефону");
         }
         if (createView.getPhoneFrontAndBack().isBlank()) {
-            return errorMsg(model, "Picture 1 field is empty");
+            return errorMsg(model, "Поле Зображення 1 порожнє");
         }
         if (createView.getLeftSideAndRightSide().isBlank()) {
-            return errorMsg(model, "Picture 2 field is empty");
+            return errorMsg(model, "Поле Зображення 2 порожнє");
         }
         if (createView.getUpSideAndDownSide().isBlank()) {
-            return errorMsg(model, "Picture 3 field is empty");
+            return errorMsg(model, "Поле Зображення 3 порожнє");
         }
 
         List<String> photos = setPhotosForGoogleDrive(createView.getPhoneFrontAndBack(),
@@ -233,40 +233,40 @@ public class AdminController {
         createView.setUpSideAndDownSide(photos.get(2));
 
         if (!viewService.save(createView)) {
-            return errorMsg(model, "This view already exists");
+            return errorMsg(model, "Такий зовнішній вигляд вже існує");
         }
 
-        return errorMsg(model, "View saved successfully");
+        return errorMsg(model, "Зовнішній вигляд успішно збережено");
     }
 
     @PostMapping("/create/phone")
     public String savePhone(Model model, CreatePhone phone) {
         if (phone.getView().equals(SELECT_PHONE_COLOR)) {
-            return errorMsg(model, "You must choose a phone color");
+            return errorMsg(model, "Ви повинні вибрати колір телефону");
         }
         if (phone.getPhoneDescription().equals(SELECT_PHONE_DESCRIPTION)) {
-            return errorMsg(model, "You must choose a phone description");
+            return errorMsg(model, "Ви повинні вибрати опис телефону");
         }
         if (!isNumber(phone.getAmountOfBuiltInMemory())) {
-            return errorMsg(model, "Incorrect amount of built in memory");
+            return errorMsg(model, "Неправильний обсяг вбудованої пам'яті");
         }
         if (Integer.parseInt(phone.getAmountOfBuiltInMemory()) <= 0.0) {
-            return errorMsg(model, "Incorrect amount of built in memory");
+            return errorMsg(model, "Неправильний обсяг вбудованої пам'яті");
         }
         if (!isNumber(phone.getAmountOfRam())) {
-            return errorMsg(model, "Incorrect amount of RAM");
+            return errorMsg(model, "Неправильний обсяг оперативної пам'яті");
         }
         if (Integer.parseInt(phone.getAmountOfRam()) <= 0.0) {
-            return errorMsg(model, "Incorrect amount of RAM");
+            return errorMsg(model, "Неправильний обсяг оперативної пам'яті");
         }
         if (!isNumber(phone.getPrice())) {
-            return errorMsg(model, "Incorrect price");
+            return errorMsg(model, "Неправильна ціна");
         }
         if (Integer.parseInt(phone.getPrice()) <= 0) {
-            return errorMsg(model, "Incorrect price");
+            return errorMsg(model, "Неправильна ціна");
         }
         if (phone.getImei().isBlank()) {
-            return errorMsg(model, "IMEI field is empty");
+            return errorMsg(model, "Поле IMEI порожнє");
         }
 
         View view = viewService.findById(phone.getView());
@@ -301,23 +301,23 @@ public class AdminController {
         }
 
         if (check != -1) {
-            return errorMsg(model, "This IMEI: " + imeiList[check].trim() + " already exists");
+            return errorMsg(model, "Цей IMEI: " + imeiList[check].trim() + " вже існує");
         }
         else if (value == 1) {
-            return errorMsg(model, "Phone saved successfully");
+            return errorMsg(model, "Телефон успішно збережено");
         }
         else {
-            return errorMsg(model, "Phones saved successfully");
+            return errorMsg(model, "Телефони успішно збережено");
         }
     }
 
     @PostMapping("/add-existing-phones")
     public String addExistingPhones(Model model, PhoneAddExisting phoneAddExisting) {
-        if (phoneAddExisting.getPhoneId().equals("Select phone")) {
-            return errorMsg(model, "You must select phone which is already in the database");
+        if (phoneAddExisting.getPhoneId().equals("Виберіть телефон")) {
+            return errorMsg(model, "Ви повинні вибрати телефон, який вже є в базі даних");
         }
         if (phoneAddExisting.getImei().isBlank()) {
-            return errorMsg(model, "IMEI field is empty");
+            return errorMsg(model, "Поле IMEI порожнє");
         }
 
         Phone phoneInDatabase = phoneInstanceService.findByIdPhone(phoneAddExisting.getPhoneId());
@@ -344,13 +344,13 @@ public class AdminController {
         }
 
         if (check != -1) {
-            return errorMsg(model, "This IMEI: " + imeiList[check].trim() + " already exists");
+            return errorMsg(model, "Цей IMEI: " + imeiList[check].trim() + " вже існує");
         }
         else if (value == 1) {
-            return errorMsg(model, "Phone saved successfully");
+            return errorMsg(model, "Телефон успішно збережено");
         }
         else {
-            return errorMsg(model, "Phones saved successfully");
+            return errorMsg(model, "Телефони успішно збережено");
         }
     }
 
@@ -371,41 +371,41 @@ public class AdminController {
     }
 
     @PostMapping("/delete/phone-description")
-    public String deletePhoneDescription(PhoneDescriptionForDelete deletePhoneDescription) {
+    public String deletePhoneDescription(Model model, PhoneDescriptionForDelete deletePhoneDescription) {
         if (deletePhoneDescription.getPhoneDescription().equals(SELECT_PHONE_DESCRIPTION)) {
-            return "redirect:/admin/delete?success=You must select phone description";
+            return deletePhone(model, "Ви повинні вибрати опис телефону");
         }
 
         if (!phoneDescriptionService.delete(deletePhoneDescription.getPhoneDescription())) {
-            return "redirect:/admin/delete?success=This phone description already used";
+            return deletePhone(model, "Цей опис телефону вже використовувався");
         }
         else {
-            return "redirect:/admin/delete?success=This phone description successfully deleted";
+            return deletePhone(model, "Цей опис телефону успішно видалено");
         }
     }
 
     @PostMapping("/delete/view")
-    public String deleteView(ViewForDelete deleteView) {
+    public String deleteView(Model model, ViewForDelete deleteView) {
         if (deleteView.getView().equals(SELECT_PHONE_COLOR)) {
-            return "redirect:/admin/delete?success=You must select phone color";
+            return deletePhone(model, "Ви повинні вибрати колір телефону");
         }
 
         if (!viewService.delete(deleteView.getView())) {
-            return "redirect:/admin/delete?success=This phone view already used";
+            return deletePhone(model, "Цей зовнішній вигляд телефону вже використовувався");
         }
         else {
-            return "redirect:/admin/delete?success=This phone view successfully deleted";
+            return deletePhone(model, "Цей зовнішній вигляд телефону успішно видалено");
         }
     }
 
     @PostMapping("/delete/phone")
-    public String deletePhone(CreatePhone phoneDelete) {
-        if (phoneDelete.getPhoneId().equals("Select phone")) {
-            return "redirect:/admin/delete?success=You must select a phone";
+    public String deletePhone(Model model, CreatePhone phoneDelete) {
+        if (phoneDelete.getPhoneId().equals("Виберіть телефон")) {
+            return deletePhone(model, "Ви повинні вибрати телефон");
         }
 
         phoneInstanceService.delete(phoneInstanceService.findByIdPhone(phoneDelete.getPhoneId()));
-        return "redirect:/admin/delete?success=This phones successfully deleted";
+        return deletePhone(model, "Ці телефони успішно видалено");
     }
 
     @GetMapping("/change")
@@ -445,108 +445,108 @@ public class AdminController {
     }
 
     @PostMapping("/change/phone-description")
-    public String changePhoneDescription(CreatePhoneDescription changePhoneDescription) throws Exception {
+    public String changePhoneDescription(Model model, CreatePhoneDescription changePhoneDescription) throws Exception {
         if (changePhoneDescription.getPhoneDescriptionId().isBlank()) {
-            return "redirect:/admin/change?success=You must select phone description";
+            return changePhone(model,"Ви повинні вибрати опис телефону");
         }
-        if (changePhoneDescription.getBrand().equals("Select brand")) {
-            return "redirect:/admin/change?success=You must choose a brand";
+        if (changePhoneDescription.getBrand().equals("Виберіть бренд")) {
+            return changePhone(model,"Ви повинні вибрати бренд");
         }
-        if (changePhoneDescription.getChargeType().equals("Select charge type")) {
-            return "redirect:/admin/change?success=You must choose a charge type";
+        if (changePhoneDescription.getChargeType().equals("Виберіть тип зарядного пристрою")) {
+            return changePhone(model,"Ви повинні вибрати тип зарядного пристрою");
         }
-        if (changePhoneDescription.getCommunicationStandard().equals("Select communication standard")) {
-            return "redirect:/admin/change?success=You must choose a communication standard";
+        if (changePhoneDescription.getCommunicationStandard().equals("Виберіть стандарт звязку")) {
+            return changePhone(model,"Ви повинні вибрати тип стандарту зв'язку");
         }
-        if (changePhoneDescription.getOperationSystem().equals("Select operation system")) {
-            return "redirect:/admin/change?success=You must choose an operation system";
+        if (changePhoneDescription.getOperationSystem().equals("Виберіть операційну систему")) {
+            return changePhone(model,"Ви повинні вибрати операційну систему");
         }
-        if (changePhoneDescription.getProcessor().equals("Select processor")) {
-            return "redirect:/admin/change?success=You must choose a processor";
+        if (changePhoneDescription.getProcessor().equals("Виберіть процесор")) {
+            return changePhone(model,"Ви повинні вибрати процесор");
         }
-        if (changePhoneDescription.getTypeScreen().equals("Select type screen")) {
-            return "redirect:/admin/change?success=You must choose a type screen";
+        if (changePhoneDescription.getTypeScreen().equals("Виберіть тип екрану")) {
+            return changePhone(model,"Ви повинні вибрати тип екрану");
         }
-        if (changePhoneDescription.getCountry().equals("Select country producer")) {
-            return "redirect:/admin/change?success=You must choose a country producer";
+        if (changePhoneDescription.getCountry().equals("Виберіть країну виробника")) {
+            return changePhone(model,"Ви повинні вибрати країну виробника");
         }
         if (changePhoneDescription.getName().isBlank()) {
-            return "redirect:/admin/change?success=Name field is empty";
+            return changePhone(model,"Поле Назва порожнє");
         }
         if (changePhoneDescription.getSeries().isBlank()) {
-            return "redirect:/admin/change?success=Series field is empty";
+            return changePhone(model,"Поле Серія порожнє");
         }
         if (!isNumber(changePhoneDescription.getDiagonal())) {
-            return "redirect:/admin/change?success=Incorrect diagonal";
+            return changePhone(model,"Неправильна діагональ");
         }
         if (Float.parseFloat(changePhoneDescription.getDiagonal()) <= 0.0) {
-            return "redirect:/admin/change?success=Incorrect diagonal";
+            return changePhone(model,"Неправильна діагональ");
         }
         if (changePhoneDescription.getDisplayResolution().isBlank()) {
-            return "redirect:/admin/change?success=Display resolution field is empty";
+            return changePhone(model,"Поле Роздільна здатність дисплея порожнє");
         }
         if (!isNumber(changePhoneDescription.getScreenRefreshRate())) {
-            return "redirect:/admin/change?success=Incorrect screen refresh rate";
+            return changePhone(model,"Неправильна частота оновлення екрана");
         }
         if (Integer.parseInt(changePhoneDescription.getScreenRefreshRate()) <= 0.0) {
-            return "redirect:/admin/change?success=Incorrect screen refresh rate";
+            return changePhone(model,"Неправильна частота оновлення екрана");
         }
         if (!isNumber(changePhoneDescription.getNumberOfSimCards())) {
-            return "redirect:/admin/change?success=Incorrect number of sim cards";
+            return changePhone(model,"Неправильна кількість сім-карт");
         }
         if (Integer.parseInt(changePhoneDescription.getNumberOfSimCards()) <= 0.0) {
-            return "redirect:/admin/change?success=Incorrect number of sim cards";
+            return changePhone(model,"Неправильна кількість сім-карт");
         }
         if (!isNumber(changePhoneDescription.getNumberOfFrontCameras())) {
-            return "redirect:/admin/change?success=Incorrect number of front cameras";
+            return changePhone(model,"Неправильна кількість фронтальних камер");
         }
         if (Integer.parseInt(changePhoneDescription.getNumberOfFrontCameras()) <= 0.0) {
-            return "redirect:/admin/change?success=Incorrect number of front cameras";
+            return changePhone(model,"Неправильна кількість фронтальних камер");
         }
         if (changePhoneDescription.getInfoAboutFrontCameras().isBlank()) {
-            return "redirect:/admin/change?success=Information about front cameras field is empty";
+            return changePhone(model,"Поле Інформація про фронтальні камери порожнє");
         }
         if (!isNumber(changePhoneDescription.getNumberOfMainCameras())) {
-            return "redirect:/admin/change?success=Incorrect number of main cameras";
+            return changePhone(model,"Неправильна кількість основних камер");
         }
         if (Integer.parseInt(changePhoneDescription.getNumberOfMainCameras()) <= 0.0) {
-            return "redirect:/admin/change?success=Incorrect number of main cameras";
+            return changePhone(model,"Неправильна кількість основних камер");
         }
         if (changePhoneDescription.getInfoAboutMainCameras().isBlank()) {
-            return "redirect:/admin/change?success=Information about main cameras field is empty";
+            return changePhone(model,"Поле Інформація про основні камери порожнє");
         }
         if (!isNumber(changePhoneDescription.getWeight())) {
-            return "redirect:/admin/change?success=Incorrect weight";
+            return changePhone(model,"Неправильна вага");
         }
         if (Float.parseFloat(changePhoneDescription.getWeight()) <= 0.0) {
-            return "redirect:/admin/change?success=Incorrect weight";
+            return changePhone(model,"Неправильна вага");
         }
         if (!isNumber(changePhoneDescription.getHeight())) {
-            return "redirect:/admin/change?success=Incorrect height";
+            return changePhone(model,"Неправильна висота");
         }
         if (Float.parseFloat(changePhoneDescription.getHeight()) <= 0.0) {
-            return "redirect:/admin/change?success=Incorrect height";
+            return changePhone(model,"Неправильна висота");
         }
         if (!isNumber(changePhoneDescription.getWidth())) {
-            return "redirect:/admin/change?success=Incorrect width";
+            return changePhone(model,"Неправильна ширина");
         }
         if (Float.parseFloat(changePhoneDescription.getWidth()) <= 0.0) {
-            return "redirect:/admin/change?success=Incorrect width";
+            return changePhone(model,"Неправильна ширина");
         }
         if (changePhoneDescription.getDegreeOfMoistureProtection().isBlank()) {
-            return "redirect:/admin/change?success=Degree of moisture protection field is empty";
+            return changePhone(model,"Поле Ступінь вологозахисту порожнє");
         }
         if (!isNumber(changePhoneDescription.getGuaranteeTimeMonths())) {
-            return "redirect:/admin/change?success=Incorrect guarantee time in months";
+            return changePhone(model,"Неправильний термін гарантії в місяцях");
         }
         if (Integer.parseInt(changePhoneDescription.getGuaranteeTimeMonths()) <= 0.0) {
-            return "redirect:/admin/change?success=Incorrect guarantee time in months";
+            return changePhone(model,"Неправильний термін гарантії в місяцях");
         }
         if (changePhoneDescription.getDateAddedToDatabase().isBlank()) {
-            return "redirect:/admin/change?success=Date added to database field is empty";
+            return changePhone(model,"Поле Дата додавання до бази даних порожнє");
         }
         if (!Util.isValidDate(changePhoneDescription.getDateAddedToDatabase(), BIRTHDAY_PATTERN)) {
-            return "redirect:/admin/change?success=Incorrect date added to database";
+            return changePhone(model,"Неправильна дата додавання до бази даних");
         }
 
         PhoneDescription phoneDescription = phoneDescriptionService.findById(changePhoneDescription.getPhoneDescriptionId());
@@ -555,25 +555,25 @@ public class AdminController {
                 communicationStandardService, operationSystemService, processorService, typeScreenService, countryService, new SimpleDateFormat(BIRTHDAY_PATTERN, Locale.ENGLISH), false);
 
         phoneDescriptionService.update(phoneDescriptionForDb);
-        return "redirect:/admin/change?success=Phone description updated successfully";
+        return changePhone(model,"Опис телефону успішно оновлено");
     }
 
     @PostMapping("/change/view")
-    public String changeView(CreateView changeView) {
+    public String changeView(Model model, CreateView changeView) {
         if (changeView.getViewId().isBlank()) {
-            return "redirect:/admin/change?success=You must select phone color";
+            return changePhone(model,"Ви повинні вибрати колір для якого телефону");
         }
         if (changeView.getColor().isBlank()) {
-            return "redirect:/admin/change?success=Color field is empty";
+            return changePhone(model,"Поле кольору порожнє");
         }
         if (changeView.getPhoneFrontAndBack().isBlank()) {
-            return "redirect:/admin/change?success=Picture 1 field is empty";
+            return changePhone(model,"Поле Зображення 1 порожнє");
         }
         if (changeView.getLeftSideAndRightSide().isBlank()) {
-            return "redirect:/admin/change?success=Picture 2 field is empty";
+            return changePhone(model,"Поле Зображення 2 порожнє");
         }
         if (changeView.getUpSideAndDownSide().isBlank()) {
-            return "redirect:/admin/change?success=Picture 3 field is empty";
+            return changePhone(model,"Поле Зображення 3 порожнє");
         }
 
         List<String> photos = setPhotosForGoogleDrive(changeView.getPhoneFrontAndBack(),
@@ -590,31 +590,31 @@ public class AdminController {
         view.setUpSideAndDownSide(changeView.getUpSideAndDownSide());
 
         viewService.update(view);
-        return "redirect:/admin/change?success=View updated successfully";
+        return changePhone(model,"Зовнішній вигляд успішно оновлено");
     }
 
     @PostMapping("/change/phone")
-    public String changePhone(CreatePhone changePhone) {
+    public String changePhone(Model model, CreatePhone changePhone) {
         if (changePhone.getPhoneId().isBlank()) {
-            return "redirect:/admin/change?success=You must select phone";
+            return changePhone(model,"Ви повинні вибрати телефон");
         }
         if (!isNumber(changePhone.getAmountOfBuiltInMemory())) {
-            return "redirect:/admin/change?success=Incorrect amount of built in memory";
+            return changePhone(model,"Неправильний обсяг вбудованої пам'яті");
         }
         if (Integer.parseInt(changePhone.getAmountOfBuiltInMemory()) <= 0.0) {
-            return "redirect:/admin/change?success=Incorrect amount of built in memory";
+            return changePhone(model,"Неправильний обсяг вбудованої пам'яті");
         }
         if (!isNumber(changePhone.getAmountOfRam())) {
-            return "redirect:/admin/change?success=Incorrect amount of RAM";
+            return changePhone(model,"Неправильний обсяг оперативної пам'яті");
         }
         if (Integer.parseInt(changePhone.getAmountOfRam()) <= 0.0) {
-            return "redirect:/admin/change?success=Incorrect amount of RAM";
+            return changePhone(model,"Неправильний обсяг оперативної пам'яті");
         }
         if (!isNumber(changePhone.getPrice())) {
-            return "redirect:/admin/change?success=Incorrect price";
+            return changePhone(model,"Неправильна ціна");
         }
         if (Integer.parseInt(changePhone.getPrice()) <= 0) {
-            return "redirect:/admin/change?success=Incorrect price";
+            return changePhone(model,"Неправильна ціна");
         }
 
         Phone phone = phoneInstanceService.findByIdPhone(changePhone.getPhoneId());
@@ -623,7 +623,7 @@ public class AdminController {
                 Integer.parseInt(changePhone.getAmountOfRam()));
         phoneInstanceService.updatePhoneInstance(phone, Integer.parseInt(changePhone.getAmountOfBuiltInMemory()),
                 Integer.parseInt(changePhone.getAmountOfRam()), Integer.parseInt(changePhone.getPrice()));
-        return "redirect:/admin/change?success=Phones updated successfully";
+        return changePhone(model,"Телефони успішно оновлено");
     }
 
     @GetMapping("/allphones")
@@ -636,10 +636,10 @@ public class AdminController {
     }
 
     @PostMapping("/allphones")
-    public String deleteFromAllPhones(@RequestParam(value = "id") String id) {
+    public String deleteFromAllPhones(Model model, @RequestParam(value = "id") String id) {
         phoneInstanceService.deleteByIdPhoneInstance(id);
 
-        return "redirect:/admin/allphones?success=The phone has been deleted successfully";
+        return allPhones(model,"Телефон успішно видалено");
     }
 
     @GetMapping("/store-composition")
@@ -669,26 +669,26 @@ public class AdminController {
     }
 
     @PutMapping("/close-order")
-    public String closeOrder(@RequestParam(value = "id") String id) {
+    public String closeOrder(Model model, @RequestParam(value = "id") String id) {
         clientCheckService.updateCheckClosed(true, id);
 
-        return "redirect:/admin/orders?success=Check " + id + " successfully closed";
+        return getOrders(model, "Замовлення " + id + " успішно закрите");
     }
 
     @PutMapping("/cancel-order")
-    public String cancelOrder(@RequestParam(value = "id") String id) {
+    public String cancelOrder(Model model, @RequestParam(value = "id") String id) {
         ClientCheck clientCheckFromDB = clientCheckService.findById(id).get();
         RegisteredUser registeredUser = userDetailsServiceImpl.findById(clientCheckService.getUserIdForCheckId(id));
         SimpleDateFormat formatter = new SimpleDateFormat(CHECK_DATES_PATTERN, Locale.ENGLISH);
 
-        mailSender.sendMailPurchaseNotice(registeredUser.getEmailAddress(), "Your order " + clientCheckFromDB.getId() + " has been canceled",
+        mailSender.sendMailPurchaseNotice(registeredUser.getEmailAddress(), "Ваше замовлення " + clientCheckFromDB.getId() + " було скасовано",
                 new OrderInfoForMail(clientCheckFromDB, formatter.format(clientCheckFromDB.getCreated()),
                         phoneInstanceService.findPriceForClientCheckId(clientCheckFromDB.getId()), false, registeredUser));
 
         phoneInstanceService.cancelOrder(id);
         clientCheckService.cancelCheck(id);
 
-        return "redirect:/admin/orders?success=Check " + id + " successfully canceled";
+        return getOrders(model, "Замовлення " + id + " успішно скасоване");
     }
 
     @GetMapping("/characteristics")
@@ -709,22 +709,22 @@ public class AdminController {
     }
 
     @PostMapping("/characteristics/brands")
-    public String deleteBrands(@RequestParam(value = "id") String id) {
+    public String deleteBrands(Model model, @RequestParam(value = "id") String id) {
         if (!brandService.delete(id)) {
-            return "redirect:/admin/characteristics/brands?success=This brand cannot be removed as it is already in use";
+            return customizeBrands(model, "Цей бренд не може бути видалений, оскільки він вже використовувався");
         }
         else {
-            return "redirect:/admin/characteristics/brands?success=The brand has been successfully removed";
+            return customizeBrands(model, "Бренд успішно видалено");
         }
     }
 
     @PostMapping("/characteristics/brands/create")
-    public String createBrands(NewBrand newBrand) {
+    public String createBrands(Model model, NewBrand newBrand) {
         if (newBrand.getName().isBlank()) {
-            return "redirect:/admin/characteristics/brands?success=Name field is empty";
+            return customizeBrands(model,"Поле Ім'я порожнє");
         }
-        if (newBrand.getCountry().equals("Select country")) {
-            return "redirect:/admin/characteristics/brands?success=You must select country";
+        if (newBrand.getCountry().equals("Виберіть країну")) {
+            return  customizeBrands(model,"Ви повинні вибрати країну");
         }
 
         Brand brand = new Brand();
@@ -732,10 +732,10 @@ public class AdminController {
         brand.setCountry(countryService.findCountryByName(newBrand.getCountry()).get());
         brand.setPhoneDescriptions(new ArrayList<>());
         if (!brandService.save(brand)) {
-            return "redirect:/admin/characteristics/brands?success=This brand already exists";
+            return customizeBrands(model, "Цей бренд вже існує");
         }
         else {
-            return "redirect:/admin/characteristics/brands?success=Brand successfully saved";
+            return customizeBrands(model, "Бренд успішно збережено");
         }
     }
 
@@ -751,27 +751,27 @@ public class AdminController {
     }
 
     @PostMapping("/characteristics/chargetypes")
-    public String deleteChargeTypes(@RequestParam(value = "id") String id) {
+    public String deleteChargeTypes(Model model, @RequestParam(value = "id") String id) {
         if (!chargeTypeService.delete(id)) {
-            return "redirect:/admin/characteristics/chargetypes?success=This charge type cannot be removed as it is already in use";
+            return customizeChargeTypes(model, "Цей тип зарядного пристрою не можна видалити, оскільки він вже використовувався");
         }
         else {
-            return "redirect:/admin/characteristics/chargetypes?success=The charge type has been successfully removed";
+            return customizeChargeTypes(model, "Тип зарядного пристрою успішно видалено");
         }
     }
 
     @PostMapping("/characteristics/chargetypes/create")
-    public String createChargeTypes(ChargeType newChargeType) {
+    public String createChargeTypes(Model model, ChargeType newChargeType) {
         if (newChargeType.getName().isBlank()) {
-            return "redirect:/admin/characteristics/chargetypes?success=Name field is empty";
+            return customizeChargeTypes(model, "Поле Ім'я порожнє");
         }
 
         newChargeType.setPhoneDescriptions(new ArrayList<>());
         if (!chargeTypeService.save(newChargeType)) {
-            return "redirect:/admin/characteristics/chargetypes?success=This charge type already exists";
+            return customizeChargeTypes(model, "Цей тип зарядного пристрою вже існує");
         }
         else {
-            return "redirect:/admin/characteristics/chargetypes?success=Charge type successfully saved";
+            return customizeChargeTypes(model, "Тип зарядного пристрою успішно збережено");
         }
     }
 
@@ -787,27 +787,27 @@ public class AdminController {
     }
 
     @PostMapping("/characteristics/communicationstandards")
-    public String deleteCommunicationStandards(@RequestParam(value = "id") String id) {
+    public String deleteCommunicationStandards(Model model, @RequestParam(value = "id") String id) {
         if (!communicationStandardService.delete(id)) {
-            return "redirect:/admin/characteristics/communicationstandards?success=This communication standard cannot be removed as it is already in use";
+            return customizeCommunicationStandards(model, "Цей стандарт зв'язку не може бути вилучений, оскільки він вже використовувався");
         }
         else {
-            return "redirect:/admin/characteristics/communicationstandards?success=The communication standard has been successfully removed";
+            return customizeCommunicationStandards(model, "Стандарт зв'язку успішно видалено");
         }
     }
 
     @PostMapping("/characteristics/communicationstandards/create")
-    public String createCommunicationStandards(CommunicationStandard newCommunicationStandard) {
+    public String createCommunicationStandards(Model model, CommunicationStandard newCommunicationStandard) {
         if (newCommunicationStandard.getName().isBlank()) {
-            return "redirect:/admin/characteristics/communicationstandards?success=Name field is empty";
+            return customizeCommunicationStandards(model, "Поле Ім'я порожнє");
         }
 
         newCommunicationStandard.setPhoneDescriptions(new ArrayList<>());
         if (!communicationStandardService.save(newCommunicationStandard)) {
-            return "redirect:/admin/characteristics/communicationstandards?success=This communication standard already exists";
+            return customizeCommunicationStandards(model, "Цей стандарт зв'язку вже існує");
         }
         else {
-            return "redirect:/admin/characteristics/communicationstandards?success=Communication standard successfully saved";
+            return customizeCommunicationStandards(model, "Стандарт зв'язку успішно збережено");
         }
     }
 
@@ -823,27 +823,27 @@ public class AdminController {
     }
 
     @PostMapping("/characteristics/operationsystems")
-    public String deleteOperationSystems(@RequestParam(value = "id") String id) {
+    public String deleteOperationSystems(Model model, @RequestParam(value = "id") String id) {
         if (!operationSystemService.delete(id)) {
-            return "redirect:/admin/characteristics/operationsystems?success=This operation system cannot be removed as it is already in use";
+            return customizeOperationSystems(model, "Цю операційну систему не можна видалити, оскільки вона вже використовувалася");
         }
         else {
-            return "redirect:/admin/characteristics/operationsystems?success=The operation system has been successfully removed";
+            return customizeOperationSystems(model, "Операційну систему успішно видалено");
         }
     }
 
     @PostMapping("/characteristics/operationsystems/create")
-    public String createOperationSystems(OperationSystem newOperationSystem) {
+    public String createOperationSystems(Model model, OperationSystem newOperationSystem) {
         if (newOperationSystem.getName().isBlank()) {
-            return "redirect:/admin/characteristics/operationsystems?success=Name field is empty";
+            return customizeOperationSystems(model, "Поле Назва порожнє");
         }
 
         newOperationSystem.setPhoneDescriptions(new ArrayList<>());
         if (!operationSystemService.save(newOperationSystem)) {
-            return "redirect:/admin/characteristics/operationsystems?success=This operation system already exists";
+            return customizeOperationSystems(model, "Ця операційна система вже існує");
         }
         else {
-            return "redirect:/admin/characteristics/operationsystems?success=Operation system successfully saved";
+            return customizeOperationSystems(model, "Операційну систему успішно збережено");
         }
     }
 
@@ -859,27 +859,27 @@ public class AdminController {
     }
 
     @PostMapping("/characteristics/typescreens")
-    public String deleteTypeScreens(@RequestParam(value = "id") String id) {
+    public String deleteTypeScreens(Model model, @RequestParam(value = "id") String id) {
         if (!typeScreenService.delete(id)) {
-            return "redirect:/admin/characteristics/typescreens?success=This type screen cannot be removed as it is already in use";
+            return customizeTypeScreens(model, "Екран цього типу не можна видалити, оскільки він вже використовувався");
         }
         else {
-            return "redirect:/admin/characteristics/typescreens?success=The type screen has been successfully removed";
+            return customizeTypeScreens(model, "Екран цього типу успішно видалено");
         }
     }
 
     @PostMapping("/characteristics/typescreens/create")
-    public String createTypeScreens(TypeScreen newTypeScreen) {
+    public String createTypeScreens(Model model, TypeScreen newTypeScreen) {
         if (newTypeScreen.getName().isBlank()) {
-            return "redirect:/admin/characteristics/typescreens?success=Name field is empty";
+            return customizeTypeScreens(model, "Поле Ім'я порожнє");
         }
 
         newTypeScreen.setPhoneDescriptions(new ArrayList<>());
         if (!typeScreenService.save(newTypeScreen)) {
-            return "redirect:/admin/characteristics/typescreens?success=This type screen already exists";
+            return customizeTypeScreens(model, "Екран цього типу вже існує");
         }
         else {
-            return "redirect:/admin/characteristics/typescreens?success=Type screen successfully saved";
+            return customizeTypeScreens(model, "Екран цього типу успішно збережено");
         }
     }
 
@@ -895,33 +895,33 @@ public class AdminController {
     }
 
     @PostMapping("/characteristics/processors")
-    public String deleteProcessors(@RequestParam(value = "id") String id) {
+    public String deleteProcessors(Model model, @RequestParam(value = "id") String id) {
         if (!processorService.delete(id)) {
-            return "redirect:/admin/characteristics/processors?success=This processor cannot be removed as it is already in use";
+            return customizeProcessors(model, "Цей процесор не можна видалити, оскільки він вже використовувався");
         }
         else {
-            return "redirect:/admin/characteristics/processors?success=The processor has been successfully removed";
+            return customizeProcessors(model, "Процесор успішно видалено");
         }
     }
 
     @PostMapping("/characteristics/processors/create")
-    public String createProcessors(Processor newProcessor) {
+    public String createProcessors(Model model, Processor newProcessor) {
         if (newProcessor.getName().isBlank()) {
-            return "redirect:/admin/characteristics/processors?success=Name field is empty";
+            return customizeProcessors(model, "Поле Ім'я порожнє");
         }
         if (newProcessor.getCoreFrequency() <= 0.0) {
-            return "redirect:/admin/characteristics/processors?success=Incorrect core frequency";
+            return customizeProcessors(model, "Неправильна частота ядра");
         }
         if (newProcessor.getNumberOfCores() == 0) {
-            return "redirect:/admin/characteristics/processors?success=You must select the number of cores";
+            return customizeProcessors(model, "Ви повинні вибрати кількість ядер");
         }
 
         newProcessor.setPhoneDescriptions(new ArrayList<>());
         if (!processorService.save(newProcessor)) {
-            return "redirect:/admin/characteristics/processors?success=This processor already exists";
+            return customizeProcessors(model, "Цей процесор вже існує");
         }
         else {
-            return "redirect:/admin/characteristics/processors?success=Processor successfully saved";
+            return customizeProcessors(model, "Процесор успішно збережено");
         }
     }
 
@@ -937,11 +937,11 @@ public class AdminController {
 
     @GetMapping("/statistic-1/show")
     public String getFirstStatisticShow(Model model, SalesSettingsForSpecificModels salesSettingsForSpecificModels) throws Exception {
-        if (salesSettingsForSpecificModels.getId().equals("Select phone")) {
-            return modelAttributesForFirstStatisticAndEighth(model, "You must select phone", true, false, "firststatistic");
+        if (salesSettingsForSpecificModels.getId().equals("Виберіть телефон")) {
+            return modelAttributesForFirstStatisticAndEighth(model, "Ви повинні вибрати телефон", true, false, "firststatistic");
         }
-        if (salesSettingsForSpecificModels.getYear().equals("Select year")) {
-            return modelAttributesForFirstStatisticAndEighth(model, "You must select year", true, false, "firststatistic");
+        if (salesSettingsForSpecificModels.getYear().equals("Виберіть рік")) {
+            return modelAttributesForFirstStatisticAndEighth(model, "Ви повинні вибрати рік", true, false, "firststatistic");
         }
 
         if (!salesSettingsForSpecificModels.getYear().equals(THREE_YEARS)) {
@@ -994,8 +994,8 @@ public class AdminController {
 
     @GetMapping("/statistic-2/show")
     public String getSecondStatisticShow(Model model, SalesSettingsForSpecificModels salesSettingsForSpecificModels) throws Exception {
-        if (salesSettingsForSpecificModels.getYear().equals("Select year")) {
-            return modelAttributesForSecondStatistic(model, "You must select year", true);
+        if (salesSettingsForSpecificModels.getYear().equals("Виберіть рік")) {
+            return modelAttributesForSecondStatistic(model, "Ви повинні вибрати рік", true);
         }
 
         List<MostPopularPhoneModels> mostPopularPhoneModelsList = phoneInstanceService.getMostPopularPhoneModels(salesSettingsForSpecificModels.getYear());
@@ -1074,8 +1074,8 @@ public class AdminController {
 
     @GetMapping("/statistic-8/show")
     public String getEighthStatisticShow(Model model, SalesSettingsForSpecificModels salesSettingsForSpecificModels) throws Exception {
-        if (salesSettingsForSpecificModels.getYear().equals("Select year")) {
-            return modelAttributesForFirstStatisticAndEighth(model, "You must select year", true, false, "eighthstatistic");
+        if (salesSettingsForSpecificModels.getYear().equals("Виберіть рік")) {
+            return modelAttributesForFirstStatisticAndEighth(model, "Ви повинні вибрати рік", true, false, "eighthstatistic");
         }
 
         if (!salesSettingsForSpecificModels.getYear().equals(THREE_YEARS)) {
@@ -1162,12 +1162,12 @@ public class AdminController {
     @GetMapping("/find-by-imei-finding")
     public String findPhoneByImeiFinding(Model model, FindPhoneByImei findPhoneByImei) {
         if (findPhoneByImei.getImei().isBlank()) {
-            return setFindPhoneByImei(model, null, "Phone IMEI field is empty");
+            return setFindPhoneByImei(model, null, "Поле IMEI телефону порожнє");
         }
 
         Optional<PhoneInstance> resultPhone = phoneInstanceService.findPhoneByImei(findPhoneByImei.getImei());
 
-        return (resultPhone.isEmpty()) ? setFindPhoneByImei(model, null, "This phone IMEI not found") :
+        return (resultPhone.isEmpty()) ? setFindPhoneByImei(model, null, "IMEI цього телефону не знайдено") :
                 setFindPhoneByImei(model, resultPhone.get(), "");
     }
 
@@ -1179,12 +1179,12 @@ public class AdminController {
     @GetMapping("/find-registered-user-last-name-finding")
     public String findUserByLastNameFinding(Model model, FindUserByLastName findUserByLastName) {
         if (findUserByLastName.getLastName().isBlank()) {
-            return setFindUserByLastName(model, new ArrayList<>(), "User last name field is empty");
+            return setFindUserByLastName(model, new ArrayList<>(), "Поле Прізвище користувача порожнє");
         }
 
         List<RegisteredUser> users = userDetailsServiceImpl.findUserByLastName(findUserByLastName.getLastName());
 
-        return (users.isEmpty()) ? setFindUserByLastName(model, new ArrayList<>(), "User with this last name not found") :
+        return (users.isEmpty()) ? setFindUserByLastName(model, new ArrayList<>(), "Користувача з таким прізвищем не знайдено") :
                 setFindUserByLastName(model, users, "");
     }
 
@@ -1192,7 +1192,7 @@ public class AdminController {
     public String deleteFromFindPhoneByImei(@RequestParam(value = "id") String id, Model model) {
         phoneInstanceService.deleteByIdPhoneInstance(id);
 
-        return setFindPhoneByImei(model, null, "The phone has been deleted successfully");
+        return setFindPhoneByImei(model, null, "Телефон успішно видалено");
     }
 
     @GetMapping("/find-client-order-number")
@@ -1203,12 +1203,12 @@ public class AdminController {
     @GetMapping("/find-client-order-number-finding")
     public String findOrderByNumberFinding(Model model, FindOrderByNumber findOrderByNumber) {
         if (findOrderByNumber.getNumber().isBlank()) {
-            return setFindOrderByNumber(model, null, "Order number field is empty");
+            return setFindOrderByNumber(model, null, "Поле Номер замовлення порожнє");
         }
 
         Optional<ClientCheck> order = clientCheckService.findById(findOrderByNumber.getNumber());
 
-        return (order.isEmpty()) ? setFindOrderByNumber(model, null, "Order with this number not found") :
+        return (order.isEmpty()) ? setFindOrderByNumber(model, null, "Замовлення з таким номером не знайдено") :
                 setFindOrderByNumber(model, order.get(), "");
     }
 

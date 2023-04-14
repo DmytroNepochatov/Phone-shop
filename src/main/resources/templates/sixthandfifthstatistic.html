@@ -21,17 +21,15 @@
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Go
-                        back
-                    </a>
+                    <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Назад</a>
                 </div>
             </div>
         </div>
         <div class="col" align="center" th:if="${flag}">
-            <div style="width: 800px;"><h5>Customers which made repeat purchases</h5></div>
+            <div style="width: 800px;"><h5>Клієнти, які зробили повторні покупки</h5></div>
         </div>
         <div class="col" align="center" th:if="${!flag}">
-            <div style="width: 800px;"><h5>Customers who registered but didn't make any purchases</h5></div>
+            <div style="width: 800px;"><h5>Клієнти, які зареєструвалися, але не зробили жодної покупки</h5></div>
         </div>
         <div class="col"></div>
     </div>
@@ -40,9 +38,9 @@
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6" align="center">
-            <h6 th:if="${registeredUsers.empty}" th:text="${'No such users'}"></h6>
+            <h6 th:if="${registeredUsers.empty}" th:text="${'Таких користувачів немає'}"></h6>
             <h6 th:if="${!registeredUsers.empty}"
-                th:text="${'Percentage of these users to all registered users: '+percent+' %'}"></h6>
+                th:text="${'Відсоток цих користувачів до всіх зареєстрованих користувачів: '+percent+' %'}"></h6>
         </div>
         <div class="col-3"></div>
     </div>
@@ -51,14 +49,14 @@
         <div align="center">
             <div style="width: 1400px;">
                 <div class="row">
-                    <div class="col" align="center" style="border: 1px solid black;">Last name</div>
-                    <div class="col" align="center" style="border: 1px solid black;">First name</div>
-                    <div class="col" align="center" style="border: 1px solid black;">Middle name</div>
-                    <div class="col" align="center" style="border: 1px solid black;">Date of birth</div>
-                    <div class="col" align="center" style="border: 1px solid black;">Phone number</div>
-                    <div class="col-3" align="center" style="border: 1px solid black;">Email address</div>
-                    <div class="col-1" th:if="${flag}" align="center" style="border: 1px solid black;">Order count</div>
-                    <div class="col" th:if="${flag}" align="center" style="border: 1px solid black;">Orders</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Прізвище</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Ім'я</div>
+                    <div class="col" align="center" style="border: 1px solid black;">По-батькові</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Дата народження</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Номер телефону</div>
+                    <div class="col-3" align="center" style="border: 1px solid black;">Адреса електронної пошти</div>
+                    <div class="col-1" th:if="${flag}" align="center" style="border: 1px solid black;">Кількість замовлень</div>
+                    <div class="col" th:if="${flag}" align="center" style="border: 1px solid black;">Замовлення</div>
                 </div>
                 <div class="row" th:each="registeredUser, state: ${registeredUsers}">
                     <div class="col">
@@ -81,7 +79,7 @@
                             <div class="col" style="border: 1px solid black;" th:if="${flag}">
                                 <div class="col text-center">
                                     <a th:href="${'/admin/orders-for-user-id?id='+registeredUser.id+'&flag=false&flag-stat=true'}"
-                                       class="btn btn-primary" style="width: 120px;">See orders
+                                       class="btn btn-primary" style="width: 120px;">Замовлення
                                     </a>
                                 </div>
                             </div>

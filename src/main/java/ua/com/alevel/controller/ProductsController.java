@@ -20,9 +20,9 @@ public class ProductsController {
     private final BrandService brandService;
     private static final String REDIRECT_PAGE_ONE = "redirect:/?page=1";
     private static final String PRODUCTS_PAGE = "products";
-    private static final String NO_SORT = "No sort";
-    private static final String SORT_BY_PRICE_ASCENDING = "Sort by price ascending";
-    private static final String SORT_BY_PRICE_DESCENDING = "Sort by price descending";
+    private static final String NO_SORT = "Без сортування";
+    private static final String SORT_BY_PRICE_ASCENDING = "Сортувати за зростанням ціни";
+    private static final String SORT_BY_PRICE_DESCENDING = "Сортувати за спаданням ціни";
     private static final String SLASH_SORT_BY_PRICE_ASCENDING = "/sort-by-price-ascending";
     private static final String SLASH_SORT_BY_PRICE_DESCENDING = "/sort-by-price-descending";
     private static final String SEARCH_KEYWORD = "/search?searchKeyword=";

@@ -22,8 +22,7 @@
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/users/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
-                        to profile</a>
+                    <a th:href="@{/users/profile}" class="btn btn-primary" role="button" style="width: 200px;">Назад до профілю</a>
                 </div>
             </div>
         </div>
@@ -34,7 +33,7 @@
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6" align="center"><h4 th:if="${phones.empty}"
-                                              th:text="${'You don&prime;t have phones to which you can write a comment'}"></h4>
+                                              th:text="${'У вас немає телефонів, до яких ви можете написати коментар'}"></h4>
         </div>
         <div class="col-3"></div>
     </div>
@@ -54,11 +53,11 @@
                     </div>
                     <div class="col-6" th:text="${phone.phoneDescription.brand.name+' '+ phone.phoneDescription.series + ' '+ phone.phoneDescription.name
         +' '+phone.amountOfRam+'/'+phone.amountOfBuiltInMemory+' Gb.'}"></div>
-                    <div class="col-2" align="center" th:text="${'Price: '+prices[__${state.index}__]+ ' $'}"></div>
+                    <div class="col-2" align="center" th:text="${'Ціна: '+prices[__${state.index}__]+ ' ₴'}"></div>
                     <div class="col-3" align="center">
                         <div class="col text-center">
                             <a th:href="${'/comments/add-comment?id='+phone.id}" class="btn btn-primary" role="button"
-                               style="width: 140px;">Write comment</a>
+                               style="width: 180px;">Написати коментар</a>
                         </div>
                     </div>
                 </div>

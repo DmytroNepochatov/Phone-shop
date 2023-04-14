@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service("userDetailsServiceImpl")
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -73,7 +74,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public List<UserOrdersForAdmin> getUsersOrdersForAdmin(boolean flag) {
         List<UserOrdersForAdmin> usersOrdersForAdmin = new ArrayList<>();
 
-        for (RegisteredUser registeredUser : userRepository.findAll()) {
+        for (RegisteredUser registeredUser : userRepository.findAllUsersForAdmin()) {
             List<ClientCheck> checkList = new ArrayList<>();
             registeredUser.getChecks().forEach(check -> {
                 if (!check.isClosed() && flag) {
@@ -85,7 +86,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             });
 
             if (!checkList.isEmpty()) {
-                usersOrdersForAdmin.addAll(UserMapper.mapRegisteredUsersToUsersOrdersForAdmin(registeredUser, checkList));
+                List<AtomicBoolean> checker = new ArrayList<>();
+                for (int i = 0; i < checkList.size(); i++) {
+                    checker.add(new AtomicBoolean(true));
+                }
+
+                for (int i = 0; i < checkList.size(); i++) {
+                    if (checkList.get(i).getPhoneInstances().get(0).getClientCheck() == null) {
+                        checker.get(i).set(false);
+                    }
+                }
+
+                for (int i = 0; i < checker.size(); i++) {
+                    if (checker.get(i).get()) {
+                        usersOrdersForAdmin.add(UserMapper.mapRegisteredUsersToUsersOrdersForAdmin(registeredUser, checkList.get(i)));
+                    }
+                }
             }
         }
 

@@ -72,16 +72,16 @@ public class CommentsController {
     @PostMapping("/add-comment")
     public String saveComment(Model model, CommentForSave commentForSave) {
         if (commentForSave.getDescription().isBlank()) {
-            return getErrorMsg(model, commentForSave, "Comment field must be not empty");
+            return getErrorMsg(model, commentForSave, "Поле коментаря не повинно бути порожнім");
         }
         if (commentForSave.getRating().isBlank()) {
-            return getErrorMsg(model, commentForSave, "Rating field must be not empty");
+            return getErrorMsg(model, commentForSave, "Поле оцінки не повинно бути порожнім");
         }
         if (!isNumber(commentForSave.getRating())) {
-            return getErrorMsg(model, commentForSave, "Incorrect rating");
+            return getErrorMsg(model, commentForSave, "Неправильна оцінка");
         }
         if (Integer.parseInt(commentForSave.getRating()) <= 0 | Integer.parseInt(commentForSave.getRating()) > 5) {
-            return getErrorMsg(model, commentForSave, "Incorrect rating");
+            return getErrorMsg(model, commentForSave, "Неправильна оцінка");
         }
 
         RegisteredUser registeredUser = userDetailsServiceImpl.findUserByEmailAddress(SecurityContextHolder.getContext().getAuthentication().getName()).get();
@@ -98,7 +98,7 @@ public class CommentsController {
         ratingService.updateRating(oldNumberOfPoints + 1, oldTotalPoints + Integer.parseInt(commentForSave.getRating()),
                 phone.getRating().getId());
 
-        return "redirect:/comments?successMessage=Comment saved successfully";
+        return getPhonesForComment(model, "Коментар успішно збережено");
     }
 
     private String getErrorMsg(Model model, CommentForSave commentForSave, String msg) {

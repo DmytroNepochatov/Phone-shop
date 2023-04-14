@@ -21,14 +21,12 @@
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Go
-                        back
-                    </a>
+                    <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Назад</a>
                 </div>
             </div>
         </div>
         <div class="col" align="center">
-            <div style="width: 800px;"><h5>Most popular phone models by year/month</h5></div>
+            <div style="width: 800px;"><h5>Найпопулярніші моделі телефонів за роком/місяцем</h5></div>
         </div>
         <div class="col"></div>
     </div>
@@ -54,7 +52,7 @@
                                 <div style="height: 30px; width: 150px;">
                                     <select class="select-box" style="height: 30px; width: 150px;"
                                             th:field="*{year}">
-                                        <option selected="selected" th:value="${'Select year'}">Select year</option>
+                                        <option selected="selected" th:value="${'Виберіть рік'}">Виберіть рік</option>
                                         <option th:each="yearOpt : ${years}" th:text="${yearOpt}"
                                                 th:value="${yearOpt}"></option>
                                     </select>
@@ -64,11 +62,11 @@
                         </div>
                     </div>
                     <div class="col" align="center">
-                        <div style="height: 40px; width: 200px;">
+                        <div style="height: 40px; width: 230px;">
                             <button class="w-100 btn btn-primary btn-lg"
-                                    style="height: 40px; width: 200px; display: flex; align-items: center; justify-content: center;"
+                                    style="height: 40px; width: 230px; display: flex; align-items: center; justify-content: center;"
                                     type="submit">
-                                Show statistics
+                                Показати статистику
                             </button>
                         </div>
                     </div>
@@ -85,7 +83,7 @@
     <div th:if="${!flag}">
         <div class="row">
             <div class="col" align="center">
-                <h5 th:text="${'Statistic for '+forWhatYear+' year'}"></h5>
+                <h5 th:text="${'Статистика за '+forWhatYear+' рік'}"></h5>
             </div>
         </div>
         <br>
@@ -103,7 +101,7 @@
                                 <div class="col" style="border: 1px solid black;" align="center"
                                      th:each="listOpt : ${list}">
                                     <div th:if="${#strings.equals(listOpt.sold, '0')}">
-                                        <h6 th:text="${'Nothing was sold'}"></h6>
+                                        <h6 th:text="${'Нічого не продано'}"></h6>
                                     </div>
                                     <div th:if="${!#strings.equals(listOpt.sold, '0')}">
                                         <div align="center">
@@ -116,7 +114,7 @@
                                             </a>
                                         </div>
                                         <h6 th:text="${listOpt.phone.phoneDescription.brand.name+' '+ listOpt.phone.phoneDescription.series + ' '+ listOpt.phone.phoneDescription.name
-        +' '+listOpt.phone.amountOfRam+'/'+listOpt.phone.amountOfBuiltInMemory+' Gb. Sold: '+listOpt.sold}"></h6>
+        +' '+listOpt.phone.amountOfRam+'/'+listOpt.phone.amountOfBuiltInMemory+' Gb. Продано: '+listOpt.sold}"></h6>
                                     </div>
                                 </div>
                             </div>

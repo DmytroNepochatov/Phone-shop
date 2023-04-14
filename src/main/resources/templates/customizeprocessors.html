@@ -21,9 +21,7 @@
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/admin/characteristics}" class="btn btn-primary" role="button" style="width: 150px;">Go
-                        back
-                    </a>
+                    <a th:href="@{/admin/characteristics}" class="btn btn-primary" role="button" style="width: 150px;">Назад</a>
                 </div>
             </div>
         </div>
@@ -35,18 +33,18 @@
         <div class="col-3"></div>
         <div class="col-6" align="center">
             <h6 th:if="${!processors.empty}" th:text="${success}"></h6>
-            <h6 th:if="${processors.empty}" th:text="${'No processors in database'}"></h6>
+            <h6 th:if="${processors.empty}" th:text="${'У базі даних немає типів процесорів'}"></h6>
         </div>
         <div class="col-3"></div>
     </div>
     <br>
     <div class="row">
-        <div class="col-2" align="center" style="border: 1px solid black;"><h5 th:if="${!processors.empty}">Name</h5>
+        <div class="col-2" align="center" style="border: 1px solid black;"><h5 th:if="${!processors.empty}">Назва</h5>
         </div>
-        <div class="col-2" align="center" style="border: 1px solid black;"><h5 th:if="${!processors.empty}">Number of
-            cores</h5></div>
-        <div class="col-2" align="center" style="border: 1px solid black;"><h5 th:if="${!processors.empty}">Core
-            frequency (GHz)</h5></div>
+        <div class="col-2" align="center" style="border: 1px solid black;"><h5 th:if="${!processors.empty}">Кількість
+            ядер</h5></div>
+        <div class="col-2" align="center" style="border: 1px solid black;"><h5 th:if="${!processors.empty}">Частота
+            ядра (ГГц)</h5></div>
         <div class="col"></div>
         <div class="col"></div>
     </div>
@@ -69,7 +67,7 @@
                                 <form th:action="${'/admin/characteristics/processors?id='+processor.id}"
                                       th:method="post">
                                     <div class="col text-center">
-                                        <button type="submit" class="btn btn-primary" style="width: 80px;">Delete
+                                        <button type="submit" class="btn btn-primary" style="width: 100px;">Видалити
                                         </button>
                                     </div>
                                 </form>
@@ -81,14 +79,14 @@
         </div>
         <div class="col">
             <div class="row">
-                <div class="col" align="center"><h5>Create a new processor</h5></div>
+                <div class="col" align="center"><h5>Додати тип процесору</h5></div>
             </div>
             <br>
             <form autocomplete="off" th:action="@{/admin/characteristics/processors/create}" th:object="${newProcessor}"
                   method="post">
                 <div class="row">
                     <div class="col" align="center">
-                        <label for="name" class="form-label">Name:</label>
+                        <label for="name" class="form-label">Назва:</label>
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control"
                                    id="name"
@@ -98,7 +96,8 @@
                 </div>
                 <div class="row">
                     <div class="col" align="center">
-                        <label class="form-label">Number of cores:</label>
+                        <label class="form-label">Кількість
+                            ядер:</label>
                         <div style="height: 60px; width: 200px;">
                             <select style="height: 60px; width: 200px;" th:field="*{numberOfCores}" size="5">
                                 <option th:value="${1}">1</option>
@@ -123,7 +122,8 @@
                 </div>
                 <div class="row">
                     <div class="col" align="center">
-                        <label for="coreFrequency" class="form-label">Core frequency (GHz):</label>
+                        <label for="coreFrequency" class="form-label">Частота
+                            ядра (ГГц):</label>
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control"
                                    id="coreFrequency"
@@ -134,11 +134,11 @@
                 <br>
                 <div class="row">
                     <div class="col" align="center">
-                        <div style="height: 40px; width: 180px;">
+                        <div style="height: 40px; width: 220px;">
                             <button class="w-100 btn btn-primary btn-lg"
-                                    style="height: 40px; width: 180px; display: flex; align-items: center; justify-content: center;"
+                                    style="height: 40px; width: 220px; display: flex; align-items: center; justify-content: center;"
                                     type="submit">
-                                Save processor
+                                Зберегти процесор
                             </button>
                         </div>
                     </div>

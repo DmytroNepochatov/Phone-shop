@@ -22,8 +22,7 @@
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/users/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
-                        to profile</a>
+                    <a th:href="@{/users/profile}" class="btn btn-primary" role="button" style="width: 200px;">Назад до профілю</a>
                 </div>
             </div>
         </div>
@@ -32,30 +31,30 @@
     </div>
 
     <div style="margin: auto; height: 600px; width: 800px;">
-        <h4 class="mb-3" align="center">Change account information</h4>
+        <h4 class="mb-3" align="center">Змінити інформацію про профіль</h4>
         <form autocomplete="off" th:action="@{/users/change-info-about-profile}" th:object="${user}" method="post">
             <fieldset>
                 <label><input th:field="*{userId}" th:value="${userId}" type="hidden"></label>
 
                 <div class="row g-3">
                     <div class="col-sm-4">
-                        <label for="firstName" class="form-label">First name</label>
+                        <label for="firstName" class="form-label">Ім'я</label>
                         <input type="text" class="form-control" id="firstName" required="true" autofocus="true"
                                th:name="firstName" th:value="${registeredUser.firstName}">
                     </div>
                     <div class="col-sm-4">
-                        <label for="middleName" class="form-label">Middle name</label>
+                        <label for="middleName" class="form-label">По-батькові</label>
                         <input type="text" class="form-control" id="middleName" required="true"
                                th:name="middleName" th:value="${registeredUser.middleName}">
                     </div>
                     <div class="col-sm-4">
-                        <label for="lastName" class="form-label">Last name</label>
+                        <label for="lastName" class="form-label">Прізвище</label>
                         <input type="text" class="form-control" id="lastName" required="true"
                                th:name="lastName" th:value="${registeredUser.lastName}">
                     </div>
 
                     <div class="col-sm-6">
-                        <label for="email" class="form-label">Email</label>
+                        <label for="email" class="form-label">Адреса електронної пошти</label>
                         <input type="email" class="form-control" id="email" required="true"
                                th:name="emailAddress" th:value="${registeredUser.emailAddress}">
                     </div>
@@ -63,13 +62,13 @@
                     <div class="col-sm-2"></div>
 
                     <div class="col-sm-3">
-                        <label for="dateOfBirth" class="form-label">Date of birth</label>
+                        <label for="dateOfBirth" class="form-label">Дата народження</label>
                         <input type="text" class="form-control" id="dateOfBirth" required="true"
                                th:name="dateOfBirth" th:value="${userDate}">
                     </div>
 
                     <div class="col-sm-6">
-                        <label for="phoneNumber" class="form-label">Phone number</label>
+                        <label for="phoneNumber" class="form-label">Номер телефону</label>
                         <input type="text" class="form-control" id="phoneNumber" required="true"
                                th:name="phoneNumber" th:value="${registeredUser.phoneNumber}">
                     </div>
@@ -80,7 +79,7 @@
                 </div>
                 <br>
                 <div style="height: 50px; width: 200px; margin: auto;">
-                    <button class="w-100 btn btn-primary btn-lg" type="submit">Save changes</button>
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">Змінити</button>
                 </div>
             </fieldset>
         </form>

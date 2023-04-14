@@ -22,17 +22,17 @@
             <td style="width: 670px;" align="center">
                 <div th:if="${flag}">
                     <div style="font-size: 16px; "><b
-                            th:text="${'Thanks '+user.firstName+' '+user.lastName+' for your order!'}"></b></div>
+                            th:text="${'Дякуємо '+user.firstName+' '+user.lastName+' за Ваше замовлення!'}"></b></div>
                 </div>
                 <div th:if="${!flag}">
-                    <div style="font-size: 16px;"><b>Order has been canceled.</b></div>
+                    <div style="font-size: 16px;"><b>Замовлення скасовано.</b></div>
                 </div>
             </td>
             <td style="width: 60px;"></td>
             <td style="width: 90px;" align="center">
                 <div th:if="${flag}">
                     <div style="font-size: 16px; ">
-                        <a th:href="${'https://phone-store-2022.herokuapp.com/client-check?id='+clientCheck.id}">See order</a>
+                        <a th:href="${'https://phone-store-2022.herokuapp.com/client-check?id='+clientCheck.id}">Замовлення</a>
                     </div>
                 </div>
             </td>
@@ -45,7 +45,7 @@
     <table>
         <tr>
             <td align="center">
-                <div th:text="${'Order number: '+clientCheck.id+'.'}" style="font-size: 17px;">
+                <div th:text="${'Номер замовлення: '+clientCheck.id+'.'}" style="font-size: 17px;">
                 </div>
             </td>
         </tr>
@@ -56,7 +56,7 @@
         </tr>
         <tr>
             <td align="center">
-                <div th:text="${'Created: '+created+'.'}" style="font-size: 17px;">
+                <div th:text="${'Створено: '+created+'.'}" style="font-size: 17px;">
                 </div>
             </td>
         </tr>
@@ -67,7 +67,7 @@
         </tr>
         <tr>
             <td align="center">
-                <div th:text="${'Total price: '+totalPrice+'$.'}" style="font-size: 17px;">
+                <div th:text="${'Загальна вартість: '+totalPrice+'₴.'}" style="font-size: 17px;">
                 </div>
             </td>
         </tr>
@@ -93,12 +93,12 @@
                         </td>
                         <td>
                             <div style="height: 25px; width: 510px; font-size: 16px;" th:text="${phoneInstance.phone.phoneDescription.brand.name+' '+ phoneInstance.phone.phoneDescription.series + ' '+ phoneInstance.phone.phoneDescription.name
-        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneInstance.phone.view.color}">
+        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb. Колір: '+phoneInstance.phone.view.color}">
                             </div>
                         </td>
                         <td>
                             <div style="height: 25px; width: 180px; font-size: 16px;" align="right"
-                                 th:text="${'Price: '+phoneInstance.price+ ' $'}">
+                                 th:text="${'Ціна: '+phoneInstance.price+ ' ₴'}">
                             </div>
                         </td>
                     </tr>
@@ -114,11 +114,11 @@
             <td>
                 <div style="height: 5px;"></div>
                 <div style="width: 170px; font-size: 16px;" align="left">
-                    &nbsp;&nbsp;Delivery type
+                    &nbsp;&nbsp;Тип доставки
                 </div>
                 <div style="height: 5px;"></div>
                 <div style="width: 170px; font-size: 16px;" align="left" th:if="${clientCheck.deliveryAddress !=''}">
-                    &nbsp;&nbsp;Delivery address
+                    &nbsp;&nbsp;Адреса доставки
                 </div>
                 <div style="height: 5px;"></div>
             </td>
@@ -135,7 +135,7 @@
             <td>
                 <div style="height: 5px;"></div>
                 <div style="width: 170px; font-size: 16px;" align="left">
-                    &nbsp;&nbsp;Payment type
+                    &nbsp;&nbsp;Тип оплати
                 </div>
                 <div style="height: 5px;"></div>
             </td>
@@ -149,7 +149,7 @@
             <td>
                 <div style="height: 5px;"></div>
                 <div style="width: 170px; font-size: 16px;" align="left">
-                    &nbsp;&nbsp;Buyer
+                    &nbsp;&nbsp;Покупець
                 </div>
                 <div style="height: 5px;"></div>
                 <div style="width: 170px; font-size: 16px;" align="left">
@@ -169,7 +169,7 @@
             <td>
                 <div style="height: 5px;"></div>
                 <div style="width: 170px; font-size: 16px;" align="left">
-                    &nbsp;&nbsp;Recipient
+                    &nbsp;&nbsp;Одержувач
                 </div>
                 <div style="height: 5px;"></div>
                 <div style="width: 170px; font-size: 16px;" align="left">
@@ -188,7 +188,7 @@
     </table>
     <div style="height: 20px;"></div>
     <div style="font-size: 15px;">
-        This letter was generated automatically. Please don't reply to it.
+        Цей лист було згенеровано автоматично. Будь ласка, не відповідайте на нього.
     </div>
 </div>
 <div style="height: 30px;"></div>

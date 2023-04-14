@@ -20,12 +20,10 @@
     <div class="row">
         <div class="col">
             &nbsp;&nbsp;
-            <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Go
-                back
-            </a>
+            <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Назад</a>
         </div>
         <div class="col" align="center">
-            <div style="width: 800px;"><h5>Customer preferences by age</h5></div>
+            <div style="width: 800px;"><h5>Вподобання клієнтів за віком</h5></div>
         </div>
         <div class="col"></div>
     </div>
@@ -38,7 +36,7 @@
         <div th:if="${!customerPreferencesByAge.phoneInstances.isEmpty}">
             <div class="row">
                 <div class="col" align="center">
-                    <h5 th:text="${'Age period: '+customerPreferencesByAge.endAge+'-'+customerPreferencesByAge.startAge+' years'}"></h5>
+                    <h5 th:text="${'Віковий період: '+customerPreferencesByAge.endAge+'-'+customerPreferencesByAge.startAge+' років'}"></h5>
                 </div>
             </div>
             <div style="height: 15px;"></div>
@@ -51,9 +49,9 @@
                                  style="height: 70px; width: 70px;">
                         </div>
                         <div class="col-8" th:text="${phoneElem.phone.phoneDescription.brand.name+' '+ phoneElem.phone.phoneDescription.series + ' '+ phoneElem.phone.phoneDescription.name
-        +' '+phoneElem.phone.amountOfRam+'/'+phoneElem.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneElem.phone.view.color}"></div>
+        +' '+phoneElem.phone.amountOfRam+'/'+phoneElem.phone.amountOfBuiltInMemory+' Gb. Колір: '+phoneElem.phone.view.color}"></div>
                         <div class="col-3" align="right">
-                            <div th:text="${'Price: '+phoneElem.price+ ' $.'}"></div>
+                            <div th:text="${'Ціна: '+phoneElem.price+ ' ₴.'}"></div>
                         </div>
                     </div>
                 </div>

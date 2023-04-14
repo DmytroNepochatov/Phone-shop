@@ -16,7 +16,7 @@
 <script>
     function showDiv1(divId, element)
     {
-        if(element.value === 'Delivery service' || element.value === 'Courier delivery') {
+        if(element.value === 'Служба доставки' || element.value === 'Кур\'єрська доставка') {
             document.getElementById(divId).style.display = 'block';
         }
         else {
@@ -26,7 +26,7 @@
 
     function showDiv2(divId, element)
     {
-        if(element.value === 'Pay by card on the website') {
+        if(element.value === 'Оплатити карткою на сайті') {
             document.getElementById(divId).style.display = 'block';
         }
         else {
@@ -43,8 +43,8 @@
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="${'/shopping-cart/back-to-cart?id='+clientCheck.id}" class="btn btn-primary" role="button" style="width: 230px;">Go back
-                        to shopping cart</a>
+                    <a th:href="${'/shopping-cart/back-to-cart?id='+clientCheck.id}" class="btn btn-primary" role="button" style="width: 230px;">Назад до
+                    кошика</a>
                 </div>
             </div>
         </div>
@@ -57,15 +57,15 @@
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6" align="center">
-            <h5 th:text="${'Creating order'}"></h5>
+            <h5 th:text="${'Створення замовлення'}"></h5>
         </div>
         <div class="col-3"></div>
     </div>
     <div class="row">
         <div class="col-2"></div>
         <div class="col-8" align="center">
-            <h5 th:text="${'Created: '+created+'.'}"></h5>
-            <h5 th:text="${'Total price: '+totalPrice+'$.'}"></h5>
+            <h5 th:text="${'Створено: '+created+'.'}"></h5>
+            <h5 th:text="${'Загальна вартість: '+totalPrice+'₴.'}"></h5>
         </div>
         <div class="col-2"></div>
     </div>
@@ -82,8 +82,8 @@
                     </div>
                     <div style="width: 20px;"></div>
                     <div class="col" th:text="${phoneInstance.phone.phoneDescription.brand.name+' '+ phoneInstance.phone.phoneDescription.series + ' '+ phoneInstance.phone.phoneDescription.name
-        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb. Color: '+phoneInstance.phone.view.color}"></div>
-                    <div class="col-2" align="center" th:text="${'Price: '+phoneInstance.price+ ' $'}"></div>
+        +' '+phoneInstance.phone.amountOfRam+'/'+phoneInstance.phone.amountOfBuiltInMemory+' Gb. Колір: '+phoneInstance.phone.view.color}"></div>
+                    <div class="col-2" align="center" th:text="${'Ціна: '+phoneInstance.price+ ' ₴'}"></div>
                 </div>
             </div>
             <div class="col"></div>
@@ -104,13 +104,13 @@
             <div class="row">
                 <div class="col-3" align="right">
                     <div style="height: 2px;"></div>
-                    <div style="font-size: 17px;">Select delivery type</div>
+                    <div style="font-size: 17px;">Виберіть тип доставки</div>
                 </div>
                 <div class="col-2" align="left">
                     <div style="height: 30px; width: 200px;">
                         <select class="select-box" autofocus="true" style="height: 30px; width: 200px;"
                                 th:name="deliveryType" onchange="showDiv1('div1', this)">
-                            <option th:value="${'Select delivery type'}">Select delivery type</option>
+                            <option th:value="${'Виберіть тип доставки'}">Виберіть тип доставки</option>
                             <option th:each="deliveryTypeOpt : ${deliveryTypes}" th:text="${deliveryTypeOpt}"
                                     th:value="${deliveryTypeOpt}"></option>
                         </select>
@@ -125,7 +125,7 @@
                             <td>
                                 <div align="right">
                                     <div style="height: 2px;"></div>
-                                    <div style="font-size: 17px;">Delivery address</div>
+                                    <div style="font-size: 17px;">Адреса доставки</div>
                                 </div>
                             </td>
                             <td>
@@ -154,13 +154,13 @@
                 <div class="col"></div>
                 <div class="col" align="right">
                     <div style="height: 2px;"></div>
-                    <div style="font-size: 17px;">Select payment type</div>
+                    <div style="font-size: 17px;">Виберіть тип оплати</div>
                 </div>
                 <div class="col" align="left">
-                    <div style="height: 30px; width: 200px;">
-                        <select class="select-box"  style="height: 30px; width: 200px;"
+                    <div style="height: 30px; width: 230px;">
+                        <select class="select-box"  style="height: 30px; width: 230px;"
                                 th:name="paymentType" onchange="showDiv2('div2', this)">
-                            <option th:value="${'Select payment type'}">Select payment type</option>
+                            <option th:value="${'Виберіть тип оплати'}">Виберіть тип оплати</option>
                             <option th:each="paymentTypeOpt : ${paymentTypes}" th:text="${paymentTypeOpt}"
                                     th:value="${paymentTypeOpt}"></option>
                         </select>
@@ -181,20 +181,20 @@
                         <div style="width: 632px;">
                             <div class="row gy-3">
                                 <div class="col-md-6">
-                                    <label for="cc-name" class="form-label">Name on card</label>
+                                    <label for="cc-name" class="form-label">Ім'я на картці</label>
                                     <input type="text" class="form-control" id="cc-name"
                                            th:field="*{nameOnCard}" th:value="${nameOnCard}">
-                                    <small class="text-muted">Full name as displayed on card</small>
+                                    <small class="text-muted">Як вказано на картці</small>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="cc-number" class="form-label">Credit card number</label>
+                                    <label for="cc-number" class="form-label">Номер кредитної картки</label>
                                     <input type="text" class="form-control" id="cc-number"
                                            th:field="*{creditCardNumber}" th:value="${creditCardNumber}">
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label for="cc-expiration" class="form-label">Expiration</label>
+                                    <label for="cc-expiration" class="form-label">Термін дії</label>
                                     <input type="text" class="form-control" id="cc-expiration"
                                            th:name="expiration" th:value="${'/'}">
                                 </div>
@@ -224,7 +224,7 @@
             <div class="col" style="border: 1px solid lightgray;">
                 <div class="row">
                     <div class="col">
-                        <div style="font-size: 17px;">Buyer</div>
+                        <div style="font-size: 17px;">Покупець</div>
                     </div>
                     <div class="col">
                         <div style="width: 300px; font-size: 17px;" th:text="${registeredUser.lastName+' '+registeredUser.firstName}"></div>
@@ -253,10 +253,10 @@
             <div class="col" style="border: 1px solid lightgray;">
                 <div class="row">
                     <div class="col">
-                        <div style="font-size: 17px;">Recipient</div>
+                        <div style="font-size: 17px;">Одержувач</div>
                     </div>
                     <div class="col">
-                        <label for="recipientFirstField" class="form-label">Last name and first name</label>
+                        <label for="recipientFirstField" class="form-label">Прізвище та ім'я</label>
                         <input style="height: 30px; width: 300px;" type="text" class="form-control" required="true" id="recipientFirstField"
                                th:name="recipient" th:value="${registeredUser.lastName+' '+registeredUser.firstName}">
                     </div>
@@ -265,7 +265,7 @@
                     <div class="col">
                     </div>
                     <div class="col">
-                        <label for="recipientSecondField" class="form-label">Phone number</label>
+                        <label for="recipientSecondField" class="form-label">Номер телефону</label>
                         <input style="height: 30px; width: 300px;" type="text" class="form-control" required="true" id="recipientSecondField"
                                th:name="recipientNumberPhone" th:value="${registeredUser.phoneNumber}">
                         <div style="height: 10px;"></div>
@@ -279,7 +279,7 @@
         <div align="center">
         <div class="row">
             <div class="col">
-                <label for="sendEmail" class="form-label">Send E-mail</label>
+                <label for="sendEmail" class="form-label">Відправити замовлення на E-mail</label>
                 <input style="height: 20px; width: 20px;" class="form-check-input" type="checkbox" id="sendEmail"
                        th:field="*{sendEmail}" th:value="${sendEmail}">
             </div>
@@ -288,11 +288,11 @@
         <div style="height: 10px;"></div>
         <div class="row">
             <div class="col" align="center">
-                <div style="height: 40px; width: 180px;">
+                <div style="height: 40px; width: 240px;">
                     <button class="w-100 btn btn-primary btn-lg"
-                            style="height: 40px; width: 180px; display: flex; align-items: center; justify-content: center;"
+                            style="height: 40px; width: 240px; display: flex; align-items: center; justify-content: center;"
                             type="submit">
-                        Make order
+                        Зробити замовлення
                     </button>
                 </div>
             </div>

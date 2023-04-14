@@ -20,8 +20,7 @@
     <div class="row">
         <div class="col-3">
             <div class="col text-center" style="padding-right: 90px;">
-                <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
-                    to profile</a>
+                <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Назад до профілю</a>
             </div>
         </div>
         <div class="col"></div>
@@ -40,7 +39,7 @@
                 <div class="row">
                     <div class="col" align="center">
                         <div style="width: 354px; height: 90px;">
-                            <label class="form-label">User last name:</label>
+                            <label class="form-label">Прізвище користувача:</label>
                             <div style="height: 30px; width: 350px;">
                                 <input style="height: 30px; width: 350px;" type="text" class="form-control"
                                        required="true"
@@ -52,11 +51,11 @@
                 <div class="row">
                     <div class="col" align="center">
                         <div style="height: 10px;"></div>
-                        <div style="height: 40px; width: 240px;">
+                        <div style="height: 40px; width: 355px;">
                             <button class="w-100 btn btn-primary btn-lg"
-                                    style="height: 40px; width: 240px; display: flex; align-items: center; justify-content: center;"
+                                    style="height: 40px; width: 355px; display: flex; align-items: center; justify-content: center;"
                                     type="submit">
-                                Find user by last name
+                                Знайти користувача за прізвищем
                             </button>
                         </div>
                     </div>
@@ -74,13 +73,13 @@
         <div align="center">
             <div style="width: 1400px;">
                 <div class="row">
-                    <div class="col" align="center" style="border: 1px solid black;">Last name</div>
-                    <div class="col" align="center" style="border: 1px solid black;">First name</div>
-                    <div class="col" align="center" style="border: 1px solid black;">Middle name</div>
-                    <div class="col" align="center" style="border: 1px solid black;">Date of birth</div>
-                    <div class="col" align="center" style="border: 1px solid black;">Phone number</div>
-                    <div class="col-3" align="center" style="border: 1px solid black;">Email address</div>
-                    <div class="col" align="center" style="border: 1px solid black;">Orders</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Прізвище</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Ім'я</div>
+                    <div class="col" align="center" style="border: 1px solid black;">По-батькові</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Дата народження</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Номер телефону</div>
+                    <div class="col-3" align="center" style="border: 1px solid black;">Адреса електронної пошти</div>
+                    <div class="col" align="center" style="border: 1px solid black;">Замовлення</div>
                 </div>
                 <div class="row" th:each="user, state: ${users}">
                     <div class="col">
@@ -100,7 +99,7 @@
                             <div class="col" style="border: 1px solid black;">
                                 <div class="col text-center">
                                     <a th:href="${'/admin/orders-for-user-id?id='+user.id+'&flag=false&flag-stat=false'}"
-                                       class="btn btn-primary" style="width: 120px;">See orders
+                                       class="btn btn-primary" style="width: 120px;">Замовлення
                                     </a>
                                 </div>
                             </div>

@@ -31,14 +31,17 @@ public class ShoppingCartController {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final PhoneInstanceService phoneInstanceService;
     private final ClientCheckService clientCheckService;
-    private final List DELIVERY_TYPE = List.of("Pickup from the store", "Delivery service", "Courier delivery");
-    private final List PAYMENT_TYPE = List.of("Pay by card on the website", "Payment upon receipt");
+    private final ProductsController productsController;
+    private final List DELIVERY_TYPE = List.of("Самовивіз з магазину", "Служба доставки", "Кур'єрська доставка");
+    private final List PAYMENT_TYPE = List.of("Оплатити карткою на сайті", "Оплата при отриманні");
 
     public ShoppingCartController(PhoneInstanceService phoneInstanceService,
-                                  UserDetailsServiceImpl userDetailsServiceImpl, ClientCheckService clientCheckService) {
+                                  UserDetailsServiceImpl userDetailsServiceImpl, ClientCheckService clientCheckService,
+                                  ProductsController productsController) {
         this.phoneInstanceService = phoneInstanceService;
         this.clientCheckService = clientCheckService;
         this.userDetailsServiceImpl = userDetailsServiceImpl;
+        this.productsController = productsController;
     }
 
     @GetMapping
@@ -62,14 +65,14 @@ public class ShoppingCartController {
     }
 
     @PutMapping("/add-to-cart")
-    public String addToCart(PhoneForAddToCart phoneForAddToCart) {
+    public String addToCart(Model model, PhoneForAddToCart phoneForAddToCart) {
         int checks = Util.checkColorsCount(phoneForAddToCart);
 
         if (checks == 0) {
-            return redirectUrl(phoneForAddToCart, "You must choose the color of the phone");
+            return redirectUrl(model, phoneForAddToCart, "Ви повинні вибрати колір телефону");
         }
         if (checks >= 2) {
-            return redirectUrl(phoneForAddToCart, "You can only choose one phone color");
+            return redirectUrl(model, phoneForAddToCart, "Ви можете обрати лише один колір телефону");
         }
 
         String color = Util.findColor(phoneForAddToCart);
@@ -84,13 +87,13 @@ public class ShoppingCartController {
         }
 
         if (phoneId == null) {
-            return redirectUrl(phoneForAddToCart, "Sorry, but this type of phone is out of stock");
+            return redirectUrl(model, phoneForAddToCart, "Вибачте, але ця модель телефону закінчилась");
         }
 
         ShoppingCart shoppingCart = userDetailsServiceImpl.findShoppingCartForUserEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         phoneInstanceService.setShoppingCartForPhone(shoppingCart, phoneId);
 
-        return redirectUrl(phoneForAddToCart, "The phone has been successfully added to the shopping cart");
+        return redirectUrl(model, phoneForAddToCart, "Телефон успішно додано до кошика");
     }
 
     @PutMapping("/delete-from-cart")
@@ -140,8 +143,10 @@ public class ShoppingCartController {
         return "setparamsfororder";
     }
 
-    private String redirectUrl(PhoneForAddToCart phoneForAddToCart, String message) {
-        return "redirect:/fullinfo?page=1&brand=" + phoneForAddToCart.getBrand() + "&name=" + phoneForAddToCart.getName() + "&series=" + phoneForAddToCart.getSeries() + "&amountOfBuiltInMemory=" + phoneForAddToCart.getAmountOfBuiltInMemory() + "&amountOfRam=" + phoneForAddToCart.getAmountOfRam() +
-                "&successAddToCart=" + message;
+    private String redirectUrl(Model model, PhoneForAddToCart phoneForAddToCart, String message) {
+        return productsController.getFullInfo(model, 1,
+                phoneForAddToCart.getBrand(), phoneForAddToCart.getName(),
+                phoneForAddToCart.getSeries(), phoneForAddToCart.getAmountOfBuiltInMemory(),
+                phoneForAddToCart.getAmountOfRam(), message);
     }
 }

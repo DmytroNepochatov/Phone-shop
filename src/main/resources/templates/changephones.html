@@ -36,8 +36,7 @@
     <div class="row">
         <div class="col-3">
             <div class="col text-center" style="padding-right: 90px;">
-                <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Go back
-                    to profile</a>
+                <a th:href="@{/admin/profile}" class="btn btn-primary" role="button" style="width: 200px;">Назад до профілю</a>
             </div>
         </div>
         <div class="col" align="center">
@@ -48,10 +47,10 @@
     <br>
     <div class="row">
         <div class="col" align="center">
-            <h5>Change phone description</h5>
+            <h5>Змінити опис телефону</h5>
         </div>
         <div class="col" align="center">
-            <h5>Change phone view</h5>
+            <h5>Змінити зовнішній вигляд телефону</h5>
         </div>
     </div>
     <div style="height: 10px;"></div>
@@ -63,11 +62,11 @@
                 <div class="row">
                     <div class="col" align="center">
                         <div style="height: 90px;">
-                            <label class="form-label">Phone description for change:</label>
+                            <label class="form-label">Опис телефону для зміни:</label>
                             <div style="height: 30px; width: 300px;">
                                 <select class="select-box"  style="height: 30px; width: 300px;"
                                         onchange="location = this.value">
-                                    <option th:value="${'/admin/change?success= '}">Select phone description</option>
+                                    <option th:value="${'/admin/change?success= '}">Виберіть опис телефону</option>
                                     <option th:each="phoneDescriptionOpt : ${phoneDescriptions}" th:text="${phoneDescriptionOpt.brand.name+' '+ phoneDescriptionOpt.series+' '+phoneDescriptionOpt.name}"
                                             th:value="${'/admin/change/phone-description?id='+phoneDescriptionOpt.id}"
                                             th:selected="${phoneDescriptionInput.id !=null and phoneDescriptionOpt.brand.name==phoneDescriptionInput.brand.name and phoneDescriptionOpt.series==phoneDescriptionInput.series and phoneDescriptionOpt.name==phoneDescriptionInput.name}"></option>
@@ -77,17 +76,17 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col" align="center">Phone name</div>
-                    <div class="col" align="center">Phone screen</div>
-                    <div class="col" align="center">Physical characteristics</div>
+                    <div class="col" align="center">Назва телефону</div>
+                    <div class="col" align="center">Екран телефону</div>
+                    <div class="col" align="center">Фізичні характеристики</div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <label class="form-label">Brand:</label>
+                        <label class="form-label">Бренд:</label>
                         <div style="height: 30px; width: 200px;">
                             <select class="select-box" autofocus="true" style="height: 30px; width: 200px;"
                                     th:name="brand">
-                                <option th:value="${'Select brand'}">Select brand</option>
+                                <option th:value="${'Виберіть бренд'}">Виберіть бренд</option>
                                 <option th:each="brandOpt : ${brands}" th:text="${brandOpt}"
                                         th:value="${brandOpt}"
                                 th:selected="${phoneDescriptionInput.id !=null and phoneDescriptionInput.brand.name==brandOpt}"></option>
@@ -95,10 +94,10 @@
                         </div>
                     </div>
                     <div class="col">
-                        <label class="form-label">Type screen:</label>
+                        <label class="form-label">Тип екрану:</label>
                         <div style="height: 30px; width: 200px;">
                             <select class="select-box" style="height: 30px; width: 200px;" th:name="typeScreen">
-                                <option th:value="${'Select type screen'}">Select type screen
+                                <option th:value="${'Виберіть тип екрану'}">Виберіть тип екрану
                                 </option>
                                 <option th:each="typeScreenOpt : ${typeScreens}" th:text="${typeScreenOpt}"
                                         th:value="${typeScreenOpt}"
@@ -107,7 +106,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <label for="weight" class="form-label">Weight (g):</label>
+                        <label for="weight" class="form-label">Вага (г):</label>
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control" id="weight"
                                    required="true"
@@ -120,7 +119,7 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <label for="series" class="form-label">Series:</label>
+                        <label for="series" class="form-label">Серія:</label>
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control" id="series"
                                    required="true"
@@ -128,7 +127,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <label for="diagonal" class="form-label">Diagonal:</label>
+                        <label for="diagonal" class="form-label">Діагональ:</label>
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control" id="diagonal"
                                    required="true"
@@ -139,7 +138,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <label for="height" class="form-label">Height (mm):</label>
+                        <label for="height" class="form-label">Висота (мм):</label>
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control" id="height"
                                    required="true"
@@ -152,7 +151,7 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <label for="name" class="form-label">Name:</label>
+                        <label for="name" class="form-label">Назва:</label>
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control" id="name"
                                    required="true"
@@ -160,7 +159,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <label for="displayResolution" class="form-label">Display resolution:</label>
+                        <label for="displayResolution" class="form-label">Роздільна здатність дисплея:</label>
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control"
                                    id="displayResolution"
@@ -169,7 +168,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <label for="width" class="form-label">Width (mm):</label>
+                        <label for="width" class="form-label">Ширина (мм):</label>
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control" id="width"
                                    required="true"
@@ -183,7 +182,7 @@
                 <div class="row">
                     <div class="col"></div>
                     <div class="col">
-                        <label for="screenRefreshRate" class="form-label">Screen refresh rate (Hz):</label>
+                        <label for="screenRefreshRate" class="form-label">Частота оновлення (Гц):</label>
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control"
                                    id="screenRefreshRate"
@@ -196,7 +195,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <label for="degreeOfMoistureProtection" class="form-label">Degree of moisture protection
+                        <label for="degreeOfMoistureProtection" class="form-label">Ступінь вологозахисту
                             (IPxx):</label>
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control"
@@ -209,7 +208,7 @@
                 <br>
                 <div class="row">
                     <div class="col" align="center">
-                        <div style="width: 260px; height: 35px;">Communications</div>
+                        <div style="width: 260px; height: 35px;">Комунікації</div>
                     </div>
                     <div class="col"></div>
                     <div class="col"></div>
@@ -217,12 +216,11 @@
                 <div class="row">
                     <div class="col">
                         <div style="height: 75px;">
-                            <label class="form-label">Communication standard:</label>
+                            <label class="form-label">Стандарт зв'язку:</label>
                             <div style="height: 30px; width: 260px;">
                                 <select class="select-box" style="height: 30px; width: 260px;"
                                         th:name="communicationStandard">
-                                    <option th:value="${'Select communication standard'}">Select
-                                        communication standard
+                                    <option th:value="${'Виберіть стандарт звязку'}">Виберіть стандарт зв'язку
                                     </option>
                                     <option th:each="communicationStandardOpt : ${communicationStandards}"
                                             th:text="${communicationStandardOpt}"
@@ -233,10 +231,10 @@
                         </div>
                     </div>
                     <div class="col">
-                        <label class="form-label">Charge type:</label>
+                        <label class="form-label">Тип зарядного пристрою:</label>
                         <div style="height: 30px; width: 200px;">
                             <select class="select-box" style="height: 30px; width: 200px;" th:name="chargeType">
-                                <option th:value="${'Select charge type'}">Select charge type
+                                <option th:value="${'Виберіть тип зарядного пристрою'}">Виберіть тип
                                 </option>
                                 <option th:each="chargeTypeOpt : ${chargeTypes}" th:text="${chargeTypeOpt}"
                                         th:value="${chargeTypeOpt}"
@@ -245,12 +243,11 @@
                         </div>
                     </div>
                     <div class="col">
-                        <label class="form-label">Operation system:</label>
+                        <label class="form-label">Операційна система:</label>
                         <div style="height: 30px; width: 200px;">
                             <select class="select-box" style="height: 30px; width: 200px;"
                                     th:name="operationSystem">
-                                <option th:value="${'Select operation system'}">Select operation
-                                    system
+                                <option th:value="${'Виберіть операційну систему'}">Виберіть тип
                                 </option>
                                 <option th:each="operationSystemOpt : ${operationSystems}"
                                         th:text="${operationSystemOpt}" th:value="${operationSystemOpt}"
@@ -262,7 +259,7 @@
                 <div class="row">
                     <div class="col">
                         <div style="width: 260px;">
-                            <label for="numberOfSimCards" class="form-label">Number of sim cards:</label>
+                            <label for="numberOfSimCards" class="form-label">Кількість сім-карт:</label>
                             <div style="height: 30px; width: 200px;">
                                 <input style="height: 30px; width: 200px;" type="text" class="form-control"
                                        id="numberOfSimCards"
@@ -277,7 +274,7 @@
                     </div>
                     <div class="col">
                         <div style="height: 75px;">
-                            <label for="nfc" class="form-label">Is have NFC?</label>
+                            <label for="nfc" class="form-label">Чи має NFC?</label>
                             <div style="height: 30px; width: 200px;" align="center">
                                 <input style="height: 30px; width: 30px;" class="form-check-input" type="checkbox"
                                        id="nfc"
@@ -291,10 +288,10 @@
                     <div class="col"></div>
                     <div class="col">
                         <div style="width: 444px;">
-                            <label class="form-label">Processor:</label>
+                            <label class="form-label">Процесор:</label>
                             <div style="height: 30px; width: 200px;">
                                 <select class="select-box" style="height: 30px; width: 300px;" th:name="processor">
-                                    <option th:value="${'Select processor'}">Select processor
+                                    <option th:value="${'Виберіть процесор'}">Виберіть процесор
                                     </option>
                                     <option th:each="processorOpt : ${processors}" th:text="${processorOpt}"
                                             th:value="${processorOpt}"
@@ -308,13 +305,13 @@
                 <div class="row">
                     <div class="col" align="center">
                         <div style="height: 35px;">
-                            Front cameras
+                            Фронтальні камери
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col" align="center">
-                        <label for="numberOfFrontCameras" class="form-label">Number of front cameras:</label>
+                        <label for="numberOfFrontCameras" class="form-label">Кількість фронтальних камер:</label>
                         <div style="height: 30px; width: 40px;">
                             <input style="height: 30px; width: 40px;" type="text" class="form-control"
                                    id="numberOfFrontCameras"
@@ -326,7 +323,7 @@
                                    th:name="numberOfFrontCameras" th:value="${numberOfFrontCameras}" th:if="${phoneDescriptionInput.numberOfFrontCameras==0}">
                         </div>
                         <br>
-                        <label for="infoAboutFrontCameras" class="form-label">Information about front cameras:</label>
+                        <label for="infoAboutFrontCameras" class="form-label">Інформація про фронтальні камери:</label>
                         <div style="height: 213px; width: 700px;">
                     <textarea style="height: 213px; width: 700px;" class="form-control" id="infoAboutFrontCameras"
                               required="true"
@@ -339,12 +336,12 @@
                     <div class="col">
                         <div class="col" align="center">
                             <div style="height: 35px;">
-                                Main cameras
+                                Основні камери
                             </div>
                         </div>
                     </div>
                     <div class="col" align="center">
-                        <label for="numberOfMainCameras" class="form-label">Number of main cameras:</label>
+                        <label for="numberOfMainCameras" class="form-label">Кількість основних камер:</label>
                         <div style="height: 30px; width: 40px;">
                             <input style="height: 30px; width: 40px;" type="text" class="form-control"
                                    id="numberOfMainCameras"
@@ -356,7 +353,7 @@
                                    th:name="numberOfMainCameras" th:value="${numberOfMainCameras}" th:if="${phoneDescriptionInput.numberOfMainCameras==0}">
                         </div>
                         <br>
-                        <label for="infoAboutMainCameras" class="form-label">Information about main cameras:</label>
+                        <label for="infoAboutMainCameras" class="form-label">Інформація про основні камери:</label>
                         <div style="height: 213px; width: 700px;">
                     <textarea style="height: 213px; width: 700px;" class="form-control" id="infoAboutMainCameras"
                               required="true"
@@ -368,7 +365,7 @@
                 <div style="height: 5px;"></div>
                 <div class="row">
                     <div class="col">
-                        <label for="guaranteeTimeMonths" class="form-label">Guarantee time in months:</label>
+                        <label for="guaranteeTimeMonths" class="form-label">Гарантійний термін в місяцях:</label>
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control"
                                    id="guaranteeTimeMonths"
@@ -381,11 +378,10 @@
                         </div>
                     </div>
                     <div class="col">
-                        <label class="form-label">Country producer of the product:</label>
+                        <label class="form-label">Країна-виробник продукту:</label>
                         <div style="height: 30px; width: 240px;">
                             <select class="select-box" style="height: 30px; width: 240px;" th:name="country">
-                                <option th:value="${'Select country producer'}">Select country
-                                    producer
+                                <option th:value="${'Виберіть країну виробника'}">Виберіть країну виробника
                                 </option>
                                 <option th:each="countryOpt : ${countries}" th:text="${countryOpt}"
                                         th:value="${countryOpt}"
@@ -397,7 +393,7 @@
                 <br>
                 <div class="row">
                     <div class="col">
-                        <label for="dateAddedToDatabase" class="form-label">Date added to database:</label>
+                        <label for="dateAddedToDatabase" class="form-label">Дата додавання до бази даних:</label>
                         <div style="height: 30px; width: 200px;">
                             <input style="height: 30px; width: 200px;" type="text" class="form-control"
                                    id="dateAddedToDatabase"
@@ -415,7 +411,7 @@
                             <button class="w-100 btn btn-primary btn-lg"
                                     style="height: 40px; width: 280px; display: flex; align-items: center; justify-content: center;"
                                     type="submit">
-                                Change phone description
+                                Змінити опис телефону
                             </button>
                         </div>
                     </div>
@@ -436,11 +432,11 @@
                             <div class="col"></div>
                             <div class="col" align="center">
                                 <div style="height: 90px; width: 680px;">
-                                    <label class="form-label">View for change:</label>
+                                    <label class="form-label">Зовнішній вигляд для зміни:</label>
                                     <div style="height: 30px; width: 300px;">
                                         <select class="select-box"  style="height: 30px; width: 300px;"
                                                 onchange="location = this.value">
-                                            <option th:value="${'/admin/change?success= '}">Select phone color</option>
+                                            <option th:value="${'/admin/change?success= '}">Виберіть колір телефону</option>
                                             <option th:each="viewOpt : ${views}" th:text="${viewOpt.colorForWhichPhone +' '+ viewOpt.color}"
                                                     th:value="${'/admin/change/phone-view?id='+viewOpt.id}"
                                             th:selected="${viewInput.id != null and viewOpt.colorForWhichPhone==viewInput.colorForWhichPhone and viewOpt.color==viewInput.color}"></option>
@@ -453,7 +449,7 @@
                             <div class="col"></div>
                             <div class="col">
                                 <div style="width: 304px; height: 90px;">
-                                    <label for="color" class="form-label">Color:</label>
+                                    <label for="color" class="form-label">Колір:</label>
                                     <div style="height: 30px; width: 200px;">
                                         <input style="height: 30px; width: 200px;" type="text" class="form-control" id="color"
                                                required="true"
@@ -471,15 +467,16 @@
                             <div class="col"></div>
                             <div class="col" align="center">
                                 <div style="width: 680px;">
-                                    For phone photos use Google Drive photos, just paste link
+                                    Для зображень телефону використовуйте Google Диск, просто вставте посилання
                                 </div>
+                                <div style="height: 10px;"></div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col"></div>
                             <div class="col">
                                 <div style="width: 680px; height: 80px;">
-                                    <label for="phoneFrontAndBack" class="form-label">Picture 1:</label>
+                                    <label for="phoneFrontAndBack" class="form-label">Зображення 1:</label>
                                     <div style="height: 30px; width: 500px;">
                                         <input style="height: 30px; width: 500px;" type="text" class="form-control" id="phoneFrontAndBack"
                                                required="true"
@@ -492,7 +489,7 @@
                             <div class="col"></div>
                             <div class="col">
                                 <div style="width: 680px; height: 80px;">
-                                    <label for="leftSideAndRightSide" class="form-label">Picture 2:</label>
+                                    <label for="leftSideAndRightSide" class="form-label">Зображення 2:</label>
                                     <div style="height: 30px; width: 500px;">
                                         <input style="height: 30px; width: 500px;" type="text" class="form-control"
                                                id="leftSideAndRightSide"
@@ -506,7 +503,7 @@
                             <div class="col"></div>
                             <div class="col">
                                 <div style="width: 680px; height: 80px;">
-                                    <label for="upSideAndDownSide" class="form-label">Picture 3:</label>
+                                    <label for="upSideAndDownSide" class="form-label">Зображення 3:</label>
                                     <div style="height: 30px; width: 500px;">
                                         <input style="height: 30px; width: 500px;" type="text" class="form-control" id="upSideAndDownSide"
                                                required="true"
@@ -519,11 +516,11 @@
                             <div class="col"></div>
                             <div class="col" align="center">
                                 <div style="height: 10px; width: 680px;"></div>
-                                <div style="height: 40px; width: 220px;">
+                                <div style="height: 40px; width: 400px;">
                                     <button class="w-100 btn btn-primary btn-lg"
-                                            style="height: 40px; width: 220px; display: flex; align-items: center; justify-content: center;"
+                                            style="height: 40px; width: 400px; display: flex; align-items: center; justify-content: center;"
                                             type="submit">
-                                        Change phone view
+                                        Змінити зовнішній вигляд телефону
                                     </button>
                                 </div>
                             </div>
@@ -547,7 +544,7 @@
                             <div class="col"></div>
                             <div class="col">
                                 <div style="width: 680px;" align="center">
-                                    <h5>Change phones</h5>
+                                    <h5>Змінити телефон</h5>
                                 </div>
                             </div>
                         </div>
@@ -556,13 +553,13 @@
                             <div class="col"></div>
                             <div class="col" align="center">
                                 <div style="width: 680px; height: 90px;">
-                                    <label class="form-label">Phone for change:</label>
-                                    <div style="height: 30px; width: 400px;">
-                                        <select class="select-box"  style="height: 30px; width: 400px;"
+                                    <label class="form-label">Телефон для зміни:</label>
+                                    <div style="height: 30px; width: 480px;">
+                                        <select class="select-box"  style="height: 30px; width: 480px;"
                                                 onchange="location = this.value">
-                                            <option th:value="${'/admin/change?success= '}">Select phone</option>
+                                            <option th:value="${'/admin/change?success= '}">Виберіть телефон</option>
                                             <option th:each="phoneOpt : ${phones}" th:text="${phoneOpt.phone.phoneDescription.brand.name+' '+ phoneOpt.phone.phoneDescription.series + ' '+ phoneOpt.phone.phoneDescription.name
-        +' '+phoneOpt.phone.amountOfRam+'/'+phoneOpt.phone.amountOfBuiltInMemory+' Gb. Price: '+phoneOpt.price+ ' $'}"
+        +' '+phoneOpt.phone.amountOfRam+'/'+phoneOpt.phone.amountOfBuiltInMemory+' Gb. Ціна: '+phoneOpt.price+ ' ₴'}"
                                                     th:value="${'/admin/change/phone?id='+phoneOpt.phone.id}"
                                             th:selected="${phoneInput.phone.id !=null and phoneOpt.phone.phoneDescription.brand.name==phoneInput.phone.phoneDescription.brand.name and phoneOpt.phone.phoneDescription.series==phoneInput.phone.phoneDescription.series and phoneOpt.phone.phoneDescription.name==phoneInput.phone.phoneDescription.name
         and phoneOpt.phone.amountOfRam==phoneInput.phone.amountOfRam and phoneOpt.phone.amountOfBuiltInMemory==phoneInput.phone.amountOfBuiltInMemory}"></option>
@@ -575,7 +572,7 @@
                             <div class="col"></div>
                             <div class="col">
                                 <div style="width: 304px; height: 80px;">
-                                    <label for="amountOfBuiltInMemory" class="form-label">Amount of built in memory (Gb):</label>
+                                    <label for="amountOfBuiltInMemory" class="form-label">Об'єм вбудованої пам'яті (Gb):</label>
                                     <div style="height: 30px; width: 200px;">
                                         <input style="height: 30px; width: 200px;" type="text" class="form-control"
                                                id="amountOfBuiltInMemory"
@@ -591,7 +588,7 @@
                             <div class="col"></div>
                             <div class="col">
                                 <div style="width: 304px; height: 80px;">
-                                    <label for="amountOfRam" class="form-label">Amount of ram (Gb):</label>
+                                    <label for="amountOfRam" class="form-label">Об'єм оперативної пам'яті (Gb):</label>
                                     <div style="height: 30px; width: 200px;">
                                         <input style="height: 30px; width: 200px;" type="text" class="form-control" id="amountOfRam"
                                                required="true"
@@ -607,7 +604,7 @@
                             <div class="col"></div>
                             <div class="col">
                                 <div style="width: 304px; height: 105px;">
-                                    <label for="price" class="form-label">Price $:</label>
+                                    <label for="price" class="form-label">Ціна ₴:</label>
                                     <div style="height: 30px; width: 200px;">
                                         <input style="height: 30px; width: 200px;" type="text" class="form-control" id="price"
                                                required="true"
@@ -631,7 +628,7 @@
                                     <button class="w-100 btn btn-primary btn-lg"
                                             style="height: 40px; width: 200px; display: flex; align-items: center; justify-content: center;"
                                             type="submit">
-                                        Change phones
+                                        Змінити телефон
                                     </button>
                                 </div>
                             </div>

@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 public class UserController {
     private static final int REQUIRED_AGE = 16;
     private static final String REGEX_FOR_PHONE_NUMBER = "[a-zA-Z]";
-    private static final int PHONE_NUMBER_SIZE = 12;
+    private static final int PHONE_NUMBER_SIZE = 13;
     private static final String DATE_PATTERN = "dd.M.yyyy";
     private static final String ERROR_STAT = "errorStat";
     private static final String ERROR_STRING = "errorString";
@@ -50,35 +50,35 @@ public class UserController {
     @PostMapping("/new")
     public String saveUser(Model model, UserRegistration userRegistration) throws Exception {
         if (userRegistration.getFirstName().isBlank()) {
-            return errorModel(model, new UserRegistration(), "First name field is empty");
+            return errorModel(model, new UserRegistration(), "Поле Ім'я порожнє");
         }
         if (userRegistration.getMiddleName().isBlank()) {
-            return errorModel(model, new UserRegistration(), "Middle name field is empty");
+            return errorModel(model, new UserRegistration(), "Поле По-батькові порожнє");
         }
         if (userRegistration.getLastName().isBlank()) {
-            return errorModel(model, new UserRegistration(), "Last name field is empty");
+            return errorModel(model, new UserRegistration(), "Поле Прізвище порожнє");
         }
         if (!Util.isValidDate(userRegistration.getDateOfBirth(), DATE_PATTERN)) {
-            return errorModel(model, new UserRegistration(), "Incorrect date of birth");
+            return errorModel(model, new UserRegistration(), "Неправильна дата народження");
         }
         if (!Util.isRequiredAge(userRegistration.getDateOfBirth(), REQUIRED_AGE)) {
-            return errorModel(model, new UserRegistration(), "You're too young");
+            return errorModel(model, new UserRegistration(), "Ви надто молоді");
         }
         if (userRegistration.getPhoneNumber().charAt(0) != '+' || Pattern.compile(REGEX_FOR_PHONE_NUMBER).matcher(userRegistration.getPhoneNumber()).find()
                 || userRegistration.getPhoneNumber().length() != PHONE_NUMBER_SIZE) {
-            return errorModel(model, new UserRegistration(), "Incorrect phone number. For example: +10123456789");
+            return errorModel(model, new UserRegistration(), "Неправильний номер телефону. Приклад: +380123456789");
         }
         if (userRegistration.getPassword().isBlank() || userRegistration.getSecondPassword().isBlank()) {
-            return errorModel(model, new UserRegistration(), "Password field is empty");
+            return errorModel(model, new UserRegistration(), "Поле Пароль порожнє");
         }
         if (!userRegistration.getPassword().equals(userRegistration.getSecondPassword())) {
-            return errorModel(model, new UserRegistration(), "Passwords are different");
+            return errorModel(model, new UserRegistration(), "Паролі не співпадають");
         }
 
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_PATTERN, Locale.ENGLISH);
 
         if (!userDetailsServiceImpl.save(userRegistration, formatter.parse(userRegistration.getDateOfBirth()))) {
-            return errorModel(model, new UserRegistration(), "This email address is already exist");
+            return errorModel(model, new UserRegistration(), "Ця електронна адреса вже існує");
         }
         else {
             return "login";
@@ -114,16 +114,16 @@ public class UserController {
     @PostMapping("/change-password")
     public String saveChangePassword(Model model, UserRegistration userRegistration) throws Exception {
         if (userRegistration.getPassword().isBlank() || userRegistration.getSecondPassword().isBlank()) {
-            return errorModelForChangePassword(model, true, "Password field is empty");
+            return errorModelForChangePassword(model, true, "Поле Пароль порожнє");
         }
         if (!userRegistration.getPassword().equals(userRegistration.getSecondPassword())) {
-            return errorModelForChangePassword(model, true, "Passwords are different");
+            return errorModelForChangePassword(model, true, "Паролі не співпадають");
         }
 
         RegisteredUser userFromDB = userDetailsServiceImpl.findById(userRegistration.getUserId());
 
         if (passwordEncoder.matches(userRegistration.getPassword(), userFromDB.getPassword())) {
-            return errorModelForChangePassword(model, true, "Password is identical to the old password");
+            return errorModelForChangePassword(model, true, "Пароль ідентичний старому паролю");
         }
 
         RegisteredUser registeredUser = UserMapper.changeUserPassword(userFromDB, userRegistration, passwordEncoder);
@@ -135,23 +135,23 @@ public class UserController {
     @PostMapping("/change-info-about-profile")
     public String saveChangesInfoAboutProfile(Model model, UserRegistration userRegistration) throws Exception {
         if (userRegistration.getFirstName().isBlank()) {
-            return errorModelForChangeInfoAboutProfile(model, true, "First name field is empty");
+            return errorModelForChangeInfoAboutProfile(model, true, "Поле Ім'я порожнє");
         }
         if (userRegistration.getMiddleName().isBlank()) {
-            return errorModelForChangeInfoAboutProfile(model, true, "Middle name field is empty");
+            return errorModelForChangeInfoAboutProfile(model, true, "Поле По-батькові порожнє");
         }
         if (userRegistration.getLastName().isBlank()) {
-            return errorModelForChangeInfoAboutProfile(model, true, "Last name field is empty");
+            return errorModelForChangeInfoAboutProfile(model, true, "Поле Прізвище порожнє");
         }
         if (!Util.isValidDate(userRegistration.getDateOfBirth(), DATE_PATTERN)) {
-            return errorModelForChangeInfoAboutProfile(model, true, "Incorrect date of birth");
+            return errorModelForChangeInfoAboutProfile(model, true, "Неправильна дата народження");
         }
         if (!Util.isRequiredAge(userRegistration.getDateOfBirth(), REQUIRED_AGE)) {
-            return errorModelForChangeInfoAboutProfile(model, true, "You're too young");
+            return errorModelForChangeInfoAboutProfile(model, true, "Ви надто молоді");
         }
         if (userRegistration.getPhoneNumber().charAt(0) != '+' || Pattern.compile(REGEX_FOR_PHONE_NUMBER).matcher(userRegistration.getPhoneNumber()).find()
                 || userRegistration.getPhoneNumber().length() != PHONE_NUMBER_SIZE) {
-            return errorModelForChangeInfoAboutProfile(model, true, "Incorrect phone number. For example: +10123456789");
+            return errorModelForChangeInfoAboutProfile(model, true, "Неправильний номер телефону. Приклад: +380123456789");
         }
 
         RegisteredUser userFromDB = userDetailsServiceImpl.findById(userRegistration.getUserId());
@@ -159,7 +159,7 @@ public class UserController {
 
         if (!userFromDB.getEmailAddress().equals(userRegistration.getEmailAddress()) &&
                 userDetailsServiceImpl.findUserByEmailAddress(userRegistration.getEmailAddress()).isPresent()) {
-            return errorModelForChangeInfoAboutProfile(model, true, "This email address is already exist");
+            return errorModelForChangeInfoAboutProfile(model, true, "Ця електронна адреса вже існує");
         }
 
         RegisteredUser registeredUser = UserMapper.changeUserInformation(new SimpleDateFormat(DATE_PATTERN, Locale.ENGLISH),

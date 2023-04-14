@@ -28,8 +28,8 @@
 
         for (; i < list.length; i++) {
             var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Month');
-            data.addColumn('number', 'Units sold');
+            data.addColumn('string', 'Місяць');
+            data.addColumn('number', 'Одиниць продано');
             data.addRows(list[i]);
 
             var max = maxFromServer[i];
@@ -64,14 +64,12 @@
         <div class="col">
             <div class="row my-2">
                 <div class="col text-center" style="padding-right: 90px;">
-                    <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Go
-                        back
-                    </a>
+                    <a th:href="@{/admin/statistics}" class="btn btn-primary" role="button" style="width: 150px;">Назад</a>
                 </div>
             </div>
         </div>
         <div class="col" align="center">
-            <div style="width: 800px;"><h5>Sales statistics for specific phone models by year/month</h5></div>
+            <div style="width: 800px;"><h5>Статистика продажів для конкретних моделей телефонів за роками/місяцями</h5></div>
         </div>
         <div class="col"></div>
     </div>
@@ -93,7 +91,7 @@
                         <div style="height: 30px; width: 380px;">
                             <select class="select-box" style="height: 30px; width: 380px;"
                                     th:field="*{id}">
-                                <option selected="selected" th:value="${'Select phone'}">Select phone</option>
+                                <option selected="selected" th:value="${'Виберіть телефон'}">Виберіть телефон</option>
                                 <option th:each="phoneOpt : ${phones}" th:text="${phoneOpt.phoneDescription.brand.name+' '+ phoneOpt.phoneDescription.series + ' '+ phoneOpt.phoneDescription.name
         +' '+phoneOpt.amountOfRam+'/'+phoneOpt.amountOfBuiltInMemory+' Gb'}"
                                         th:value="${phoneOpt.id}"></option>
@@ -107,7 +105,7 @@
                                 <div style="height: 30px; width: 150px;">
                                     <select class="select-box" style="height: 30px; width: 150px;"
                                             th:field="*{year}">
-                                        <option selected="selected" th:value="${'Select year'}">Select year</option>
+                                        <option selected="selected" th:value="${'Виберіть рік'}">Виберіть рік</option>
                                         <option th:each="yearOpt : ${years}" th:text="${yearOpt}"
                                                 th:value="${yearOpt}"></option>
                                     </select>
@@ -117,11 +115,11 @@
                         </div>
                     </div>
                     <div class="col" align="center">
-                        <div style="height: 40px; width: 200px;">
+                        <div style="height: 40px; width: 230px;">
                             <button class="w-100 btn btn-primary btn-lg"
-                                    style="height: 40px; width: 200px; display: flex; align-items: center; justify-content: center;"
+                                    style="height: 40px; width: 230px; display: flex; align-items: center; justify-content: center;"
                                     type="submit">
-                                Show statistics
+                                Показати статистику
                             </button>
                         </div>
                     </div>
@@ -139,10 +137,10 @@
     <div th:if="${!flag}">
         <div class="row">
             <div class="col" align="center">
-                <h5 th:if="${forWhatYear == '3 years'}" th:text="${'Statistic for '+forWhatPhone.phoneDescription.brand.name+' '+ forWhatPhone.phoneDescription.series + ' '+ forWhatPhone.phoneDescription.name
-        +' '+forWhatPhone.amountOfRam+'/'+forWhatPhone.amountOfBuiltInMemory+' Gb for '+forWhatYear}"></h5>
-                <h5 th:if="${forWhatYear != '3 years'}" th:text="${'Statistic for '+forWhatPhone.phoneDescription.brand.name+' '+ forWhatPhone.phoneDescription.series + ' '+ forWhatPhone.phoneDescription.name
-        +' '+forWhatPhone.amountOfRam+'/'+forWhatPhone.amountOfBuiltInMemory+' Gb for '+forWhatYear+' year'}"></h5>
+                <h5 th:if="${forWhatYear == '3 роки'}" th:text="${'Статистика для '+forWhatPhone.phoneDescription.brand.name+' '+ forWhatPhone.phoneDescription.series + ' '+ forWhatPhone.phoneDescription.name
+        +' '+forWhatPhone.amountOfRam+'/'+forWhatPhone.amountOfBuiltInMemory+' Gb за 3 роки'}"></h5>
+                <h5 th:if="${forWhatYear != '3 роки'}" th:text="${'Статистика для '+forWhatPhone.phoneDescription.brand.name+' '+ forWhatPhone.phoneDescription.series + ' '+ forWhatPhone.phoneDescription.name
+        +' '+forWhatPhone.amountOfRam+'/'+forWhatPhone.amountOfBuiltInMemory+' Gb за '+forWhatYear+' рік'}"></h5>
             </div>
         </div>
         <div style="height: 40px;"></div>
@@ -151,12 +149,12 @@
                 <div class="row">
                     <div class="col" align="center">
                         <h5 th:text="${listOpt.phone.phoneDescription.brand.name+' '+ listOpt.phone.phoneDescription.series + ' '+ listOpt.phone.phoneDescription.name
-        +' '+listOpt.phone.amountOfRam+'/'+listOpt.phone.amountOfBuiltInMemory+' Gb. Color: '+listOpt.phone.view.color}"></h5>
+        +' '+listOpt.phone.amountOfRam+'/'+listOpt.phone.amountOfBuiltInMemory+' Gb. Колір: '+listOpt.phone.view.color}"></h5>
                     </div>
                 </div>
                 <div align="center" th:if="${maxSoldValue[__${state.index}__] <= 1}">
                     <div style="height: 40px;"></div>
-                    <h5 th:text="${'Not enough data to display statistics'}"></h5>
+                    <h5 th:text="${'Недостатньо даних для відображення статистики'}"></h5>
                     <div style="height: 80px;"></div>
                 </div>
                 <div th:id="${'chart_div'+__${state.index}__}" th:if="${maxSoldValue[__${state.index}__] > 1}"
@@ -170,7 +168,7 @@
                 <div class="row">
                     <div class="col" align="center">
                         <h5 th:text="${listOpt.phone.phoneDescription.brand.name+' '+ listOpt.phone.phoneDescription.series + ' '+ listOpt.phone.phoneDescription.name
-        +' '+listOpt.phone.amountOfRam+'/'+listOpt.phone.amountOfBuiltInMemory+' Gb. Color: '+listOpt.phone.view.color}"></h5>
+        +' '+listOpt.phone.amountOfRam+'/'+listOpt.phone.amountOfBuiltInMemory+' Gb. Колір: '+listOpt.phone.view.color}"></h5>
                     </div>
                 </div>
                 <div style="height: 20px;"></div>
