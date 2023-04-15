@@ -620,13 +620,17 @@ public class PhoneInstanceService {
                 }
 
                 if (checkCountBadSales == 6) {
-                    PhoneForStoreComposition phoneForStoreComposition = new PhoneForStoreComposition();
-                    phoneForStoreComposition.setPhone(phone);
-                    phoneForStoreComposition.setPrice(findPriceForPhoneForAdmin(phone));
-                    phoneForStoreComposition.setCountInStore(phoneInstanceRepository.countPhonesInStoreForAdminForStatistic(phone));
+                    int count = phoneInstanceRepository.countPhonesInStoreForAdminForStatistic(phone);
 
-                    phoneForStoreCompositions.add(phoneForStoreComposition);
-                    years.add(formatterForDateAdded.format(phone.getPhoneDescription().getDateAddedToDatabase()));
+                    if (count <= countPhonesForBadSales) {
+                        PhoneForStoreComposition phoneForStoreComposition = new PhoneForStoreComposition();
+                        phoneForStoreComposition.setPhone(phone);
+                        phoneForStoreComposition.setPrice(findPriceForPhoneForAdmin(phone));
+                        phoneForStoreComposition.setCountInStore(count);
+
+                        phoneForStoreCompositions.add(phoneForStoreComposition);
+                        years.add(formatterForDateAdded.format(phone.getPhoneDescription().getDateAddedToDatabase()));
+                    }
                 }
             }
             catch (Exception e) {

@@ -91,3 +91,74 @@ INSERT INTO public.client_check(
     id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone) 
 VALUES ('376cbbe2-971b-4d99-9d2e-ea21b8667fcd', '2022-12-11 11:05:05.036', true, '2022-12-12 15:05:05.036', '5fb1b091-ad40-4b45-8916-5e67263caff2'
 ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Добрий Денис' , '+380753852963');
+
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('0643fcd5-6590-41d4-8218-e550a7456a75', '2021-01-20 12:05:05.036', true, '2021-01-21 14:05:05.036', 'e93c2a6f-422a-4ce7-9b46-2cb9be577e0e'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Станіславський Станіслав' , '+380147852963');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('3e7c224a-10cd-4fd7-bbe3-320905db2408', '2021-02-03 20:05:05.036', true, '2021-02-04 11:05:05.036', 'e93c2a6f-422a-4ce7-9b46-2cb9be577e0e'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Станіславський Станіслав' , '+380147852963');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('4eba667e-c5ca-4a38-a2fe-66d52f7a5ff5', '2021-03-11 09:05:05.036', true, '2021-03-11 15:05:05.036', 'e93c2a6f-422a-4ce7-9b46-2cb9be577e0e'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Станіславський Станіслав' , '+380147852963');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('187ee040-cbf5-401e-bbfd-f62d1aadba19', '2021-04-21 20:05:05.036', true, '2021-04-22 09:05:05.036', '6ddbc8c1-c5cd-4a1b-bd0c-a3a140d7f82e'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Світлановська Світлана' , '+380753951852');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('71094bcb-ef98-4561-8d89-4be5661bb2a6', '2021-05-18 15:05:05.036', true, '2021-05-19 12:05:05.036', '54b944de-073d-4333-b9c0-3cc2b2eb45c3'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Катеринська Катерина' , '+380963852741');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('b4ea1310-08bd-4205-9d27-7888b11423c0', '2021-06-11 19:05:05.036', true, '2021-06-12 11:05:05.036', '313e56ab-eb04-4ee3-9d50-e7310ef9c0f9'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Даниленко Данило' , '+380987654321');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('3bd41c66-64b5-4542-a7da-1909c484a24b', '2021-07-20 11:05:05.036', true, '2021-07-21 16:05:05.036', 'b363c7f5-51cf-4d93-93e3-179235bb0b87'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Ульянко Уляна' , '+380654789321');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('95436408-72d9-4729-9953-e493ba015516', '2021-08-03 20:05:05.036', true, '2021-08-04 09:05:05.036', '78b40cb8-2d37-407c-a372-98c471ae928c'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Евгенко Євгеній' , '+380741963852');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('f34d260b-4ec6-4f15-a1c6-99218be7f7c4', '2021-09-09 11:05:05.036', true, '2021-09-10 10:05:05.036', '151c8598-567d-4701-a549-3964fab67f95'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Аннко Анна' , '+380789963741');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('02185f47-e5d6-4f53-8670-5e28d1a7dea5', '2021-10-11 11:05:05.036', true, '2021-10-12 15:05:05.036', 'bc2f07e4-1cff-47d4-9ef0-1c8fee29c431'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Владимиренко Володимир' , '+380741789123');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('b3f0359b-74c0-444e-a2b9-7542a3e9e97a', '2021-11-28 11:05:05.036', true, '2021-11-29 15:05:05.036', 'b1470da6-33ea-4f20-ab5a-3a65691db406'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Богданков Богдан' , '+380963753951');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('6c07307a-db62-4aca-b445-4803d4e83b4d', '2021-12-11 11:05:05.036', true, '2021-12-12 15:05:05.036', '5fb1b091-ad40-4b45-8916-5e67263caff2'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Добрий Денис' , '+380753852963');
+
+
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('7063f1f5-0891-4f0b-b5cf-a2cbba6b59f5', '2023-01-20 12:05:05.036', true, '2023-01-21 14:05:05.036', 'e93c2a6f-422a-4ce7-9b46-2cb9be577e0e'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Станіславський Станіслав' , '+380147852963');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('3a92efa6-359a-462e-b543-7680bb748070', '2023-02-03 20:05:05.036', true, '2023-02-04 11:05:05.036', 'e93c2a6f-422a-4ce7-9b46-2cb9be577e0e'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Станіславський Станіслав' , '+380147852963');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('6a64b7e0-9f40-4491-b253-da0f441a4a43', '2023-03-11 09:05:05.036', true, '2023-03-11 15:05:05.036', 'e93c2a6f-422a-4ce7-9b46-2cb9be577e0e'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Станіславський Станіслав' , '+380147852963');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('4b36cd4d-2029-43b1-9ce0-0ce11363e804', '2023-04-21 20:05:05.036', true, '2023-04-22 09:05:05.036', '6ddbc8c1-c5cd-4a1b-bd0c-a3a140d7f82e'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Світлановська Світлана' , '+380753951852');
+INSERT INTO public.client_check(
+    id, created, is_closed, closed_date, registered_user_id, delivery_address, delivery_type,  payment_type, recipient, recipient_number_phone)
+VALUES ('bb6ed435-f99e-4d88-8506-6ed03d7dc254', '2023-05-18 15:05:05.036', true, '2023-05-19 12:05:05.036', '54b944de-073d-4333-b9c0-3cc2b2eb45c3'
+       ,'', 'Самовивіз з магазину' , 'Оплата при отриманні' , 'Катеринська Катерина' , '+380963852741');
