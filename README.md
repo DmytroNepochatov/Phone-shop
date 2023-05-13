@@ -29,11 +29,9 @@
 ## Налаштування вебдодатку перед запуском
 
 Перед запуском необхідно у файлі application.properties вказати значення для наступних полів:
-
-Хост пошти для розсилання повідомлень (spring.mail.host)
-Адреса пошти (spring.mail.username)
-Пароль пошти (spring.mail.password)
-Порт пошти (spring.mail.port)
-
-Секретний ключ від акаунту на сервісі Stripe (STRIPE_SECRET_KEY)
-Публічний ключ від акаунту на сервісі Stripe (STRIPE_PUBLIC_KEY)
+1. хост пошти для розсилання повідомлень (spring.mail.host);
+2. адреса пошти (spring.mail.username);
+3. пароль пошти (spring.mail.password);
+4. порт пошти (spring.mail.port);
+5. секретний ключ від акаунту на сервісі Stripe (STRIPE_SECRET_KEY);
+6. публічний ключ від акаунту на сервісі Stripe (STRIPE_PUBLIC_KEY).
