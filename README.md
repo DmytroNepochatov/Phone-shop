@@ -1,37 +1,30 @@
-# Вебсервіс з продажу мобільних телефонів
+# Mobile Phone Sales Web Service
 
-## Користувачі
+## Users
 
-Даний сервіс має 3 типи користувачів:
-1. Гість. Даний тип користувачів може переглядати каталог товарів, але не може формувати кошик і не може формувати замовлення;
-2. Авторизований користувач. Даний тип користувачів може переглядати каталог товарів, формувати кошик та формувати замовлення;
-3. Адміністратор. Даний тип користувачів керує каталогом товарів сервісу (додавання, видалення, зміна). Крім того, приймає замовлення від клієнтів.
+This service has three types of users:
+1. Guest. This type of user can browse the product catalog but cannot create a shopping cart or place an order;
+2. Authorized User. This type of user can browse the product catalog, create a shopping cart, and place an order;
+3. Administrator. This type of user manages the product catalog (adding, deleting, modifying products) and processes customer orders.
 
-## Функціонал на сайті
+## Website Features
 
-Є сортування телефонів за ціною, від дешевих до дорогих і навпаки. Крім того, є пошук мобільних телефонів за назвою,
-а також пошук телефонів за допомогою фільтрації за різними критеріями: бренд, процесор, екран, кількість пам'яті та ін.
+There is a sorting feature for phones by price, from cheapest to most expensive, and vice versa. In addition, there is a search function for mobile phones by name, as well as search filtering by various criteria: brand, processor, screen, amount of memory and more.
 
-## Можливості авторизованого користувача
+## Authorized User Capabilities
 
-Авторизований користувач може збирати кошик товарів, а потім на сторінці кошика формувати замовлення.
-Крім того, у своєму особистому кабінеті користувач може побачити коротку інформацію про нього, а також свої поточні замовлення,
-історію замовлень, а також кнопку, натиснувши на яку користувач переходить на сторінку з тими телефонами,
-під якими користувач зможе залишити свій коментар, а також поставити оцінку від 1 до 5. Це було зроблено для того,
-щоб коментарі та оцінки до телефонів були максимально об'єктивними, тому що тільки після отримання замовлення є можливість залишити свою думку на рахунок
-того чи іншого телефону.
+An authorized user can add products to a cart and then place an order from the cart page. Additionally, in their personal account, the user can view brief information about themselves, their current orders, and order history. They can also access a page where they can leave comments and ratings (from 1 to 5) for phones. This feature is available only after receiving an order to ensure that reviews and ratings are as objective as possible.
 
-## Реєстрація та авторизація
+## Registration and Authorization
 
-Реєстрація відбувається таким чином: користувач вводить своє ПІБ, вік, номер телефону, пошту та пароль. Авторизація відбувається за цією поштою та паролем.
-На сторінці авторизації можна зайти на сайт як авторизований користувач або як адміністратор.
+Registration is done as follows: the user enters their full name, age, phone number, email, and password. Authorization is performed using this email and password. On the authorization page, users can log in as an authorized user or as an administrator.
 
-## Налаштування вебдодатку перед запуском
+## Web Application Configuration Before Launch
 
-Перед запуском необхідно у файлі application.properties вказати значення для наступних полів:
-1. хост пошти для розсилання повідомлень (spring.mail.host);
-2. адреса пошти (spring.mail.username);
-3. пароль пошти (spring.mail.password);
-4. порт пошти (spring.mail.port);
-5. секретний ключ від акаунту на сервісі Stripe (STRIPE_SECRET_KEY);
-6. публічний ключ від акаунту на сервісі Stripe (STRIPE_PUBLIC_KEY).
+Before launching, you need to specify values for the following fields in the application.properties file:
+1. email host for sending messages (spring.mail.host);
+2. email address (spring.mail.username);
+3. email password (spring.mail.password);
+4. email port (spring.mail.port);
+5. secret key from the Stripe account (STRIPE_SECRET_KEY);
+6. public key from the Stripe account (STRIPE_PUBLIC_KEY).
