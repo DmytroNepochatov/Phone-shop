@@ -2,6 +2,7 @@ package ua.com.webservice.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,13 +15,18 @@ public class DataSourceConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceConfig.class);
     private static final String REGEX = ":";
 
+    @Value("${spring.datasource.url}")
+    private String dbUrl;
+
+    @Value("${spring.datasource.username}")
+    private String username;
+
+    @Value("${spring.datasource.password}")
+    private String password;
+
     @Bean
     public DataSource postgresDataSource() {
         String databaseUrl = System.getenv("DATABASE_URL");
-
-        String dbUrl = "jdbc:postgresql://localhost:5432/PhoneShop";
-        String username = "postgres";
-        String password = "0000";
 
         if (databaseUrl != null) {
             try {

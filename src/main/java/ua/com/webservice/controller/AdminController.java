@@ -50,10 +50,7 @@ public class AdminController {
     private final CountryService countryService;
     private final ViewService viewService;
     private final PhoneDescriptionService phoneDescriptionService;
-    private static final String REGEX = "https://drive.google.com";
-    private static final String GOOGLE_DRIVE_VIEW_URL = "http://drive.google.com/uc?export=view&id=";
-    private static final String LEFT_REGEX = "id=";
-    private static final String RIGHT_REGEX = "&usp=drive_copy";
+    private static final String REGEX_FOR_IMAGE_STORAGE = "http://localhost:8081/images/";
     private static final String ERROR_MSG = "errorMsg";
     private static final String SUCCESS = "success";
     private static final String PHONES = "phones";
@@ -225,7 +222,7 @@ public class AdminController {
             return errorMsg(model, "Поле Зображення 3 порожнє");
         }
 
-        List<String> photos = setPhotosForGoogleDrive(createView.getPhoneFrontAndBack(),
+        List<String> photos = setPhotosForSave(createView.getPhoneFrontAndBack(),
                 createView.getLeftSideAndRightSide(), createView.getUpSideAndDownSide());
 
         createView.setPhoneFrontAndBack(photos.get(0));
@@ -576,7 +573,7 @@ public class AdminController {
             return changePhone(model,"Поле Зображення 3 порожнє");
         }
 
-        List<String> photos = setPhotosForGoogleDrive(changeView.getPhoneFrontAndBack(),
+        List<String> photos = setPhotosForSave(changeView.getPhoneFrontAndBack(),
                 changeView.getLeftSideAndRightSide(), changeView.getUpSideAndDownSide());
 
         changeView.setPhoneFrontAndBack(photos.get(0));
@@ -1271,27 +1268,11 @@ public class AdminController {
         model.addAttribute("countries", countryService.findAllCountriesNames());
     }
 
-    private List<String> setPhotosForGoogleDrive(String phoneFrontAndBack, String leftSideAndRightSide, String upSideAndDownSide) {
+    private List<String> setPhotosForSave(String phoneFrontAndBack, String leftSideAndRightSide, String upSideAndDownSide) {
         List<String> photos = new ArrayList<>();
-        photos.add(phoneFrontAndBack);
-        photos.add(leftSideAndRightSide);
-        photos.add(upSideAndDownSide);
-
-        if (phoneFrontAndBack.contains(REGEX)) {
-            String[] linkParts = phoneFrontAndBack.split(LEFT_REGEX);
-            String pictureName = linkParts[1].replace(RIGHT_REGEX, "");
-            photos.set(0, GOOGLE_DRIVE_VIEW_URL + pictureName);
-        }
-        if (leftSideAndRightSide.contains(REGEX)) {
-            String[] linkParts = leftSideAndRightSide.split(LEFT_REGEX);
-            String pictureName = linkParts[1].replace(RIGHT_REGEX, "");
-            photos.set(1, GOOGLE_DRIVE_VIEW_URL + pictureName);
-        }
-        if (upSideAndDownSide.contains(REGEX)) {
-            String[] linkParts = upSideAndDownSide.split(LEFT_REGEX);
-            String pictureName = linkParts[1].replace(RIGHT_REGEX, "");
-            photos.set(2, GOOGLE_DRIVE_VIEW_URL + pictureName);
-        }
+        photos.add(REGEX_FOR_IMAGE_STORAGE+phoneFrontAndBack);
+        photos.add(REGEX_FOR_IMAGE_STORAGE+leftSideAndRightSide);
+        photos.add(REGEX_FOR_IMAGE_STORAGE+upSideAndDownSide);
 
         return photos;
     }

@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  phone_shop:
+    container_name: phone_shop
+    image: phone-shop-image:1.0
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/PhoneShop
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=0000
+    depends_on:
+      - db
+      - nginx
+    networks:
+      - my_network
+
+  db:
+    container_name: phone_shop_db
+    image: postgres:10.4
+    environment:
+      - POSTGRES_DB=PhoneShop
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=0000
+    ports:
+      - "5432:5432"
+    networks:
+      - my_network
+
+  nginx:
+    container_name: image_storage
+    image: my-nginx-image:1.0
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "8081:80"
+      - "2222:22"
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    external: true
