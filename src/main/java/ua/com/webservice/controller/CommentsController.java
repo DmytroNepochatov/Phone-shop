@@ -1,5 +1,6 @@
 package ua.com.webservice.controller;
 
+import lombok.SneakyThrows;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +18,11 @@ import ua.com.webservice.service.comment.CommentService;
 import ua.com.webservice.service.phone.PhoneInstanceService;
 import ua.com.webservice.service.rating.RatingService;
 import ua.com.webservice.service.user.UserDetailsServiceImpl;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import static org.apache.commons.lang.NumberUtils.isNumber;
 
 @Controller
@@ -29,6 +33,7 @@ public class CommentsController {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final PhoneInstanceService phoneInstanceService;
     private final RatingService ratingService;
+    private static final String DATE_PATTERN = "dd.M.yyyy";
 
     public CommentsController(CommentService commentService, ClientCheckService clientCheckService,
                               UserDetailsServiceImpl userDetailsServiceImpl, PhoneInstanceService phoneInstanceService, RatingService ratingService) {
@@ -70,6 +75,7 @@ public class CommentsController {
     }
 
     @PostMapping("/add-comment")
+    @SneakyThrows
     public String saveComment(Model model, CommentForSave commentForSave) {
         if (commentForSave.getDescription().isBlank()) {
             return getErrorMsg(model, commentForSave, "Поле коментаря не повинно бути порожнім");
@@ -91,6 +97,10 @@ public class CommentsController {
         comment.setPhone(phone);
         comment.setRegisteredUser(registeredUser);
         comment.setDescription(commentForSave.getDescription());
+        comment.setGrade(Integer.parseInt(commentForSave.getRating()));
+
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_PATTERN, Locale.ENGLISH);
+        comment.setCreated(formatter.parse(formatter.format(new Date())));
         commentService.save(comment);
 
         int oldNumberOfPoints = phone.getRating().getNumberOfPoints();

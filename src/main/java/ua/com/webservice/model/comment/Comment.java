@@ -8,6 +8,8 @@ import ua.com.webservice.model.phone.Phone;
 import ua.com.webservice.model.user.RegisteredUser;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -30,4 +32,10 @@ public class Comment {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "phone_id")
     private Phone phone;
+
+    @NotNull
+    private int grade;
+
+    @NotNull
+    private Date created;
 }

@@ -257,7 +257,19 @@
             </div>
             <div class="card-body " th:each="comment : ${comments}">
                 <div class="" style="height: 30px; width: 570px; border: 1px solid black;">
-                    <h6 class="card-title" align="left" th:text="${comment.lastName+' '+comment.firstName}"></h6>
+                    <div class="row">
+                        <div class="col">
+                            <h6 class="card-title" align="left" th:text="${comment.lastName+' '+comment.firstName}"></h6>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <h6 class="card-title" align="right" th:text="${comment.created+', Оцінка: '+comment.grade}"></h6>
+                                </div>
+                                <div class="col-1"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div style="width: 570px;" class="">
                     <p class="card-text" style="text-align: justify; border: 1px solid black;"

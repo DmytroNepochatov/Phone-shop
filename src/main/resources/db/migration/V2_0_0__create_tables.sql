@@ -212,6 +212,8 @@ CREATE TABLE IF NOT EXISTS public.comment
     description character varying(5000) COLLATE pg_catalog."default",
     phone_id character varying(255) COLLATE pg_catalog."default",
     user_id character varying(255) COLLATE pg_catalog."default",
+    grade integer NOT NULL,
+    created timestamp without time zone NOT NULL,
     CONSTRAINT comment_pkey PRIMARY KEY (id),
     CONSTRAINT fk3urpm3dc7dwm1vvy6kk13w1t7 FOREIGN KEY (user_id)
         REFERENCES public.registered_user (id) MATCH SIMPLE

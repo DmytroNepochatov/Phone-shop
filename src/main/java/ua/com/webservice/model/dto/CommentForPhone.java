@@ -13,4 +13,6 @@ public class CommentForPhone {
     private String lastName;
     private String firstName;
     private String text;
+    private String grade;
+    private String created;
 }
