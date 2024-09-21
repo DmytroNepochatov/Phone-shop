@@ -59,3 +59,6 @@ VALUES ('b1470da6-33ea-4f20-ab5a-3a65691db406', '2002-05-12', 'mail_bogdan@gmail
 INSERT INTO public.registered_user(
     id, date_of_birth, email_address, first_name, last_name, middle_name, password, phone_number, role)
 VALUES ('5fb1b091-ad40-4b45-8916-5e67263caff2', '2001-08-11', 'mail_charles@gmail.com', 'Денис', 'Добрий', 'Глібович', '$2a$12$IAy/6E9mN.Cx.0SXrc3rzO6MbMnfvUy1Bem1Os29FUFZvSme.jbNm', '+380753852963', 'USER');
+INSERT INTO public.registered_user(
+    id, date_of_birth, email_address, first_name, last_name, middle_name, password, phone_number, role)
+VALUES ('a1b93a99-599f-441c-85de-7deca0817cb3', '2000-01-01', 'comment_test@gmail.com', 'Test', 'Test', 'Test', '$2a$12$g4LyBrxhyTc0FJXvD2nSLuAO6BhtCCxGqdAvhSAwk1AZHmoYRnskq', '+380999998888', 'USER');
