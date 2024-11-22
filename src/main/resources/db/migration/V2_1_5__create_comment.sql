@@ -995,3 +995,23 @@ INSERT INTO public.comment(id, description, phone_id, user_id, grade, created)
 VALUES ('e4749a59-5f1b-418c-859b-3702590a53e7', 'Apple виробляє відмінні гаджети, і даний телефон є тому доказом, камери відмінні!!!', '2b50d9e8-21e1-40c1-a14d-adab17bd90c0', 'a1b93a99-599f-441c-85de-7deca0817cb3', 5, '2023-06-26');
 INSERT INTO public.comment(id, description, phone_id, user_id, grade, created)
 VALUES ('e6ee719e-9990-4661-b8b8-3e4a143bc8d1', 'Apple взагалі розлінилися, зробили бренд і забули про якість товарів які вони продають, не рекомендую до покупки даний телефон!', '2b50d9e8-21e1-40c1-a14d-adab17bd90c0', 'a1b93a99-599f-441c-85de-7deca0817cb3', 1, '2023-06-26');
+INSERT INTO public.comment(id, description, phone_id, user_id, grade, created)
+VALUES ('99049a56-faaf-4625-a8f3-97d54faad92a', 'Das Telefon hat mir wirklich gut gefallen! Dieses Telefon hat einen sehr leistungsstarken Prozessor und eine sehr gute Kamera, ich empfehle es zum Kauf!', '2b50d9e8-21e1-40c1-a14d-adab17bd90c0', 'a1b93a99-599f-441c-85de-7deca0817cb3', 5, '2023-06-24');
+INSERT INTO public.comment(id, description, phone_id, user_id, grade, created)
+VALUES ('0edab649-e9dd-4d32-a763-43d48c7bc212', 'Ich mag dieses Telefon aufgrund seines Designs und der regelmäßigen Aktualisierungen des Betriebssystems.', '2b50d9e8-21e1-40c1-a14d-adab17bd90c0', 'a1b93a99-599f-441c-85de-7deca0817cb3', 5, '2023-06-24');
+INSERT INTO public.comment(id, description, phone_id, user_id, grade, created)
+VALUES ('032301e1-9f4b-44d5-8fe6-85e3d08d57e8', 'Das Telefon funktioniert sehr schlecht, es wird ständig langsamer und drei Tage nach dem Kauf hörte die Kamera auf zu speichern', '2b50d9e8-21e1-40c1-a14d-adab17bd90c0', 'a1b93a99-599f-441c-85de-7deca0817cb3', 1, '2023-06-25');
+INSERT INTO public.comment(id, description, phone_id, user_id, grade, created)
+VALUES ('0c8516a4-2985-4db1-b23b-bc8f64d4a49b', 'Ich möchte meinen Kommentar zu diesem Telefon hinterlassen. Nach einem Monat der Nutzung funktioniert alles gut. Ich empfehle das Telefon.', '2b50d9e8-21e1-40c1-a14d-adab17bd90c0', 'a1b93a99-599f-441c-85de-7deca0817cb3', 4, '2023-06-25');
+INSERT INTO public.comment(id, description, phone_id, user_id, grade, created)
+VALUES ('edbb4236-0ac2-4892-aec9-bd4ccaea2933', 'Nachdem ich dieses Telefon einen Monat lang benutzt hatte, bemerkte ich tiefe Kratzer auf dem Metallgehäuse, was darauf hindeutet, dass die verwendeten Materialien billig sind.', '2b50d9e8-21e1-40c1-a14d-adab17bd90c0', 'a1b93a99-599f-441c-85de-7deca0817cb3', 3, '2023-06-25');
+INSERT INTO public.comment(id, description, phone_id, user_id, grade, created)
+VALUES ('76d54f00-eead-4a83-984f-e9bd02a2f301', 'Apple po raz kolejny stworzyła bardzo dobry i wysokiej jakości telefon, który posłuży wiele lat!', '2b50d9e8-21e1-40c1-a14d-adab17bd90c0', 'a1b93a99-599f-441c-85de-7deca0817cb3', 5, '2023-06-26');
+INSERT INTO public.comment(id, description, phone_id, user_id, grade, created)
+VALUES ('044dfd4a-3d73-45c4-b22c-a18ad387a07d', 'Telefon mi się podoba, wygląda stylowo, dobrze leży w dłoni.', '2b50d9e8-21e1-40c1-a14d-adab17bd90c0', 'a1b93a99-599f-441c-85de-7deca0817cb3', 5, '2023-06-26');
+INSERT INTO public.comment(id, description, phone_id, user_id, grade, created)
+VALUES ('62063421-98cf-484a-b4cf-515fe70f9d35', 'Podoba mi się ten telefon ze względu na jego design i regularne aktualizacje systemu operacyjnego.', '2b50d9e8-21e1-40c1-a14d-adab17bd90c0', 'a1b93a99-599f-441c-85de-7deca0817cb3', 4, '2023-06-26');
+INSERT INTO public.comment(id, description, phone_id, user_id, grade, created)
+VALUES ('043ecb9f-0c1d-4786-ae07-deea63e67c7e', 'Po miesiącu użytkowania bateria w telefonie straciła pojemność o 80% Nie polecam zakupu', '2b50d9e8-21e1-40c1-a14d-adab17bd90c0', 'a1b93a99-599f-441c-85de-7deca0817cb3', 2, '2023-06-26');
+INSERT INTO public.comment(id, description, phone_id, user_id, grade, created)
+VALUES ('d8bbc216-9583-4ec2-8f22-e24b76352b6b', 'Telefon jest bardzo trudny w naprawie ze względu na technologię montażu', '2b50d9e8-21e1-40c1-a14d-adab17bd90c0', 'a1b93a99-599f-441c-85de-7deca0817cb3', 3, '2023-06-26');
